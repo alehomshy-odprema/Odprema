@@ -298,6 +298,9 @@ const LocalStore={
 function syncMe(){const i=LS.get('lk_meIdx',null);if(i!==null&&state.post.radnici[i]){me=state.post.radnici[i];LS.set('lk_me',me)}}
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error(t('eLoad')));document.head.appendChild(s)})}
 const FB='https://www.gstatic.com/firebasejs/10.12.2/';
+/* Ugrajena povezava na bazo (projekt odprema-lokacije) */
+const BUILTIN_CFG={firebase:{apiKey:"AIzaSyC2dBxlVzWbvWPPT55g7cXy6C2kCtoWH6Q",authDomain:"odprema-lokacije.firebaseapp.com",projectId:"odprema-lokacije",storageBucket:"odprema-lokacije.firebasestorage.app",messagingSenderId:"152804096191",appId:"1:152804096191:web:274b7867ed99e67e0fae0a"},kod:"odprema-7k2x"};
+const getCfg=()=>BUILTIN_CFG||LS.get('lk_cfg',null);
 const FireStore={
   mode:'cloud',unsub:[],
   async load(cfg){
@@ -395,7 +398,7 @@ let sheetState={};
 function openSheet(html,type,extra){$('#sheet').innerHTML=html;$('#ov').hidden=false;$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0}
 function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').hidden=true;sheetState={};stopRec()}
 $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
-const ready=()=>!!me&&!(LS.get('lk_cfg',null)&&store.mode!=='cloud'&&syncState.s!=='err');
+const ready=()=>!!me&&!(getCfg()&&store.mode!=='cloud'&&syncState.s!=='err');
 
 /* lokacija */
 function openLoc(lok){
@@ -593,7 +596,7 @@ async function afterLogin(u){
 
 /* ================= nastavitve ================= */
 function openSettings(){
-  const p=state.post,cfg=LS.get('lk_cfg',null),own=isOwner(),cloud=store.mode==='cloud';
+  const p=state.post,cfg=getCfg(),own=isOwner(),cloud=store.mode==='cloud';
   const st={on:t('stOn'),off:t('stOff'),err:t('stErr')+(syncState.msg||''),wait:t('stWait')}[syncState.s];
   let h=langBar()+'<h2>'+t('set')+'</h2>';
   if(cloud)h+='<p><b>'+esc(me)+'</b><br><span class="mut">'+esc(myEmail)+(own?' · '+t('owner'):'')+'</span></p>';
@@ -613,7 +616,7 @@ function openSettings(){
     h+='<label>'+t('addMember')+'</label><input class="in" id="mE" type="email" placeholder="'+t('mEmail')+'"><input class="in" id="mN" placeholder="'+t('mName')+'" style="margin-top:8px">'+roleSel('id="mR"','radnik')+'<button class="btn" id="mAdd">+ '+t('addMember')+'</button>';
   }
   h+='<h3>'+t('share')+'</h3><p>'+st+'</p>';
-  if(cfg)h+=(cloud&&own?'<button class="btn p" id="sInv">'+t('invite')+'</button>':'')+(cloud?'<button class="btn" id="sOut">'+t('logout')+'</button>':'')+'<button class="btn d" id="sDis">'+t('disc')+'</button>';
+  if(cfg)h+=(cloud&&own?'<button class="btn p" id="sInv">'+t('invite')+'</button>':'')+(cloud?'<button class="btn" id="sOut">'+t('logout')+'</button>':'')+(BUILTIN_CFG?'':'<button class="btn d" id="sDis">'+t('disc')+'</button>');
   else h+='<p class="mut">'+t('cfgHelp')+'</p><textarea class="in" id="sC" placeholder="'+t('cfgPh')+'"></textarea><input class="in" id="sK" style="margin-top:8px" placeholder="'+t('kodPh')+'" autocomplete="off"><button class="btn p" id="sCon">'+t('connect')+'</button>';
   h+='<button class="btn" id="xB">'+t('close')+'</button>';
   openSheet(h,'set');
@@ -637,7 +640,7 @@ function openSettings(){
   if($('#mAdd'))$('#mAdd').onclick=async()=>{const e=$('#mE').value.trim().toLowerCase(),n=$('#mN').value.trim();if(!/^\S+@\S+\.\S+$/.test(e)||!n){toast(t('eMail'));return}if(await run(FireStore.setMember(e,n,$('#mR').value)))setTimeout(()=>openSettings(),300)};
   $('#sheet').querySelectorAll('[data-rn]').forEach(s=>s.onchange=()=>{const c=state.clani.find(x=>x.email===s.dataset.rn);const v=s.value.trim();if(c&&v)run(FireStore.setMember(c.email,v,c.uloga)).then(()=>{if(c.email===myEmail)me=v;toast('✓');render()})});
   $('#sheet').querySelectorAll('[data-role]').forEach(s=>s.onchange=()=>{const c=state.clani.find(x=>x.email===s.dataset.role);if(c)run(FireStore.setMember(c.email,c.ime,s.value)).then(()=>toast('✓'))});
-  if($('#sInv'))$('#sInv').onclick=async()=>{const link=location.href.split('#')[0]+'#cfg='+btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));
+  if($('#sInv'))$('#sInv').onclick=async()=>{const link=location.href.split('#')[0];
     try{if(navigator.share)await navigator.share({text:t('inviteTxt')+'\n'+link});else{await navigator.clipboard.writeText(link);toast(t('linkCopied'))}}catch(e){}};
   if($('#sOut'))$('#sOut').onclick=()=>{closeSheet(true);firebase.auth().signOut()};
   if($('#sDis'))$('#sDis').onclick=()=>ask(t('discQ'),async()=>{try{if(window.firebase)await firebase.auth().signOut()}catch(e){}LS.del('lk_cfg');location.reload()},()=>openSettings());
@@ -657,7 +660,7 @@ $('#meChip').onclick=()=>store.mode==='cloud'?openSettings():pickProfile();
   {const im=new Image();im.onload=()=>{$('#logoBox').innerHTML='<img src="logo.png" alt="">'};im.src='logo.png'}
   const m=location.hash.match(/cfg=([^&]+)/);
   if(m){try{LS.set('lk_cfg',JSON.parse(decodeURIComponent(escape(atob(m[1])))))}catch(e){}history.replaceState(null,'',location.pathname+location.search)}
-  const cfg=LS.get('lk_cfg',null);
+  const cfg=getCfg();
   if(!cfg){setSync('off');LocalStore.init(render);if(!me)pickProfile();return}
   me=null;setSync('wait');render();
   try{await FireStore.load(cfg)}catch(e){setSync('err',e.message);LocalStore.init(render);me=LS.get('lk_me',null);toast(t('notConn')+e.message);if(!me)pickProfile();return}
