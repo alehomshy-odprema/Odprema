@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Lokacije">
+<meta name="theme-color" content="#0d1320">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<title>Lokacije skladišča</title>
+<style>
+:root{--bg:#0d1320;--card:#151d2c;--ink:#e6edf7;--mut:#8b9ab1;--line:#253147;--acc:#3b8cff;--blue:#6fb3ff;--acc2:#12233d;--full:#14284a;--fullb:#4da3ff;--red:#ff6b6b;--hit:#1f3d6e;--green:#3ddc97;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(env(safe-area-inset-top) + 10px) 14px 8px;border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:10px}
+h1{font-size:20px;margin:0;flex:1;color:var(--blue);display:flex;align-items:center;gap:8px}
+h1 img{height:30px;width:auto;border-radius:6px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:5px 11px;font-size:14px;display:flex;align-items:center;gap:6px;max-width:55%}
+.chip span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:#999;display:inline-block;flex:none}
+.dot.on{background:#27ae60}.dot.err{background:var(--red)}.dot.wait{background:#e6a817}
+.sum{font-size:13px;color:var(--mut);margin-top:6px}
+.srow{display:flex;gap:8px;margin-top:8px}
+.search{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card)}
+.kb{width:46px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:20px}
+main{padding:6px 12px calc(110px + env(safe-area-inset-bottom))}
+.grp{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.gh{font-size:13px;font-weight:700;color:var(--blue);margin:12px 2px 6px;text-transform:uppercase;letter-spacing:.04em}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 8px;min-height:78px;text-align:left;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.tile .n{font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:baseline;gap:4px}
+.tile .n small{font-weight:600;font-size:11px;color:var(--mut)}
+.tile .f{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile.full{background:var(--full);border-left:4px solid var(--fullb)}
+.tile.over{border-left-color:var(--red)}.over .n small{color:var(--red);font-weight:800}
+.tile.dim{opacity:.25}.tile.hit{outline:3px solid #ffd166}
+.tile.sp{grid-column:span 2}
+.tile .n{color:var(--blue)}
+#sres{max-height:32vh;overflow:auto}#sres:empty{display:none}
+.sr{padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}.sr .tt{color:var(--blue);font-weight:700}
+.lc{border:1px solid var(--line);background:var(--acc2);color:var(--ink);border-radius:16px;padding:5px 10px;margin:4px 4px 0 0;font-size:14px}.lc b{color:var(--blue)}
+select.in option{background:var(--card)}
+.tile.flash{animation:fl 1.2s}
+@keyframes fl{0%{background:var(--hit)}100%{}}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+.bb{background:none;border:0;display:flex;flex-direction:column;align-items:center;font-size:11px;color:var(--mut);gap:2px;min-width:60px}
+.bb span{font-size:21px}.bb i{font-style:normal}
+.mic{width:68px;height:68px;border-radius:50%;border:0;background:var(--acc);color:#fff;font-size:30px;margin-top:-30px;box-shadow:0 4px 14px rgba(0,0,0,.25);flex:none}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:flex;align-items:flex-end}
+.ov[hidden]{display:none}
+.ov.solid{background:var(--bg)}
+.sheet{background:var(--card);width:100%;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.sheet h2{margin:0 0 10px;font-size:20px;color:var(--blue)}
+.sheet h3{margin:18px 0 6px;font-size:16px;color:var(--blue)}
+.row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+.row .nm{flex:1;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.cnt{min-width:30px;text-align:center;font-weight:700;font-size:18px}
+.sq{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:19px;flex:none}
+.btn{display:block;width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-weight:600;margin-top:10px}
+.btn.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn.d{color:var(--red)}
+.btns{display:flex;gap:8px}.btns .btn{flex:1}
+.in{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.add{display:flex;gap:8px;margin-top:10px;align-items:center}.add .in{flex:1}.add .in.num{width:74px;flex:none;text-align:center}
+.mut{color:var(--mut);font-size:13px}
+.big{font-size:22px;font-weight:700;margin:6px 0}
+.card{background:var(--acc2);border-radius:14px;padding:14px;margin:10px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 4px}
+.stat{background:var(--bg);border-radius:12px;padding:10px 12px}.stat b{display:block;font-size:24px}
+.ft{width:100%;border-collapse:collapse;font-size:14px}.ft td{padding:8px 4px;border-bottom:1px solid var(--line);vertical-align:top}.ft td:nth-child(2){text-align:right;font-weight:700;white-space:nowrap;font-size:18px}
+.ft tr{cursor:pointer}
+.hist div{padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.plus{color:var(--green);font-weight:700}.minus{color:var(--red);font-weight:700}
+label{display:block;font-weight:600;margin:14px 0 4px;color:var(--blue)}
+textarea.in{min-height:90px}
+pre.rep{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12px;font:13px/1.4 ui-monospace,Menlo,monospace;max-height:45vh;overflow:auto}
+.listen{text-align:center;padding:20px 0}
+.pulse{width:110px;height:110px;border-radius:50%;background:var(--acc);margin:10px auto;display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;animation:pu 1.2s infinite}
+@keyframes pu{0%{box-shadow:0 0 0 0 rgba(59,140,255,.6)}100%{box-shadow:0 0 0 30px rgba(59,140,255,0)}}
+.lang{display:flex;gap:8px;justify-content:center;margin-bottom:12px}.lang button{border:1px solid var(--line);background:var(--bg);border-radius:20px;padding:6px 14px}.lang button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.err{color:var(--red);font-weight:600;margin:8px 0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom));background:#2a3a57;color:#fff;padding:10px 16px;border-radius:10px;z-index:30;font-size:14px;max-width:90%}
+#print{display:none}
+@media print{body>*:not(#print){display:none!important}#print{display:block;color:#000;font:12px Arial}#print table{border-collapse:collapse;width:100%}#print td,#print th{border:1px solid #999;padding:4px;text-align:left}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hrow">
+    <h1><span id="logoBox">📦</span>Lokacije</h1>
+    <button class="chip" id="meChip"><span class="dot" id="syncDot"></span><span id="meName">—</span></button>
+  </div>
+  <div class="sum" id="sum"></div>
+  <div class="srow"><input class="search" id="search" type="search" autocomplete="off"><button class="kb" id="bType" aria-label="Type">⌨️</button></div>
+  <div id="sres"></div>
+</header>
+<main id="grid"></main>
+<nav class="bar">
+  <button class="bb" id="bOver"><span>📊</span><i id="lOver"></i></button>
+  <button class="bb" id="bHist"><span>🕘</span><i id="lHist"></i></button>
+  <button class="mic" id="bMic" aria-label="Mic">🎤</button>
+  <button class="bb" id="bRep"><span>📋</span><i id="lRep"></i></button>
+  <button class="bb" id="bSet"><span>⚙️</span><i id="lSet"></i></button>
+</nav>
+<div class="ov" id="ov" hidden><div class="sheet" id="sheet"></div></div>
+<div id="print"></div>
+
+<script>
+/* ================= jeziki ================= */
+const TX={
+sl:{search:'Išči podjetje ali lokacijo…',sum:'{0} zasedeno · {1} prosto · {2} palet skupaj',localOnly:' · samo ta telefon',over:'Pregled',hist:'Zgodovina',rep:'Predaja',set:'Nastavitve',
+ rack:'Regal',loc:'Lokacija',firm:'Podjetje',addPal:'+ Dodaj palete',emptyLoc:'Izprazni lokacijo',close:'Zapri',cancel:'Prekliči',save:'Shrani',
+ isEmpty:'Lokacija je prazna.',total:'Skupaj',of:'od',last:'zadnja sprememba',lastCh:'Zadnje spremembe',askEmpty:'Izprazniti lokacijo {0}?',askRemove:'Odstraniti {0} z lokacije {1}?',
+ needFP:'Vpišite število palet',noThat:'Tega ni na lokaciji {0}',emptied:'izpraznjeno',filter:'Filtriraj (delavec, podjetje, lokacija)…',noCh:'Ni sprememb.',
+ listen:'Poslušam…',vEx:'Npr. »05 01 Bosch 3«, »05 01 Bosch minus 2«, »Vani Romunija 15«, »06 02 prazno«',heard:'Slišal sem',after:'Potem',empty:'prazno',confirm:'✓ Potrdi',again:'🎤 Ponovno',fix:'✏️ Popravi',
+ overCap:'⚠ {0}/{1} – več kot zmogljivost regala!',saved:'Shranjeno: lokacija {0}',removeAll:'Odstrani {0} (vse palete)',emptyAll:'Izprazni celo lokacijo',
+ typeT:'Vpiši ukaz',typeHelp:'Na tipkovnici lahko pritisnete 🎤 in izgovorite.<br>Primeri: »05-01 Bosch 3« · »05 01 Bosch minus 2« · »Vani Romunija 15« · »Šotor kupci minus 10« · »06 02 prazno«',next:'Naprej',byVoice:'🎤 Z glasom',
+ micDenied:'Mikrofon ni dovoljen. Uporabite mikrofon na tipkovnici.',notHeard:'Nisem vas slišal. Poskusite znova ali vpišite.',noVoice:'Glasovni vnos tu ne deluje. Uporabite mikrofon na tipkovnici.',nothing:'Nisem nič slišal',
+ eLoc:'Ne prepoznam lokacije{0}. Začnite z lokacijo, npr. »05 01 Bosch 3«.',eFirm:'Nisem slišal imena podjetja za lokacijo {0}.',eZero:'Število palet ne sme biti 0.',
+ repT:'Predaja izmene',lastHand:'Zadnja predaja: {0} ({1})',noHand:'Predaje še ni bilo.',send:'📤 Pošlji (Viber, WhatsApp…)',copy:'📋 Kopiraj',copied:'Kopirano',noCopy:'Ne morem kopirati',
+ rTitle:'STANJE LOKACIJ',rBy:'Predaja',rEmpty:'Proste lokacije',rNone:'ni',rByF:'SKUPAJ PO PODJETJIH',rAll:'Vse skupaj',rCh:'SPREMEMBE OD',rTot:'sk.',
+ ovT:'Trenutno stanje',sOcc:'zasedeno',sFree:'prosto',sPal:'palet',sFull:'polnih',ovFirms:'Po podjetjih',ovFree:'Proste lokacije',ovFull:'Polne ali prepolne',ovTap:'Dotaknite se podjetja, da ga označite na lokacijah.',ovNo:'Ni podatkov.',
+ who:'Kdo ste?',whoHelp:'Izberite svoje ime. Vsaka sprememba zabeleži, kdo jo je naredil.',namesIn:'Imena spremenite v ⚙️ Nastavitve.',
+ workers:'Delavci (eden v vrstici)',quick:'Hitro ustvari lokacije',from:'Regal od',to:'do',heights:'Višin v regalu',makeList:'Ustvari seznam (npr. 05-01, 05-02…)',
+ locs:'Lokacije (ločene z vejico)',locsHelp:'Seznam lahko ročno uredite, npr. izbrišete 07-03, če ima regal samo 2 višini.',cap:'Zmogljivost ene lokacije (palete)',capHelp:'0 = brez omejitve.',
+ firms:'Podjetja (eno v vrstici)',firmsHelp:'Glas lažje prepozna podjetja s tega seznama.',changeMe:'Zamenjaj profil ({0})',
+ needOne:'Potreben je vsaj en delavec in ena lokacija',lostQ:'Na lokacijah {0} so palete, v novem seznamu pa jih ni. Nadaljujem?',listMade:'Seznam ustvarjen – pritisnite Shrani',checkNums:'Preverite številke',
+ share:'Skupna raba in prijava',stOn:'🟢 Povezano – vsi vidijo isto stanje',stOff:'⚪ Samo ta telefon (ni povezano)',stErr:'🔴 Napaka: ',stWait:'🟡 Povezujem…',
+ cfgHelp:'Prilepite nastavitve Firebase (firebaseConfig) in izmislite kodo skladišča.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Koda skladišča, npr. skladisce-7k2x',connect:'Poveži',
+ noCfg:'V prilepljenem besedilu ne vidim apiKey in projectId',shortKod:'Koda skladišča: vsaj 4 znaki',invite:'📤 Pošlji povezavo sodelavcem',inviteTxt:'Odpri to povezavo na telefonu za aplikacijo Lokacije (nato »Dodaj na začetni zaslon«) in se prijavi s svojo e-pošto:',linkCopied:'Povezava kopirana',
+ disc:'Prekini povezavo na tem telefonu',discQ:'Prekiniti povezavo? Podatki ostanejo v bazi.',
+ members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
+ loginT:'Prijava',email:'E-pošta',pass:'Geslo',login:'Prijava',register:'Nov račun',forgot:'Pozabljeno geslo',resetSent:'Poslali smo e-pošto za novo geslo.',
+ verifyT:'Potrdite e-pošto',verifyTxt:'Poslali smo povezavo na {0}. Kliknite jo (preverite tudi vsiljeno pošto), nato pritisnite »Potrdil sem«.',verified:'Potrdil sem',resend:'Pošlji ponovno',sentAgain:'Poslano',notYet:'E-pošta še ni potrjena.',logout:'Odjava',
+ noAccess:'Nimate dostopa do tega skladišča. Prosite lastnika, naj v Nastavitvah doda vaš e-naslov:',retry:'Poskusi znova',
+ createT:'Novo skladišče',createTxt:'To skladišče še ne obstaja. Ustvarite ga – postali boste lastnik in boste dodajali člane.',yourName:'Vaše ime',create:'Ustvari skladišče',
+ eCred:'Napačna e-pošta ali geslo',eInUse:'Ta e-pošta že ima račun – uporabite Prijava',eWeak:'Geslo mora imeti vsaj 6 znakov',eMail:'Neveljavna e-pošta',eMany:'Preveč poskusov, počakajte malo',eNet:'Ni interneta',eLoad:'Ni interneta ali se Firebase ne more naložiti',notConn:'Ni povezano: ',error:'Napaka: ',lostConn:'Ni povezave – sprememba ni shranjena'},
+bs:{search:'Traži firmu ili lokaciju…',sum:'{0} zauzeto · {1} prazno · {2} paleta ukupno',localOnly:' · samo ovaj telefon',over:'Pregled',hist:'Historija',rep:'Primopredaja',set:'Postavke',
+ rack:'Regal',loc:'Lokacija',firm:'Firma',addPal:'+ Dodaj palete',emptyLoc:'Isprazni lokaciju',close:'Zatvori',cancel:'Odustani',save:'Spremi',
+ isEmpty:'Lokacija je prazna.',total:'Ukupno',of:'od',last:'zadnje',lastCh:'Zadnje promjene',askEmpty:'Isprazniti lokaciju {0}?',askRemove:'Ukloniti {0} sa lokacije {1}?',
+ needFP:'Upiši broj paleta',noThat:'Nema toga na lokaciji {0}',emptied:'ispražnjeno',filter:'Filtriraj (radnik, firma, lokacija)…',noCh:'Nema promjena.',
+ listen:'Slušam…',vEx:'Npr. „05 01 Bosch 3“, „05 01 Bosch minus 2“, „06 02 prazno“',heard:'Čuo sam',after:'Poslije',empty:'prazno',confirm:'✓ Potvrdi',again:'🎤 Ponovo',fix:'✏️ Ispravi',
+ overCap:'⚠ {0}/{1} – više od kapaciteta regala!',saved:'Spremljeno: lokacija {0}',removeAll:'Ukloni {0} (sve palete)',emptyAll:'Isprazni cijelu lokaciju',
+ typeT:'Upiši naredbu',typeHelp:'Na tastaturi možeš pritisnuti 🎤 i izgovoriti.<br>Primjeri: „05-01 Bosch 3“ · „05 01 Bosch minus 2“ · „06 02 prazno“ · „06 02 Bosch prazno“',next:'Dalje',byVoice:'🎤 Glasom',
+ micDenied:'Mikrofon nije dozvoljen. Koristi mikrofon na tastaturi.',notHeard:'Nisam te čuo. Pokušaj ponovo ili upiši.',noVoice:'Glasovni unos ne radi ovdje. Koristi mikrofon na tastaturi.',nothing:'Nisam ništa čuo',
+ eLoc:'Nisam prepoznao lokaciju{0}. Počni lokacijom, npr. „05 01 Bosch 3“.',eFirm:'Nisam čuo naziv firme za lokaciju {0}.',eZero:'Broj paleta ne može biti 0.',
+ repT:'Primopredaja smjene',lastHand:'Zadnja primopredaja: {0} ({1})',noHand:'Još nije bilo primopredaje.',send:'📤 Pošalji (Viber, WhatsApp…)',copy:'📋 Kopiraj',copied:'Kopirano',noCopy:'Ne mogu kopirati',
+ rTitle:'STANJE LOKACIJA',rBy:'Predaje',rEmpty:'Prazne lokacije',rNone:'nema',rByF:'UKUPNO PO FIRMAMA',rAll:'Sveukupno',rCh:'PROMJENE OD',rTot:'uk.',
+ ovT:'Trenutno stanje',sOcc:'zauzeto',sFree:'prazno',sPal:'paleta',sFull:'punih',ovFirms:'Po firmama',ovFree:'Prazne lokacije',ovFull:'Pune ili prepune',ovTap:'Dodirni firmu da je označiš na lokacijama.',ovNo:'Nema podataka.',
+ who:'Ko si ti?',whoHelp:'Izaberi svoje ime. Svaka promjena bilježi ko ju je napravio.',namesIn:'Imena mijenjaš u ⚙️ Postavke.',
+ workers:'Radnici (jedan po redu)',quick:'Brzo napravi lokacije',from:'Regal od',to:'do',heights:'Visina u regalu',makeList:'Napravi listu (npr. 05-01, 05-02…)',
+ locs:'Lokacije (odvojene zarezom)',locsHelp:'Listu možeš ručno doraditi, npr. obrisati 07-03 ako regal ima samo 2 visine.',cap:'Kapacitet jedne lokacije (palete)',capHelp:'0 = bez ograničenja.',
+ firms:'Firme (jedna po redu)',firmsHelp:'Glas lakše prepoznaje firme sa ovog spiska.',changeMe:'Promijeni profil ({0})',
+ needOne:'Treba bar jedan radnik i jedna lokacija',lostQ:'Na lokacijama {0} ima paleta, a nema ih u novoj listi. Nastaviti?',listMade:'Lista napravljena – pritisni Spremi',checkNums:'Provjeri brojeve',
+ share:'Dijeljenje i prijava',stOn:'🟢 Povezano – svi vide isto stanje',stOff:'⚪ Samo ovaj telefon (nije povezano)',stErr:'🔴 Greška: ',stWait:'🟡 Povezujem…',
+ cfgHelp:'Zalijepi Firebase podešavanja (firebaseConfig) i izmisli kod skladišta.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Kod skladišta, npr. skladiste-7k2x',connect:'Poveži',
+ noCfg:'Ne vidim apiKey i projectId u zalijepljenom tekstu',shortKod:'Kod skladišta: bar 4 znaka',invite:'📤 Pošalji link kolegama',inviteTxt:'Otvori ovaj link na telefonu za aplikaciju Lokacije (pa „Dodaj na početni ekran“) i prijavi se svojim mailom:',linkCopied:'Link kopiran',
+ disc:'Prekini vezu na ovom telefonu',discQ:'Prekinuti vezu? Podaci ostaju u bazi.',
+ members:'Članovi s pristupom',owner:'vlasnik',addMember:'Dodaj člana',mEmail:'E-mail',mName:'Ime',removeQ:'Ukloniti pristup za {0}?',onlyOwner:'Postavke lokacija i pristupe uređuje samo vlasnik.',yes:'Da',no:'Ne',spec:'Ostale lokacije',specL:'Ostale lokacije (jedna po redu)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Bez ograničenja kapaciteta. Glasom: „Vani Romunija 15“.',noFirm:'Bez oznake',noRes:'Nema rezultata.',pals:'pal.',roleW:'Radnik – može mijenjati',roleV:'Samo pregled',viewOnly:'Imaš samo pregled – ne možeš unositi promjene.',role:'Uloga',
+ loginT:'Prijava',email:'E-mail',pass:'Lozinka',login:'Prijavi se',register:'Novi račun',forgot:'Zaboravljena lozinka',resetSent:'Poslali smo mail za novu lozinku.',
+ verifyT:'Potvrdi e-mail',verifyTxt:'Poslali smo link na {0}. Klikni ga (pogledaj i spam), pa pritisni „Potvrdio sam“.',verified:'Potvrdio sam',resend:'Pošalji ponovo',sentAgain:'Poslano',notYet:'E-mail još nije potvrđen.',logout:'Odjava',
+ noAccess:'Nemaš pristup ovom skladištu. Zamoli vlasnika da u Postavkama doda tvoj e-mail:',retry:'Pokušaj ponovo',
+ createT:'Novo skladište',createTxt:'Ovo skladište još ne postoji. Napravi ga – postaćeš vlasnik i dodavaćeš članove.',yourName:'Tvoje ime',create:'Napravi skladište',
+ eCred:'Pogrešan e-mail ili lozinka',eInUse:'Ovaj e-mail već ima račun – koristi Prijavi se',eWeak:'Lozinka mora imati bar 6 znakova',eMail:'Neispravan e-mail',eMany:'Previše pokušaja, sačekaj malo',eNet:'Nema interneta',eLoad:'Nema interneta ili se Firebase ne može učitati',notConn:'Nije povezano: ',error:'Greška: ',lostConn:'Nema veze – promjena nije spremljena'}
+};
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+const MULTI_LANG=false; // true = gumb Slovenščina/Bosanski
+let LANG=MULTI_LANG?(LS.get('lk_lang',null)||((navigator.language||'').toLowerCase().startsWith('sl')?'sl':'bs')):'sl';
+const t=(k,...a)=>String((TX[LANG]||TX.sl)[k]??TX.sl[k]??k).replace(/\{(\d)\}/g,(_,i)=>a[i]??'');
+function pal(n){n=Math.abs(n);const b=n%100,a=n%10;
+  if(LANG==='sl')return n+' '+(b===1?'paleta':b===2?'paleti':(b===3||b===4)?'palete':'palet');
+  return n+' '+((a===1&&b!==11)?'paleta':(a>=2&&a<=4&&(b<12||b>14))?'palete':'paleta')}
+
+/* ================= osnovno ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone=x=>JSON.parse(JSON.stringify(x));
+const pad=n=>String(n).padStart(2,'0');
+const fdt=x=>{const d=new Date(x);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'. '+pad(d.getHours())+':'+pad(d.getMinutes())};
+const ft=x=>{const d=new Date(x);return pad(d.getHours())+':'+pad(d.getMinutes())};
+function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}
+function makeLocs(od,doR,vis){const o=[];for(let r=od;r<=doR;r++)for(let v=1;v<=vis;v++)o.push(pad(r)+'-'+pad(v));return o}
+const DEFAULT_POST={radnici:['Delavec 1','Delavec 2','Delavec 3','Delavec 4'],lokacije:makeLocs(1,16,3),posebne:['Vani','Nadstrešek','Šotor'],firme:[],kapacitet:10};
+const allLocs=()=>[...(state.post.posebne||[]),...state.post.lokacije];
+const isSp=l=>(state.post.posebne||[]).includes(l);
+const capOf=l=>isSp(l)?0:(+state.post.kapacitet||0);
+const state={post:clone(DEFAULT_POST),lok:{},hist:[],handover:null,clani:[],vlasnik:null};
+let me=LS.get('lk_me',null),myEmail=null,myRole='radnik';
+const idOf=name=>String(name).replace(/[\/#\[\]]/g,'-').trim()||'_';
+
+/*PARSER*/
+const CYR={'а':'a','б':'b','в':'v','г':'g','д':'d','ђ':'đ','е':'e','ж':'ž','з':'z','и':'i','ј':'j','к':'k','л':'l','љ':'lj','м':'m','н':'n','њ':'nj','о':'o','п':'p','р':'r','с':'s','т':'t','ћ':'ć','у':'u','ф':'f','х':'h','ц':'c','ч':'č','џ':'dž','ш':'š'};
+function translit(s){return String(s).toLowerCase().replace(/[а-яђјљњћџ]/g,c=>CYR[c]??c)}
+function norm(s){return translit(s).replace(/[čć]/g,'c').replace(/š/g,'s').replace(/ž/g,'z').replace(/đ/g,'dj').replace(/[^a-z0-9]/g,'')}
+const NUMW={nula:0,nic:0,jedan:1,jedna:1,jednu:1,jedno:1,ena:1,en:1,eno:1,dva:2,dvije:2,dve:2,tri:3,cetiri:4,stiri:4,pet:5,sest:6,sedam:7,sedem:7,osam:8,osem:8,devet:9,deset:10,
+ jedanaest:11,enajst:11,dvanaest:12,dvanajst:12,trinaest:13,trinajst:13,cetrnaest:14,stirinajst:14,petnaest:15,petnajst:15,sesnaest:16,sestnajst:16,sedamnaest:17,sedemnajst:17,osamnaest:18,osemnajst:18,devetnaest:19,devetnajst:19,
+ dvadeset:20,dvajset:20,trideset:30,cetrdeset:40,stirideset:40,pedeset:50,petdeset:50,sezdeset:60,sestdeset:60,sedamdeset:70,sedemdeset:70,osamdeset:80,osemdeset:80,devedeset:90,devetdeset:90,sto:100};
+const SLCOMP=/^(ena|en|dva|tri|stiri|pet|sest|sedem|osem|devet)in(dvajset|trideset|stirideset|petdeset|sestdeset|sedemdeset|osemdeset|devetdeset)$/;
+const FILLER=new Set(['lokacija','lokacije','lokaciju','lokaciji','lokacijo','lok','na','u','v','sa','s','z','paleta','palete','paletu','paleti','palet','pal','komada','komad','kom','kos','kosov','i','in','je','firma','firme','firmu','podjetje','podjetja','broj','stevilka','plus','dodaj','dodati','stavi','stavio','ima','od','to','dolazi','dosla','doslo','regal','regala','regalu','visina','visini','visinu','nivo','sprat','red','polica','crtica','crta','kroz','pozicija','poziciju','poziciji','pozicijo']);
+const MINUSW=new Set(['minus','skini','skinuti','skinuto','oduzmi','manje','manj','otislo','otisla','otisle','otisao','poslano','poslato','poslao','poslane','utovareno','utovar','ukloni','izbaci','smanji','izaslo','izasle','vani','ven','odstrani','odstranjeno','odpeljano','odpeljal','odpeljali','vzemi','vzeto','odvzemi','nalozeno','nalozi','zmanjsaj']);
+const CLEARW=new Set(['prazno','prazna','prazan','isprazni','izprazni','ocisti','pocisti','obrisi','izbrisi','nema','nista','sve','vse']);
+function locKey(l){const m=String(l).match(/\d+/g);return m?m.map(Number).join('.'):norm(l)}
+function tokenize(text){
+  const raw=translit(text).replace(/(\d)([a-z])/g,'$1 $2').replace(/([a-z])(\d)/g,'$1 $2').split(/[\s,.;:!?\-\/_»«„“”"]+/).filter(Boolean);
+  const out=[];
+  for(let i=0;i<raw.length;i++){
+    const n=norm(raw[i]);
+    if(/^\d+$/.test(n)){out.push({n,r:raw[i],num:+n});continue}
+    const sc=n.match(SLCOMP);if(sc){const v=NUMW[sc[1]]+NUMW[sc[2]];out.push({n:String(v),r:String(v),num:v});continue}
+    if(n in NUMW){let v=NUMW[n];const nx=raw[i+1]?norm(raw[i+1]):'';
+      if(v>=20&&v%10===0&&v<100&&nx in NUMW&&NUMW[nx]>0&&NUMW[nx]<10){v+=NUMW[nx];i++}
+      out.push({n:String(v),r:String(v),num:v});continue}
+    if(n)out.push({n,r:raw[i]});
+  }
+  return out;
+}
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function matchFirm(raw,known){
+  const q=norm(raw);if(!q)return null;
+  let best=null,bd=1e9;
+  for(const k of known){const kn=norm(k);
+    if(kn===q)return k;
+    if(q.length>=3&&(kn.startsWith(q)||q.startsWith(kn))){const d=Math.abs(kn.length-q.length)*0.1;if(d<bd){bd=d;best=k}continue}
+    const d=lev(q,kn);if(d<=Math.max(1,Math.floor(kn.length*0.25))&&d<bd){bd=d;best=k}}
+  if(best)return best;
+  return raw.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+}
+/* vrne {lok, firma, delta, clear} ali {err, arg} */
+function tokEq(a,b){return a===b||(a.length>=5&&b.length>=5&&(a.slice(0,5)===b.slice(0,5)||lev(a,b)<=1))}
+function parseCommand(text,locNames,knownFirms,locData,noFirm){
+  const toks=tokenize(text);
+  const hasL=l=>/[a-zA-ZčćšžđČĆŠŽĐ]/.test(l);
+  // posebne lokacije z imenom (Vani, Dule šotor…) – najdaljše ime najprej
+  const special=locNames.filter(hasL).map(l=>({l,tk:tokenize(l).map(x=>x.n)})).sort((a,b)=>b.tk.length-a.tk.length);
+  let s0=0;while(s0<toks.length&&toks[s0].num===undefined&&FILLER.has(toks[s0].n))s0++;
+  for(const sp of special){if(sp.tk.length&&sp.tk.every((x,j)=>toks[s0+j]&&tokEq(toks[s0+j].n,x)))return finishParse(sp.l,toks.slice(s0+sp.tk.length),knownFirms,locData,noFirm)}
+  const lmap=new Map(locNames.filter(l=>!hasL(l)).map(l=>[locKey(l),l]));
+  let i=0;const ln=[];
+  while(i<toks.length&&ln.length<2){const tk=toks[i];
+    if(tk.num!==undefined){
+      if(tk.num===0){i++;continue}
+      if(!ln.length&&/^\d{3,4}$/.test(tk.n)&&!lmap.has(String(tk.num))){ln.push(Math.floor(tk.num/100),tk.num%100);i++;break}
+      ln.push(tk.num);i++;continue}
+    if(FILLER.has(tk.n)){i++;continue}
+    break}
+  let lok=null,used=0;
+  if(ln.length>=2&&lmap.has(ln[0]+'.'+ln[1])){lok=lmap.get(ln[0]+'.'+ln[1]);used=2}
+  else if(ln.length&&lmap.has(String(ln[0]))){lok=lmap.get(String(ln[0]));used=1}
+  if(!lok)return{err:'eLoc',arg:ln.length?' ('+ln.join('-')+')':''};
+  let cnt=0,past=false;const rest=[];
+  for(const tk of toks){
+    if(!past&&cnt<used&&tk.num!==undefined){if(tk.num===0)continue;
+      if(used===2&&cnt===0&&/^\d{3,4}$/.test(tk.n)&&!lmap.has(String(tk.num))){cnt=2;past=true;continue}
+      cnt++;if(cnt>=used)past=true;continue}
+    if(!past&&FILLER.has(tk.n))continue;
+    rest.push(tk)}
+  return finishParse(lok,rest,knownFirms,locData,noFirm);
+}
+function finishParse(lok,rest,knownFirms,locData,noFirm){
+  let sign=1,clear=false;const nums=[],fw=[];
+  for(const tk of rest){
+    if(MINUSW.has(tk.n)){sign=-1;continue}
+    if(CLEARW.has(tk.n)){clear=true;continue}
+    if(tk.num!==undefined){nums.push(tk.num);continue}
+    if(FILLER.has(tk.n))continue;
+    fw.push(tk.r);
+  }
+  const onLoc=(locData&&locData[lok])||[];
+  let firma=fw.length?matchFirm(fw.join(' '),[...new Set([...onLoc.map(s=>s.firma),...knownFirms])]):null;
+  if(clear)return{lok,firma,clear:true};
+  if(!firma&&sign<0&&onLoc.length===1)firma=onLoc[0].firma;
+  if(!firma){if(noFirm===undefined)return{err:'eFirm',arg:lok,lok};firma=noFirm}
+  const qty=nums.length?nums[nums.length-1]:1;
+  if(!qty)return{err:'eZero',lok};
+  return{lok,firma,delta:sign*qty};
+}
+function addTo(st,firma,delta){
+  const i=st.findIndex(s=>norm(s.firma)===norm(firma));
+  if(i<0){if(delta>0)st.push({firma,palete:delta});return st}
+  st[i].palete+=delta;if(st[i].palete<=0)st.splice(i,1);return st;
+}
+/*END*/
+
+/* ================= shranjevanje ================= */
+let onChangeCb=()=>{};
+const LocalStore={
+  mode:'local',
+  init(cb){onChangeCb=cb;const d=LS.get('lk_data',null);if(d){Object.assign(state,d);state.post={...clone(DEFAULT_POST),...d.post}}syncMe();cb()},
+  persist(){LS.set('lk_data',{post:state.post,lok:state.lok,hist:state.hist.slice(0,400),handover:state.handover});onChangeCb()},
+  async changeLoc(id,fn,logs){const cur=state.lok[id]?.stavke||[];state.lok[id]={stavke:fn(clone(cur)),ko:me,kad:Date.now()};logs.forEach(l=>state.hist.unshift(l));this.persist()},
+  async savePost(p){state.post=p;syncMe();this.persist()},
+  async setHandover(h){state.handover=h;this.persist()}
+};
+function syncMe(){const i=LS.get('lk_meIdx',null);if(i!==null&&state.post.radnici[i]){me=state.post.radnici[i];LS.set('lk_me',me)}}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error(t('eLoad')));document.head.appendChild(s)})}
+const FB='https://www.gstatic.com/firebasejs/10.12.2/';
+const FireStore={
+  mode:'cloud',unsub:[],
+  async load(cfg){
+    if(!window.firebase){await loadScript(FB+'firebase-app-compat.js');await loadScript(FB+'firebase-auth-compat.js');await loadScript(FB+'firebase-firestore-compat.js')}
+    if(!firebase.apps.length)firebase.initializeApp(cfg.firebase);
+    this.db=firebase.firestore();this.db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+    this.root=this.db.collection('skladista').doc(cfg.kod);
+  },
+  start(cb){
+    onChangeCb=cb;this.stop();
+    this.unsub.push(this.root.onSnapshot(d=>{const x=d.data()||{};state.post={...clone(DEFAULT_POST),...(x.post||{})};state.handover=x.handover||null;state.vlasnik=x.vlasnik||null;cb()},e=>{setSync('err',e.message);cb()}));
+    if(state.vlasnik===myEmail)this.unsub.push(this.root.collection('clani').onSnapshot(s=>{state.clani=s.docs.map(d=>({email:d.id,...d.data()}));cb()},()=>{}));
+    else this.unsub.push(this.root.collection('clani').doc(myEmail).onSnapshot(d=>{const x=d.data();if(!x){showNoAccess();return}me=x.ime||me;myRole=x.uloga||'radnik';applyRole();cb()},()=>{}));
+    this.unsub.push(this.root.collection('lokacije').onSnapshot(s=>{const l={};s.forEach(d=>l[d.id]=d.data());state.lok=l;cb()},e=>setSync('err',e.message)));
+    this.unsub.push(this.root.collection('historija').orderBy('kad','desc').limit(400).onSnapshot(s=>{state.hist=s.docs.map(d=>d.data());cb()},()=>{}));
+  },
+  stop(){this.unsub.forEach(u=>u());this.unsub=[]},
+  async changeLoc(id,fn,logs){
+    if(!navigator.onLine)throw new Error(t('lostConn'));
+    const ref=this.root.collection('lokacije').doc(id);
+    await this.db.runTransaction(async tr=>{const s=await tr.get(ref);const cur=s.exists?(s.data().stavke||[]):[];tr.set(ref,{stavke:fn(clone(cur)),ko:me,kad:Date.now()})});
+    const b=this.db.batch();logs.forEach(l=>b.set(this.root.collection('historija').doc(),l));await b.commit();
+  },
+  async savePost(p){await this.root.update({post:p})},
+  async setHandover(h){await this.root.update({handover:h})},
+  async setMember(email,ime,uloga){await this.root.collection('clani').doc(email).set({ime,uloga:uloga||'radnik',dodano:Date.now()},{merge:true})},
+  async delMember(email){await this.root.collection('clani').doc(email).delete()}
+};
+let store=LocalStore;
+let syncState={s:'off'};
+function setSync(s,msg){$('#syncDot').className='dot '+(s==='on'?'on':s==='err'?'err':s==='wait'?'wait':'');syncState={s,msg}}
+const isOwner=()=>store.mode==='local'||(!!myEmail&&state.vlasnik===myEmail);
+const canEdit=()=>isOwner()||myRole==='radnik';
+function noEdit(){if(canEdit())return false;toast(t('viewOnly'));return true}
+
+/* ================= akcije ================= */
+const locItems=name=>state.lok[idOf(name)]?.stavke||[];
+const allLocData=()=>Object.fromEntries(allLocs().map(l=>[l,locItems(l)]));
+const knownFirms=()=>{const s=new Set(state.post.firme);Object.values(state.lok).forEach(v=>(v.stavke||[]).forEach(x=>s.add(x.firma)));return[...s]};
+const sumOf=st=>st.reduce((a,s)=>a+s.palete,0);
+async function run(p){try{await p;return true}catch(e){toast(t('error')+(e.message||e));return false}}
+async function applyDelta(lok,firma,delta){
+  const ok=await run(store.changeLoc(idOf(lok),st=>addTo(st,firma,delta),[{kad:Date.now(),ko:me,lok,firma,delta}]));
+  if(ok&&delta>0&&!state.post.firme.some(f=>norm(f)===norm(firma))){const p=clone(state.post);p.firme.push(firma);p.firme.sort((a,b)=>a.localeCompare(b));run(store.savePost(p))}
+  if(ok)flash(lok);return ok;
+}
+async function clearLoc(lok,firma){
+  const st=locItems(lok).filter(s=>!firma||norm(s.firma)===norm(firma));
+  if(!st.length){toast(t('noThat',lok));return false}
+  const logs=st.map(s=>({kad:Date.now(),ko:me,lok,firma:s.firma,delta:-s.palete,opis:'x'}));
+  const ok=await run(store.changeLoc(idOf(lok),cur=>firma?cur.filter(s=>norm(s.firma)!==norm(firma)):[],logs));
+  if(ok)flash(lok);return ok;
+}
+function flash(lok){setTimeout(()=>{const e=document.querySelector('[data-lok="'+CSS.escape(lok)+'"]');if(e){e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash');e.scrollIntoView({block:'nearest',behavior:'smooth'})}},150)}
+
+/* ================= prikaz ================= */
+function applyLang(){
+  document.documentElement.lang=LANG;
+  $('#search').placeholder=t('search');$('#lOver').textContent=t('over');$('#lHist').textContent=t('hist');$('#lRep').textContent=t('rep');$('#lSet').textContent=t('set');
+}
+function applyRole(){const v=!canEdit();$('#bMic').style.visibility=v?'hidden':'';$('#bType').style.display=v?'none':''}
+function render(){
+  const q=norm($('#search').value);
+  let full=0,tot=0;const groups=[];let cur=null;
+  for(const l of allLocs()){const g=isSp(l)?'*':String(l).includes('-')?String(l).split('-')[0]:'';if(!cur||cur.g!==g){cur={g,items:[]};groups.push(cur)}cur.items.push(l)}
+  $('#grid').innerHTML=groups.map(G=>(G.g==='*'?'<div class="gh">'+t('spec')+'</div>':G.g?'<div class="gh">'+t('rack')+' '+esc(G.g)+'</div>':'')+'<div class="grp">'+G.items.map(l=>{
+    const st=locItems(l),sum=sumOf(st),cap=capOf(l);if(st.length){full++;tot+=sum}
+    const hit=q&&(st.some(s=>norm(s.firma).includes(q))||norm(l).includes(q));
+    const cls='tile'+(isSp(l)?' sp':'')+(st.length?' full':'')+(cap&&sum>cap?' over':'')+(q?(hit?' hit':' dim'):'');
+    const lines=st.slice(0,3).map(s=>'<div class="f">'+esc(s.firma)+' <b>'+s.palete+'</b></div>').join('')+(st.length>3?'<div class="f mut">+'+(st.length-3)+'</div>':'');
+    return '<button class="'+cls+'" data-lok="'+esc(l)+'"><div class="n">'+esc(l)+(cap?'<small>'+sum+'/'+cap+'</small>':(sum?'<small>'+sum+'</small>':''))+'</div>'+lines+'</button>';
+  }).join('')+'</div>').join('');
+  $('#sum').textContent=t('sum',full,allLocs().length-full,tot)+(store.mode==='local'?t('localOnly'):'');
+  $('#meName').textContent=me||'—';
+  renderSearch(q);
+  if(sheetState.type==='loc')renderLocBody();
+  if(sheetState.type==='hist')renderHist();
+  if(sheetState.type==='over')renderOver();
+}
+$('#grid').addEventListener('click',e=>{const x=e.target.closest('.tile');if(x)openLoc(x.dataset.lok)});
+$('#search').addEventListener('input',render);
+function renderSearch(q){
+  const el=$('#sres');if(!q){el.innerHTML='';return}
+  const byF={},locHit=[];
+  for(const l of allLocs()){if(norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(norm(x.firma).includes(q))(byF[x.firma]=byF[x.firma]||[]).push([l,x.palete])}
+  let html=Object.entries(byF).slice(0,8).map(([f,a])=>'<div class="sr"><span class="tt">'+esc(f)+'</span> · '+pal(a.reduce((s,x)=>s+x[1],0))+'<br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+'</div>').join('');
+  if(locHit.length)html+='<div class="sr">'+locHit.slice(0,12).map(l=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+sumOf(locItems(l))+'</b></button>').join('')+'</div>';
+  el.innerHTML=html||'<div class="sr mut">'+t('noRes')+'</div>';
+}
+$('#sres').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
+
+/* ================= okna ================= */
+function ask(msg,onYes,onNo){openSheet('<h2>⚠️</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var(--red);border-color:var(--red)">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
+let sheetState={};
+function openSheet(html,type,extra){$('#sheet').innerHTML=html;$('#ov').hidden=false;$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0}
+function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').hidden=true;sheetState={};stopRec()}
+$('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
+const ready=()=>!!me&&!(LS.get('lk_cfg',null)&&store.mode!=='cloud'&&syncState.s!=='err');
+
+/* lokacija */
+function openLoc(lok){
+  if(!ready())return;const ed=canEdit();
+  openSheet('<h2>'+t('loc')+' '+esc(lok)+'</h2><div id="locBody"></div>'+
+   (ed?'<div class="add"><input class="in" id="aF" list="firmList" placeholder="'+t('firm')+'" autocomplete="off"><input class="in num" id="aN" type="number" inputmode="numeric" min="1" value="1"></div>'+
+   '<datalist id="firmList">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
+   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn d" id="clrBtn">'+t('emptyLoc')+'</button>':'<p class="mut">'+t('viewOnly')+'</p>')+'<div id="locHist" class="hist"></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
+  $('#xB').onclick=closeSheet;
+  if(ed){$('#aBtn').onclick=async()=>{const f=$('#aF').value.trim(),n=parseInt($('#aN').value)||0;if(n<1){toast(t('needFP'));return}
+    const firma=f?matchFirm(f,knownFirms()):t('noFirm');if(await applyDelta(lok,firma,n)){$('#aF').value='';$('#aN').value=1;toast(lok+': '+firma+' +'+n)}};
+  $('#clrBtn').onclick=()=>ask(t('askEmpty',lok),async()=>{await clearLoc(lok);openLoc(lok)},()=>openLoc(lok))}
+  renderLocBody();
+}
+function renderLocBody(){
+  const lok=sheetState.lok,st=locItems(lok),info=state.lok[idOf(lok)],cap=capOf(lok);
+  const b=$('#locBody');if(!b)return;
+  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-x="1">🗑</button>':'')+'</div>').join('')+
+    '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' '+t('of')+' '+cap:'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
+    :'<p class="mut">'+t('isEmpty')+'</p>';
+  b.querySelectorAll('.sq').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.i];if(!s)return;
+    if(x.dataset.x){ask(t('askRemove',s.firma,lok),async()=>{await clearLoc(lok,s.firma);openLoc(lok)},()=>openLoc(lok))}else applyDelta(lok,s.firma,+x.dataset.d)});
+  const h=state.hist.filter(x=>x.lok===lok).slice(0,6);
+  $('#locHist').innerHTML=h.length?'<label>'+t('lastCh')+'</label>'+h.map(histLine).join(''):'';
+}
+function histLine(x){return '<div><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · <b>'+esc(x.lok)+'</b> '+esc(x.firma)+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'')+'</div>'}
+
+/* zgodovina */
+function openHist(){if(!ready())return;openSheet('<h2>'+t('hist')+'</h2><input class="in" id="hQ" placeholder="'+t('filter')+'"><div class="hist" id="hList"></div><button class="btn" id="xB">'+t('close')+'</button>','hist');$('#xB').onclick=closeSheet;$('#hQ').oninput=renderHist;renderHist()}
+function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').value);
+  const h=state.hist.filter(x=>!q||norm(x.ko+' '+x.firma+' '+x.lok).includes(q)).slice(0,150);
+  el.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>'}
+
+/* pregled */
+function openOver(){if(!ready())return;openSheet('<h2>'+t('ovT')+'</h2><div id="ovBody"></div><button class="btn" id="xB">'+t('close')+'</button>','over');$('#xB').onclick=closeSheet;renderOver()}
+function renderOver(){
+  const el=$('#ovBody');if(!el)return;
+  const L=allLocs(),byF={},free=[],fullL=[];let occ=0,tot=0;
+  for(const l of L){const st=locItems(l),s=sumOf(st),cap=capOf(l);if(!st.length){free.push(l);continue}occ++;tot+=s;if(cap&&s>=cap)fullL.push(l+' ('+s+'/'+cap+')');
+    st.forEach(x=>{byF[x.firma]=byF[x.firma]||{n:0,l:[]};byF[x.firma].n+=x.palete;byF[x.firma].l.push(l+' ('+x.palete+')')})}
+  const fl=Object.entries(byF).sort((a,b)=>b[1].n-a[1].n);
+  el.innerHTML='<div class="stats"><div class="stat"><b>'+occ+'</b>'+t('sOcc')+'</div><div class="stat"><b>'+free.length+'</b>'+t('sFree')+'</div><div class="stat"><b>'+tot+'</b>'+t('sPal')+'</div><div class="stat"><b>'+fullL.length+'</b>'+t('sFull')+'</div></div>'+
+   '<h3>'+t('ovFirms')+'</h3>'+(fl.length?'<p class="mut">'+t('ovTap')+'</p><table class="ft">'+fl.map(([f,v])=>'<tr data-f="'+esc(f)+'"><td><b>'+esc(f)+'</b><div class="mut">'+v.l.map(esc).join(', ')+'</div></td><td>'+v.n+'</td></tr>').join('')+'</table>':'<p class="mut">'+t('ovNo')+'</p>')+
+   '<h3>'+t('ovFull')+'</h3><p class="mut">'+(fullL.map(esc).join(', ')||'—')+'</p>'+
+   '<h3>'+t('ovFree')+' ('+free.length+')</h3><p class="mut">'+(free.map(esc).join(', ')||'—')+'</p>';
+  el.querySelectorAll('tr[data-f]').forEach(r=>r.onclick=()=>{$('#search').value=r.dataset.f;closeSheet();render()});
+}
+
+/* ================= glas ================= */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec=null;
+function stopRec(){if(rec){try{rec.abort()}catch(e){}rec=null}}
+function startVoice(){
+  if(!ready()||noEdit())return;
+  if(!SR){openType('',true);return}
+  stopRec();
+  openSheet('<div class="listen"><div class="pulse">🎤</div><div class="big" id="live">'+t('listen')+'</div><p class="mut">'+t('vEx')+'</p><button class="btn" id="stopB">'+t('cancel')+'</button></div>','listen');
+  $('#stopB').onclick=closeSheet;
+  let got=false;
+  try{
+    rec=new SR();rec.lang=LANG==='sl'?'sl-SI':'hr-HR';rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=3;
+    rec.onresult=e=>{let txt='';for(const r of e.results)txt+=r[0].transcript;const l=$('#live');if(l)l.textContent=txt;
+      if(e.results[e.results.length-1].isFinal){got=true;const alts=[...e.results[0]].map(a=>a.transcript);stopRec();handleText(txt,alts)}};
+    rec.onerror=e=>{stopRec();if(e.error==='not-allowed'||e.error==='service-not-allowed')openType('',true,t('micDenied'));else if(e.error!=='aborted')openType('',true,t('notHeard'))};
+    rec.onend=()=>{if(!got&&sheetState.type==='listen'){rec=null;closeSheet();toast(t('nothing'))}};
+    rec.start();
+  }catch(e){openType('',true,t('noVoice'))}
+}
+function handleText(txt,alts){
+  const ld=allLocData(),kf=knownFirms();
+  let p=parseCommand(txt,allLocs(),kf,ld,t('noFirm'));
+  if(p.err&&alts)for(const a of alts){const q=parseCommand(a,allLocs(),kf,ld,t('noFirm'));if(!q.err){p=q;txt=a;break}}
+  if(p.err){openType(txt,false,t(p.err,p.arg));return}
+  showConfirm(p,txt);
+}
+function showConfirm(p,heard){
+  const cur=locItems(p.lok);let after,what;
+  if(p.clear){after=p.firma?cur.filter(s=>norm(s.firma)!==norm(p.firma)):[];what=p.firma?t('removeAll',esc(p.firma)):t('emptyAll')}
+  else{after=addTo(clone(cur),p.firma,p.delta);what=esc(p.firma)+' <span class="'+(p.delta>0?'plus':'minus')+'">'+(p.delta>0?'+ ':'− ')+pal(p.delta)+'</span>'}
+  const c=capOf(p.lok),n=sumOf(after);
+  openSheet('<div class="mut">'+t('heard')+': »'+esc(heard)+'«</div><div class="card"><div class="mut">'+t('loc')+'</div><div class="big">'+esc(p.lok)+'</div><div style="font-size:19px">'+what+'</div>'+
+    '<div class="mut" style="margin-top:8px">'+t('after')+': '+(after.length?after.map(s=>esc(s.firma)+' '+s.palete).join(', '):t('empty'))+'</div>'+(c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
+    '<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
+  $('#xB').onclick=closeSheet;
+  $('#okB').onclick=async()=>{closeSheet();const ok=p.clear?await clearLoc(p.lok,p.firma):await applyDelta(p.lok,p.firma,p.delta);if(ok)toast(t('saved',p.lok))};
+  $('#againB').onclick=startVoice;$('#editB').onclick=()=>openType(heard);
+}
+function openType(text,focus,err){
+  if(!ready()||noEdit())return;
+  openSheet('<h2>'+t('typeT')+'</h2>'+(err?'<p class="err">'+esc(err)+'</p>':'')+
+   '<input class="in" id="cmd" value="'+esc(text||'')+'" placeholder="05-01 Bosch 3" autocomplete="off" enterkeyhint="go">'+
+   '<p class="mut">'+t('typeHelp')+'</p><button class="btn p" id="goB">'+t('next')+'</button>'+(SR?'<button class="btn" id="vB">'+t('byVoice')+'</button>':'')+'<button class="btn" id="xB">'+t('cancel')+'</button>','type');
+  $('#xB').onclick=closeSheet;
+  const go=()=>{const v=$('#cmd').value.trim();if(v)handleText(v)};
+  $('#goB').onclick=go;$('#cmd').onkeydown=e=>{if(e.key==='Enter')go()};if(SR)$('#vB').onclick=startVoice;
+  if(focus)setTimeout(()=>$('#cmd').focus(),200);
+}
+
+/* ================= predaja ================= */
+function buildReport(){
+  const now=Date.now(),L=allLocs();
+  const since=state.handover&&now-state.handover.kad<24*3600e3?state.handover.kad:now-12*3600e3;
+  let txt=t('rTitle')+'\n'+fdt(now)+'\n'+t('rBy')+': '+(me||'?')+'\n\n';
+  const empty=[],byF={};let tot=0;
+  for(const l of L){const st=locItems(l);if(!st.length){empty.push(l);continue}
+    const s=sumOf(st);tot+=s;st.forEach(x=>byF[x.firma]=(byF[x.firma]||0)+x.palete);
+    txt+=l+': '+st.map(x=>x.firma+' '+x.palete).join(', ')+(st.length>1?' ('+t('rTot')+' '+s+')':'')+'\n'}
+  txt+='\n'+t('rEmpty')+' ('+empty.length+'): '+(empty.join(', ')||t('rNone'))+'\n';
+  txt+='\n'+t('rByF')+':\n'+Object.entries(byF).sort((a,b)=>a[0].localeCompare(b[0])).map(([f,n])=>f+': '+n).join('\n')+'\n'+t('rAll')+': '+pal(tot)+'\n';
+  const ch=state.hist.filter(x=>x.kad>=since).reverse();
+  txt+='\n'+t('rCh')+' '+fdt(since)+' ('+ch.length+'):\n'+(ch.map(x=>ft(x.kad)+' '+x.ko+' – '+x.lok+' '+x.firma+' '+(x.delta>0?'+':'')+x.delta+(x.opis?' ('+t('emptied')+')':'')).join('\n')||t('rNone'))+'\n';
+  return{txt,byF,tot,ch,since,now};
+}
+function openReport(){
+  if(!ready())return;
+  const r=buildReport();
+  openSheet('<h2>'+t('repT')+'</h2><p class="mut">'+(state.handover?t('lastHand',fdt(state.handover.kad),esc(state.handover.ko)):t('noHand'))+'</p><pre class="rep">'+esc(r.txt)+'</pre>'+
+   (navigator.share?'<button class="btn p" id="shB">'+t('send')+'</button>':'')+
+   '<div class="btns"><button class="btn" id="cpB">'+t('copy')+'</button><button class="btn" id="pdB">📄 PDF</button></div><button class="btn" id="xB">'+t('close')+'</button>','rep');
+  $('#xB').onclick=closeSheet;
+  const mark=()=>{if(canEdit())run(store.setHandover({kad:Date.now(),ko:me}))};
+  if(navigator.share)$('#shB').onclick=async()=>{try{await navigator.share({title:t('rTitle')+' '+fdt(r.now),text:r.txt});mark()}catch(e){}};
+  $('#cpB').onclick=async()=>{try{await navigator.clipboard.writeText(r.txt);toast(t('copied'));mark()}catch(e){toast(t('noCopy'))}};
+  $('#pdB').onclick=()=>{printReport(r);mark()};
+}
+function printReport(r){
+  const rows=allLocs().map(l=>{const st=locItems(l);return '<tr><td><b>'+esc(l)+'</b></td><td>'+(st.map(x=>esc(x.firma)+' – '+x.palete).join('<br>')||'<i>'+t('empty')+'</i>')+'</td><td>'+(sumOf(st)||'')+'</td></tr>'}).join('');
+  $('#print').innerHTML='<h2>'+t('rTitle')+' – '+fdt(r.now)+'</h2><p>'+t('rBy')+': '+esc(me)+' · '+t('rAll')+': '+pal(r.tot)+'</p><table><tr><th>'+t('loc')+'</th><th>'+t('firm')+'</th><th>Σ</th></tr>'+rows+'</table>'+
+    '<h3>'+t('rByF')+'</h3><p>'+Object.entries(r.byF).map(([f,n])=>esc(f)+': '+n).join(' · ')+'</p><h3>'+t('rCh')+' '+fdt(r.since)+'</h3><p>'+(r.ch.map(x=>ft(x.kad)+' '+esc(x.ko)+' – '+esc(x.lok)+' '+esc(x.firma)+' '+(x.delta>0?'+':'')+x.delta).join('<br>')||t('rNone'))+'</p>';
+  setTimeout(()=>window.print(),100);
+}
+
+/* ================= profil (lokalni način) ================= */
+function langBar(){if(!MULTI_LANG)return '';return '<div class="lang"><button data-l="sl" class="'+(LANG==='sl'?'on':'')+'">Slovenščina</button><button data-l="bs" class="'+(LANG==='bs'?'on':'')+'">Bosanski</button></div>'}
+function wireLang(again){$('#sheet').querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;LS.set('lk_lang',LANG);applyLang();render();again()})}
+function pickProfile(){
+  if(store.mode==='cloud'){openSettings();return}
+  openSheet(langBar()+'<h2>'+t('who')+'</h2><p class="mut">'+t('whoHelp')+'</p>'+state.post.radnici.map((r,i)=>'<button class="btn" data-i="'+i+'">'+esc(r)+'</button>').join('')+
+   (me?'<button class="btn" id="xB">'+t('close')+'</button>':'<p class="mut">'+t('namesIn')+'</p><button class="btn" id="sB">⚙️ '+t('set')+'</button>'),'profile',{locked:!me});
+  wireLang(pickProfile);
+  if($('#xB'))$('#xB').onclick=closeSheet;
+  if($('#sB'))$('#sB').onclick=()=>openSettings();
+  $('#sheet').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{me=state.post.radnici[+b.dataset.i];LS.set('lk_me',me);LS.set('lk_meIdx',+b.dataset.i);closeSheet(true);render()});
+}
+
+/* ================= prijava (oblak) ================= */
+function authErr(e){const c=(e&&e.code)||'';return c.includes('invalid-credential')||c.includes('invalid-login')||c.includes('wrong-password')||c.includes('user-not-found')?t('eCred'):c.includes('email-already')?t('eInUse'):c.includes('weak-password')?t('eWeak'):c.includes('invalid-email')?t('eMail'):c.includes('too-many')?t('eMany'):c.includes('network')?t('eNet'):(e.message||String(e))}
+function showLogin(msg){
+  openSheet(langBar()+'<h2>📦 '+t('loginT')+'</h2>'+(msg?'<p class="err">'+esc(msg)+'</p>':'')+
+   '<input class="in" id="lE" type="email" autocomplete="username" placeholder="'+t('email')+'" value="'+esc(LS.get('lk_lastmail','')||'')+'"><input class="in" id="lP" type="password" autocomplete="current-password" placeholder="'+t('pass')+'" style="margin-top:8px">'+
+   '<button class="btn p" id="lIn">'+t('login')+'</button><div class="btns"><button class="btn" id="lReg">'+t('register')+'</button><button class="btn" id="lFor">'+t('forgot')+'</button></div>','login',{locked:true,solid:true});
+  wireLang(()=>showLogin(msg));
+  const em=()=>$('#lE').value.trim(),pw=()=>$('#lP').value;
+  $('#lIn').onclick=async()=>{LS.set('lk_lastmail',em());try{await firebase.auth().signInWithEmailAndPassword(em(),pw())}catch(e){showLogin(authErr(e))}};
+  $('#lReg').onclick=async()=>{LS.set('lk_lastmail',em());try{const c=await firebase.auth().createUserWithEmailAndPassword(em(),pw());await c.user.sendEmailVerification();showVerify(c.user)}catch(e){showLogin(authErr(e))}};
+  $('#lFor').onclick=async()=>{if(!em()){toast(t('eMail'));return}try{await firebase.auth().sendPasswordResetEmail(em());toast(t('resetSent'))}catch(e){showLogin(authErr(e))}};
+}
+function showVerify(u,msg){
+  openSheet('<h2>✉️ '+t('verifyT')+'</h2><p>'+t('verifyTxt',esc(u.email))+'</p>'+(msg?'<p class="err">'+esc(msg)+'</p>':'')+
+   '<button class="btn p" id="vOk">'+t('verified')+'</button><div class="btns"><button class="btn" id="vRe">'+t('resend')+'</button><button class="btn d" id="vOut">'+t('logout')+'</button></div>','verify',{locked:true,solid:true});
+  $('#vOk').onclick=async()=>{const cu=firebase.auth().currentUser;if(!cu)return;await cu.reload();if(firebase.auth().currentUser.emailVerified){await firebase.auth().currentUser.getIdToken(true);afterLogin(firebase.auth().currentUser)}else showVerify(cu,t('notYet'))};
+  $('#vRe').onclick=async()=>{try{await firebase.auth().currentUser.sendEmailVerification();toast(t('sentAgain'))}catch(e){toast(authErr(e))}};
+  $('#vOut').onclick=()=>firebase.auth().signOut();
+}
+function showNoAccess(){
+  openSheet('<h2>🔒</h2><p>'+t('noAccess')+'</p><div class="card big" style="font-size:18px;overflow-wrap:anywhere">'+esc(myEmail)+'</div><button class="btn p" id="nRe">'+t('retry')+'</button><button class="btn d" id="nOut">'+t('logout')+'</button>','noacc',{locked:true,solid:true});
+  $('#nRe').onclick=()=>afterLogin(firebase.auth().currentUser);$('#nOut').onclick=()=>firebase.auth().signOut();
+}
+function showCreate(){
+  openSheet('<h2>'+t('createT')+'</h2><p>'+t('createTxt')+'</p><input class="in" id="cN" placeholder="'+t('yourName')+'"><button class="btn p" id="cB">'+t('create')+'</button><button class="btn d" id="cOut">'+t('logout')+'</button>','create',{locked:true,solid:true});
+  $('#cOut').onclick=()=>firebase.auth().signOut();
+  $('#cB').onclick=async()=>{const ime=$('#cN').value.trim();if(!ime){$('#cN').focus();return}
+    try{const local=LS.get('lk_data',null);
+      await FireStore.root.set({vlasnik:myEmail,post:{...clone(DEFAULT_POST),...((local&&local.post)||{})},handover:null,napravljeno:Date.now()});
+      await FireStore.setMember(myEmail,ime,'radnik');
+      if(local&&local.lok&&Object.keys(local.lok).length){const b=FireStore.db.batch();Object.entries(local.lok).forEach(([id,v])=>b.set(FireStore.root.collection('lokacije').doc(id),v));await b.commit()}
+      afterLogin(firebase.auth().currentUser)}catch(e){toast(t('error')+e.message)}};
+}
+async function afterLogin(u){
+  if(!u)return;
+  myEmail=u.email.toLowerCase();
+  try{
+    const snap=await FireStore.root.get({source:'server'});
+    if(!snap.exists){showCreate();return}
+    state.vlasnik=snap.data().vlasnik;
+    const m=await FireStore.root.collection('clani').doc(myEmail).get();
+    if(!m.exists&&state.vlasnik!==myEmail){showNoAccess();return}
+    me=m.exists&&m.data().ime?m.data().ime:myEmail.split('@')[0];myRole=state.vlasnik===myEmail?'radnik':((m.exists&&m.data().uloga)||'radnik');applyRole();
+    store=FireStore;setSync('on');FireStore.start(render);closeSheet(true);render();
+  }catch(e){
+    if(String(e.code||e.message).includes('permission'))showNoAccess();
+    else{setSync('err',e.message);toast(t('notConn')+e.message);showNoAccess()}
+  }
+}
+
+/* ================= nastavitve ================= */
+function openSettings(){
+  const p=state.post,cfg=LS.get('lk_cfg',null),own=isOwner(),cloud=store.mode==='cloud';
+  const st={on:t('stOn'),off:t('stOff'),err:t('stErr')+(syncState.msg||''),wait:t('stWait')}[syncState.s];
+  let h=langBar()+'<h2>'+t('set')+'</h2>';
+  if(cloud)h+='<p><b>'+esc(me)+'</b><br><span class="mut">'+esc(myEmail)+(own?' · '+t('owner'):'')+'</span></p>';
+  if(own){
+    if(!cloud)h+='<label>'+t('workers')+'</label><textarea class="in" id="sR">'+esc(p.radnici.join('\n'))+'</textarea>';
+    h+='<label>'+t('quick')+'</label><div class="add" style="margin-top:0"><span class="mut">'+t('from')+'</span><input class="in num" id="gOd" type="number" inputmode="numeric" value="5"><span class="mut">'+t('to')+'</span><input class="in num" id="gDo" type="number" inputmode="numeric" value="12"></div><div class="add"><span class="mut">'+t('heights')+'</span><input class="in num" id="gV" type="number" inputmode="numeric" value="3"></div><button class="btn" id="gBtn">'+t('makeList')+'</button>'+
+     '<label>'+t('locs')+'</label><textarea class="in" id="sL">'+esc(p.lokacije.join(', '))+'</textarea><p class="mut">'+t('locsHelp')+'</p>'+
+     '<label>'+t('specL')+'</label><textarea class="in" id="sP">'+esc((p.posebne||[]).join('\n'))+'</textarea><p class="mut">'+t('specH')+'</p>'+
+     '<label>'+t('cap')+'</label><input class="in num" id="sCap" type="number" inputmode="numeric" value="'+(+p.kapacitet||0)+'" style="width:100px"><p class="mut">'+t('capHelp')+'</p>'+
+     '<label>'+t('firms')+'</label><textarea class="in" id="sF">'+esc(p.firme.join('\n'))+'</textarea><p class="mut">'+t('firmsHelp')+'</p>'+
+     '<button class="btn p" id="sSave">'+t('save')+'</button>';
+  }else h+='<p class="mut">'+t('onlyOwner')+(cloud&&myRole!=='radnik'?'<br>'+t('viewOnly'):'')+'</p>';
+  if(!cloud&&me)h+='<button class="btn" id="sMe">'+t('changeMe',esc(me))+'</button>';
+  const roleSel=(id,v)=>'<select class="in" '+id+' style="margin-top:6px"><option value="radnik"'+(v!=='pregled'?' selected':'')+'>'+t('roleW')+'</option><option value="pregled"'+(v==='pregled'?' selected':'')+'>'+t('roleV')+'</option></select>';
+  if(cloud&&own){
+    h+='<h3>'+t('members')+'</h3>'+state.clani.map(c=>'<div class="row" style="flex-wrap:wrap"><span class="nm"><input class="in" data-rn="'+esc(c.email)+'" value="'+esc(c.ime||'')+'" style="padding:8px"><div class="mut">'+esc(c.email)+(c.email===state.vlasnik?' · '+t('owner'):'')+'</div>'+(c.email!==state.vlasnik?roleSel('data-role="'+esc(c.email)+'"',c.uloga):'')+'</span>'+(c.email!==state.vlasnik?'<button class="sq" data-del="'+esc(c.email)+'">🗑</button>':'')+'</div>').join('');
+    h+='<label>'+t('addMember')+'</label><input class="in" id="mE" type="email" placeholder="'+t('mEmail')+'"><input class="in" id="mN" placeholder="'+t('mName')+'" style="margin-top:8px">'+roleSel('id="mR"','radnik')+'<button class="btn" id="mAdd">+ '+t('addMember')+'</button>';
+  }
+  h+='<h3>'+t('share')+'</h3><p>'+st+'</p>';
+  if(cfg)h+=(cloud&&own?'<button class="btn p" id="sInv">'+t('invite')+'</button>':'')+(cloud?'<button class="btn" id="sOut">'+t('logout')+'</button>':'')+'<button class="btn d" id="sDis">'+t('disc')+'</button>';
+  else h+='<p class="mut">'+t('cfgHelp')+'</p><textarea class="in" id="sC" placeholder="'+t('cfgPh')+'"></textarea><input class="in" id="sK" style="margin-top:8px" placeholder="'+t('kodPh')+'" autocomplete="off"><button class="btn p" id="sCon">'+t('connect')+'</button>';
+  h+='<button class="btn" id="xB">'+t('close')+'</button>';
+  openSheet(h,'set');
+  wireLang(()=>openSettings());
+  $('#xB').onclick=()=>{closeSheet();if(!me&&!cloud)pickProfile()};
+  if($('#sMe'))$('#sMe').onclick=pickProfile;
+  if(own){
+    $('#gBtn').onclick=()=>{const a=+$('#gOd').value,b=+$('#gDo').value,v=+$('#gV').value;if(!(a>=1&&b>=a&&b-a<100&&v>=1&&v<=20)){toast(t('checkNums'));return}$('#sL').value=makeLocs(a,b,v).join(', ');toast(t('listMade'))};
+    $('#sSave').onclick=async()=>{
+      const np=clone(p);if($('#sR'))np.radnici=$('#sR').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      np.lokacije=[...new Set($('#sL').value.split(/[,\n;]/).map(s=>s.trim()).filter(Boolean))].slice(0,300);
+      np.kapacitet=Math.max(0,parseInt($('#sCap').value)||0);
+      np.posebne=[...new Set($('#sP').value.split('\n').map(s=>s.trim()).filter(Boolean))].filter(x=>!np.lokacije.includes(x)).slice(0,50);
+      np.firme=[...new Set($('#sF').value.split('\n').map(s=>s.trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+      if(!np.radnici.length||!np.lokacije.length){toast(t('needOne'));return}
+      const go=async()=>{if(await run(store.savePost(np))){toast('✓');closeSheet(true);if(!me&&!cloud)pickProfile()}else openSettings()};
+      const lost=[...(p.posebne||[]),...p.lokacije].filter(l=>!np.lokacije.includes(l)&&!np.posebne.includes(l)&&locItems(l).length);if(lost.length){ask(t('lostQ',lost.join(', ')),go,()=>openSettings());return}
+      go()};
+  }
+  $('#sheet').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>ask(t('removeQ',b.dataset.del),()=>run(FireStore.delMember(b.dataset.del)).then(()=>setTimeout(()=>openSettings(),300)),()=>openSettings()));
+  if($('#mAdd'))$('#mAdd').onclick=async()=>{const e=$('#mE').value.trim().toLowerCase(),n=$('#mN').value.trim();if(!/^\S+@\S+\.\S+$/.test(e)||!n){toast(t('eMail'));return}if(await run(FireStore.setMember(e,n,$('#mR').value)))setTimeout(()=>openSettings(),300)};
+  $('#sheet').querySelectorAll('[data-rn]').forEach(s=>s.onchange=()=>{const c=state.clani.find(x=>x.email===s.dataset.rn);const v=s.value.trim();if(c&&v)run(FireStore.setMember(c.email,v,c.uloga)).then(()=>{if(c.email===myEmail)me=v;toast('✓');render()})});
+  $('#sheet').querySelectorAll('[data-role]').forEach(s=>s.onchange=()=>{const c=state.clani.find(x=>x.email===s.dataset.role);if(c)run(FireStore.setMember(c.email,c.ime,s.value)).then(()=>toast('✓'))});
+  if($('#sInv'))$('#sInv').onclick=async()=>{const link=location.href.split('#')[0]+'#cfg='+btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));
+    try{if(navigator.share)await navigator.share({text:t('inviteTxt')+'\n'+link});else{await navigator.clipboard.writeText(link);toast(t('linkCopied'))}}catch(e){}};
+  if($('#sOut'))$('#sOut').onclick=()=>{closeSheet(true);firebase.auth().signOut()};
+  if($('#sDis'))$('#sDis').onclick=()=>ask(t('discQ'),async()=>{try{if(window.firebase)await firebase.auth().signOut()}catch(e){}LS.del('lk_cfg');location.reload()},()=>openSettings());
+  if($('#sCon'))$('#sCon').onclick=()=>{
+    const raw=$('#sC').value,kod=$('#sK').value.trim().toLowerCase().replace(/[^\w-]/g,'');const fb={};
+    raw.replace(/["']?(\w+)["']?\s*:\s*["']([^"']+)["']/g,(_,k,v)=>{fb[k]=v});
+    if(!fb.apiKey||!fb.projectId){toast(t('noCfg'));return}
+    if(kod.length<4){toast(t('shortKod'));return}
+    LS.set('lk_cfg',{firebase:fb,kod});location.reload()};
+}
+
+/* ================= zagon ================= */
+$('#bMic').onclick=startVoice;$('#bType').onclick=()=>openType('',true);$('#bHist').onclick=openHist;$('#bRep').onclick=openReport;$('#bSet').onclick=()=>openSettings();$('#bOver').onclick=openOver;
+$('#meChip').onclick=()=>store.mode==='cloud'?openSettings():pickProfile();
+(async function boot(){
+  applyLang();
+  {const im=new Image();im.onload=()=>{$('#logoBox').innerHTML='<img src="logo.png" alt="">'};im.src='logo.png'}
+  const m=location.hash.match(/cfg=([^&]+)/);
+  if(m){try{LS.set('lk_cfg',JSON.parse(decodeURIComponent(escape(atob(m[1])))))}catch(e){}history.replaceState(null,'',location.pathname+location.search)}
+  const cfg=LS.get('lk_cfg',null);
+  if(!cfg){setSync('off');LocalStore.init(render);if(!me)pickProfile();return}
+  me=null;setSync('wait');render();
+  try{await FireStore.load(cfg)}catch(e){setSync('err',e.message);LocalStore.init(render);me=LS.get('lk_me',null);toast(t('notConn')+e.message);if(!me)pickProfile();return}
+  firebase.auth().onAuthStateChanged(u=>{
+    if(!u){FireStore.stop();myEmail=null;me=null;myRole='radnik';store=LocalStore;state.lok={};state.hist=[];state.clani=[];render();showLogin();return}
+    if(!u.emailVerified){showVerify(u);return}
+    afterLogin(u);
+  });
+})();
+</script>
+</body>
+</html>
