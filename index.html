@@ -32,7 +32,7 @@ main{padding:6px 12px calc(110px + env(safe-area-inset-bottom))}
 .grp{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
 .gh{font-size:13px;font-weight:700;color:var(--blue);margin:12px 2px 6px;text-transform:uppercase;letter-spacing:.04em}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 8px;min-height:78px;text-align:left;display:flex;flex-direction:column;gap:2px;overflow:hidden}
-.tile .n{font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:baseline;gap:4px}
+.tile .n{font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:baseline;gap:4px;flex-wrap:wrap}
 .tile .n small{font-weight:600;font-size:11px;color:var(--mut)}
 .tile .f{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tile.full{background:var(--full);border-left:4px solid var(--fullb)}
@@ -74,7 +74,7 @@ select.in option{background:var(--card)}
 .ft{width:100%;border-collapse:collapse;font-size:14px}.ft td{padding:8px 4px;border-bottom:1px solid var(--line);vertical-align:top}.ft td:nth-child(2){text-align:right;font-weight:700;white-space:nowrap;font-size:18px}
 .ft tr{cursor:pointer}
 .hist div{padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
-.plus{color:var(--green);font-weight:700}.minus{color:var(--red);font-weight:700}
+.plus{color:var(--green);font-weight:700}.mv{color:var(--blue);font-weight:700}.minus{color:var(--red);font-weight:700}
 label{display:block;font-weight:600;margin:14px 0 4px;color:var(--blue)}
 textarea.in{min-height:90px}
 pre.rep{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12px;font:13px/1.4 ui-monospace,Menlo,monospace;max-height:45vh;overflow:auto}
@@ -116,24 +116,24 @@ sl:{search:'Išči podjetje ali lokacijo…',sum:'{0} zasedeno · {1} prosto · 
  rack:'Regal',loc:'Lokacija',firm:'Podjetje',addPal:'+ Dodaj palete',emptyLoc:'Izprazni lokacijo',close:'Zapri',cancel:'Prekliči',save:'Shrani',
  isEmpty:'Lokacija je prazna.',total:'Skupaj',of:'od',last:'zadnja sprememba',lastCh:'Zadnje spremembe',askEmpty:'Izprazniti lokacijo {0}?',askRemove:'Odstraniti {0} z lokacije {1}?',
  needFP:'Vpišite število palet',noThat:'Tega ni na lokaciji {0}',emptied:'izpraznjeno',filter:'Filtriraj (delavec, podjetje, lokacija)…',noCh:'Ni sprememb.',
- listen:'Poslušam…',vEx:'Npr. »05 01 Bosch 3«, »05 01 Bosch minus 2«, »Vani Romunija 15«, »06 02 prazno«',heard:'Slišal sem',after:'Potem',empty:'prazno',confirm:'✓ Potrdi',again:'🎤 Ponovno',fix:'✏️ Popravi',
+ listen:'Poslušam…',vEx:'Npr. »05 01 Bosch 3«, »05 01 Bosch minus 2«, »Zunaj Romunija 20 v Šotor kupci«, »06 02 prazno«',heard:'Slišal sem',after:'Potem',empty:'prazno',confirm:'✓ Potrdi',again:'🎤 Ponovno',fix:'✏️ Popravi',
  overCap:'⚠ {0}/{1} – več kot zmogljivost regala!',saved:'Shranjeno: lokacija {0}',removeAll:'Odstrani {0} (vse palete)',emptyAll:'Izprazni celo lokacijo',
- typeT:'Vpiši ukaz',typeHelp:'Na tipkovnici lahko pritisnete 🎤 in izgovorite.<br>Primeri: »05-01 Bosch 3« · »05 01 Bosch minus 2« · »Vani Romunija 15« · »Šotor kupci minus 10« · »06 02 prazno«',next:'Naprej',byVoice:'🎤 Z glasom',
+ typeT:'Vpiši ukaz',typeHelp:'Na tipkovnici lahko pritisnete 🎤 in izgovorite.<br>Primeri: »05-01 Bosch 3« · »05 01 Bosch minus 2« · »Zunaj Romunija 15« · »Zunaj Romunija 20 v Šotor kupci« · »Zunaj vse v Šotor Dule« · »06 02 prazno«',next:'Naprej',byVoice:'🎤 Z glasom',
  micDenied:'Mikrofon ni dovoljen. Uporabite mikrofon na tipkovnici.',notHeard:'Nisem vas slišal. Poskusite znova ali vpišite.',noVoice:'Glasovni vnos tu ne deluje. Uporabite mikrofon na tipkovnici.',nothing:'Nisem nič slišal',
  eLoc:'Ne prepoznam lokacije{0}. Začnite z lokacijo, npr. »05 01 Bosch 3«.',eFirm:'Nisem slišal imena podjetja za lokacijo {0}.',eZero:'Število palet ne sme biti 0.',
  repT:'Predaja izmene',lastHand:'Zadnja predaja: {0} ({1})',noHand:'Predaje še ni bilo.',send:'📤 Pošlji (Viber, WhatsApp…)',copy:'📋 Kopiraj',copied:'Kopirano',noCopy:'Ne morem kopirati',
  rTitle:'STANJE LOKACIJ',rBy:'Predaja',rEmpty:'Proste lokacije',rNone:'ni',rByF:'SKUPAJ PO PODJETJIH',rAll:'Vse skupaj',rCh:'SPREMEMBE OD',rTot:'sk.',
  ovT:'Trenutno stanje',sOcc:'zasedeno',sFree:'prosto',sPal:'palet',sFull:'polnih',ovFirms:'Po podjetjih',ovFree:'Proste lokacije',ovFull:'Polne ali prepolne',ovTap:'Dotaknite se podjetja, da ga označite na lokacijah.',ovNo:'Ni podatkov.',
  who:'Kdo ste?',whoHelp:'Izberite svoje ime. Vsaka sprememba zabeleži, kdo jo je naredil.',namesIn:'Imena spremenite v ⚙️ Nastavitve.',
- workers:'Delavci (eden v vrstici)',quick:'Hitro ustvari lokacije',from:'Regal od',to:'do',heights:'Višin v regalu',makeList:'Ustvari seznam (npr. 05-01, 05-02…)',
- locs:'Lokacije (ločene z vejico)',locsHelp:'Seznam lahko ročno uredite, npr. izbrišete 07-03, če ima regal samo 2 višini.',cap:'Zmogljivost ene lokacije (palete)',capHelp:'0 = brez omejitve.',
+ workers:'Delavci (eden v vrstici)',quick:'Hitro dodaj lokacije',from:'Regal od',to:'do',heights:'Višin v regalu',hFrom:'Višina od',pozN:'Pozicij v regalu (0 = brez)',genH:'Primeri: regal 21, višina 1–5 → 21-01 … 21-05. Višina od 0 → 05-00. Pozicij 4 → 07-01-01 … 07-04-05. Seznam se doda k obstoječemu – tako lahko vsak regal dodate posebej.',makeList:'Dodaj na seznam',
+ locs:'Lokacije (ločene z vejico)',locsHelp:'Seznam lahko ročno uredite, npr. izbrišete 07-03, če ima regal samo 2 višini.',cap:'Privzeta zmogljivost lokacije (palete)',capHelp:'0 = brez omejitve.',
  firms:'Podjetja (eno v vrstici)',firmsHelp:'Glas lažje prepozna podjetja s tega seznama.',changeMe:'Zamenjaj profil ({0})',
- needOne:'Potreben je vsaj en delavec in ena lokacija',lostQ:'Na lokacijah {0} so palete, v novem seznamu pa jih ni. Nadaljujem?',listMade:'Seznam ustvarjen – pritisnite Shrani',checkNums:'Preverite številke',
+ needOne:'Potreben je vsaj en delavec in ena lokacija',lostQ:'Na lokacijah {0} so palete, v novem seznamu pa jih ni. Nadaljujem?',listMade:'Dodano – preverite seznam in pritisnite Shrani',checkNums:'Preverite številke',
  share:'Skupna raba in prijava',stOn:'🟢 Povezano – vsi vidijo isto stanje',stOff:'⚪ Samo ta telefon (ni povezano)',stErr:'🔴 Napaka: ',stWait:'🟡 Povezujem…',
  cfgHelp:'Prilepite nastavitve Firebase (firebaseConfig) in izmislite kodo skladišča.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Koda skladišča, npr. skladisce-7k2x',connect:'Poveži',
  noCfg:'V prilepljenem besedilu ne vidim apiKey in projectId',shortKod:'Koda skladišča: vsaj 4 znaki',invite:'📤 Pošlji povezavo sodelavcem',inviteTxt:'Odpri to povezavo na telefonu za aplikacijo Lokacije (nato »Dodaj na začetni zaslon«) in se prijavi s svojo e-pošto:',linkCopied:'Povezava kopirana',
  disc:'Prekini povezavo na tem telefonu',discQ:'Prekiniti povezavo? Podatki ostanejo v bazi.',
- members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
+ members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',mvT:'Premik',mvTo:'Premakni v',mvQty:'Število palet',mvBtn:'⇄ Premakni',mvDone:'Premaknjeno: {0} → {1}',mvNone:'Na lokaciji {0} ni {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na voljo samo {0} – premaknem {0}.',eSame:'Lokaciji sta isti.',eMoveFirm:'Na lokaciji {0} je več podjetij – povejte katero, npr. »Zunaj Romunija 20 v Šotor kupci«.',capsL:'Posebna zmogljivost (regal ali lokacija)',capsH:'Ena v vrstici, npr.<br><b>05 = 4</b> (cel regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>07-04 = 5</b> (vse višine pozicije 07-04)<br><b>Vani = 30</b><br>Ostalo uporablja zmogljivost zgoraj.',capLoc:'Zmogljivost te lokacije',capSet:'Shrani',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
  loginT:'Prijava',email:'E-pošta',pass:'Geslo',login:'Prijava',register:'Nov račun',forgot:'Pozabljeno geslo',resetSent:'Poslali smo e-pošto za novo geslo.',
  verifyT:'Potrdite e-pošto',verifyTxt:'Poslali smo povezavo na {0}. Kliknite jo (preverite tudi vsiljeno pošto), nato pritisnite »Potrdil sem«.',verified:'Potrdil sem',resend:'Pošlji ponovno',sentAgain:'Poslano',notYet:'E-pošta še ni potrjena.',logout:'Odjava',
  noAccess:'Nimate dostopa do tega skladišča. Prosite lastnika, naj v Nastavitvah doda vaš e-naslov:',retry:'Poskusi znova',
@@ -152,15 +152,15 @@ bs:{search:'Traži firmu ili lokaciju…',sum:'{0} zauzeto · {1} prazno · {2} 
  rTitle:'STANJE LOKACIJA',rBy:'Predaje',rEmpty:'Prazne lokacije',rNone:'nema',rByF:'UKUPNO PO FIRMAMA',rAll:'Sveukupno',rCh:'PROMJENE OD',rTot:'uk.',
  ovT:'Trenutno stanje',sOcc:'zauzeto',sFree:'prazno',sPal:'paleta',sFull:'punih',ovFirms:'Po firmama',ovFree:'Prazne lokacije',ovFull:'Pune ili prepune',ovTap:'Dodirni firmu da je označiš na lokacijama.',ovNo:'Nema podataka.',
  who:'Ko si ti?',whoHelp:'Izaberi svoje ime. Svaka promjena bilježi ko ju je napravio.',namesIn:'Imena mijenjaš u ⚙️ Postavke.',
- workers:'Radnici (jedan po redu)',quick:'Brzo napravi lokacije',from:'Regal od',to:'do',heights:'Visina u regalu',makeList:'Napravi listu (npr. 05-01, 05-02…)',
- locs:'Lokacije (odvojene zarezom)',locsHelp:'Listu možeš ručno doraditi, npr. obrisati 07-03 ako regal ima samo 2 visine.',cap:'Kapacitet jedne lokacije (palete)',capHelp:'0 = bez ograničenja.',
+ workers:'Radnici (jedan po redu)',quick:'Brzo dodaj lokacije',from:'Regal od',to:'do',heights:'Visina u regalu',hFrom:'Visina od',pozN:'Pozicija u regalu (0 = bez)',genH:'Primjeri: regal 21, visina 1–5 → 21-01 … 21-05. Visina od 0 → 05-00. Pozicija 4 → 07-01-01 … 07-04-05. Lista se dodaje postojećoj – svaki regal dodaješ posebno.',makeList:'Dodaj na listu',
+ locs:'Lokacije (odvojene zarezom)',locsHelp:'Listu možeš ručno doraditi, npr. obrisati 07-03 ako regal ima samo 2 visine.',cap:'Zadani kapacitet lokacije (palete)',capHelp:'0 = bez ograničenja.',
  firms:'Firme (jedna po redu)',firmsHelp:'Glas lakše prepoznaje firme sa ovog spiska.',changeMe:'Promijeni profil ({0})',
  needOne:'Treba bar jedan radnik i jedna lokacija',lostQ:'Na lokacijama {0} ima paleta, a nema ih u novoj listi. Nastaviti?',listMade:'Lista napravljena – pritisni Spremi',checkNums:'Provjeri brojeve',
  share:'Dijeljenje i prijava',stOn:'🟢 Povezano – svi vide isto stanje',stOff:'⚪ Samo ovaj telefon (nije povezano)',stErr:'🔴 Greška: ',stWait:'🟡 Povezujem…',
  cfgHelp:'Zalijepi Firebase podešavanja (firebaseConfig) i izmisli kod skladišta.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Kod skladišta, npr. skladiste-7k2x',connect:'Poveži',
  noCfg:'Ne vidim apiKey i projectId u zalijepljenom tekstu',shortKod:'Kod skladišta: bar 4 znaka',invite:'📤 Pošalji link kolegama',inviteTxt:'Otvori ovaj link na telefonu za aplikaciju Lokacije (pa „Dodaj na početni ekran“) i prijavi se svojim mailom:',linkCopied:'Link kopiran',
  disc:'Prekini vezu na ovom telefonu',discQ:'Prekinuti vezu? Podaci ostaju u bazi.',
- members:'Članovi s pristupom',owner:'vlasnik',addMember:'Dodaj člana',mEmail:'E-mail',mName:'Ime',removeQ:'Ukloniti pristup za {0}?',onlyOwner:'Postavke lokacija i pristupe uređuje samo vlasnik.',yes:'Da',no:'Ne',spec:'Ostale lokacije',specL:'Ostale lokacije (jedna po redu)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Bez ograničenja kapaciteta. Glasom: „Vani Romunija 15“.',noFirm:'Bez oznake',noRes:'Nema rezultata.',pals:'pal.',roleW:'Radnik – može mijenjati',roleV:'Samo pregled',viewOnly:'Imaš samo pregled – ne možeš unositi promjene.',role:'Uloga',
+ members:'Članovi s pristupom',owner:'vlasnik',addMember:'Dodaj člana',mEmail:'E-mail',mName:'Ime',removeQ:'Ukloniti pristup za {0}?',onlyOwner:'Postavke lokacija i pristupe uređuje samo vlasnik.',yes:'Da',no:'Ne',mvT:'Premještanje',mvTo:'Premjesti u',mvQty:'Broj paleta',mvBtn:'⇄ Premjesti',mvDone:'Premješteno: {0} → {1}',mvNone:'Na lokaciji {0} nema {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na raspolaganju samo {0} – premještam {0}.',eSame:'Lokacije su iste.',eMoveFirm:'Na lokaciji {0} ima više firmi – reci koju, npr. „Zunaj Romunija 20 v Šotor kupci“.',capsL:'Poseban kapacitet (regal ili lokacija)',capsH:'Jedan po redu, npr.<br><b>05 = 4</b> (cijeli regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>Vani = 30</b><br>Ostalo koristi kapacitet iznad.',capLoc:'Kapacitet ove lokacije',capSet:'Spremi',spec:'Ostale lokacije',specL:'Ostale lokacije (jedna po redu)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Bez ograničenja kapaciteta. Glasom: „Vani Romunija 15“.',noFirm:'Bez oznake',noRes:'Nema rezultata.',pals:'pal.',roleW:'Radnik – može mijenjati',roleV:'Samo pregled',viewOnly:'Imaš samo pregled – ne možeš unositi promjene.',role:'Uloga',
  loginT:'Prijava',email:'E-mail',pass:'Lozinka',login:'Prijavi se',register:'Novi račun',forgot:'Zaboravljena lozinka',resetSent:'Poslali smo mail za novu lozinku.',
  verifyT:'Potvrdi e-mail',verifyTxt:'Poslali smo link na {0}. Klikni ga (pogledaj i spam), pa pritisni „Potvrdio sam“.',verified:'Potvrdio sam',resend:'Pošalji ponovo',sentAgain:'Poslano',notYet:'E-mail još nije potvrđen.',logout:'Odjava',
  noAccess:'Nemaš pristup ovom skladištu. Zamoli vlasnika da u Postavkama doda tvoj e-mail:',retry:'Pokušaj ponovo',
@@ -183,11 +183,17 @@ const pad=n=>String(n).padStart(2,'0');
 const fdt=x=>{const d=new Date(x);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'. '+pad(d.getHours())+':'+pad(d.getMinutes())};
 const ft=x=>{const d=new Date(x);return pad(d.getHours())+':'+pad(d.getMinutes())};
 function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}
-function makeLocs(od,doR,vis){const o=[];for(let r=od;r<=doR;r++)for(let v=1;v<=vis;v++)o.push(pad(r)+'-'+pad(v));return o}
+function makeLocs(od,doR,vis,vOd,poz){const o=[];vOd=vOd===undefined?1:vOd;for(let r=od;r<=doR;r++){const P=poz?Array.from({length:poz},(_,k)=>k+1):[null];for(const q of P)for(let v=vOd;v<vOd+vis;v++)o.push(pad(r)+(q?'-'+pad(q):'')+'-'+pad(v))}return o}
+function sortLocs(a){const k=l=>String(l).split('-').map(Number);return a.sort((x,y)=>{const A=k(x),B=k(y);for(let i=0;i<Math.max(A.length,B.length);i++){const d=(A[i]??-1)-(B[i]??-1);if(d)return d}return 0})}
 const DEFAULT_POST={radnici:['Delavec 1','Delavec 2','Delavec 3','Delavec 4'],lokacije:makeLocs(1,16,3),posebne:['Vani','Nadstrešek','Šotor'],firme:[],kapacitet:10};
 const allLocs=()=>[...(state.post.posebne||[]),...state.post.lokacije];
 const isSp=l=>(state.post.posebne||[]).includes(l);
-const capOf=l=>isSp(l)?0:(+state.post.kapacitet||0);
+function capOf(l){const k=state.post.kapacitete||{};
+  if(k[l]!==undefined)return +k[l]||0;
+  if(isSp(l))return 0;
+  const pr=String(l).split('-');if(pr.length>2&&k[pr[0]+'-'+pr[1]]!==undefined)return +k[pr[0]+'-'+pr[1]]||0;
+  if(pr.length>1&&k[pr[0]]!==undefined)return +k[pr[0]]||0;
+  return +state.post.kapacitet||0}
 const state={post:clone(DEFAULT_POST),lok:{},hist:[],handover:null,clani:[],vlasnik:null};
 let me=LS.get('lk_me',null),myEmail=null,myRole='radnik';
 const idOf=name=>String(name).replace(/[\/#\[\]]/g,'-').trim()||'_';
@@ -212,7 +218,7 @@ function tokenize(text){
     if(/^\d+$/.test(n)){out.push({n,r:raw[i],num:+n});continue}
     const sc=n.match(SLCOMP);if(sc){const v=NUMW[sc[1]]+NUMW[sc[2]];out.push({n:String(v),r:String(v),num:v});continue}
     if(n in NUMW){let v=NUMW[n];const nx=raw[i+1]?norm(raw[i+1]):'';
-      if(v>=20&&v%10===0&&v<100&&nx in NUMW&&NUMW[nx]>0&&NUMW[nx]<10){v+=NUMW[nx];i++}
+      if(!(typeof LANG!=='undefined'&&LANG==='sl')&&v>=20&&v%10===0&&v<100&&nx in NUMW&&NUMW[nx]>0&&NUMW[nx]<10){v+=NUMW[nx];i++}
       out.push({n:String(v),r:String(v),num:v});continue}
     if(n)out.push({n,r:raw[i]});
   }
@@ -231,34 +237,49 @@ function matchFirm(raw,known){
 }
 /* vrne {lok, firma, delta, clear} ali {err, arg} */
 function tokEq(a,b){return a===b||(a.length>=5&&b.length>=5&&(a.slice(0,5)===b.slice(0,5)||lev(a,b)<=1))}
-function parseCommand(text,locNames,knownFirms,locData,noFirm){
-  const toks=tokenize(text);
+function parseLocAt(toks,locNames){
   const hasL=l=>/[a-zA-ZčćšžđČĆŠŽĐ]/.test(l);
   // posebne lokacije z imenom (Vani, Dule šotor…) – najdaljše ime najprej
   const special=locNames.filter(hasL).map(l=>({l,tk:tokenize(l).map(x=>x.n)})).sort((a,b)=>b.tk.length-a.tk.length);
   let s0=0;while(s0<toks.length&&toks[s0].num===undefined&&FILLER.has(toks[s0].n))s0++;
-  for(const sp of special){if(sp.tk.length&&sp.tk.every((x,j)=>toks[s0+j]&&tokEq(toks[s0+j].n,x)))return finishParse(sp.l,toks.slice(s0+sp.tk.length),knownFirms,locData,noFirm)}
+  for(const sp of special){if(sp.tk.length&&sp.tk.every((x,j)=>toks[s0+j]&&tokEq(toks[s0+j].n,x)))return{lok:sp.l,rest:toks.slice(s0+sp.tk.length)}}
   const lmap=new Map(locNames.filter(l=>!hasL(l)).map(l=>[locKey(l),l]));
-  let i=0;const ln=[];
-  while(i<toks.length&&ln.length<2){const tk=toks[i];
+  // zberi številke na začetku (lahko 0, do 6 delov); "070402"/"0501" razdeli po 2 cifri
+  const el=[];let i=0;
+  while(i<toks.length&&el.length<6){const tk=toks[i];
     if(tk.num!==undefined){
-      if(tk.num===0){i++;continue}
-      if(!ln.length&&/^\d{3,4}$/.test(tk.n)&&!lmap.has(String(tk.num))){ln.push(Math.floor(tk.num/100),tk.num%100);i++;break}
-      ln.push(tk.num);i++;continue}
+      if(/^\d{4}$|^\d{6}$/.test(tk.n)&&!lmap.has(String(tk.num))){for(let j=0;j<tk.n.length;j+=2)el.push({v:+tk.n.slice(j,j+2),i})}
+      else el.push({v:tk.num,i});
+      i++;continue}
     if(FILLER.has(tk.n)){i++;continue}
     break}
-  let lok=null,used=0;
-  if(ln.length>=2&&lmap.has(ln[0]+'.'+ln[1])){lok=lmap.get(ln[0]+'.'+ln[1]);used=2}
-  else if(ln.length&&lmap.has(String(ln[0]))){lok=lmap.get(String(ln[0]));used=1}
-  if(!lok)return{err:'eLoc',arg:ln.length?' ('+ln.join('-')+')':''};
-  let cnt=0,past=false;const rest=[];
-  for(const tk of toks){
-    if(!past&&cnt<used&&tk.num!==undefined){if(tk.num===0)continue;
-      if(used===2&&cnt===0&&/^\d{3,4}$/.test(tk.n)&&!lmap.has(String(tk.num))){cnt=2;past=true;continue}
-      cnt++;if(cnt>=used)past=true;continue}
-    if(!past&&FILLER.has(tk.n))continue;
-    rest.push(tk)}
-  return finishParse(lok,rest,knownFirms,locData,noFirm);
+  // različice: kot izrečeno, in brez »nula« pred številko (»nula pet nula ena« = 5 1)
+  const dep=el.filter((x,k)=>!(x.v===0&&el[k+1]&&el[k+1].v>0&&el[k+1].v<10&&el[k+1].i!==x.i));
+  let lok=null,last=-1;
+  for(let L=Math.min(3,el.length);L>=1&&!lok;L--)for(const V of [el,dep]){if(V.length<L)continue;
+    const key=V.slice(0,L).map(x=>x.v).join('.');if(lmap.has(key)){lok=lmap.get(key);last=V[L-1].i;break}}
+  if(!lok)return{err:'eLoc',arg:el.length?' ('+el.map(x=>pad(x.v)).join('-')+')':''};
+  return{lok,rest:toks.slice(last+1)};
+}
+const MOVEW=new Set(['v','u','vu']);
+function parseCommand(text,locNames,knownFirms,locData,noFirm){
+  const toks=tokenize(text);
+  const src=parseLocAt(toks,locNames);if(src.err)return src;
+  // premik: »Zunaj Romunija 20 v Šotor kupci«
+  for(let k=0;k<src.rest.length;k++){if(!MOVEW.has(src.rest[k].n))continue;
+    const dst=parseLocAt(src.rest.slice(k+1),locNames);if(dst.err)continue;
+    return finishMove(src.lok,dst.lok,[...src.rest.slice(0,k),...dst.rest],knownFirms,locData)}
+  return finishParse(src.lok,src.rest,knownFirms,locData,noFirm);
+}
+function finishMove(lok,to,rest,knownFirms,locData){
+  if(lok===to)return{err:'eSame'};
+  let all=false;const nums=[],fw=[];
+  for(const tk of rest){if(CLEARW.has(tk.n)){all=true;continue}if(tk.num!==undefined){if(tk.num>0)nums.push(tk.num);continue}if(FILLER.has(tk.n)||MINUSW.has(tk.n))continue;fw.push(tk.r)}
+  const onLoc=(locData&&locData[lok])||[];
+  let firma=fw.length?matchFirm(fw.join(' '),[...new Set([...onLoc.map(s=>s.firma),...knownFirms])]):null;
+  let qty=nums.length&&!all?nums[nums.length-1]:null;
+  if(!firma&&qty!==null){if(onLoc.length===1)firma=onLoc[0].firma;else return{err:'eMoveFirm',arg:lok}}
+  return{move:true,lok,to,firma,qty};
 }
 function finishParse(lok,rest,knownFirms,locData,noFirm){
   let sign=1,clear=false;const nums=[],fw=[];
@@ -274,7 +295,7 @@ function finishParse(lok,rest,knownFirms,locData,noFirm){
   if(clear)return{lok,firma,clear:true};
   if(!firma&&sign<0&&onLoc.length===1)firma=onLoc[0].firma;
   if(!firma){if(noFirm===undefined)return{err:'eFirm',arg:lok,lok};firma=noFirm}
-  const qty=nums.length?nums[nums.length-1]:1;
+  const nz=nums.filter(n=>n>0);const qty=nz.length?nz[nz.length-1]:(nums.length?0:1);
   if(!qty)return{err:'eZero',lok};
   return{lok,firma,delta:sign*qty};
 }
@@ -292,6 +313,7 @@ const LocalStore={
   init(cb){onChangeCb=cb;const d=LS.get('lk_data',null);if(d){Object.assign(state,d);state.post={...clone(DEFAULT_POST),...d.post}}syncMe();cb()},
   persist(){LS.set('lk_data',{post:state.post,lok:state.lok,hist:state.hist.slice(0,400),handover:state.handover});onChangeCb()},
   async changeLoc(id,fn,logs){const cur=state.lok[id]?.stavke||[];state.lok[id]={stavke:fn(clone(cur)),ko:me,kad:Date.now()};logs.forEach(l=>state.hist.unshift(l));this.persist()},
+  async changeTwo(a,fa,b,fb,logs){for(const[id,fn]of[[a,fa],[b,fb]]){const cur=state.lok[id]?.stavke||[];state.lok[id]={stavke:fn(clone(cur)),ko:me,kad:Date.now()}}logs.forEach(l=>state.hist.unshift(l));this.persist()},
   async savePost(p){state.post=p;syncMe();this.persist()},
   async setHandover(h){state.handover=h;this.persist()}
 };
@@ -324,6 +346,14 @@ const FireStore={
     await this.db.runTransaction(async tr=>{const s=await tr.get(ref);const cur=s.exists?(s.data().stavke||[]):[];tr.set(ref,{stavke:fn(clone(cur)),ko:me,kad:Date.now()})});
     const b=this.db.batch();logs.forEach(l=>b.set(this.root.collection('historija').doc(),l));await b.commit();
   },
+  async changeTwo(a,fa,b,fb,logs){
+    if(!navigator.onLine)throw new Error(t('lostConn'));
+    const ra=this.root.collection('lokacije').doc(a),rb=this.root.collection('lokacije').doc(b);
+    await this.db.runTransaction(async tr=>{const sa=await tr.get(ra),sb=await tr.get(rb);
+      tr.set(ra,{stavke:fa(clone(sa.exists?(sa.data().stavke||[]):[])),ko:me,kad:Date.now()});
+      tr.set(rb,{stavke:fb(clone(sb.exists?(sb.data().stavke||[]):[])),ko:me,kad:Date.now()})});
+    const bt=this.db.batch();logs.forEach(l=>bt.set(this.root.collection('historija').doc(),l));await bt.commit();
+  },
   async savePost(p){await this.root.update({post:p})},
   async setHandover(h){await this.root.update({handover:h})},
   async setMember(email,ime,uloga){await this.root.collection('clani').doc(email).set({ime,uloga:uloga||'radnik',dodano:Date.now()},{merge:true})},
@@ -353,6 +383,20 @@ async function clearLoc(lok,firma){
   const logs=st.map(s=>({kad:Date.now(),ko:me,lok,firma:s.firma,delta:-s.palete,opis:'x'}));
   const ok=await run(store.changeLoc(idOf(lok),cur=>firma?cur.filter(s=>norm(s.firma)!==norm(firma)):[],logs));
   if(ok)flash(lok);return ok;
+}
+function planMove(p){
+  const st=locItems(p.lok);if(!st.length)return{err:t('mvEmpty',p.lok)};
+  let items;
+  if(!p.firma)items=st.map(s=>({firma:s.firma,n:s.palete}));
+  else{const s=st.find(x=>norm(x.firma)===norm(p.firma));if(!s)return{err:t('mvNone',p.lok,p.firma)};
+    const n=p.qty===null?s.palete:Math.min(p.qty,s.palete);items=[{firma:s.firma,n,capped:p.qty!==null&&p.qty>s.palete,avail:s.palete}]}
+  return{items};
+}
+async function applyMove(from,to,items){
+  const kad=Date.now();
+  const ok=await run(store.changeTwo(idOf(from),st=>{items.forEach(x=>addTo(st,x.firma,-x.n));return st},idOf(to),st=>{items.forEach(x=>addTo(st,x.firma,x.n));return st},
+    items.map(x=>({kad,ko:me,lok:from,do:to,firma:x.firma,delta:x.n}))));
+  if(ok){flash(to);toast(t('mvDone',from,to))}return ok;
 }
 function flash(lok){setTimeout(()=>{const e=document.querySelector('[data-lok="'+CSS.escape(lok)+'"]');if(e){e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash');e.scrollIntoView({block:'nearest',behavior:'smooth'})}},150)}
 
@@ -406,30 +450,32 @@ function openLoc(lok){
   openSheet('<h2>'+t('loc')+' '+esc(lok)+'</h2><div id="locBody"></div>'+
    (ed?'<div class="add"><input class="in" id="aF" list="firmList" placeholder="'+t('firm')+'" autocomplete="off"><input class="in num" id="aN" type="number" inputmode="numeric" min="1" value="1"></div>'+
    '<datalist id="firmList">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
-   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn d" id="clrBtn">'+t('emptyLoc')+'</button>':'<p class="mut">'+t('viewOnly')+'</p>')+'<div id="locHist" class="hist"></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
+   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn d" id="clrBtn">'+t('emptyLoc')+'</button>':'<p class="mut">'+t('viewOnly')+'</p>')+(isOwner()?'<label>'+t('capLoc')+'</label><div class="add" style="margin-top:0"><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn" id="lCapB" style="margin:0;flex:1">'+t('capSet')+'</button></div>':'')+'<div id="locHist" class="hist"></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
   $('#xB').onclick=closeSheet;
   if(ed){$('#aBtn').onclick=async()=>{const f=$('#aF').value.trim(),n=parseInt($('#aN').value)||0;if(n<1){toast(t('needFP'));return}
     const firma=f?matchFirm(f,knownFirms()):t('noFirm');if(await applyDelta(lok,firma,n)){$('#aF').value='';$('#aN').value=1;toast(lok+': '+firma+' +'+n)}};
   $('#clrBtn').onclick=()=>ask(t('askEmpty',lok),async()=>{await clearLoc(lok);openLoc(lok)},()=>openLoc(lok))}
+  if($('#lCapB'))$('#lCapB').onclick=async()=>{const np=clone(state.post);np.kapacitete=np.kapacitete||{};np.kapacitete[lok]=Math.max(0,parseInt($('#lCap').value)||0);if(await run(store.savePost(np))){toast('✓ '+lok+': '+np.kapacitete[lok]);render()}};
   renderLocBody();
 }
 function renderLocBody(){
   const lok=sheetState.lok,st=locItems(lok),info=state.lok[idOf(lok)],cap=capOf(lok);
   const b=$('#locBody');if(!b)return;
-  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-x="1">🗑</button>':'')+'</div>').join('')+
+  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🗑</button>':'')+'</div>').join('')+
     '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' '+t('of')+' '+cap:'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
     :'<p class="mut">'+t('isEmpty')+'</p>';
   b.querySelectorAll('.sq').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.i];if(!s)return;
+    if(x.dataset.m){openMoveSheet(lok,s.firma,s.palete);return}
     if(x.dataset.x){ask(t('askRemove',s.firma,lok),async()=>{await clearLoc(lok,s.firma);openLoc(lok)},()=>openLoc(lok))}else applyDelta(lok,s.firma,+x.dataset.d)});
-  const h=state.hist.filter(x=>x.lok===lok).slice(0,6);
+  const h=state.hist.filter(x=>x.lok===lok||x.do===lok).slice(0,6);
   $('#locHist').innerHTML=h.length?'<label>'+t('lastCh')+'</label>'+h.map(histLine).join(''):'';
 }
-function histLine(x){return '<div><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · <b>'+esc(x.lok)+'</b> '+esc(x.firma)+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'')+'</div>'}
+function histLine(x){if(x.do)return '<div><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · <b>'+esc(x.lok)+'</b> → <b>'+esc(x.do)+'</b> '+esc(x.firma)+' <span class="mv">⇄ '+x.delta+'</span></div>';return '<div><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · <b>'+esc(x.lok)+'</b> '+esc(x.firma)+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'')+'</div>'}
 
 /* zgodovina */
 function openHist(){if(!ready())return;openSheet('<h2>'+t('hist')+'</h2><input class="in" id="hQ" placeholder="'+t('filter')+'"><div class="hist" id="hList"></div><button class="btn" id="xB">'+t('close')+'</button>','hist');$('#xB').onclick=closeSheet;$('#hQ').oninput=renderHist;renderHist()}
 function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').value);
-  const h=state.hist.filter(x=>!q||norm(x.ko+' '+x.firma+' '+x.lok).includes(q)).slice(0,150);
+  const h=state.hist.filter(x=>!q||norm(x.ko+' '+x.firma+' '+x.lok+' '+(x.do||'')).includes(q)).slice(0,150);
   el.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>'}
 
 /* pregled */
@@ -475,6 +521,7 @@ function handleText(txt,alts){
   showConfirm(p,txt);
 }
 function showConfirm(p,heard){
+  if(p.move)return showMoveConfirm(p,heard);
   const cur=locItems(p.lok);let after,what;
   if(p.clear){after=p.firma?cur.filter(s=>norm(s.firma)!==norm(p.firma)):[];what=p.firma?t('removeAll',esc(p.firma)):t('emptyAll')}
   else{after=addTo(clone(cur),p.firma,p.delta);what=esc(p.firma)+' <span class="'+(p.delta>0?'plus':'minus')+'">'+(p.delta>0?'+ ':'− ')+pal(p.delta)+'</span>'}
@@ -485,6 +532,25 @@ function showConfirm(p,heard){
   $('#xB').onclick=closeSheet;
   $('#okB').onclick=async()=>{closeSheet();const ok=p.clear?await clearLoc(p.lok,p.firma):await applyDelta(p.lok,p.firma,p.delta);if(ok)toast(t('saved',p.lok))};
   $('#againB').onclick=startVoice;$('#editB').onclick=()=>openType(heard);
+}
+function showMoveConfirm(p,heard){
+  const pl=planMove(p);if(pl.err){openType(heard,false,pl.err);return}
+  const items=pl.items,aft=addAll(clone(locItems(p.to)),items),c=capOf(p.to),n=sumOf(aft);
+  const bef=addAll(clone(locItems(p.lok)),items.map(x=>({...x,n:-x.n})));
+  openSheet((heard?'<div class="mut">'+t('heard')+': »'+esc(heard)+'«</div>':'')+'<div class="card"><div class="mut">'+t('mvT')+'</div><div class="big">'+esc(p.lok)+' → '+esc(p.to)+'</div>'+
+    items.map(x=>'<div style="font-size:19px">'+esc(x.firma)+' <span class="plus">'+pal(x.n)+'</span></div>'+(x.capped?'<div class="err">'+t('mvCap',x.avail)+'</div>':'')).join('')+
+    '<div class="mut" style="margin-top:8px">'+esc(p.lok)+': '+(bef.length?bef.map(s=>esc(s.firma)+' '+s.palete).join(', '):t('empty'))+'<br>'+esc(p.to)+': '+aft.map(s=>esc(s.firma)+' '+s.palete).join(', ')+'</div>'+
+    (c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
+    '<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
+  $('#xB').onclick=closeSheet;$('#okB').onclick=async()=>{closeSheet();await applyMove(p.lok,p.to,items)};
+  $('#againB').onclick=startVoice;$('#editB').onclick=()=>openType(heard||(p.lok+' '+(p.firma||'')+' '+(p.qty||'')+' v '+p.to));
+}
+function addAll(st,items){items.forEach(x=>addTo(st,x.firma,x.n));return st}
+function openMoveSheet(lok,firma,n){
+  const opts=allLocs().filter(l=>l!==lok).map(l=>'<option>'+esc(l)+'</option>').join('');
+  openSheet('<h2>'+t('mvT')+': '+esc(lok)+'</h2><div class="big" style="font-size:18px">'+esc(firma)+'</div><label>'+t('mvQty')+'</label><input class="in num" id="mQ" type="number" inputmode="numeric" min="1" max="'+n+'" value="'+n+'" style="width:100px"><label>'+t('mvTo')+'</label><select class="in" id="mTo">'+opts+'</select><button class="btn p" id="mGo">'+t('next')+'</button><button class="btn" id="mX">'+t('cancel')+'</button>','move');
+  $('#mX').onclick=()=>openLoc(lok);
+  $('#mGo').onclick=()=>{const q=Math.max(1,parseInt($('#mQ').value)||0);showMoveConfirm({move:true,lok,to:$('#mTo').value,firma,qty:q},'')};
 }
 function openType(text,focus,err){
   if(!ready()||noEdit())return;
@@ -509,7 +575,7 @@ function buildReport(){
   txt+='\n'+t('rEmpty')+' ('+empty.length+'): '+(empty.join(', ')||t('rNone'))+'\n';
   txt+='\n'+t('rByF')+':\n'+Object.entries(byF).sort((a,b)=>a[0].localeCompare(b[0])).map(([f,n])=>f+': '+n).join('\n')+'\n'+t('rAll')+': '+pal(tot)+'\n';
   const ch=state.hist.filter(x=>x.kad>=since).reverse();
-  txt+='\n'+t('rCh')+' '+fdt(since)+' ('+ch.length+'):\n'+(ch.map(x=>ft(x.kad)+' '+x.ko+' – '+x.lok+' '+x.firma+' '+(x.delta>0?'+':'')+x.delta+(x.opis?' ('+t('emptied')+')':'')).join('\n')||t('rNone'))+'\n';
+  txt+='\n'+t('rCh')+' '+fdt(since)+' ('+ch.length+'):\n'+(ch.map(x=>ft(x.kad)+' '+x.ko+' – '+(x.do?x.lok+' → '+x.do+' '+x.firma+' '+x.delta:x.lok+' '+x.firma+' '+(x.delta>0?'+':'')+x.delta+(x.opis?' ('+t('emptied')+')':''))).join('\n')||t('rNone'))+'\n';
   return{txt,byF,tot,ch,since,now};
 }
 function openReport(){
@@ -527,7 +593,7 @@ function openReport(){
 function printReport(r){
   const rows=allLocs().map(l=>{const st=locItems(l);return '<tr><td><b>'+esc(l)+'</b></td><td>'+(st.map(x=>esc(x.firma)+' – '+x.palete).join('<br>')||'<i>'+t('empty')+'</i>')+'</td><td>'+(sumOf(st)||'')+'</td></tr>'}).join('');
   $('#print').innerHTML='<h2>'+t('rTitle')+' – '+fdt(r.now)+'</h2><p>'+t('rBy')+': '+esc(me)+' · '+t('rAll')+': '+pal(r.tot)+'</p><table><tr><th>'+t('loc')+'</th><th>'+t('firm')+'</th><th>Σ</th></tr>'+rows+'</table>'+
-    '<h3>'+t('rByF')+'</h3><p>'+Object.entries(r.byF).map(([f,n])=>esc(f)+': '+n).join(' · ')+'</p><h3>'+t('rCh')+' '+fdt(r.since)+'</h3><p>'+(r.ch.map(x=>ft(x.kad)+' '+esc(x.ko)+' – '+esc(x.lok)+' '+esc(x.firma)+' '+(x.delta>0?'+':'')+x.delta).join('<br>')||t('rNone'))+'</p>';
+    '<h3>'+t('rByF')+'</h3><p>'+Object.entries(r.byF).map(([f,n])=>esc(f)+': '+n).join(' · ')+'</p><h3>'+t('rCh')+' '+fdt(r.since)+'</h3><p>'+(r.ch.map(x=>ft(x.kad)+' '+esc(x.ko)+' – '+(x.do?esc(x.lok)+' → '+esc(x.do)+' '+esc(x.firma)+' '+x.delta:esc(x.lok)+' '+esc(x.firma)+' '+(x.delta>0?'+':'')+x.delta)).join('<br>')||t('rNone'))+'</p>';
   setTimeout(()=>window.print(),100);
 }
 
@@ -602,10 +668,13 @@ function openSettings(){
   if(cloud)h+='<p><b>'+esc(me)+'</b><br><span class="mut">'+esc(myEmail)+(own?' · '+t('owner'):'')+'</span></p>';
   if(own){
     if(!cloud)h+='<label>'+t('workers')+'</label><textarea class="in" id="sR">'+esc(p.radnici.join('\n'))+'</textarea>';
-    h+='<label>'+t('quick')+'</label><div class="add" style="margin-top:0"><span class="mut">'+t('from')+'</span><input class="in num" id="gOd" type="number" inputmode="numeric" value="5"><span class="mut">'+t('to')+'</span><input class="in num" id="gDo" type="number" inputmode="numeric" value="12"></div><div class="add"><span class="mut">'+t('heights')+'</span><input class="in num" id="gV" type="number" inputmode="numeric" value="3"></div><button class="btn" id="gBtn">'+t('makeList')+'</button>'+
+    h+='<label>'+t('quick')+'</label><div class="add" style="margin-top:0"><span class="mut">'+t('from')+'</span><input class="in num" id="gOd" type="number" inputmode="numeric" value="21"><span class="mut">'+t('to')+'</span><input class="in num" id="gDo" type="number" inputmode="numeric" value="21"></div>'+
+     '<div class="add"><span class="mut">'+t('hFrom')+'</span><input class="in num" id="gVo" type="number" inputmode="numeric" value="1"><span class="mut">'+t('to')+'</span><input class="in num" id="gVd" type="number" inputmode="numeric" value="5"></div>'+
+     '<div class="add"><span class="mut">'+t('pozN')+'</span><input class="in num" id="gP" type="number" inputmode="numeric" value="0"></div><p class="mut">'+t('genH')+'</p><button class="btn" id="gBtn">'+t('makeList')+'</button>'+
      '<label>'+t('locs')+'</label><textarea class="in" id="sL">'+esc(p.lokacije.join(', '))+'</textarea><p class="mut">'+t('locsHelp')+'</p>'+
      '<label>'+t('specL')+'</label><textarea class="in" id="sP">'+esc((p.posebne||[]).join('\n'))+'</textarea><p class="mut">'+t('specH')+'</p>'+
      '<label>'+t('cap')+'</label><input class="in num" id="sCap" type="number" inputmode="numeric" value="'+(+p.kapacitet||0)+'" style="width:100px"><p class="mut">'+t('capHelp')+'</p>'+
+     '<label>'+t('capsL')+'</label><textarea class="in" id="sCaps" placeholder="05 = 4">'+esc(Object.entries(p.kapacitete||{}).map(([k,v])=>k+' = '+v).join('\n'))+'</textarea><p class="mut">'+t('capsH')+'</p>'+
      '<label>'+t('firms')+'</label><textarea class="in" id="sF">'+esc(p.firme.join('\n'))+'</textarea><p class="mut">'+t('firmsHelp')+'</p>'+
      '<button class="btn p" id="sSave">'+t('save')+'</button>';
   }else h+='<p class="mut">'+t('onlyOwner')+(cloud&&myRole!=='radnik'?'<br>'+t('viewOnly'):'')+'</p>';
@@ -624,11 +693,13 @@ function openSettings(){
   $('#xB').onclick=()=>{closeSheet();if(!me&&!cloud)pickProfile()};
   if($('#sMe'))$('#sMe').onclick=pickProfile;
   if(own){
-    $('#gBtn').onclick=()=>{const a=+$('#gOd').value,b=+$('#gDo').value,v=+$('#gV').value;if(!(a>=1&&b>=a&&b-a<100&&v>=1&&v<=20)){toast(t('checkNums'));return}$('#sL').value=makeLocs(a,b,v).join(', ');toast(t('listMade'))};
+    $('#gBtn').onclick=()=>{const a=+$('#gOd').value,b=+$('#gDo').value,vo=+$('#gVo').value,vd=+$('#gVd').value,pz=+$('#gP').value||0;if(!(a>=0&&b>=a&&b-a<100&&vo>=0&&vd>=vo&&vd-vo<20&&pz>=0&&pz<=30)){toast(t('checkNums'));return}
+      const cur=$('#sL').value.split(/[,\n;]/).map(s=>s.trim()).filter(Boolean);$('#sL').value=sortLocs([...new Set([...cur,...makeLocs(a,b,vd-vo+1,vo,pz)])]).join(', ');toast(t('listMade'))};
     $('#sSave').onclick=async()=>{
       const np=clone(p);if($('#sR'))np.radnici=$('#sR').value.split('\n').map(s=>s.trim()).filter(Boolean);
       np.lokacije=[...new Set($('#sL').value.split(/[,\n;]/).map(s=>s.trim()).filter(Boolean))].slice(0,300);
       np.kapacitet=Math.max(0,parseInt($('#sCap').value)||0);
+      np.kapacitete={};$('#sCaps').value.split('\n').forEach(line=>{const m=line.trim().match(/^(.+?)\s*[=:]\s*(\d+)$/);if(m)np.kapacitete[m[1].trim()]=+m[2]});
       np.posebne=[...new Set($('#sP').value.split('\n').map(s=>s.trim()).filter(Boolean))].filter(x=>!np.lokacije.includes(x)).slice(0,50);
       np.firme=[...new Set($('#sF').value.split('\n').map(s=>s.trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
       if(!np.radnici.length||!np.lokacije.length){toast(t('needOne'));return}
