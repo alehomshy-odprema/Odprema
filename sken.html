@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d1320">
+<title>SSCC preizkus</title>
+<style>
+:root{--gold:#d4af37;--bg:#0d1320;--card:#151d2c;--sheet:#1d2940;--ink:#e6edf7;--mut:#8b9ab1;--line:#253147;--acc:#3b8cff;--blue:#6fb3ff;--green:#3ddc97;--red:#ff6b6b;--orange:#ffa53d;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+button,input{font:inherit;color:inherit}
+header{padding:calc(env(safe-area-inset-top) + 12px) 16px 10px;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:20px;color:var(--blue)}
+.mut{color:var(--mut);font-size:13px}
+main{padding:12px 16px calc(24px + env(safe-area-inset-bottom))}
+.seg{display:flex;gap:6px;margin:10px 0}.seg button{flex:1;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 6px;font-size:14px}.seg button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-weight:600;margin-top:10px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff;font-size:18px}
+.btns{display:flex;gap:8px}.btns .btn{flex:1}
+#cam{position:fixed;inset:0;background:#000;z-index:10;display:flex;flex-direction:column}
+#cam[hidden]{display:none}
+#vbox{position:relative;flex:1;overflow:hidden}
+video{width:100%;height:100%;object-fit:cover}
+.frame{position:absolute;left:8%;right:8%;top:35%;height:22%;border:3px solid var(--gold);border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.35)}
+.frame.hit{border-color:var(--green)}
+#camTop{position:absolute;top:calc(env(safe-area-inset-top) + 10px);left:12px;right:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{background:rgba(0,0,0,.6);border-radius:20px;padding:7px 12px;font-size:14px}
+#camBar{background:var(--sheet);border-top:3px solid var(--gold);padding:12px 16px calc(14px + env(safe-area-inset-bottom))}
+#camMsg{min-height:44px;font-size:15px}
+#camMsg b{color:var(--green);font-size:18px;letter-spacing:.5px}
+.card{background:var(--card);border:1.5px solid var(--gold);border-radius:14px;padding:12px;margin-top:10px}
+.pal{border-bottom:1px solid var(--line);padding:8px 0}.pal:last-child{border-bottom:0}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:15px}
+.ok{color:var(--green)}.bad{color:var(--red)}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.stat{background:var(--card);border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:22px;color:var(--blue)}
+.err{color:var(--red);font-weight:600;margin-top:8px}
+</style>
+</head>
+<body>
+<header><h1>📷 SSCC preizkus</h1><div class="mut">Samo za preizkus branja etiket. Ne shranjuje ničesar v aplikacijo Odprema.</div></header>
+<main>
+  <div class="seg" id="mode">
+    <button data-m="one" class="on">1 koda = 1 paleta</button>
+    <button data-m="multi">Več kod na paleti</button>
+  </div>
+  <div class="mut" id="modeHelp"></div>
+  <button class="btn p" id="start">📷 Začni skenirati</button>
+  <div id="loadErr" class="err"></div>
+  <div class="stats"><div class="stat"><b id="sPal">0</b>palet</div><div class="stat"><b id="sCode">0</b>kod</div><div class="stat"><b id="sTime">–</b>povp. čas</div></div>
+  <div class="card" id="list"><div class="mut">Še ni skeniranih palet.</div></div>
+  <div class="btns"><button class="btn" id="copy">📋 Kopiraj seznam</button><button class="btn" id="clear">🗑 Počisti</button></div>
+  <p class="mut" id="eng"></p>
+</main>
+
+<div id="cam" hidden>
+  <div id="vbox"><video id="v" playsinline muted></video><div class="frame" id="frame"></div>
+    <div id="camTop"><span class="pill" id="camCount">0 palet</span><span><button class="pill" id="torch" hidden>🔦</button></span></div></div>
+  <div id="camBar"><div id="camMsg">Usmerite kamero na črtno kodo SSCC.</div>
+    <div class="btns"><button class="btn" id="next" hidden>➡ Naslednja paleta</button><button class="btn p" id="done">✓ Končano</button></div></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let mode='one',pallets=[],cur=null,times=[],tStart=0,stream=null,running=false,lastCode='',lastAt=0,engine='',zxReader=null,detector=null;
+const HELP={one:'Kamera se po vsaki prebrani kodi sama zapre. Ena koda = ena paleta.',multi:'Kamera ostane odprta. Skenirajte vse kode na paleti, nato »Naslednja paleta«. Na koncu »Končano«.'};
+$('#modeHelp').textContent=HELP.one;
+$('#mode').querySelectorAll('button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;$('#mode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#modeHelp').textContent=HELP[mode]});
+
+/* ---------- SSCC iz prebrane kode (GS1-128, AI 00) ---------- */
+function gs1ok(d){let s=0;for(let i=0;i<17;i++)s+=(+d[i])*((i%2===0)?3:1);return (10-s%10)%10===+d[17]}
+function extractSSCC(raw){
+  const t=String(raw).replace(/^\]C1/,'').replace(/[()\s]/g,'');
+  const parts=t.split('\x1d');
+  for(const p of parts){const m=p.match(/^00(\d{18})/);if(m)return{sscc:m[1],ok:gs1ok(m[1])}}
+  const m=t.replace(/\D/g,'').match(/(?:^|[^0-9])?00(\d{18})/);if(m)return{sscc:m[1],ok:gs1ok(m[1])};
+  const d=t.replace(/\D/g,'');if(d.length===18)return{sscc:d,ok:gs1ok(d)};
+  return null;
+}
+
+/* ---------- zvok, vibracija ---------- */
+let ac=null;function beep(ok){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=ok?1600:400;o.connect(g);g.connect(ac.destination);g.gain.value=.15;o.start();o.stop(ac.currentTime+(ok?.12:.3))}catch(e){}
+  try{navigator.vibrate&&navigator.vibrate(ok?80:[60,60,60])}catch(e){}}
+
+/* ---------- prikaz ---------- */
+function render(){
+  const codes=pallets.reduce((a,p)=>a+p.codes.length,0);
+  $('#sPal').textContent=pallets.length;$('#sCode').textContent=codes;
+  $('#sTime').textContent=times.length?(times.reduce((a,b)=>a+b,0)/times.length/1000).toFixed(1)+' s':'–';
+  $('#list').innerHTML=pallets.length?pallets.slice().reverse().map((p,i)=>'<div class="pal"><div class="mut">Paleta '+(pallets.length-i)+' · '+p.time+'</div>'+p.codes.map(c=>'<div class="code">'+esc(c.sscc)+' <span class="'+(c.ok?'ok':'bad')+'">'+(c.ok?'✓':'✗ kontrolna številka')+'</span> <span class="mut">'+(c.ms/1000).toFixed(1)+' s</span></div>').join('')+'</div>').join(''):'<div class="mut">Še ni skeniranih palet.</div>';
+  $('#camCount').textContent=pallets.length+' palet'+(cur&&mode==='multi'?' · trenutna: '+cur.codes.length+' kod':'');
+}
+
+/* ---------- branje ---------- */
+function onCode(raw){
+  const r=extractSSCC(raw);const now=Date.now();
+  if(!r){if(now-lastAt>1500){$('#camMsg').innerHTML='Prebrano, a to ni SSCC: <span class="mut">'+esc(String(raw).slice(0,40))+'</span>';lastAt=now}return}
+  if(r.sscc===lastCode&&now-lastAt<2500)return; // ista koda še v kadru
+  lastCode=r.sscc;lastAt=now;
+  const all=pallets.flatMap(p=>p.codes.map(c=>c.sscc)).concat(cur?cur.codes.map(c=>c.sscc):[]);
+  if(all.includes(r.sscc)){beep(false);$('#camMsg').innerHTML='<span class="bad">Ta koda je že skenirana:</span> <span class="code">'+r.sscc+'</span>';return}
+  const ms=now-tStart;tStart=now;times.push(ms);beep(r.ok);
+  $('#frame').classList.add('hit');setTimeout(()=>$('#frame').classList.remove('hit'),400);
+  const d=new Date();const time=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  if(mode==='one'){pallets.push({time,codes:[{...r,ms}]});render();stopCam();return}
+  if(!cur)cur={time,codes:[]};cur.codes.push({...r,ms});
+  $('#camMsg').innerHTML=(r.ok?'✓ ':'<span class="bad">✗ </span>')+'<b>'+r.sscc+'</b><div class="mut">Še koda na tej paleti, ali »Naslednja paleta«.</div>';render();
+}
+function nextPallet(){if(cur&&cur.codes.length){pallets.push(cur);cur=null;render();$('#camMsg').textContent='Naslednja paleta – usmerite kamero na kodo.';beep(true);tStart=Date.now()}}
+
+async function loadZX(){
+  if(window.ZXing)return;
+  for(const v of ['0.21.3','0.20.0']){try{await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@zxing/library@'+v+'/umd/index.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)});if(window.ZXing)return}catch(e){}}
+  throw new Error('Knjižnice za branje ni bilo mogoče naložiti (internet?).');
+}
+async function startCam(){
+  $('#loadErr').textContent='';
+  try{
+    if('BarcodeDetector' in window){try{const f=await BarcodeDetector.getSupportedFormats();if(f.includes('code_128')){detector=new BarcodeDetector({formats:['code_128','data_matrix','qr_code']});engine='vgrajeno (hitro)'}}catch(e){}}
+    if(!detector){await loadZX();engine='ZXing (knjižnica)'}
+    $('#eng').textContent='Način branja: '+engine;
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080},focusMode:'continuous'},audio:false});
+  }catch(e){$('#loadErr').textContent=e.name==='NotAllowedError'?'Dostop do kamere ni dovoljen. Dovolite kamero v brskalniku in poskusite znova.':(e.message||String(e));return}
+  const v=$('#v');v.srcObject=stream;await v.play().catch(()=>{});
+  $('#cam').hidden=false;$('#next').hidden=mode!=='multi';running=true;tStart=Date.now();lastCode='';cur=null;
+  $('#camMsg').textContent='Usmerite kamero na črtno kodo SSCC.';render();
+  const tr=stream.getVideoTracks()[0];try{const c=tr.getCapabilities&&tr.getCapabilities();if(c&&c.torch){$('#torch').hidden=false;let on=false;$('#torch').onclick=()=>{on=!on;tr.applyConstraints({advanced:[{torch:on}]}).catch(()=>{})}}}catch(e){}
+  if(detector){const loop=async()=>{if(!running)return;try{const r=await detector.detect(v);for(const b of r)onCode(b.rawValue)}catch(e){}if(running)setTimeout(loop,120)};loop()}
+  else{const hints=new Map();hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.CODE_128,ZXing.BarcodeFormat.DATA_MATRIX]);hints.set(ZXing.DecodeHintType.TRY_HARDER,true);
+    zxReader=new ZXing.BrowserMultiFormatReader(hints,150);
+    zxReader.decodeFromStream(stream,v,(res)=>{if(res&&running)onCode(res.getText())}).catch(()=>{})}
+}
+function stopCam(){running=false;if(cur&&cur.codes.length){pallets.push(cur);cur=null}
+  try{zxReader&&zxReader.reset()}catch(e){}zxReader=null;
+  if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('#cam').hidden=true;render()}
+$('#start').onclick=startCam;$('#done').onclick=stopCam;$('#next').onclick=nextPallet;
+$('#clear').onclick=()=>{pallets=[];times=[];render()};
+$('#copy').onclick=async()=>{const txt=pallets.map((p,i)=>'Paleta '+(i+1)+' ('+p.time+'): '+p.codes.map(c=>c.sscc+(c.ok?'':' (napaka)')).join(', ')).join('\n')+'\nPovprečen čas: '+$('#sTime').textContent+' · '+engine;
+  try{await navigator.clipboard.writeText(txt);$('#copy').textContent='✓ Kopirano';setTimeout(()=>$('#copy').textContent='📋 Kopiraj seznam',1500)}catch(e){}};
+render();
+</script>
+</body>
+</html>
