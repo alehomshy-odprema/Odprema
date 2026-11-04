@@ -8,11 +8,16 @@
 <meta name="apple-mobile-web-app-title" content="Lokacije">
 <meta name="theme-color" content="#0d1320">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://identitytoolkit.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://securetoken.googleapis.com" crossorigin>
+<link rel="preload" as="script" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <title>Lokacije skladišča</title>
 <style>
-:root{--bg:#0d1320;--card:#151d2c;--ink:#e6edf7;--mut:#8b9ab1;--line:#253147;--acc:#3b8cff;--blue:#6fb3ff;--acc2:#12233d;--full:#14284a;--fullb:#4da3ff;--red:#ff6b6b;--hit:#1f3d6e;--green:#3ddc97;color-scheme:dark}
+:root{--gold:#d4af37;--sheet:#1d2940;--bg:#0d1320;--card:#151d2c;--ink:#e6edf7;--mut:#8b9ab1;--line:#253147;--acc:#3b8cff;--blue:#6fb3ff;--acc2:#12233d;--full:#14284a;--fullb:#4da3ff;--red:#ff6b6b;--hit:#1f3d6e;--green:#3ddc97;--orange:#ffa53d;color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -31,18 +36,19 @@ h1 img{height:30px;width:auto;border-radius:6px}
 main{padding:6px 12px calc(110px + env(safe-area-inset-bottom))}
 .grp{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
 .gh{font-size:13px;font-weight:700;color:var(--blue);margin:12px 2px 6px;text-transform:uppercase;letter-spacing:.04em}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 8px;min-height:78px;text-align:left;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.tile{background:var(--card);border:1.5px solid var(--gold);border-radius:12px;padding:7px 8px;min-height:78px;text-align:left;display:flex;flex-direction:column;gap:2px;overflow:hidden}
 .tile .n{font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:baseline;gap:4px;flex-wrap:wrap}
 .tile .n small{font-weight:600;font-size:11px;color:var(--mut)}
 .tile .f{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tile.full{background:var(--full);border-left:4px solid var(--fullb)}
 .tile.over{border-left-color:var(--red)}.over .n small{color:var(--red);font-weight:800}
+.tile.atcap{border-left-color:var(--orange)}.atcap .n small{color:var(--orange);font-weight:800}
 .tile.dim{opacity:.25}.tile.hit{outline:3px solid #ffd166}
 .tile.sp{grid-column:span 2}
 .tile .n{color:var(--blue)}
 #sres{max-height:32vh;overflow:auto}#sres:empty{display:none}
 .sr{padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}.sr .tt{color:var(--blue);font-weight:700}
-.lc{border:1px solid var(--line);background:var(--acc2);color:var(--ink);border-radius:16px;padding:5px 10px;margin:4px 4px 0 0;font-size:14px}.lc b{color:var(--blue)}
+.lc{border:1px solid var(--line);background:var(--acc2);color:var(--ink);border-radius:16px;padding:5px 10px;margin:4px 4px 0 0;font-size:14px}.lc b{color:var(--blue)}.lc.qa{padding:10px 14px;font-size:15px;font-weight:600}
 select.in option{background:var(--card)}
 .tile.flash{animation:fl 1.2s}
 @keyframes fl{0%{background:var(--hit)}100%{}}
@@ -53,7 +59,7 @@ select.in option{background:var(--card)}
 .ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:flex;align-items:flex-end}
 .ov[hidden]{display:none}
 .ov.solid{background:var(--bg)}
-.sheet{background:var(--card);width:100%;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.sheet{background:var(--sheet);border-top:3px solid var(--gold);box-shadow:0 -8px 30px rgba(0,0,0,.5);width:100%;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
 .sheet h2{margin:0 0 10px;font-size:20px;color:var(--blue)}
 .sheet h3{margin:18px 0 6px;font-size:16px;color:var(--blue)}
 .row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
@@ -83,6 +89,13 @@ pre.rep{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12p
 @keyframes pu{0%{box-shadow:0 0 0 0 rgba(59,140,255,.6)}100%{box-shadow:0 0 0 30px rgba(59,140,255,0)}}
 .lang{display:flex;gap:8px;justify-content:center;margin-bottom:12px}.lang button{border:1px solid var(--line);background:var(--bg);border-radius:20px;padding:6px 14px}.lang button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 .err{color:var(--red);font-weight:600;margin:8px 0}
+.pb{margin-top:8px;padding:8px 12px;border-radius:10px;background:#3a2e10;color:#ffd166;font-size:14px;font-weight:600}.pb.warn{background:#4a1616;color:#ff9b9b}
+.tile .pd{font-size:11px}
+.hl{display:flex;gap:8px;align-items:center}.hl>div{flex:1}.ub{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:4px 10px;font-size:15px;flex:none}
+.strike{text-decoration:line-through;opacity:.55}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.seg button{border:1px solid var(--line);background:var(--bg);border-radius:18px;padding:7px 12px;font-size:14px}.seg button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.rt{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}.rt th,.rt td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right}.rt th:first-child,.rt td:first-child{text-align:left}.rt th{color:var(--blue);font-weight:600}
+.chk{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px;color:var(--mut)}.chk input{width:20px;height:20px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom));background:#2a3a57;color:#fff;padding:10px 16px;border-radius:10px;z-index:30;font-size:14px;max-width:90%}
 #print{display:none}
 @media print{body>*:not(#print){display:none!important}#print{display:block;color:#000;font:12px Arial}#print table{border-collapse:collapse;width:100%}#print td,#print th{border:1px solid #999;padding:4px;text-align:left}}
@@ -97,6 +110,7 @@ pre.rep{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12p
   <div class="sum" id="sum"></div>
   <div class="srow"><input class="search" id="search" type="search" autocomplete="off"><button class="kb" id="bType" aria-label="Type">⌨️</button></div>
   <div id="sres"></div>
+  <div id="pendBar" class="pb" hidden></div>
 </header>
 <main id="grid"></main>
 <nav class="bar">
@@ -133,7 +147,7 @@ sl:{search:'Išči podjetje ali lokacijo…',sum:'{0} zasedeno · {1} prosto · 
  cfgHelp:'Prilepite nastavitve Firebase (firebaseConfig) in izmislite kodo skladišča.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Koda skladišča, npr. skladisce-7k2x',connect:'Poveži',
  noCfg:'V prilepljenem besedilu ne vidim apiKey in projectId',shortKod:'Koda skladišča: vsaj 4 znaki',invite:'📤 Pošlji povezavo sodelavcem',inviteTxt:'Odpri to povezavo na telefonu za aplikacijo Lokacije (nato »Dodaj na začetni zaslon«) in se prijavi s svojo e-pošto:',linkCopied:'Povezava kopirana',
  disc:'Prekini povezavo na tem telefonu',discQ:'Prekiniti povezavo? Podatki ostanejo v bazi.',
- members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',mvT:'Premik',mvTo:'Premakni v',mvQty:'Število palet',mvBtn:'⇄ Premakni',mvDone:'Premaknjeno: {0} → {1}',mvNone:'Na lokaciji {0} ni {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na voljo samo {0} – premaknem {0}.',eSame:'Lokaciji sta isti.',eMoveFirm:'Na lokaciji {0} je več podjetij – povejte katero, npr. »Zunaj Romunija 20 v Šotor kupci«.',capsL:'Posebna zmogljivost (regal ali lokacija)',capsH:'Ena v vrstici, npr.<br><b>05 = 4</b> (cel regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>07-04 = 5</b> (vse višine pozicije 07-04)<br><b>Vani = 30</b><br>Ostalo uporablja zmogljivost zgoraj.',capLoc:'Zmogljivost te lokacije',capSet:'Shrani',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
+ members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',updated:'Na voljo je nova različica – zaprite in znova odprite aplikacijo.',dupN:'{0}× dvojna',dupChk:'Dvojne palete (število = dvojnih)',dupAdd:'+ dvojna',lastChB:'🕘 Zadnje spremembe ({0})',capB:'⚙️ Zmogljivost',undo:'↩',undoQ:'Razveljaviti: {0}?',undone:'razveljavljeno',undoFix:'↩ popravek',undoDone:'Razveljavljeno',mvNoDup:'Na {0} ni dvojnih palet {1}.',repPerm:'Lahko vidi poročila',repB:'📈 Poročila',repT:'Poročila',pToday:'Danes',pYest:'Včeraj',pWeek:'Ta teden',pLWeek:'Prejšnji teden',pMonth:'Ta mesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Vneseno',rOut:'Odvzeto / naloženo',rMv:'Premaknjeno',rByFirm:'Po podjetjih (kupcih)',rByW:'Po delavcih',rByDay:'Po dnevih',rDet:'Podrobno',rFirmF:'Filter: podjetje (neobvezno)',rWF:'Vsi delavci',rLoading:'Nalagam …',rNone:'Ni sprememb v tem obdobju.',rFix:'popravki (ne štejejo)',rDate:'Datum',rFirm:'Podjetje',rWk:'Delavec',rMore:'Prikazanih prvih {0} vrstic.',pend:'⏳ Čaka na povezavo: {0} lok. – shrani se samodejno',pendOld:'⚠ Spremembe še niso poslane ({0} lok.). Pojdite na mesto s signalom.',loadingW:'Še nalagam … poskusite čez trenutek',done:'✓ Končano',qAdd:'Hitro dodaj',mvT:'Premik',mvTo:'Premakni v',mvQty:'Število palet',mvBtn:'⇄ Premakni',mvDone:'Premaknjeno: {0} → {1}',mvNone:'Na lokaciji {0} ni {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na voljo samo {0} – premaknem {0}.',eSame:'Lokaciji sta isti.',eMoveFirm:'Na lokaciji {0} je več podjetij – povejte katero, npr. »Zunaj Romunija 20 v Šotor kupci«.',capsL:'Posebna zmogljivost (regal ali lokacija)',capsH:'Ena v vrstici, npr.<br><b>05 = 4</b> (cel regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>07-04 = 5</b> (vse višine pozicije 07-04)<br><b>Vani = 30</b><br>Ostalo uporablja zmogljivost zgoraj.',capLoc:'Zmogljivost te lokacije',capSet:'Shrani',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
  loginT:'Prijava',email:'E-pošta',pass:'Geslo',login:'Prijava',register:'Nov račun',forgot:'Pozabljeno geslo',resetSent:'Poslali smo e-pošto za novo geslo.',
  verifyT:'Potrdite e-pošto',verifyTxt:'Poslali smo povezavo na {0}. Kliknite jo (preverite tudi vsiljeno pošto), nato pritisnite »Potrdil sem«.',verified:'Potrdil sem',resend:'Pošlji ponovno',sentAgain:'Poslano',notYet:'E-pošta še ni potrjena.',logout:'Odjava',
  noAccess:'Nimate dostopa do tega skladišča. Prosite lastnika, naj v Nastavitvah doda vaš e-naslov:',retry:'Poskusi znova',
@@ -160,7 +174,7 @@ bs:{search:'Traži firmu ili lokaciju…',sum:'{0} zauzeto · {1} prazno · {2} 
  cfgHelp:'Zalijepi Firebase podešavanja (firebaseConfig) i izmisli kod skladišta.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Kod skladišta, npr. skladiste-7k2x',connect:'Poveži',
  noCfg:'Ne vidim apiKey i projectId u zalijepljenom tekstu',shortKod:'Kod skladišta: bar 4 znaka',invite:'📤 Pošalji link kolegama',inviteTxt:'Otvori ovaj link na telefonu za aplikaciju Lokacije (pa „Dodaj na početni ekran“) i prijavi se svojim mailom:',linkCopied:'Link kopiran',
  disc:'Prekini vezu na ovom telefonu',discQ:'Prekinuti vezu? Podaci ostaju u bazi.',
- members:'Članovi s pristupom',owner:'vlasnik',addMember:'Dodaj člana',mEmail:'E-mail',mName:'Ime',removeQ:'Ukloniti pristup za {0}?',onlyOwner:'Postavke lokacija i pristupe uređuje samo vlasnik.',yes:'Da',no:'Ne',mvT:'Premještanje',mvTo:'Premjesti u',mvQty:'Broj paleta',mvBtn:'⇄ Premjesti',mvDone:'Premješteno: {0} → {1}',mvNone:'Na lokaciji {0} nema {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na raspolaganju samo {0} – premještam {0}.',eSame:'Lokacije su iste.',eMoveFirm:'Na lokaciji {0} ima više firmi – reci koju, npr. „Zunaj Romunija 20 v Šotor kupci“.',capsL:'Poseban kapacitet (regal ili lokacija)',capsH:'Jedan po redu, npr.<br><b>05 = 4</b> (cijeli regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>Vani = 30</b><br>Ostalo koristi kapacitet iznad.',capLoc:'Kapacitet ove lokacije',capSet:'Spremi',spec:'Ostale lokacije',specL:'Ostale lokacije (jedna po redu)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Bez ograničenja kapaciteta. Glasom: „Vani Romunija 15“.',noFirm:'Bez oznake',noRes:'Nema rezultata.',pals:'pal.',roleW:'Radnik – može mijenjati',roleV:'Samo pregled',viewOnly:'Imaš samo pregled – ne možeš unositi promjene.',role:'Uloga',
+ members:'Članovi s pristupom',owner:'vlasnik',addMember:'Dodaj člana',mEmail:'E-mail',mName:'Ime',removeQ:'Ukloniti pristup za {0}?',onlyOwner:'Postavke lokacija i pristupe uređuje samo vlasnik.',yes:'Da',no:'Ne',updated:'Dostupna je nova verzija – zatvori i ponovo otvori aplikaciju.',dupN:'{0}× dupla',dupChk:'Duple palete (broj = duplih)',dupAdd:'+ dupla',lastChB:'🕘 Zadnje promjene ({0})',capB:'⚙️ Kapacitet',undo:'↩',undoQ:'Poništiti: {0}?',undone:'poništeno',undoFix:'↩ ispravka',undoDone:'Poništeno',mvNoDup:'Na {0} nema duplih paleta {1}.',repPerm:'Može vidjeti izvještaje',repB:'📈 Izvještaji',repT:'Izvještaji',pToday:'Danas',pYest:'Jučer',pWeek:'Ova sedmica',pLWeek:'Prošla sedmica',pMonth:'Ovaj mjesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Uneseno',rOut:'Skinuto / natovareno',rMv:'Premješteno',rByFirm:'Po firmama (kupcima)',rByW:'Po radnicima',rByDay:'Po danima',rDet:'Detaljno',rFirmF:'Filter: firma (neobavezno)',rWF:'Svi radnici',rLoading:'Učitavam …',rNone:'Nema promjena u ovom periodu.',rFix:'ispravke (ne broje se)',rDate:'Datum',rFirm:'Firma',rWk:'Radnik',rMore:'Prikazano prvih {0} redova.',pend:'⏳ Čeka vezu: {0} lok. – spremi se samo',pendOld:'⚠ Promjene još nisu poslane ({0} lok.). Pređi na mjesto sa signalom.',loadingW:'Još učitavam … pokušaj za trenutak',done:'✓ Gotovo',qAdd:'Brzo dodaj',mvT:'Premještanje',mvTo:'Premjesti u',mvQty:'Broj paleta',mvBtn:'⇄ Premjesti',mvDone:'Premješteno: {0} → {1}',mvNone:'Na lokaciji {0} nema {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na raspolaganju samo {0} – premještam {0}.',eSame:'Lokacije su iste.',eMoveFirm:'Na lokaciji {0} ima više firmi – reci koju, npr. „Zunaj Romunija 20 v Šotor kupci“.',capsL:'Poseban kapacitet (regal ili lokacija)',capsH:'Jedan po redu, npr.<br><b>05 = 4</b> (cijeli regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>Vani = 30</b><br>Ostalo koristi kapacitet iznad.',capLoc:'Kapacitet ove lokacije',capSet:'Spremi',spec:'Ostale lokacije',specL:'Ostale lokacije (jedna po redu)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Bez ograničenja kapaciteta. Glasom: „Vani Romunija 15“.',noFirm:'Bez oznake',noRes:'Nema rezultata.',pals:'pal.',roleW:'Radnik – može mijenjati',roleV:'Samo pregled',viewOnly:'Imaš samo pregled – ne možeš unositi promjene.',role:'Uloga',
  loginT:'Prijava',email:'E-mail',pass:'Lozinka',login:'Prijavi se',register:'Novi račun',forgot:'Zaboravljena lozinka',resetSent:'Poslali smo mail za novu lozinku.',
  verifyT:'Potvrdi e-mail',verifyTxt:'Poslali smo link na {0}. Klikni ga (pogledaj i spam), pa pritisni „Potvrdio sam“.',verified:'Potvrdio sam',resend:'Pošalji ponovo',sentAgain:'Poslano',notYet:'E-mail još nije potvrđen.',logout:'Odjava',
  noAccess:'Nemaš pristup ovom skladištu. Zamoli vlasnika da u Postavkama doda tvoj e-mail:',retry:'Pokušaj ponovo',
@@ -195,7 +209,7 @@ function capOf(l){const k=state.post.kapacitete||{};
   if(pr.length>1&&k[pr[0]]!==undefined)return +k[pr[0]]||0;
   return +state.post.kapacitet||0}
 const state={post:clone(DEFAULT_POST),lok:{},hist:[],handover:null,clani:[],vlasnik:null};
-let me=LS.get('lk_me',null),myEmail=null,myRole='radnik';
+let me=LS.get('lk_me',null),myEmail=null,myRole='radnik',myUid=null,myRep=false;
 const idOf=name=>String(name).replace(/[\/#\[\]]/g,'-').trim()||'_';
 
 /*PARSER*/
@@ -206,8 +220,17 @@ const NUMW={nula:0,nic:0,jedan:1,jedna:1,jednu:1,jedno:1,ena:1,en:1,eno:1,dva:2,
  jedanaest:11,enajst:11,dvanaest:12,dvanajst:12,trinaest:13,trinajst:13,cetrnaest:14,stirinajst:14,petnaest:15,petnajst:15,sesnaest:16,sestnajst:16,sedamnaest:17,sedemnajst:17,osamnaest:18,osemnajst:18,devetnaest:19,devetnajst:19,
  dvadeset:20,dvajset:20,trideset:30,cetrdeset:40,stirideset:40,pedeset:50,petdeset:50,sezdeset:60,sestdeset:60,sedamdeset:70,sedemdeset:70,osamdeset:80,osemdeset:80,devedeset:90,devetdeset:90,sto:100};
 const SLCOMP=/^(ena|en|dva|tri|stiri|pet|sest|sedem|osem|devet)in(dvajset|trideset|stirideset|petdeset|sestdeset|sedemdeset|osemdeset|devetdeset)$/;
+const HUND={sto:100,dvesto:200,dvjesto:200,tristo:300,trista:300,stiristo:400,cetiristo:400,petsto:500,seststo:600,sesto:600,sedemsto:700,sedamsto:700,osemsto:800,osamsto:800,devetsto:900};
+function wordNum(n){ // vrne število ali undefined
+  if(n in NUMW)return NUMW[n];
+  const sc=n.match(SLCOMP);if(sc)return NUMW[sc[1]]+NUMW[sc[2]];
+  if(n in HUND)return HUND[n];
+  const m=n.match(/^(dve|dvje|tri|stiri|cetiri|pet|sest|sedem|sedam|osem|osam|devet)?st[oa](.+)$/);
+  if(m){const H=HUND[(m[1]||'')+'sto']||HUND[(m[1]||'')+'sta']||100;const r=wordNum(m[2]);if(r!==undefined&&r<100)return H+r}
+  return undefined}
 const FILLER=new Set(['lokacija','lokacije','lokaciju','lokaciji','lokacijo','lok','na','u','v','sa','s','z','paleta','palete','paletu','paleti','palet','pal','komada','komad','kom','kos','kosov','i','in','je','firma','firme','firmu','podjetje','podjetja','broj','stevilka','plus','dodaj','dodati','stavi','stavio','ima','od','to','dolazi','dosla','doslo','regal','regala','regalu','visina','visini','visinu','nivo','sprat','red','polica','crtica','crta','kroz','pozicija','poziciju','poziciji','pozicijo']);
 const MINUSW=new Set(['minus','skini','skinuti','skinuto','oduzmi','manje','manj','otislo','otisla','otisle','otisao','poslano','poslato','poslao','poslane','utovareno','utovar','ukloni','izbaci','smanji','izaslo','izasle','vani','ven','odstrani','odstranjeno','odpeljano','odpeljal','odpeljali','vzemi','vzeto','odvzemi','nalozeno','nalozi','zmanjsaj']);
+const DUPW=new Set(['duplo','dupla','duple','dupli','duplih','duplo','dvojna','dvojno','dvojne','dvojni','dvojnih','dvojnik','dvojniki']);
 const CLEARW=new Set(['prazno','prazna','prazan','isprazni','izprazni','ocisti','pocisti','obrisi','izbrisi','nema','nista','sve','vse']);
 function locKey(l){const m=String(l).match(/\d+/g);return m?m.map(Number).join('.'):norm(l)}
 function tokenize(text){
@@ -216,24 +239,34 @@ function tokenize(text){
   for(let i=0;i<raw.length;i++){
     const n=norm(raw[i]);
     if(/^\d+$/.test(n)){out.push({n,r:raw[i],num:+n});continue}
-    const sc=n.match(SLCOMP);if(sc){const v=NUMW[sc[1]]+NUMW[sc[2]];out.push({n:String(v),r:String(v),num:v});continue}
-    if(n in NUMW){let v=NUMW[n];const nx=raw[i+1]?norm(raw[i+1]):'';
-      if(!(typeof LANG!=='undefined'&&LANG==='sl')&&v>=20&&v%10===0&&v<100&&nx in NUMW&&NUMW[nx]>0&&NUMW[nx]<10){v+=NUMW[nx];i++}
+    let v=wordNum(n);
+    if(v!==undefined){const sl=typeof LANG!=='undefined'&&LANG==='sl';
+      if(v>=100&&v%100===0){const a=raw[i+1]!==undefined?wordNum(norm(raw[i+1])):undefined;if(a!==undefined&&a<100){v+=a;i++;
+          if(!sl&&a>=20&&a%10===0){const b=raw[i+1]!==undefined?wordNum(norm(raw[i+1])):undefined;if(b>0&&b<10){v+=b;i++}}}}
+      else if(!sl&&v>=20&&v%10===0&&v<100){const b=raw[i+1]!==undefined?wordNum(norm(raw[i+1])):undefined;if(b>0&&b<10){v+=b;i++}}
       out.push({n:String(v),r:String(v),num:v});continue}
     if(n)out.push({n,r:raw[i]});
   }
   return out;
 }
 function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function phon(s){return norm(s).replace(/ph/g,'f').replace(/th/g,'t').replace(/ck/g,'k').replace(/[cq]/g,'k').replace(/w/g,'v').replace(/y/g,'i').replace(/x/g,'ks').replace(/ij/g,'i').replace(/h/g,'').replace(/(.)\1+/g,'$1')}
+function firmScore(q,k){const kn=phon(k);if(!q||!kn)return 9;
+  if(kn===q)return 0;
+  if(q.length>=3&&kn.startsWith(q))return 0.2+(kn.length-q.length)*0.01;
+  if(kn.length>=3&&q.startsWith(kn))return 0.35;
+  const d=lev(q,kn.slice(0,Math.max(q.length,Math.min(kn.length,q.length+1))));
+  const dl=lev(q,kn);const dm=Math.min(d,dl);
+  if(dm<=Math.max(1,Math.floor(Math.min(q.length,kn.length)*0.3)))return 0.5+dm*0.15;
+  return 9}
 function matchFirm(raw,known){
-  const q=norm(raw);if(!q)return null;
-  let best=null,bd=1e9;
-  for(const k of known){const kn=norm(k);
-    if(kn===q)return k;
-    if(q.length>=3&&(kn.startsWith(q)||q.startsWith(kn))){const d=Math.abs(kn.length-q.length)*0.1;if(d<bd){bd=d;best=k}continue}
-    const d=lev(q,kn);if(d<=Math.max(1,Math.floor(kn.length*0.25))&&d<bd){bd=d;best=k}}
-  if(best)return best;
-  return raw.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+  const words=String(raw).split(/\s+/).filter(Boolean);if(!words.length)return null;
+  let best=null,bs=9;
+  for(let i=0;i<words.length;i++)for(let j=i+1;j<=Math.min(words.length,i+4);j++){
+    const q=phon(words.slice(i,j).join(''));if(q.length<2)continue;
+    for(const k of known){let sc=firmScore(q,k);for(const w of String(k).split(/\s+/).slice(1))if(phon(w).length>=4)sc=Math.min(sc,firmScore(q,w)+0.15);sc+=-(j-i)*0.02+i*0.01;if(sc<bs){bs=sc;best=k}}}
+  if(best&&bs<1.2)return best;
+  return words.map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
 }
 /* vrne {lok, firma, delta, clear} ali {err, arg} */
 function tokEq(a,b){return a===b||(a.length>=5&&b.length>=5&&(a.slice(0,5)===b.slice(0,5)||lev(a,b)<=1))}
@@ -258,6 +291,8 @@ function parseLocAt(toks,locNames){
   let lok=null,last=-1;
   for(let L=Math.min(3,el.length);L>=1&&!lok;L--)for(const V of [el,dep]){if(V.length<L)continue;
     const key=V.slice(0,L).map(x=>x.v).join('.');if(lmap.has(key)){lok=lmap.get(key);last=V[L-1].i;break}}
+  if(!lok)for(let L=Math.min(3,el.length);L>=1&&!lok;L--)for(const V of [el,dep]){if(V.length<L)continue;
+    const key=String(Number(V.slice(0,L).map(x=>x.v).join('')));if(lmap.has(key)){lok=lmap.get(key);last=V[L-1].i;break}}
   if(!lok)return{err:'eLoc',arg:el.length?' ('+el.map(x=>pad(x.v)).join('-')+')':''};
   return{lok,rest:toks.slice(last+1)};
 }
@@ -273,17 +308,18 @@ function parseCommand(text,locNames,knownFirms,locData,noFirm){
 }
 function finishMove(lok,to,rest,knownFirms,locData){
   if(lok===to)return{err:'eSame'};
-  let all=false;const nums=[],fw=[];
-  for(const tk of rest){if(CLEARW.has(tk.n)){all=true;continue}if(tk.num!==undefined){if(tk.num>0)nums.push(tk.num);continue}if(FILLER.has(tk.n)||MINUSW.has(tk.n))continue;fw.push(tk.r)}
+  let all=false,dup=false;const nums=[],fw=[];
+  for(const tk of rest){if(DUPW.has(tk.n)){dup=true;continue}if(CLEARW.has(tk.n)){all=true;continue}if(tk.num!==undefined){if(tk.num>0)nums.push(tk.num);continue}if(FILLER.has(tk.n)||MINUSW.has(tk.n))continue;fw.push(tk.r)}
   const onLoc=(locData&&locData[lok])||[];
   let firma=fw.length?matchFirm(fw.join(' '),[...new Set([...onLoc.map(s=>s.firma),...knownFirms])]):null;
   let qty=nums.length&&!all?nums[nums.length-1]:null;
   if(!firma&&qty!==null){if(onLoc.length===1)firma=onLoc[0].firma;else return{err:'eMoveFirm',arg:lok}}
-  return{move:true,lok,to,firma,qty};
+  return{move:true,lok,to,firma,qty,dup};
 }
 function finishParse(lok,rest,knownFirms,locData,noFirm){
-  let sign=1,clear=false;const nums=[],fw=[];
+  let sign=1,clear=false,dup=false;const nums=[],fw=[];
   for(const tk of rest){
+    if(DUPW.has(tk.n)){dup=true;continue}
     if(MINUSW.has(tk.n)){sign=-1;continue}
     if(CLEARW.has(tk.n)){clear=true;continue}
     if(tk.num!==undefined){nums.push(tk.num);continue}
@@ -297,12 +333,13 @@ function finishParse(lok,rest,knownFirms,locData,noFirm){
   if(!firma){if(noFirm===undefined)return{err:'eFirm',arg:lok,lok};firma=noFirm}
   const nz=nums.filter(n=>n>0);const qty=nz.length?nz[nz.length-1]:(nums.length?0:1);
   if(!qty)return{err:'eZero',lok};
+  if(dup)return{lok,firma,delta:sign*qty*2,dd:sign*qty};
   return{lok,firma,delta:sign*qty};
 }
-function addTo(st,firma,delta){
+function addTo(st,firma,delta,dd){
   const i=st.findIndex(s=>norm(s.firma)===norm(firma));
-  if(i<0){if(delta>0)st.push({firma,palete:delta});return st}
-  st[i].palete+=delta;if(st[i].palete<=0)st.splice(i,1);return st;
+  if(i<0){if(delta>0)st.push({firma,palete:delta,dup:Math.max(0,Math.min(dd||0,Math.floor(delta/2)))});return st}
+  const s=st[i];s.palete+=delta;s.dup=Math.max(0,Math.min((s.dup||0)+(dd||0),Math.floor(s.palete/2)));if(s.palete<=0)st.splice(i,1);return st;
 }
 /*END*/
 
@@ -312,8 +349,13 @@ const LocalStore={
   mode:'local',
   init(cb){onChangeCb=cb;const d=LS.get('lk_data',null);if(d){Object.assign(state,d);state.post={...clone(DEFAULT_POST),...d.post}}syncMe();cb()},
   persist(){LS.set('lk_data',{post:state.post,lok:state.lok,hist:state.hist.slice(0,400),handover:state.handover});onChangeCb()},
-  async changeLoc(id,fn,logs){const cur=state.lok[id]?.stavke||[];state.lok[id]={stavke:fn(clone(cur)),ko:me,kad:Date.now()};logs.forEach(l=>state.hist.unshift(l));this.persist()},
-  async changeTwo(a,fa,b,fb,logs){for(const[id,fn]of[[a,fa],[b,fb]]){const cur=state.lok[id]?.stavke||[];state.lok[id]={stavke:fn(clone(cur)),ko:me,kad:Date.now()}}logs.forEach(l=>state.hist.unshift(l));this.persist()},
+  write(changes,logs){
+    for(const c of changes){const id=idOf(c.lok);let d=state.lok[id];
+      if(!d||!d.p)d={p:toP(docItems(d))};d.ko=me;d.kad=Date.now();const k=firmKey(c.firma||'');
+      if(c.clear)d.p={};else if(c.del)delete d.p[k];else{const e=d.p[k]||{f:c.firma,n:0,dup:0};e.n+=c.d;e.dup=Math.max(0,(e.dup||0)+(c.dd||0));e.f=e.f||c.firma;if(e.n<=0)delete d.p[k];else d.p[k]=e}
+      state.lok[id]=d}
+    logs.forEach(l=>state.hist.unshift(l));this.persist()},
+  async query(from,to){return state.hist.filter(x=>x.kad>=from&&x.kad<to).sort((a,b)=>a.kad-b.kad)},
   async savePost(p){state.post=p;syncMe();this.persist()},
   async setHandover(h){state.handover=h;this.persist()}
 };
@@ -324,78 +366,129 @@ const FB='https://www.gstatic.com/firebasejs/10.12.2/';
 const BUILTIN_CFG={firebase:{apiKey:"AIzaSyC2dBxlVzWbvWPPT55g7cXy6C2kCtoWH6Q",authDomain:"odprema-lokacije.firebaseapp.com",projectId:"odprema-lokacije",storageBucket:"odprema-lokacije.firebasestorage.app",messagingSenderId:"152804096191",appId:"1:152804096191:web:274b7867ed99e67e0fae0a"},kod:"odprema-7k2x"};
 const getCfg=()=>BUILTIN_CFG||LS.get('lk_cfg',null);
 const FireStore={
-  mode:'cloud',unsub:[],
+  mode:'cloud',unsub:[],pend:{},pendSince:0,
   async load(cfg){
-    if(!window.firebase){await loadScript(FB+'firebase-app-compat.js');await loadScript(FB+'firebase-auth-compat.js');await loadScript(FB+'firebase-firestore-compat.js')}
+    if(!window.firebase){await loadScript(FB+'firebase-app-compat.js');await Promise.all([loadScript(FB+'firebase-auth-compat.js'),loadScript(FB+'firebase-firestore-compat.js')])}
     if(!firebase.apps.length)firebase.initializeApp(cfg.firebase);
-    this.db=firebase.firestore();this.db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+    this.db=firebase.firestore();
+    try{this.db.settings({experimentalAutoDetectLongPolling:true,merge:true})}catch(e){}
+    this.db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
     this.root=this.db.collection('skladista').doc(cfg.kod);
+    this.FV=firebase.firestore.FieldValue;
   },
   start(cb){
-    onChangeCb=cb;this.stop();
-    this.unsub.push(this.root.onSnapshot(d=>{const x=d.data()||{};state.post={...clone(DEFAULT_POST),...(x.post||{})};state.handover=x.handover||null;state.vlasnik=x.vlasnik||null;cb()},e=>{setSync('err',e.message);cb()}));
-    if(state.vlasnik===myEmail)this.unsub.push(this.root.collection('clani').onSnapshot(s=>{state.clani=s.docs.map(d=>({email:d.id,...d.data()}));cb()},()=>{}));
-    else this.unsub.push(this.root.collection('clani').doc(myEmail).onSnapshot(d=>{const x=d.data();if(!x){showNoAccess();return}me=x.ime||me;myRole=x.uloga||'radnik';applyRole();cb()},()=>{}));
-    this.unsub.push(this.root.collection('lokacije').onSnapshot(s=>{const l={};s.forEach(d=>l[d.id]=d.data());state.lok=l;cb()},e=>setSync('err',e.message)));
-    this.unsub.push(this.root.collection('historija').orderBy('kad','desc').limit(400).onSnapshot(s=>{state.hist=s.docs.map(d=>d.data());cb()},()=>{}));
+    onChangeCb=cb;this.stop();this.ownerList=false;
+    this.unsub.push(this.root.onSnapshot(d=>{
+      if(!d.exists){if(!d.metadata.fromCache)showCreate();return}
+      const x=d.data()||{};state.post={...clone(DEFAULT_POST),...(x.post||{})};state.handover=x.handover||null;state.vlasnik=x.vlasnik||null;
+      if(state.vlasnik===myEmail){myRole='radnik';applyRole();if(!this.ownerList){this.ownerList=true;this.unsub.push(this.root.collection('clani').onSnapshot(s=>{state.clani=s.docs.map(q=>({email:q.id,...q.data()}));cb()},()=>{}))}}
+      if(sheetState.type==='create'||sheetState.type==='noacc')closeSheet(true);
+      cb()},e=>{if(String(e.code||e.message).includes('permission'))showNoAccess();else setSync('err',e.message);cb()}));
+    this.unsub.push(this.root.collection('clani').doc(myEmail).onSnapshot(d=>{const x=d.data();
+      if(!x){if(!d.metadata.fromCache&&state.vlasnik&&state.vlasnik!==myEmail)showNoAccess();return}
+      me=x.ime||me;myRep=!!x.porocila;if(state.vlasnik!==myEmail)myRole=x.uloga||'radnik';applyRole();cb()},()=>{}));
+    this.unsub.push(this.root.collection('lokacije').onSnapshot({includeMetadataChanges:true},s=>{const l={},pd={};
+      s.forEach(d=>{l[d.id]=d.data();if(d.metadata.hasPendingWrites)pd[d.id]=1;
+        const x=d.data();if(x&&x.stavke&&!x.p&&canEdit()&&!s.metadata.fromCache)this.root.collection('lokacije').doc(d.id).set({p:toP(docItems(x)),stavke:this.FV.delete()},{merge:true}).catch(()=>{})});
+      state.lok=l;this.pend=pd;updPending();setSync(s.metadata.fromCache&&!Object.keys(pd).length?'wait':'on');cb()},e=>setSync('err',e.message)));
+    this.unsub.push(this.root.collection('historija').orderBy('kad','desc').limit(400).onSnapshot(s=>{state.hist=s.docs.map(d=>({id:d.id,...d.data()}));cb()},()=>{}));
   },
   stop(){this.unsub.forEach(u=>u());this.unsub=[]},
-  async changeLoc(id,fn,logs){
-    if(!navigator.onLine)throw new Error(t('lostConn'));
-    const ref=this.root.collection('lokacije').doc(id);
-    await this.db.runTransaction(async tr=>{const s=await tr.get(ref);const cur=s.exists?(s.data().stavke||[]):[];tr.set(ref,{stavke:fn(clone(cur)),ko:me,kad:Date.now()})});
-    const b=this.db.batch();logs.forEach(l=>b.set(this.root.collection('historija').doc(),l));await b.commit();
+  write(changes,logs){
+    const FV=this.FV,docs={};
+    for(const c of changes){const id=idOf(c.lok);const cur=state.lok[id];
+      const D=docs[id]=docs[id]||{set:null,merge:{p:{}}};
+      if(cur&&cur.stavke&&!cur.p&&!D.legacy){D.legacy=true;Object.assign(D.merge.p,toP(docItems(cur)));D.merge.stavke=FV.delete()}
+      const k=firmKey(c.firma||'');
+      if(c.clear){D.set={p:{},ko:me,kad:Date.now()};continue}
+      if(c.del){D.merge.p[k]=FV.delete();continue}
+      if(D.legacy){const e=D.merge.p[k];const n=(e&&typeof e.n==='number'?e.n:0)+c.d;D.merge.p[k]=n>0?{f:(e&&e.f)||c.firma,n,dup:Math.max(0,((e&&e.dup)||0)+(c.dd||0))}:FV.delete();continue}
+      const prev=D.merge.p[k]||{};const sd=(prev._d||0)+c.d,sdd=(prev._dd||0)+(c.dd||0);
+      D.merge.p[k]={f:prev.f||c.firma,n:FV.increment(sd),_d:sd,_dd:sdd};if(sdd)D.merge.p[k].dup=FV.increment(sdd)}
+    const b=this.db.batch();
+    for(const[id,D]of Object.entries(docs)){const ref=this.root.collection('lokacije').doc(id);
+      Object.values(D.merge.p).forEach(v=>{if(v&&v._d!==undefined){delete v._d;delete v._dd}});
+      if(D.set)b.set(ref,D.set);else b.set(ref,{...D.merge,ko:me,kad:Date.now()},{merge:true})}
+    logs.forEach(l=>{const id=l.id;const x={...l};delete x.id;b.set(this.root.collection('historija').doc(id),x)});
+    return b.commit();
   },
-  async changeTwo(a,fa,b,fb,logs){
-    if(!navigator.onLine)throw new Error(t('lostConn'));
-    const ra=this.root.collection('lokacije').doc(a),rb=this.root.collection('lokacije').doc(b);
-    await this.db.runTransaction(async tr=>{const sa=await tr.get(ra),sb=await tr.get(rb);
-      tr.set(ra,{stavke:fa(clone(sa.exists?(sa.data().stavke||[]):[])),ko:me,kad:Date.now()});
-      tr.set(rb,{stavke:fb(clone(sb.exists?(sb.data().stavke||[]):[])),ko:me,kad:Date.now()})});
-    const bt=this.db.batch();logs.forEach(l=>bt.set(this.root.collection('historija').doc(),l));await bt.commit();
+  async query(from,to){const s=await this.root.collection('historija').where('kad','>=',from).where('kad','<',to).orderBy('kad').limit(10000).get();return s.docs.map(d=>({id:d.id,...d.data()}))
   },
   async savePost(p){await this.root.update({post:p})},
   async setHandover(h){await this.root.update({handover:h})},
   async setMember(email,ime,uloga){await this.root.collection('clani').doc(email).set({ime,uloga:uloga||'radnik',dodano:Date.now()},{merge:true})},
+  async setMemberRep(email,v){await this.root.collection('clani').doc(email).set({porocila:!!v},{merge:true})},
   async delMember(email){await this.root.collection('clani').doc(email).delete()}
 };
 let store=LocalStore;
+const PendingStore={mode:'pending',query(){return Promise.reject(new Error(t('loadingW')))},write(){throw new Error(t('loadingW'))},savePost(){return Promise.reject(new Error(t('loadingW')))},setHandover(){return Promise.resolve()}};
 let syncState={s:'off'};
+function updPending(){
+  const n=Object.keys(FireStore.pend||{}).length;
+  if(n&&!FireStore.pendSince)FireStore.pendSince=Date.now();if(!n)FireStore.pendSince=0;
+  const el=$('#pendBar');const old=n&&Date.now()-FireStore.pendSince>3*60e3;
+  el.hidden=!n;el.className=old?'pb warn':'pb';el.textContent=old?t('pendOld',n):t('pend',n);
+}
+setInterval(()=>{if(store.mode==='cloud')updPending()},20e3);
 function setSync(s,msg){$('#syncDot').className='dot '+(s==='on'?'on':s==='err'?'err':s==='wait'?'wait':'');syncState={s,msg}}
 const isOwner=()=>store.mode==='local'||(!!myEmail&&state.vlasnik===myEmail);
 const canEdit=()=>isOwner()||myRole==='radnik';
 function noEdit(){if(canEdit())return false;toast(t('viewOnly'));return true}
 
 /* ================= akcije ================= */
-const locItems=name=>state.lok[idOf(name)]?.stavke||[];
+const firmKey=f=>norm(f)||'_';
+function docItems(d){if(!d)return[];
+  if(d.p)return Object.values(d.p).filter(x=>x&&x.n>0).map(x=>({firma:x.f,palete:x.n,dup:Math.max(0,Math.min(x.dup||0,Math.floor(x.n/2)))})).sort((a,b)=>a.firma.localeCompare(b.firma));
+  return(d.stavke||[]).filter(x=>x.palete>0).map(x=>({...x,dup:0}))}
+function toP(items){const o={};items.forEach(x=>{o[firmKey(x.firma)]={f:x.firma,n:x.palete,dup:x.dup||0}});return o}
+const locItems=name=>docItems(state.lok[idOf(name)]);
 const allLocData=()=>Object.fromEntries(allLocs().map(l=>[l,locItems(l)]));
-const knownFirms=()=>{const s=new Set(state.post.firme);Object.values(state.lok).forEach(v=>(v.stavke||[]).forEach(x=>s.add(x.firma)));return[...s]};
+const knownFirms=()=>{const s=new Set(state.post.firme);Object.values(state.lok).forEach(v=>docItems(v).forEach(x=>s.add(x.firma)));return[...s]};
 const sumOf=st=>st.reduce((a,s)=>a+s.palete,0);
+const placesOf=st=>st.reduce((a,s)=>a+s.palete-(s.dup||0),0);
+const dupTxt=s=>s.dup?' <span class="mut">('+t('dupN',s.dup)+')</span>':'';
 async function run(p){try{await p;return true}catch(e){toast(t('error')+(e.message||e));return false}}
-async function applyDelta(lok,firma,delta){
-  const ok=await run(store.changeLoc(idOf(lok),st=>addTo(st,firma,delta),[{kad:Date.now(),ko:me,lok,firma,delta}]));
+/* sprememba = {lok, firma, d} (prištej/odštej) | {lok, firma, del:true} | {lok, clear:true} */
+function writable(){if(getCfg()&&store.mode!=='cloud'){toast(t('loadingW'));return false}return true}
+function doWrite(changes,logs){
+  // varovalo: ne odštej več, kot je na lokaciji
+  for(const c of changes){if(c.clear||c.del)continue;const it=locItems(c.lok).find(x=>norm(x.firma)===norm(c.firma))||{palete:0,dup:0};
+    if(it.palete+c.d<=0){c.del=true;delete c.d;delete c.dd;continue}
+    const nd=(it.dup||0)+(c.dd||0),mx=Math.floor((it.palete+c.d)/2);
+    if(nd>mx)c.dd=mx-(it.dup||0);else if(nd<0)c.dd=-(it.dup||0);if(!c.dd)delete c.dd}
+  logs.forEach(l=>{if(myUid)l.u=myUid;l.id=l.id||('h'+Date.now().toString(36)+Math.random().toString(36).slice(2,7))});
+  try{const pr=store.write(changes,logs);if(pr&&pr.catch)pr.catch(e=>toast(t('error')+(e.message||e)))}catch(e){toast(t('error')+(e.message||e));return false}
+  return true;
+}
+async function applyDelta(lok,firma,delta,dd){
+  if(!writable())return false;
+  const lg={kad:Date.now(),ko:me,lok,firma,delta};if(dd)lg.dup=dd;
+  const ok=doWrite([{lok,firma,d:delta,dd:dd||0}],[lg]);
   if(ok&&delta>0&&!state.post.firme.some(f=>norm(f)===norm(firma))){const p=clone(state.post);p.firme.push(firma);p.firme.sort((a,b)=>a.localeCompare(b));run(store.savePost(p))}
   if(ok)flash(lok);return ok;
 }
 async function clearLoc(lok,firma){
+  if(!writable())return false;
   const st=locItems(lok).filter(s=>!firma||norm(s.firma)===norm(firma));
   if(!st.length){toast(t('noThat',lok));return false}
-  const logs=st.map(s=>({kad:Date.now(),ko:me,lok,firma:s.firma,delta:-s.palete,opis:'x'}));
-  const ok=await run(store.changeLoc(idOf(lok),cur=>firma?cur.filter(s=>norm(s.firma)!==norm(firma)):[],logs));
+  const logs=st.map(s=>({kad:Date.now(),ko:me,lok,firma:s.firma,delta:-s.palete,dup:-(s.dup||0),opis:'x'}));
+  const ok=doWrite(firma?[{lok,firma,del:true}]:[{lok,clear:true}],logs);
   if(ok)flash(lok);return ok;
 }
 function planMove(p){
   const st=locItems(p.lok);if(!st.length)return{err:t('mvEmpty',p.lok)};
   let items;
-  if(!p.firma)items=st.map(s=>({firma:s.firma,n:s.palete}));
+  if(!p.firma)items=st.map(s=>({firma:s.firma,n:s.palete,dm:s.dup||0}));
   else{const s=st.find(x=>norm(x.firma)===norm(p.firma));if(!s)return{err:t('mvNone',p.lok,p.firma)};
-    const n=p.qty===null?s.palete:Math.min(p.qty,s.palete);items=[{firma:s.firma,n,capped:p.qty!==null&&p.qty>s.palete,avail:s.palete}]}
+    if(p.dup){const w=p.qty===null?(s.dup||0):p.qty,q=Math.min(w,s.dup||0);if(!q)return{err:t('mvNoDup',p.lok,s.firma)};items=[{firma:s.firma,n:q*2,dm:q,capped:w>q,avail:q*2}]}
+    else{const n=p.qty===null?s.palete:Math.min(p.qty,s.palete);items=[{firma:s.firma,n,dm:n>=s.palete?(s.dup||0):0,capped:p.qty!==null&&p.qty>s.palete,avail:s.palete}]}}
   return{items};
 }
 async function applyMove(from,to,items){
+  if(!writable())return false;
   const kad=Date.now();
-  const ok=await run(store.changeTwo(idOf(from),st=>{items.forEach(x=>addTo(st,x.firma,-x.n));return st},idOf(to),st=>{items.forEach(x=>addTo(st,x.firma,x.n));return st},
-    items.map(x=>({kad,ko:me,lok:from,do:to,firma:x.firma,delta:x.n}))));
+  const ok=doWrite([...items.map(x=>({lok:from,firma:x.firma,d:-x.n,dd:-(x.dm||0)})),...items.map(x=>({lok:to,firma:x.firma,d:x.n,dd:x.dm||0}))],
+    items.map(x=>{const l={kad,ko:me,lok:from,do:to,firma:x.firma,delta:x.n};if(x.dm)l.dup=x.dm;return l}));
   if(ok){flash(to);toast(t('mvDone',from,to))}return ok;
 }
 function flash(lok){setTimeout(()=>{const e=document.querySelector('[data-lok="'+CSS.escape(lok)+'"]');if(e){e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash');e.scrollIntoView({block:'nearest',behavior:'smooth'})}},150)}
@@ -411,15 +504,15 @@ function render(){
   let full=0,tot=0;const groups=[];let cur=null;
   for(const l of allLocs()){const g=isSp(l)?'*':String(l).includes('-')?String(l).split('-')[0]:'';if(!cur||cur.g!==g){cur={g,items:[]};groups.push(cur)}cur.items.push(l)}
   $('#grid').innerHTML=groups.map(G=>(G.g==='*'?'<div class="gh">'+t('spec')+'</div>':G.g?'<div class="gh">'+t('rack')+' '+esc(G.g)+'</div>':'')+'<div class="grp">'+G.items.map(l=>{
-    const st=locItems(l),sum=sumOf(st),cap=capOf(l);if(st.length){full++;tot+=sum}
+    const st=locItems(l),sum=sumOf(st),pl=placesOf(st),cap=capOf(l);if(st.length){full++;tot+=sum}
     const hit=q&&(st.some(s=>norm(s.firma).includes(q))||norm(l).includes(q));
-    const cls='tile'+(isSp(l)?' sp':'')+(st.length?' full':'')+(cap&&sum>cap?' over':'')+(q?(hit?' hit':' dim'):'');
-    const lines=st.slice(0,3).map(s=>'<div class="f">'+esc(s.firma)+' <b>'+s.palete+'</b></div>').join('')+(st.length>3?'<div class="f mut">+'+(st.length-3)+'</div>':'');
-    return '<button class="'+cls+'" data-lok="'+esc(l)+'"><div class="n">'+esc(l)+(cap?'<small>'+sum+'/'+cap+'</small>':(sum?'<small>'+sum+'</small>':''))+'</div>'+lines+'</button>';
+    const cls='tile'+(isSp(l)?' sp':'')+(st.length?' full':'')+(cap&&pl>cap?' over':cap&&pl===cap?' atcap':'')+(q?(hit?' hit':' dim'):'');const pdg=FireStore.pend&&FireStore.pend[idOf(l)]&&store.mode==='cloud'?'<span class="pd">⏳</span>':'';
+    const lines=st.slice(0,3).map(s=>'<div class="f">'+esc(s.firma)+' <b>'+s.palete+'</b>'+(s.dup?' <span class="mut">('+s.dup+'×2)</span>':'')+'</div>').join('')+(st.length>3?'<div class="f mut">+'+(st.length-3)+'</div>':'');
+    return '<button class="'+cls+'" data-lok="'+esc(l)+'"><div class="n">'+esc(l)+pdg+(cap?'<small>'+pl+'/'+cap+(pl!==sum?' · '+sum+'p':'')+'</small>':(sum?'<small>'+sum+'</small>':''))+'</div>'+lines+'</button>';
   }).join('')+'</div>').join('');
   $('#sum').textContent=t('sum',full,allLocs().length-full,tot)+(store.mode==='local'?t('localOnly'):'');
   $('#meName').textContent=me||'—';
-  renderSearch(q);
+  renderSearch(q);saveCache();
   if(sheetState.type==='loc')renderLocBody();
   if(sheetState.type==='hist')renderHist();
   if(sheetState.type==='over')renderOver();
@@ -442,18 +535,19 @@ let sheetState={};
 function openSheet(html,type,extra){$('#sheet').innerHTML=html;$('#ov').hidden=false;$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0}
 function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').hidden=true;sheetState={};stopRec()}
 $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
-const ready=()=>!!me&&!(getCfg()&&store.mode!=='cloud'&&syncState.s!=='err');
+const ready=()=>!!me;
 
 /* lokacija */
 function openLoc(lok){
   if(!ready())return;const ed=canEdit();
   openSheet('<h2>'+t('loc')+' '+esc(lok)+'</h2><div id="locBody"></div>'+
-   (ed?'<div class="add"><input class="in" id="aF" list="firmList" placeholder="'+t('firm')+'" autocomplete="off"><input class="in num" id="aN" type="number" inputmode="numeric" min="1" value="1"></div>'+
+   (ed?'<div class="add"><input class="in" id="aF" list="firmList" placeholder="'+t('firm')+'" autocomplete="off"><input class="in num" id="aN" type="number" inputmode="numeric" min="1" value="1"></div><label class="chk"><input type="checkbox" id="aDup">'+t('dupChk')+'</label>'+
    '<datalist id="firmList">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
-   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn d" id="clrBtn">'+t('emptyLoc')+'</button>':'<p class="mut">'+t('viewOnly')+'</p>')+(isOwner()?'<label>'+t('capLoc')+'</label><div class="add" style="margin-top:0"><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn" id="lCapB" style="margin:0;flex:1">'+t('capSet')+'</button></div>':'')+'<div id="locHist" class="hist"></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
+   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn d" id="clrBtn">'+t('emptyLoc')+'</button>':'<p class="mut">'+t('viewOnly')+'</p>')+(isOwner()?'<button class="btn" id="capT">'+t('capB')+'</button><div id="capBox" hidden><label>'+t('capLoc')+'</label><div class="add" style="margin-top:0"><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn" id="lCapB" style="margin:0;flex:1">'+t('capSet')+'</button></div></div>':'')+'<div id="qChips"></div><button class="btn" id="lhT"></button><div id="locHist" class="hist" hidden></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
   $('#xB').onclick=closeSheet;
+  $('#lhT').onclick=()=>{const e=$('#locHist');e.hidden=!e.hidden};if($('#capT'))$('#capT').onclick=()=>{const e=$('#capBox');e.hidden=!e.hidden};
   if(ed){$('#aBtn').onclick=async()=>{const f=$('#aF').value.trim(),n=parseInt($('#aN').value)||0;if(n<1){toast(t('needFP'));return}
-    const firma=f?matchFirm(f,knownFirms()):t('noFirm');if(await applyDelta(lok,firma,n)){$('#aF').value='';$('#aN').value=1;toast(lok+': '+firma+' +'+n)}};
+    const dp=$('#aDup').checked;const firma=f?matchFirm(f,knownFirms()):t('noFirm');if(await applyDelta(lok,firma,dp?n*2:n,dp?n:0)){$('#aF').value='';$('#aN').value=1;$('#aDup').checked=false;toast(lok+': '+firma+' +'+(dp?t('dupN',n):n))}};
   $('#clrBtn').onclick=()=>ask(t('askEmpty',lok),async()=>{await clearLoc(lok);openLoc(lok)},()=>openLoc(lok))}
   if($('#lCapB'))$('#lCapB').onclick=async()=>{const np=clone(state.post);np.kapacitete=np.kapacitete||{};np.kapacitete[lok]=Math.max(0,parseInt($('#lCap').value)||0);if(await run(store.savePost(np))){toast('✓ '+lok+': '+np.kapacitete[lok]);render()}};
   renderLocBody();
@@ -461,29 +555,47 @@ function openLoc(lok){
 function renderLocBody(){
   const lok=sheetState.lok,st=locItems(lok),info=state.lok[idOf(lok)],cap=capOf(lok);
   const b=$('#locBody');if(!b)return;
-  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🗑</button>':'')+'</div>').join('')+
-    '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' '+t('of')+' '+cap:'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
+  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-dp="1" title="'+t('dupAdd')+'">⧉</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🗑</button>':'')+'</div>').join('')+
+    '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' · '+placesOf(st)+'/'+cap:'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
     :'<p class="mut">'+t('isEmpty')+'</p>';
   b.querySelectorAll('.sq').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.i];if(!s)return;
     if(x.dataset.m){openMoveSheet(lok,s.firma,s.palete);return}
+    if(x.dataset.dp){applyDelta(lok,s.firma,2,1);return}
     if(x.dataset.x){ask(t('askRemove',s.firma,lok),async()=>{await clearLoc(lok,s.firma);openLoc(lok)},()=>openLoc(lok))}else applyDelta(lok,s.firma,+x.dataset.d)});
-  const h=state.hist.filter(x=>x.lok===lok||x.do===lok).slice(0,6);
-  $('#locHist').innerHTML=h.length?'<label>'+t('lastCh')+'</label>'+h.map(histLine).join(''):'';
+  const qc=$('#qChips');if(qc){if(ed){const on=new Set(st.map(s=>norm(s.firma)));const rec=[];for(const x of state.hist){if(rec.length>=6)break;if(x.firma&&!on.has(norm(x.firma))&&!rec.some(r=>norm(r)===norm(x.firma)))rec.push(x.firma)}
+    qc.innerHTML=rec.length?'<label>'+t('qAdd')+'</label>'+rec.map(f=>'<button class="lc qa" data-qf="'+esc(f)+'">+1 '+esc(f)+'</button>').join(''):'';
+    qc.querySelectorAll('[data-qf]').forEach(x=>x.onclick=()=>applyDelta(lok,x.dataset.qf,1))}else qc.innerHTML=''}
+  const h=state.hist.filter(x=>x.lok===lok||x.do===lok).slice(0,8);
+  const lh=$('#locHist');lh.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>';wireUndo(lh);
+  $('#lhT').textContent=t('lastChB',h.length);
 }
-function histLine(x){if(x.do)return '<div><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · <b>'+esc(x.lok)+'</b> → <b>'+esc(x.do)+'</b> '+esc(x.firma)+' <span class="mv">⇄ '+x.delta+'</span></div>';return '<div><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · <b>'+esc(x.lok)+'</b> '+esc(x.firma)+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'')+'</div>'}
+function undoneSet(){const s=new Set();state.hist.forEach(x=>{if(x.tip==='undo'&&x.ref)s.add(x.ref)});return s}
+function canUndo(x,U){if(!canEdit()||!x.id||x.tip||U.has(x.id))return false;if(isOwner())return true;
+  const mine=x.u?x.u===myUid:x.ko===me;return mine&&Date.now()-x.kad<24*3600e3}
+function histText(x){const d=x.dup?' ('+t('dupN',Math.abs(x.dup))+')':'';return x.do?esc(x.lok)+' → '+esc(x.do)+' '+esc(x.firma)+' ⇄ '+x.delta+d:esc(x.lok)+' '+esc(x.firma)+' '+(x.delta>0?'+':'')+x.delta+d}
+function histLine(x){const U=undoneSet();const un=x.id&&U.has(x.id);
+  if(x.tip==='undo')return '<div class="mut">'+fdt(x.kad)+' · '+esc(x.ko||'?')+' · '+t('undoFix')+': '+histText(x)+'</div>';
+  const body=x.do?'<b>'+esc(x.lok)+'</b> → <b>'+esc(x.do)+'</b> '+esc(x.firma)+' <span class="mv">⇄ '+x.delta+'</span>':'<b>'+esc(x.lok)+'</b> '+esc(x.firma)+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'');
+  const d=x.dup?' <span class="mut">('+t('dupN',Math.abs(x.dup))+')</span>':'';
+  return '<div class="hl"><div class="'+(un?'strike':'')+'"><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · '+body+d+(un?' <span class="mut">('+t('undone')+')</span>':'')+'</div>'+(canUndo(x,U)?'<button class="ub" data-undo="'+esc(x.id)+'">'+t('undo')+'</button>':'')+'</div>'}
+function wireUndo(el){el.querySelectorAll('[data-undo]').forEach(b=>b.onclick=()=>{const x=state.hist.find(y=>y.id===b.dataset.undo);if(!x)return;const lk=sheetState.lok,tp=sheetState.type;const back=tp==='loc'?()=>openLoc(lk):tp==='hist'?openHist:closeSheet;
+  ask(t('undoQ',histText(x).replace(/<[^>]+>/g,'')),async()=>{doUndo(x);back()},back)})}
+function doUndo(x){if(!writable())return;const lg={kad:Date.now(),ko:me,tip:'undo',ref:x.id,lok:x.lok,firma:x.firma,delta:x.delta};if(x.do)lg.do=x.do;if(x.dup)lg.dup=x.dup;
+  const ch=x.do?[{lok:x.do,firma:x.firma,d:-x.delta,dd:-(x.dup||0)},{lok:x.lok,firma:x.firma,d:x.delta,dd:x.dup||0}]:[{lok:x.lok,firma:x.firma,d:-x.delta,dd:-(x.dup||0)}];
+  if(doWrite(ch,[lg]))toast(t('undoDone'))}
 
 /* zgodovina */
 function openHist(){if(!ready())return;openSheet('<h2>'+t('hist')+'</h2><input class="in" id="hQ" placeholder="'+t('filter')+'"><div class="hist" id="hList"></div><button class="btn" id="xB">'+t('close')+'</button>','hist');$('#xB').onclick=closeSheet;$('#hQ').oninput=renderHist;renderHist()}
 function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').value);
   const h=state.hist.filter(x=>!q||norm(x.ko+' '+x.firma+' '+x.lok+' '+(x.do||'')).includes(q)).slice(0,150);
-  el.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>'}
+  el.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>';wireUndo(el)}
 
 /* pregled */
 function openOver(){if(!ready())return;openSheet('<h2>'+t('ovT')+'</h2><div id="ovBody"></div><button class="btn" id="xB">'+t('close')+'</button>','over');$('#xB').onclick=closeSheet;renderOver()}
 function renderOver(){
   const el=$('#ovBody');if(!el)return;
   const L=allLocs(),byF={},free=[],fullL=[];let occ=0,tot=0;
-  for(const l of L){const st=locItems(l),s=sumOf(st),cap=capOf(l);if(!st.length){free.push(l);continue}occ++;tot+=s;if(cap&&s>=cap)fullL.push(l+' ('+s+'/'+cap+')');
+  for(const l of L){const st=locItems(l),s=sumOf(st),pl=placesOf(st),cap=capOf(l);if(!st.length){free.push(l);continue}occ++;tot+=s;if(cap&&pl>=cap)fullL.push(l+' ('+pl+'/'+cap+')');
     st.forEach(x=>{byF[x.firma]=byF[x.firma]||{n:0,l:[]};byF[x.firma].n+=x.palete;byF[x.firma].l.push(l+' ('+x.palete+')')})}
   const fl=Object.entries(byF).sort((a,b)=>b[1].n-a[1].n);
   el.innerHTML='<div class="stats"><div class="stat"><b>'+occ+'</b>'+t('sOcc')+'</div><div class="stat"><b>'+free.length+'</b>'+t('sFree')+'</div><div class="stat"><b>'+tot+'</b>'+t('sPal')+'</div><div class="stat"><b>'+fullL.length+'</b>'+t('sFull')+'</div></div>'+
@@ -501,22 +613,30 @@ function startVoice(){
   if(!ready()||noEdit())return;
   if(!SR){openType('',true);return}
   stopRec();
-  openSheet('<div class="listen"><div class="pulse">🎤</div><div class="big" id="live">'+t('listen')+'</div><p class="mut">'+t('vEx')+'</p><button class="btn" id="stopB">'+t('cancel')+'</button></div>','listen');
+  openSheet('<div class="listen"><div class="pulse" id="pulseB">🎤</div><div class="big" id="live">'+t('listen')+'</div><p class="mut">'+t('vEx')+'</p><button class="btn p" id="doneB">'+t('done')+'</button><button class="btn" id="stopB">'+t('cancel')+'</button></div>','listen');
   $('#stopB').onclick=closeSheet;
-  let got=false;
+  let got=false,last='',alts=[],quiet=0,maxT=0;
+  const finish=()=>{if(got)return;got=true;clearTimeout(quiet);clearTimeout(maxT);const r=rec;rec=null;try{r&&r.abort()}catch(e){}
+    if(last.trim())handleText(last,alts);else{closeSheet();toast(t('nothing'))}};
+  $('#doneB').onclick=finish;$('#pulseB').onclick=finish;
   try{
-    rec=new SR();rec.lang=LANG==='sl'?'sl-SI':'hr-HR';rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=3;
-    rec.onresult=e=>{let txt='';for(const r of e.results)txt+=r[0].transcript;const l=$('#live');if(l)l.textContent=txt;
-      if(e.results[e.results.length-1].isFinal){got=true;const alts=[...e.results[0]].map(a=>a.transcript);stopRec();handleText(txt,alts)}};
-    rec.onerror=e=>{stopRec();if(e.error==='not-allowed'||e.error==='service-not-allowed')openType('',true,t('micDenied'));else if(e.error!=='aborted')openType('',true,t('notHeard'))};
-    rec.onend=()=>{if(!got&&sheetState.type==='listen'){rec=null;closeSheet();toast(t('nothing'))}};
+    rec=new SR();rec.lang=LANG==='sl'?'sl-SI':'hr-HR';rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=5;
+    rec.onresult=e=>{let txt='';for(const r of e.results)txt+=r[0].transcript;last=txt;const l=$('#live');if(l)l.textContent=txt;
+      alts=e.results.length===1?[...e.results[0]].map(a=>a.transcript):[];
+      clearTimeout(quiet);
+      if(e.results[e.results.length-1].isFinal){finish();return}
+      quiet=setTimeout(finish,1300)}; // v hrupu: ko 1,3 s ni novih besed, zaključi
+    rec.onerror=e=>{if(got)return;if(e.error==='not-allowed'||e.error==='service-not-allowed'){got=true;stopRec();openType('',true,t('micDenied'))}else if(e.error!=='aborted'){if(last.trim())finish();else{got=true;stopRec();openType('',true,t('notHeard'))}}};
+    rec.onend=()=>{if(!got&&sheetState.type==='listen')finish()};
+    maxT=setTimeout(finish,8000);
     rec.start();
   }catch(e){openType('',true,t('noVoice'))}
 }
 function handleText(txt,alts){
   const ld=allLocData(),kf=knownFirms();
+  const known=f=>!f||kf.some(k=>norm(k)===norm(f));
   let p=parseCommand(txt,allLocs(),kf,ld,t('noFirm'));
-  if(p.err&&alts)for(const a of alts){const q=parseCommand(a,allLocs(),kf,ld,t('noFirm'));if(!q.err){p=q;txt=a;break}}
+  if((p.err||!known(p.firma))&&alts)for(const a of alts){if(a===txt)continue;const q=parseCommand(a,allLocs(),kf,ld,t('noFirm'));if(!q.err&&(p.err||known(q.firma))){p=q;txt=a;if(known(q.firma))break}}
   if(p.err){openType(txt,false,t(p.err,p.arg));return}
   showConfirm(p,txt);
 }
@@ -524,28 +644,28 @@ function showConfirm(p,heard){
   if(p.move)return showMoveConfirm(p,heard);
   const cur=locItems(p.lok);let after,what;
   if(p.clear){after=p.firma?cur.filter(s=>norm(s.firma)!==norm(p.firma)):[];what=p.firma?t('removeAll',esc(p.firma)):t('emptyAll')}
-  else{after=addTo(clone(cur),p.firma,p.delta);what=esc(p.firma)+' <span class="'+(p.delta>0?'plus':'minus')+'">'+(p.delta>0?'+ ':'− ')+pal(p.delta)+'</span>'}
-  const c=capOf(p.lok),n=sumOf(after);
+  else{after=addTo(clone(cur),p.firma,p.delta,p.dd||0);what=esc(p.firma)+' <span class="'+(p.delta>0?'plus':'minus')+'">'+(p.delta>0?'+ ':'− ')+(p.dd?t('dupN',Math.abs(p.dd))+' = ':'')+pal(p.delta)+'</span>'}
+  const c=capOf(p.lok),n=placesOf(after);
   openSheet('<div class="mut">'+t('heard')+': »'+esc(heard)+'«</div><div class="card"><div class="mut">'+t('loc')+'</div><div class="big">'+esc(p.lok)+'</div><div style="font-size:19px">'+what+'</div>'+
-    '<div class="mut" style="margin-top:8px">'+t('after')+': '+(after.length?after.map(s=>esc(s.firma)+' '+s.palete).join(', '):t('empty'))+'</div>'+(c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
+    '<div class="mut" style="margin-top:8px">'+t('after')+': '+(after.length?after.map(s=>esc(s.firma)+' '+s.palete+(s.dup?' ('+t('dupN',s.dup)+')':'')).join(', '):t('empty'))+'</div>'+(c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
     '<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
   $('#xB').onclick=closeSheet;
-  $('#okB').onclick=async()=>{closeSheet();const ok=p.clear?await clearLoc(p.lok,p.firma):await applyDelta(p.lok,p.firma,p.delta);if(ok)toast(t('saved',p.lok))};
+  $('#okB').onclick=async()=>{closeSheet();const ok=p.clear?await clearLoc(p.lok,p.firma):await applyDelta(p.lok,p.firma,p.delta,p.dd||0);if(ok)toast(t('saved',p.lok))};
   $('#againB').onclick=startVoice;$('#editB').onclick=()=>openType(heard);
 }
 function showMoveConfirm(p,heard){
   const pl=planMove(p);if(pl.err){openType(heard,false,pl.err);return}
-  const items=pl.items,aft=addAll(clone(locItems(p.to)),items),c=capOf(p.to),n=sumOf(aft);
-  const bef=addAll(clone(locItems(p.lok)),items.map(x=>({...x,n:-x.n})));
+  const items=pl.items,aft=addAll(clone(locItems(p.to)),items),c=capOf(p.to),n=placesOf(aft);
+  const bef=addAll(clone(locItems(p.lok)),items.map(x=>({...x,n:-x.n,dm:-(x.dm||0)})));
   openSheet((heard?'<div class="mut">'+t('heard')+': »'+esc(heard)+'«</div>':'')+'<div class="card"><div class="mut">'+t('mvT')+'</div><div class="big">'+esc(p.lok)+' → '+esc(p.to)+'</div>'+
-    items.map(x=>'<div style="font-size:19px">'+esc(x.firma)+' <span class="plus">'+pal(x.n)+'</span></div>'+(x.capped?'<div class="err">'+t('mvCap',x.avail)+'</div>':'')).join('')+
+    items.map(x=>'<div style="font-size:19px">'+esc(x.firma)+' <span class="plus">'+pal(x.n)+'</span>'+(x.dm?' <span class="mut">('+t('dupN',x.dm)+')</span>':'')+'</div>'+(x.capped?'<div class="err">'+t('mvCap',x.avail)+'</div>':'')).join('')+
     '<div class="mut" style="margin-top:8px">'+esc(p.lok)+': '+(bef.length?bef.map(s=>esc(s.firma)+' '+s.palete).join(', '):t('empty'))+'<br>'+esc(p.to)+': '+aft.map(s=>esc(s.firma)+' '+s.palete).join(', ')+'</div>'+
     (c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
     '<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
   $('#xB').onclick=closeSheet;$('#okB').onclick=async()=>{closeSheet();await applyMove(p.lok,p.to,items)};
   $('#againB').onclick=startVoice;$('#editB').onclick=()=>openType(heard||(p.lok+' '+(p.firma||'')+' '+(p.qty||'')+' v '+p.to));
 }
-function addAll(st,items){items.forEach(x=>addTo(st,x.firma,x.n));return st}
+function addAll(st,items){items.forEach(x=>addTo(st,x.firma,x.n,x.dm||0));return st}
 function openMoveSheet(lok,firma,n){
   const opts=allLocs().filter(l=>l!==lok).map(l=>'<option>'+esc(l)+'</option>').join('');
   openSheet('<h2>'+t('mvT')+': '+esc(lok)+'</h2><div class="big" style="font-size:18px">'+esc(firma)+'</div><label>'+t('mvQty')+'</label><input class="in num" id="mQ" type="number" inputmode="numeric" min="1" max="'+n+'" value="'+n+'" style="width:100px"><label>'+t('mvTo')+'</label><select class="in" id="mTo">'+opts+'</select><button class="btn p" id="mGo">'+t('next')+'</button><button class="btn" id="mX">'+t('cancel')+'</button>','move');
@@ -574,7 +694,7 @@ function buildReport(){
     txt+=l+': '+st.map(x=>x.firma+' '+x.palete).join(', ')+(st.length>1?' ('+t('rTot')+' '+s+')':'')+'\n'}
   txt+='\n'+t('rEmpty')+' ('+empty.length+'): '+(empty.join(', ')||t('rNone'))+'\n';
   txt+='\n'+t('rByF')+':\n'+Object.entries(byF).sort((a,b)=>a[0].localeCompare(b[0])).map(([f,n])=>f+': '+n).join('\n')+'\n'+t('rAll')+': '+pal(tot)+'\n';
-  const ch=state.hist.filter(x=>x.kad>=since).reverse();
+  const UU=undoneSet();const ch=state.hist.filter(x=>x.kad>=since&&x.tip!=='undo'&&!UU.has(x.id)).reverse();
   txt+='\n'+t('rCh')+' '+fdt(since)+' ('+ch.length+'):\n'+(ch.map(x=>ft(x.kad)+' '+x.ko+' – '+(x.do?x.lok+' → '+x.do+' '+x.firma+' '+x.delta:x.lok+' '+x.firma+' '+(x.delta>0?'+':'')+x.delta+(x.opis?' ('+t('emptied')+')':''))).join('\n')||t('rNone'))+'\n';
   return{txt,byF,tot,ch,since,now};
 }
@@ -645,19 +765,74 @@ function showCreate(){
 }
 async function afterLogin(u){
   if(!u)return;
-  myEmail=u.email.toLowerCase();
-  try{
-    const snap=await FireStore.root.get({source:'server'});
-    if(!snap.exists){showCreate();return}
-    state.vlasnik=snap.data().vlasnik;
-    const m=await FireStore.root.collection('clani').doc(myEmail).get();
-    if(!m.exists&&state.vlasnik!==myEmail){showNoAccess();return}
-    me=m.exists&&m.data().ime?m.data().ime:myEmail.split('@')[0];myRole=state.vlasnik===myEmail?'radnik':((m.exists&&m.data().uloga)||'radnik');applyRole();
-    store=FireStore;setSync('on');FireStore.start(render);closeSheet(true);render();
-  }catch(e){
-    if(String(e.code||e.message).includes('permission'))showNoAccess();
-    else{setSync('err',e.message);toast(t('notConn')+e.message);showNoAccess()}
-  }
+  myEmail=u.email.toLowerCase();myUid=u.uid;
+  const c=LS.get('lk_cache',null);if(c&&c.email===myEmail){me=c.me||me}
+  if(!me)me=myEmail.split('@')[0];
+  store=FireStore;FireStore.start(render);if(['login','verify'].includes(sheetState.type))closeSheet(true);render();
+}
+let cacheT=0;
+function saveCache(){if(store.mode!=='cloud'||!myEmail)return;clearTimeout(cacheT);cacheT=setTimeout(()=>LS.set('lk_cache',{email:myEmail,me,myRole,vlasnik:state.vlasnik,post:state.post,lok:state.lok,hist:state.hist.slice(0,80),handover:state.handover}),800)}
+
+
+/* ================= poročila ================= */
+const canReports=()=>store.mode==='local'||isOwner()||myRep;
+const dayStart=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x.getTime()};
+const ymd=ms=>{const d=new Date(ms);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
+const dmy=ms=>{const d=new Date(ms);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear()};
+function periodRange(k){const now=Date.now(),t0=dayStart(now),D=864e5;const wd=(new Date(t0).getDay()+6)%7;
+  if(k==='today')return[t0,t0+D];if(k==='yest')return[t0-D,t0];if(k==='week')return[t0-wd*D,t0+D];if(k==='lweek')return[t0-(wd+7)*D,t0-wd*D];
+  if(k==='month'){const d=new Date(t0);d.setDate(1);return[d.getTime(),t0+D]}
+  const a=$('#rFrom').value,b=$('#rTo').value;const fa=a?dayStart(a+'T00:00'):t0,fb=b?dayStart(b+'T00:00')+D:t0+D;return[fa,Math.max(fb,fa+D)]}
+let repState={k:'today',rows:null};
+function openReports(){
+  if(!canReports())return;
+  const segs=[['today','pToday'],['yest','pYest'],['week','pWeek'],['lweek','pLWeek'],['month','pMonth'],['range','pRange']];
+  openSheet('<h2>'+t('repT')+'</h2><div class="seg" id="rSeg">'+segs.map(([k,l])=>'<button data-k="'+k+'" class="'+(repState.k===k?'on':'')+'">'+t(l)+'</button>').join('')+'</div>'+
+    '<div class="add" id="rRange" '+(repState.k==='range'?'':'hidden')+'><input class="in" type="date" id="rFrom" value="'+ymd(Date.now()-6*864e5)+'"><input class="in" type="date" id="rTo" value="'+ymd(Date.now())+'"></div>'+
+    '<div class="add"><input class="in" id="rF" list="rFl" placeholder="'+t('rFirmF')+'" autocomplete="off"><select class="in" id="rW" style="max-width:40%"><option value="">'+t('rWF')+'</option></select></div><datalist id="rFl">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
+    '<button class="btn p" id="rGo">'+t('pShow')+'</button><div id="rOut"></div><button class="btn" id="xB">'+t('close')+'</button>','reports');
+  $('#xB').onclick=closeSheet;
+  $('#rSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{repState.k=b.dataset.k;$('#rSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#rRange').hidden=repState.k!=='range';if(repState.k!=='range')loadReport()});
+  $('#rGo').onclick=loadReport;$('#rF').onchange=()=>showReport();$('#rW').onchange=()=>showReport();
+  loadReport();
+}
+async function loadReport(){
+  const out=$('#rOut');if(!out)return;out.innerHTML='<p class="mut">'+t('rLoading')+'</p>';
+  const[from,to]=periodRange(repState.k);repState.from=from;repState.to=to;
+  try{repState.rows=await store.query(from,to)}catch(e){out.innerHTML='<p class="err">'+esc(t('error')+(e.message||e))+'</p>';return}
+  const ws=[...new Set(repState.rows.map(x=>x.ko).filter(Boolean))].sort();const sel=$('#rW');const cur=sel.value;
+  sel.innerHTML='<option value="">'+t('rWF')+'</option>'+ws.map(w=>'<option'+(w===cur?' selected':'')+'>'+esc(w)+'</option>').join('');
+  showReport();
+}
+function calcReport(){
+  const rows=repState.rows||[];const U=new Set(rows.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));
+  const fq=norm($('#rF').value||''),wq=$('#rW').value||'';
+  const ok=rows.filter(x=>x.tip!=='undo'&&!U.has(x.id)&&(!fq||norm(x.firma||'').includes(fq))&&(!wq||x.ko===wq));
+  const fixes=rows.filter(x=>x.tip==='undo').length;
+  const T={in:0,out:0,mv:0},byF={},byW={},byD={};
+  const add=(o,k,f,n)=>{o[k]=o[k]||{in:0,out:0,mv:0};o[k][f]+=n};
+  for(const x of ok){const f=x.do?'mv':x.delta>0?'in':'out',n=Math.abs(x.delta);T[f]+=n;add(byF,x.firma||'?',f,n);add(byW,x.ko||'?',f,n);add(byD,ymd(x.kad),f,n)}
+  return{ok,fixes,T,byF,byW,byD};
+}
+function repTable(title,obj,sortByName){const e=Object.entries(obj);if(!e.length)return'';e.sort(sortByName?(a,b)=>a[0].localeCompare(b[0]):(a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out));
+  return '<h3>'+title+'</h3><table class="rt"><tr><th></th><th>'+t('rIn')+'</th><th>'+t('rOut')+'</th><th>'+t('rMv')+'</th></tr>'+e.map(([k,v])=>'<tr><td>'+esc(k)+'</td><td class="plus">'+(v.in||'')+'</td><td class="minus">'+(v.out||'')+'</td><td class="mv">'+(v.mv||'')+'</td></tr>').join('')+'</table>'}
+function showReport(){
+  const out=$('#rOut');if(!out||!repState.rows)return;const R=calcReport();
+  const multi=repState.to-repState.from>864e5;const per=dmy(repState.from)+(multi?' – '+dmy(repState.to-1):'');
+  if(!R.ok.length){out.innerHTML='<p class="mut">'+per+'</p><p class="mut">'+t('rNone')+'</p>';return}
+  const det=[...R.ok].sort((a,b)=>b.kad-a.kad);const MAX=300;
+  out.innerHTML='<p class="mut">'+per+'</p><div class="stats"><div class="stat"><b class="plus">'+R.T.in+'</b>'+t('rIn')+'</div><div class="stat"><b class="minus">'+R.T.out+'</b>'+t('rOut')+'</div><div class="stat"><b class="mv">'+R.T.mv+'</b>'+t('rMv')+'</div><div class="stat"><b>'+R.fixes+'</b>'+t('rFix')+'</div></div>'+
+    repTable(t('rByFirm'),R.byF)+repTable(t('rByW'),R.byW)+(multi?repTable(t('rByDay'),Object.fromEntries(Object.entries(R.byD).map(([k,v])=>[dmy(dayStart(k+'T00:00')),v])),true):'')+
+    '<h3>'+t('rDet')+'</h3><div class="hist">'+det.slice(0,MAX).map(x=>'<div><span class="mut">'+(multi?dmy(x.kad)+' ':'')+ft(x.kad)+'</span> · '+esc(x.ko||'?')+' · '+histText(x)+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'')+'</div>').join('')+'</div>'+(det.length>MAX?'<p class="mut">'+t('rMore',MAX)+'</p>':'')+
+    (navigator.share?'<button class="btn p" id="rSh">'+t('send')+'</button>':'')+'<div class="btns"><button class="btn" id="rCp">'+t('copy')+'</button><button class="btn" id="rPd">📄 PDF</button></div>';
+  const txt=()=>{const L=[t('repT').toUpperCase()+' '+per];if($('#rF').value)L.push(t('rFirm')+': '+$('#rF').value);if($('#rW').value)L.push(t('rWk')+': '+$('#rW').value);
+    L.push('',t('rIn')+': '+R.T.in,t('rOut')+': '+R.T.out,t('rMv')+': '+R.T.mv,'',t('rByFirm').toUpperCase()+':');
+    Object.entries(R.byF).forEach(([k,v])=>L.push(k+': +'+v.in+' / -'+v.out+(v.mv?' / ⇄'+v.mv:'')));L.push('',t('rByW').toUpperCase()+':');
+    Object.entries(R.byW).forEach(([k,v])=>L.push(k+': +'+v.in+' / -'+v.out+(v.mv?' / ⇄'+v.mv:'')));L.push('',t('rDet').toUpperCase()+':');
+    det.forEach(x=>L.push((multi?dmy(x.kad)+' ':'')+ft(x.kad)+' '+(x.ko||'?')+' – '+histText(x).replace(/&[^;]+;/g,m=>({'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&#39;':"'"}[m]||m))+(x.opis?' ('+t('emptied')+')':'')));return L.join('\n')};
+  if($('#rSh'))$('#rSh').onclick=async()=>{try{await navigator.share({title:t('repT')+' '+per,text:txt()})}catch(e){}};
+  $('#rCp').onclick=async()=>{try{await navigator.clipboard.writeText(txt());toast(t('copied'))}catch(e){toast(t('noCopy'))}};
+  $('#rPd').onclick=()=>{$('#print').innerHTML='<h2>'+t('repT')+' – '+per+'</h2>'+out.innerHTML.replace(/<button[\s\S]*?<\/button>/g,'');setTimeout(()=>window.print(),100)};
 }
 
 /* ================= nastavitve ================= */
@@ -666,6 +841,7 @@ function openSettings(){
   const st={on:t('stOn'),off:t('stOff'),err:t('stErr')+(syncState.msg||''),wait:t('stWait')}[syncState.s];
   let h=langBar()+'<h2>'+t('set')+'</h2>';
   if(cloud)h+='<p><b>'+esc(me)+'</b><br><span class="mut">'+esc(myEmail)+(own?' · '+t('owner'):'')+'</span></p>';
+  if(canReports())h+='<button class="btn p" id="sRep">'+t('repB')+'</button>';
   if(own){
     if(!cloud)h+='<label>'+t('workers')+'</label><textarea class="in" id="sR">'+esc(p.radnici.join('\n'))+'</textarea>';
     h+='<label>'+t('quick')+'</label><div class="add" style="margin-top:0"><span class="mut">'+t('from')+'</span><input class="in num" id="gOd" type="number" inputmode="numeric" value="21"><span class="mut">'+t('to')+'</span><input class="in num" id="gDo" type="number" inputmode="numeric" value="21"></div>'+
@@ -681,7 +857,7 @@ function openSettings(){
   if(!cloud&&me)h+='<button class="btn" id="sMe">'+t('changeMe',esc(me))+'</button>';
   const roleSel=(id,v)=>'<select class="in" '+id+' style="margin-top:6px"><option value="radnik"'+(v!=='pregled'?' selected':'')+'>'+t('roleW')+'</option><option value="pregled"'+(v==='pregled'?' selected':'')+'>'+t('roleV')+'</option></select>';
   if(cloud&&own){
-    h+='<h3>'+t('members')+'</h3>'+state.clani.map(c=>'<div class="row" style="flex-wrap:wrap"><span class="nm"><input class="in" data-rn="'+esc(c.email)+'" value="'+esc(c.ime||'')+'" style="padding:8px"><div class="mut">'+esc(c.email)+(c.email===state.vlasnik?' · '+t('owner'):'')+'</div>'+(c.email!==state.vlasnik?roleSel('data-role="'+esc(c.email)+'"',c.uloga):'')+'</span>'+(c.email!==state.vlasnik?'<button class="sq" data-del="'+esc(c.email)+'">🗑</button>':'')+'</div>').join('');
+    h+='<h3>'+t('members')+'</h3>'+state.clani.map(c=>'<div class="row" style="flex-wrap:wrap"><span class="nm"><input class="in" data-rn="'+esc(c.email)+'" value="'+esc(c.ime||'')+'" style="padding:8px"><div class="mut">'+esc(c.email)+(c.email===state.vlasnik?' · '+t('owner'):'')+'</div>'+(c.email!==state.vlasnik?roleSel('data-role="'+esc(c.email)+'"',c.uloga)+'<label class="chk"><input type="checkbox" data-rp="'+esc(c.email)+'"'+(c.porocila?' checked':'')+'>'+t('repPerm')+'</label>':'')+'</span>'+(c.email!==state.vlasnik?'<button class="sq" data-del="'+esc(c.email)+'">🗑</button>':'')+'</div>').join('');
     h+='<label>'+t('addMember')+'</label><input class="in" id="mE" type="email" placeholder="'+t('mEmail')+'"><input class="in" id="mN" placeholder="'+t('mName')+'" style="margin-top:8px">'+roleSel('id="mR"','radnik')+'<button class="btn" id="mAdd">+ '+t('addMember')+'</button>';
   }
   h+='<h3>'+t('share')+'</h3><p>'+st+'</p>';
@@ -710,6 +886,8 @@ function openSettings(){
   $('#sheet').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>ask(t('removeQ',b.dataset.del),()=>run(FireStore.delMember(b.dataset.del)).then(()=>setTimeout(()=>openSettings(),300)),()=>openSettings()));
   if($('#mAdd'))$('#mAdd').onclick=async()=>{const e=$('#mE').value.trim().toLowerCase(),n=$('#mN').value.trim();if(!/^\S+@\S+\.\S+$/.test(e)||!n){toast(t('eMail'));return}if(await run(FireStore.setMember(e,n,$('#mR').value)))setTimeout(()=>openSettings(),300)};
   $('#sheet').querySelectorAll('[data-rn]').forEach(s=>s.onchange=()=>{const c=state.clani.find(x=>x.email===s.dataset.rn);const v=s.value.trim();if(c&&v)run(FireStore.setMember(c.email,v,c.uloga)).then(()=>{if(c.email===myEmail)me=v;toast('✓');render()})});
+  if($('#sRep'))$('#sRep').onclick=openReports;
+  $('#sheet').querySelectorAll('[data-rp]').forEach(c=>c.onchange=()=>run(FireStore.setMemberRep(c.dataset.rp,c.checked)).then(()=>toast('✓')));
   $('#sheet').querySelectorAll('[data-role]').forEach(s=>s.onchange=()=>{const c=state.clani.find(x=>x.email===s.dataset.role);if(c)run(FireStore.setMember(c.email,c.ime,s.value)).then(()=>toast('✓'))});
   if($('#sInv'))$('#sInv').onclick=async()=>{const link=location.href.split('#')[0];
     try{if(navigator.share)await navigator.share({text:t('inviteTxt')+'\n'+link});else{await navigator.clipboard.writeText(link);toast(t('linkCopied'))}}catch(e){}};
@@ -733,10 +911,14 @@ $('#meChip').onclick=()=>store.mode==='cloud'?openSettings():pickProfile();
   if(m){try{LS.set('lk_cfg',JSON.parse(decodeURIComponent(escape(atob(m[1])))))}catch(e){}history.replaceState(null,'',location.pathname+location.search)}
   const cfg=getCfg();
   if(!cfg){setSync('off');LocalStore.init(render);if(!me)pickProfile();return}
-  me=null;setSync('wait');render();
-  try{await FireStore.load(cfg)}catch(e){setSync('err',e.message);LocalStore.init(render);me=LS.get('lk_me',null);toast(t('notConn')+e.message);if(!me)pickProfile();return}
+  me=null;setSync('wait');store=PendingStore;
+  const c=LS.get('lk_cache',null);
+  if(c&&c.post){Object.assign(state,{post:{...clone(DEFAULT_POST),...c.post},lok:c.lok||{},hist:c.hist||[],handover:c.handover||null,vlasnik:c.vlasnik||null});me=c.me;myEmail=c.email;myRole=c.myRole||'radnik';applyRole()}
+  render();
+  try{if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js').catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{if(e.data==='updated')toast(t('updated'))})}}catch(e){}
+  try{await FireStore.load(cfg)}catch(e){setSync('err',e.message);toast(t('notConn')+e.message);setTimeout(()=>location.reload(),15000);return}
   firebase.auth().onAuthStateChanged(u=>{
-    if(!u){FireStore.stop();myEmail=null;me=null;myRole='radnik';store=LocalStore;state.lok={};state.hist=[];state.clani=[];render();showLogin();return}
+    if(!u){FireStore.stop();myEmail=null;me=null;myRole='radnik';store=LocalStore;state.lok={};state.hist=[];state.clani=[];LS.del('lk_cache');render();showLogin();return}
     if(!u.emailVerified){showVerify(u);return}
     afterLogin(u);
   });
