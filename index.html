@@ -60,7 +60,11 @@ select.in option{background:var(--card)}
 .ov[hidden]{display:none}
 .ov.solid{background:var(--bg)}
 .sheet{background:var(--sheet);border-top:3px solid var(--gold);box-shadow:0 -8px 30px rgba(0,0,0,.5);width:100%;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
-.sheet h2{margin:0 0 10px;font-size:20px;color:var(--blue)}
+.sheet h2{margin:0 0 10px;font-size:20px;color:var(--blue);padding-right:44px}
+.shd{position:sticky;top:-18px;margin:-18px -16px 0;height:34px;z-index:3;display:flex;justify-content:center;align-items:flex-start;padding-top:8px;background:linear-gradient(var(--sheet) 70%,transparent)}
+.grab{width:44px;height:5px;border-radius:3px;background:#3a4a66}
+.sx{position:absolute;right:10px;top:6px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:18px;line-height:1}
+.sheet{transition:transform .15s}
 .sheet h3{margin:18px 0 6px;font-size:16px;color:var(--blue)}
 .row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
 .row .nm{flex:1;font-weight:600;min-width:0;overflow-wrap:anywhere}
@@ -68,7 +72,7 @@ select.in option{background:var(--card)}
 .sq{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:19px;flex:none}
 .btn{display:block;width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-weight:600;margin-top:10px}
 .btn.p{background:var(--acc);color:#fff;border-color:var(--acc)}
-.btn.d{color:var(--red)}
+.btn.d{color:var(--red)}.btn.ld{background:var(--green);border-color:var(--green);color:#0d1320}.btn.sm{padding:9px;font-size:14px;font-weight:500}
 .btns{display:flex;gap:8px}.btns .btn{flex:1}
 .in{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
 .add{display:flex;gap:8px;margin-top:10px;align-items:center}.add .in{flex:1}.add .in.num{width:74px;flex:none;text-align:center}
@@ -96,6 +100,18 @@ pre.rep{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12p
 .seg{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.seg button{border:1px solid var(--line);background:var(--bg);border-radius:18px;padding:7px 12px;font-size:14px}.seg button.on{background:var(--acc);border-color:var(--acc);color:#fff}
 .rt{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}.rt th,.rt td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right}.rt th:first-child,.rt td:first-child{text-align:left}.rt th{color:var(--blue);font-weight:600}
 .chk{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px;color:var(--mut)}.chk input{width:20px;height:20px}
+.obar{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px;margin:4px 0 10px}.obl{display:flex;justify-content:space-between;align-items:baseline}.obl b{font-size:22px;color:var(--gold)}
+.obt{height:12px;border-radius:6px;background:#243049;overflow:hidden;margin:8px 0 6px}.obt div{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green),var(--gold) 70%,var(--orange))}
+.ost{display:grid;grid-template-columns:1fr 1fr;gap:8px}.os{border-radius:14px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-left:5px solid;font-size:13px;color:var(--mut)}.os span{float:right;font-size:18px}.os b{display:block;font-size:26px;color:var(--ink)}
+.os.c1{border-left-color:var(--acc)}.os.c2{border-left-color:var(--green)}.os.c3{border-left-color:var(--gold)}.os.c4{border-left-color:var(--orange)}
+.otb{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.otb th{background:#22304a;color:var(--gold);font-weight:700;text-align:left;padding:8px;border-right:1px solid var(--line)}.otb th:last-child{text-align:right;border-right:0}
+.otb td{padding:8px;vertical-align:top;border-top:1px solid var(--line);border-right:1px solid var(--line)}.otb td:last-child{border-right:0}
+.otb tbody tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+.of{color:var(--blue);font-weight:700;width:34%;cursor:pointer}.on{text-align:right;font-size:20px;font-weight:800;color:var(--gold);white-space:nowrap}
+.ob{height:5px;border-radius:3px;background:#243049;margin-top:6px}.ob div{height:100%;border-radius:3px;background:var(--acc)}
+.oc{border:1px solid var(--gold);background:var(--card);border-radius:14px;padding:4px 9px;margin:2px 4px 2px 0;font-size:13px}.oc b{color:var(--gold)}
+.ocs{display:flex;flex-wrap:wrap;gap:2px}.oc.cg{border-color:var(--green);color:var(--green)}.oc.co{border-color:var(--orange)}.oc.co b{color:var(--orange)}.oc.cr{border-color:var(--red)}.oc.cr b{color:var(--red)}.oc.cb{border-color:var(--acc)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom));background:#2a3a57;color:#fff;padding:10px 16px;border-radius:10px;z-index:30;font-size:14px;max-width:90%}
 #print{display:none}
 @media print{body>*:not(#print){display:none!important}#print{display:block;color:#000;font:12px Arial}#print table{border-collapse:collapse;width:100%}#print td,#print th{border:1px solid #999;padding:4px;text-align:left}}
@@ -147,7 +163,7 @@ sl:{search:'Išči podjetje ali lokacijo…',sum:'{0} zasedeno · {1} prosto · 
  cfgHelp:'Prilepite nastavitve Firebase (firebaseConfig) in izmislite kodo skladišča.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Koda skladišča, npr. skladisce-7k2x',connect:'Poveži',
  noCfg:'V prilepljenem besedilu ne vidim apiKey in projectId',shortKod:'Koda skladišča: vsaj 4 znaki',invite:'📤 Pošlji povezavo sodelavcem',inviteTxt:'Odpri to povezavo na telefonu za aplikacijo Lokacije (nato »Dodaj na začetni zaslon«) in se prijavi s svojo e-pošto:',linkCopied:'Povezava kopirana',
  disc:'Prekini povezavo na tem telefonu',discQ:'Prekiniti povezavo? Podatki ostanejo v bazi.',
- members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',updated:'Na voljo je nova različica – zaprite in znova odprite aplikacijo.',dupN:'{0}× dvojna',dupChk:'Dvojne palete (število = dvojnih)',dupAdd:'+ dvojna',lastChB:'🕘 Zadnje spremembe ({0})',capB:'⚙️ Zmogljivost',undo:'↩',undoQ:'Razveljaviti: {0}?',undone:'razveljavljeno',undoFix:'↩ popravek',undoDone:'Razveljavljeno',mvNoDup:'Na {0} ni dvojnih palet {1}.',repPerm:'Lahko vidi poročila',repB:'📈 Poročila',repT:'Poročila',pToday:'Danes',pYest:'Včeraj',pWeek:'Ta teden',pLWeek:'Prejšnji teden',pMonth:'Ta mesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Vneseno',rOut:'Odvzeto / naloženo',rMv:'Premaknjeno',rByFirm:'Po podjetjih (kupcih)',rByW:'Po delavcih',rByDay:'Po dnevih',rDet:'Podrobno',rFirmF:'Filter: podjetje (neobvezno)',rWF:'Vsi delavci',rLoading:'Nalagam …',rNone:'Ni sprememb v tem obdobju.',rFix:'popravki (ne štejejo)',rDate:'Datum',rFirm:'Podjetje',rWk:'Delavec',rMore:'Prikazanih prvih {0} vrstic.',pend:'⏳ Čaka na povezavo: {0} lok. – shrani se samodejno',pendOld:'⚠ Spremembe še niso poslane ({0} lok.). Pojdite na mesto s signalom.',loadingW:'Še nalagam … poskusite čez trenutek',done:'✓ Končano',qAdd:'Hitro dodaj',mvT:'Premik',mvTo:'Premakni v',mvQty:'Število palet',mvBtn:'⇄ Premakni',mvDone:'Premaknjeno: {0} → {1}',mvNone:'Na lokaciji {0} ni {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na voljo samo {0} – premaknem {0}.',eSame:'Lokaciji sta isti.',eMoveFirm:'Na lokaciji {0} je več podjetij – povejte katero, npr. »Zunaj Romunija 20 v Šotor kupci«.',capsL:'Posebna zmogljivost (regal ali lokacija)',capsH:'Ena v vrstici, npr.<br><b>05 = 4</b> (cel regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>07-04 = 5</b> (vse višine pozicije 07-04)<br><b>Vani = 30</b><br>Ostalo uporablja zmogljivost zgoraj.',capLoc:'Zmogljivost te lokacije',capSet:'Shrani',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
+ members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',updated:'Na voljo je nova različica – zaprite in znova odprite aplikacijo.',dupN:'{0}× dvojna',dupChk:'Dvojne palete (število = dvojnih)',dupAdd:'+ dvojna',lastChB:'🕘 Zadnje spremembe ({0})',capB:'⚙️ Zmogljivost',undo:'↩',undoQ:'Razveljaviti: {0}?',undone:'razveljavljeno',undoFix:'↩ popravek',undoDone:'Razveljavljeno',mvNoDup:'Na {0} ni dvojnih palet {1}.',repPerm:'Lahko vidi poročila',repB:'📈 Poročila',repT:'Poročila',pToday:'Danes',pYest:'Včeraj',pWeek:'Ta teden',pLWeek:'Prejšnji teden',pMonth:'Ta mesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Vneseno',rOut:'Odvzeto / naloženo',rMv:'Premaknjeno',rByFirm:'Po podjetjih (kupcih)',rByW:'Po delavcih',rByDay:'Po dnevih',rDet:'Podrobno',rFirmF:'Filter: podjetje (neobvezno)',rWF:'Vsi delavci',rLoading:'Nalagam …',rNone:'Ni sprememb v tem obdobju.',rFix:'popravki (ne štejejo)',rDate:'Datum',rFirm:'Podjetje',rWk:'Delavec',rMore:'Prikazanih prvih {0} vrstic.',loadedB:'🚚 Naloženo',moveAllB:'⇄ Premakni vse',delLocB:'🗑 Izbriši lokacijo (brez utovara)',loadedQ:'Vse z lokacije {0} je naloženo?',loadedFQ:'{0} z lokacije {1} – kaj se je zgodilo?',loadedF:'🚚 Naloženo ({0})',delF:'🗑 Izbriši (brez utovara)',delQ:'Izbrisati vse z lokacije {0} brez utovara?',loadedAll:'🚚 Naloženo – vse z lokacije',loadedFirm:'🚚 Naloženo: {0} (vse palete)',delAll:'🗑 Izbriši vse z lokacije',delFirm:'🗑 Izbriši: {0}',loaded:'naloženo',deleted:'izbrisano',rDel:'izbrisano (ne šteje)',mvAllT:'Premakni vse z lokacije {0}',exitQ:'Za izhod pritisnite Nazaj še enkrat',ovUse:'Zasedenost regalov',ovPlaces:'mest',ovLocs:'Lokacije',pend:'⏳ Čaka na povezavo: {0} lok. – shrani se samodejno',pendOld:'⚠ Spremembe še niso poslane ({0} lok.). Pojdite na mesto s signalom.',loadingW:'Še nalagam … poskusite čez trenutek',done:'✓ Končano',qAdd:'Hitro dodaj',mvT:'Premik',mvTo:'Premakni v',mvQty:'Število palet',mvBtn:'⇄ Premakni',mvDone:'Premaknjeno: {0} → {1}',mvNone:'Na lokaciji {0} ni {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na voljo samo {0} – premaknem {0}.',eSame:'Lokaciji sta isti.',eMoveFirm:'Na lokaciji {0} je več podjetij – povejte katero, npr. »Zunaj Romunija 20 v Šotor kupci«.',capsL:'Posebna zmogljivost (regal ali lokacija)',capsH:'Ena v vrstici, npr.<br><b>05 = 4</b> (cel regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>07-04 = 5</b> (vse višine pozicije 07-04)<br><b>Vani = 30</b><br>Ostalo uporablja zmogljivost zgoraj.',capLoc:'Zmogljivost te lokacije',capSet:'Shrani',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
  loginT:'Prijava',email:'E-pošta',pass:'Geslo',login:'Prijava',register:'Nov račun',forgot:'Pozabljeno geslo',resetSent:'Poslali smo e-pošto za novo geslo.',
  verifyT:'Potrdite e-pošto',verifyTxt:'Poslali smo povezavo na {0}. Kliknite jo (preverite tudi vsiljeno pošto), nato pritisnite »Potrdil sem«.',verified:'Potrdil sem',resend:'Pošlji ponovno',sentAgain:'Poslano',notYet:'E-pošta še ni potrjena.',logout:'Odjava',
  noAccess:'Nimate dostopa do tega skladišča. Prosite lastnika, naj v Nastavitvah doda vaš e-naslov:',retry:'Poskusi znova',
@@ -174,7 +190,7 @@ bs:{search:'Traži firmu ili lokaciju…',sum:'{0} zauzeto · {1} prazno · {2} 
  cfgHelp:'Zalijepi Firebase podešavanja (firebaseConfig) i izmisli kod skladišta.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Kod skladišta, npr. skladiste-7k2x',connect:'Poveži',
  noCfg:'Ne vidim apiKey i projectId u zalijepljenom tekstu',shortKod:'Kod skladišta: bar 4 znaka',invite:'📤 Pošalji link kolegama',inviteTxt:'Otvori ovaj link na telefonu za aplikaciju Lokacije (pa „Dodaj na početni ekran“) i prijavi se svojim mailom:',linkCopied:'Link kopiran',
  disc:'Prekini vezu na ovom telefonu',discQ:'Prekinuti vezu? Podaci ostaju u bazi.',
- members:'Članovi s pristupom',owner:'vlasnik',addMember:'Dodaj člana',mEmail:'E-mail',mName:'Ime',removeQ:'Ukloniti pristup za {0}?',onlyOwner:'Postavke lokacija i pristupe uređuje samo vlasnik.',yes:'Da',no:'Ne',updated:'Dostupna je nova verzija – zatvori i ponovo otvori aplikaciju.',dupN:'{0}× dupla',dupChk:'Duple palete (broj = duplih)',dupAdd:'+ dupla',lastChB:'🕘 Zadnje promjene ({0})',capB:'⚙️ Kapacitet',undo:'↩',undoQ:'Poništiti: {0}?',undone:'poništeno',undoFix:'↩ ispravka',undoDone:'Poništeno',mvNoDup:'Na {0} nema duplih paleta {1}.',repPerm:'Može vidjeti izvještaje',repB:'📈 Izvještaji',repT:'Izvještaji',pToday:'Danas',pYest:'Jučer',pWeek:'Ova sedmica',pLWeek:'Prošla sedmica',pMonth:'Ovaj mjesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Uneseno',rOut:'Skinuto / natovareno',rMv:'Premješteno',rByFirm:'Po firmama (kupcima)',rByW:'Po radnicima',rByDay:'Po danima',rDet:'Detaljno',rFirmF:'Filter: firma (neobavezno)',rWF:'Svi radnici',rLoading:'Učitavam …',rNone:'Nema promjena u ovom periodu.',rFix:'ispravke (ne broje se)',rDate:'Datum',rFirm:'Firma',rWk:'Radnik',rMore:'Prikazano prvih {0} redova.',pend:'⏳ Čeka vezu: {0} lok. – spremi se samo',pendOld:'⚠ Promjene još nisu poslane ({0} lok.). Pređi na mjesto sa signalom.',loadingW:'Još učitavam … pokušaj za trenutak',done:'✓ Gotovo',qAdd:'Brzo dodaj',mvT:'Premještanje',mvTo:'Premjesti u',mvQty:'Broj paleta',mvBtn:'⇄ Premjesti',mvDone:'Premješteno: {0} → {1}',mvNone:'Na lokaciji {0} nema {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na raspolaganju samo {0} – premještam {0}.',eSame:'Lokacije su iste.',eMoveFirm:'Na lokaciji {0} ima više firmi – reci koju, npr. „Zunaj Romunija 20 v Šotor kupci“.',capsL:'Poseban kapacitet (regal ili lokacija)',capsH:'Jedan po redu, npr.<br><b>05 = 4</b> (cijeli regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>Vani = 30</b><br>Ostalo koristi kapacitet iznad.',capLoc:'Kapacitet ove lokacije',capSet:'Spremi',spec:'Ostale lokacije',specL:'Ostale lokacije (jedna po redu)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Bez ograničenja kapaciteta. Glasom: „Vani Romunija 15“.',noFirm:'Bez oznake',noRes:'Nema rezultata.',pals:'pal.',roleW:'Radnik – može mijenjati',roleV:'Samo pregled',viewOnly:'Imaš samo pregled – ne možeš unositi promjene.',role:'Uloga',
+ members:'Članovi s pristupom',owner:'vlasnik',addMember:'Dodaj člana',mEmail:'E-mail',mName:'Ime',removeQ:'Ukloniti pristup za {0}?',onlyOwner:'Postavke lokacija i pristupe uređuje samo vlasnik.',yes:'Da',no:'Ne',updated:'Dostupna je nova verzija – zatvori i ponovo otvori aplikaciju.',dupN:'{0}× dupla',dupChk:'Duple palete (broj = duplih)',dupAdd:'+ dupla',lastChB:'🕘 Zadnje promjene ({0})',capB:'⚙️ Kapacitet',undo:'↩',undoQ:'Poništiti: {0}?',undone:'poništeno',undoFix:'↩ ispravka',undoDone:'Poništeno',mvNoDup:'Na {0} nema duplih paleta {1}.',repPerm:'Može vidjeti izvještaje',repB:'📈 Izvještaji',repT:'Izvještaji',pToday:'Danas',pYest:'Jučer',pWeek:'Ova sedmica',pLWeek:'Prošla sedmica',pMonth:'Ovaj mjesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Uneseno',rOut:'Skinuto / natovareno',rMv:'Premješteno',rByFirm:'Po firmama (kupcima)',rByW:'Po radnicima',rByDay:'Po danima',rDet:'Detaljno',rFirmF:'Filter: firma (neobavezno)',rWF:'Svi radnici',rLoading:'Učitavam …',rNone:'Nema promjena u ovom periodu.',rFix:'ispravke (ne broje se)',rDate:'Datum',rFirm:'Firma',rWk:'Radnik',rMore:'Prikazano prvih {0} redova.',loadedB:'🚚 Natovareno',moveAllB:'⇄ Premjesti sve',delLocB:'🗑 Obriši lokaciju (bez utovara)',loadedQ:'Sve s lokacije {0} je natovareno?',loadedFQ:'{0} s lokacije {1} – šta se desilo?',loadedF:'🚚 Natovareno ({0})',delF:'🗑 Obriši (bez utovara)',delQ:'Obrisati sve s lokacije {0} bez utovara?',loadedAll:'🚚 Natovareno – sve s lokacije',loadedFirm:'🚚 Natovareno: {0} (sve palete)',delAll:'🗑 Obriši sve s lokacije',delFirm:'🗑 Obriši: {0}',loaded:'natovareno',deleted:'obrisano',rDel:'obrisano (ne broji se)',mvAllT:'Premjesti sve s lokacije {0}',exitQ:'Za izlaz pritisni Nazad još jednom',ovUse:'Popunjenost regala',ovPlaces:'mjesta',ovLocs:'Lokacije',pend:'⏳ Čeka vezu: {0} lok. – spremi se samo',pendOld:'⚠ Promjene još nisu poslane ({0} lok.). Pređi na mjesto sa signalom.',loadingW:'Još učitavam … pokušaj za trenutak',done:'✓ Gotovo',qAdd:'Brzo dodaj',mvT:'Premještanje',mvTo:'Premjesti u',mvQty:'Broj paleta',mvBtn:'⇄ Premjesti',mvDone:'Premješteno: {0} → {1}',mvNone:'Na lokaciji {0} nema {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na raspolaganju samo {0} – premještam {0}.',eSame:'Lokacije su iste.',eMoveFirm:'Na lokaciji {0} ima više firmi – reci koju, npr. „Zunaj Romunija 20 v Šotor kupci“.',capsL:'Poseban kapacitet (regal ili lokacija)',capsH:'Jedan po redu, npr.<br><b>05 = 4</b> (cijeli regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>Vani = 30</b><br>Ostalo koristi kapacitet iznad.',capLoc:'Kapacitet ove lokacije',capSet:'Spremi',spec:'Ostale lokacije',specL:'Ostale lokacije (jedna po redu)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Bez ograničenja kapaciteta. Glasom: „Vani Romunija 15“.',noFirm:'Bez oznake',noRes:'Nema rezultata.',pals:'pal.',roleW:'Radnik – može mijenjati',roleV:'Samo pregled',viewOnly:'Imaš samo pregled – ne možeš unositi promjene.',role:'Uloga',
  loginT:'Prijava',email:'E-mail',pass:'Lozinka',login:'Prijavi se',register:'Novi račun',forgot:'Zaboravljena lozinka',resetSent:'Poslali smo mail za novu lozinku.',
  verifyT:'Potvrdi e-mail',verifyTxt:'Poslali smo link na {0}. Klikni ga (pogledaj i spam), pa pritisni „Potvrdio sam“.',verified:'Potvrdio sam',resend:'Pošalji ponovo',sentAgain:'Poslano',notYet:'E-mail još nije potvrđen.',logout:'Odjava',
  noAccess:'Nemaš pristup ovom skladištu. Zamoli vlasnika da u Postavkama doda tvoj e-mail:',retry:'Pokušaj ponovo',
@@ -230,6 +246,8 @@ function wordNum(n){ // vrne število ali undefined
   return undefined}
 const FILLER=new Set(['lokacija','lokacije','lokaciju','lokaciji','lokacijo','lok','na','u','v','sa','s','z','paleta','palete','paletu','paleti','palet','pal','komada','komad','kom','kos','kosov','i','in','je','firma','firme','firmu','podjetje','podjetja','broj','stevilka','plus','dodaj','dodati','stavi','stavio','ima','od','to','dolazi','dosla','doslo','regal','regala','regalu','visina','visini','visinu','nivo','sprat','red','polica','crtica','crta','kroz','pozicija','poziciju','poziciji','pozicijo']);
 const MINUSW=new Set(['minus','skini','skinuti','skinuto','oduzmi','manje','manj','otislo','otisla','otisle','otisao','poslano','poslato','poslao','poslane','utovareno','utovar','ukloni','izbaci','smanji','izaslo','izasle','vani','ven','odstrani','odstranjeno','odpeljano','odpeljal','odpeljali','vzemi','vzeto','odvzemi','nalozeno','nalozi','zmanjsaj']);
+const LOADW=new Set(['nalozeno','nalozeni','nalozena','nalozi','natovoreno','natovorjeno','natovareno','utovareno','nakladano']);
+const DELW=new Set(['obrisi','izbrisi','brisi','zbrisi','izbrisano','obrisano','zbrisano']);
 const DUPW=new Set(['duplo','dupla','duple','dupli','duplih','duplo','dvojna','dvojno','dvojne','dvojni','dvojnih','dvojnik','dvojniki']);
 const CLEARW=new Set(['prazno','prazna','prazan','isprazni','izprazni','ocisti','pocisti','obrisi','izbrisi','nema','nista','sve','vse']);
 function locKey(l){const m=String(l).match(/\d+/g);return m?m.map(Number).join('.'):norm(l)}
@@ -317,9 +335,11 @@ function finishMove(lok,to,rest,knownFirms,locData){
   return{move:true,lok,to,firma,qty,dup};
 }
 function finishParse(lok,rest,knownFirms,locData,noFirm){
-  let sign=1,clear=false,dup=false;const nums=[],fw=[];
+  let sign=1,clear=false,dup=false,load=false,del=false;const nums=[],fw=[];
   for(const tk of rest){
     if(DUPW.has(tk.n)){dup=true;continue}
+    if(LOADW.has(tk.n)){load=true;continue}
+    if(DELW.has(tk.n)){del=true;continue}
     if(MINUSW.has(tk.n)){sign=-1;continue}
     if(CLEARW.has(tk.n)){clear=true;continue}
     if(tk.num!==undefined){nums.push(tk.num);continue}
@@ -328,7 +348,9 @@ function finishParse(lok,rest,knownFirms,locData,noFirm){
   }
   const onLoc=(locData&&locData[lok])||[];
   let firma=fw.length?matchFirm(fw.join(' '),[...new Set([...onLoc.map(s=>s.firma),...knownFirms])]):null;
-  if(clear)return{lok,firma,clear:true};
+  if(del)return{lok,firma,clear:true,kind:'d'};
+  if(clear||(load&&!nums.some(n=>n>0)))return{lok,firma,clear:true,kind:'n'};
+  if(load)sign=-1;
   if(!firma&&sign<0&&onLoc.length===1)firma=onLoc[0].firma;
   if(!firma){if(noFirm===undefined)return{err:'eFirm',arg:lok,lok};firma=noFirm}
   const nz=nums.filter(n=>n>0);const qty=nz.length?nz[nz.length-1]:(nums.length?0:1);
@@ -467,11 +489,11 @@ async function applyDelta(lok,firma,delta,dd){
   if(ok&&delta>0&&!state.post.firme.some(f=>norm(f)===norm(firma))){const p=clone(state.post);p.firme.push(firma);p.firme.sort((a,b)=>a.localeCompare(b));run(store.savePost(p))}
   if(ok)flash(lok);return ok;
 }
-async function clearLoc(lok,firma){
+async function clearLoc(lok,firma,kind){kind=kind||'n';
   if(!writable())return false;
   const st=locItems(lok).filter(s=>!firma||norm(s.firma)===norm(firma));
   if(!st.length){toast(t('noThat',lok));return false}
-  const logs=st.map(s=>({kad:Date.now(),ko:me,lok,firma:s.firma,delta:-s.palete,dup:-(s.dup||0),opis:'x'}));
+  const logs=st.map(s=>({kad:Date.now(),ko:me,lok,firma:s.firma,delta:-s.palete,dup:-(s.dup||0),opis:kind}));
   const ok=doWrite(firma?[{lok,firma,del:true}]:[{lok,clear:true}],logs);
   if(ok)flash(lok);return ok;
 }
@@ -530,10 +552,34 @@ function renderSearch(q){
 $('#sres').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
 
 /* ================= okna ================= */
-function ask(msg,onYes,onNo){openSheet('<h2>⚠️</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var(--red);border-color:var(--red)">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
+function ask(msg,onYes,onNo,good){openSheet('<h2>'+(good?'🚚':'⚠️')+'</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var('+(good?'--green);color:#0d1320;border-color:var(--green)':'--red);border-color:var(--red)')+'">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
 let sheetState={};
-function openSheet(html,type,extra){$('#sheet').innerHTML=html;$('#ov').hidden=false;$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0}
-function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').hidden=true;sheetState={};stopRec()}
+let sheetHist=false,ignorePop=false;
+function openSheet(html,type,extra){const lk=!!(extra&&extra.locked);
+  $('#sheet').innerHTML='<div class="shd"><span class="grab"></span>'+(lk?'':'<button class="sx" aria-label="Zapri">✕</button>')+'</div>'+html;
+  $('#ov').hidden=false;$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0;$('#sheet').style.transform='';
+  const sx=$('#sheet .sx');if(sx)sx.onclick=()=>closeSheet();
+  if(!sheetHist){try{history.pushState({sheet:1},'')}catch(e){}sheetHist=true}}
+function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').hidden=true;sheetState={};stopRec();
+  if(sheetHist){sheetHist=false;ignorePop=true;try{history.back()}catch(e){ignorePop=false}}}
+// Nazaj: zapre okno; na glavnem zaslonu dvakrat za izhod
+let lastBack=0;
+try{history.replaceState({base:1},'');history.pushState({guard:1},'')}catch(e){}
+window.addEventListener('popstate',()=>{
+  const st=history.state||{};
+  if(ignorePop){ignorePop=false;try{if(sheetHist&&!st.sheet)history.pushState({sheet:1},'');else if(!sheetHist&&!st.guard&&!st.sheet)history.pushState({guard:1},'')}catch(e){}return}
+  if(sheetHist){sheetHist=false;if(sheetState.locked){try{history.pushState({sheet:1},'')}catch(e){}sheetHist=true;return}$('#ov').hidden=true;sheetState={};stopRec();
+    try{if(!st.guard)history.pushState({guard:1},'')}catch(e){}return}
+  const now=Date.now();
+  if(now-lastBack<2000){try{history.back()}catch(e){}return}
+  lastBack=now;toast(t('exitQ'));try{history.pushState({guard:1},'')}catch(e){}
+});
+// povlecite navzdol za zapiranje
+(function(){let y0=null,dy=0;const sh=$('#sheet');
+  sh.addEventListener('touchstart',e=>{if(sheetState.locked)return;const onHandle=e.target.closest('.shd');if(sh.scrollTop>0&&!onHandle){y0=null;return}y0=e.touches[0].clientY;dy=0},{passive:true});
+  sh.addEventListener('touchmove',e=>{if(y0===null)return;dy=e.touches[0].clientY-y0;if(dy>0){sh.style.transform='translateY('+dy+'px)'}},{passive:true});
+  sh.addEventListener('touchend',()=>{if(y0===null)return;if(dy>110)closeSheet();else sh.style.transform='';y0=null;dy=0});
+})();
 $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
 const ready=()=>!!me;
 
@@ -543,25 +589,28 @@ function openLoc(lok){
   openSheet('<h2>'+t('loc')+' '+esc(lok)+'</h2><div id="locBody"></div>'+
    (ed?'<div class="add"><input class="in" id="aF" list="firmList" placeholder="'+t('firm')+'" autocomplete="off"><input class="in num" id="aN" type="number" inputmode="numeric" min="1" value="1"></div><label class="chk"><input type="checkbox" id="aDup">'+t('dupChk')+'</label>'+
    '<datalist id="firmList">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
-   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn d" id="clrBtn">'+t('emptyLoc')+'</button>':'<p class="mut">'+t('viewOnly')+'</p>')+(isOwner()?'<button class="btn" id="capT">'+t('capB')+'</button><div id="capBox" hidden><label>'+t('capLoc')+'</label><div class="add" style="margin-top:0"><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn" id="lCapB" style="margin:0;flex:1">'+t('capSet')+'</button></div></div>':'')+'<div id="qChips"></div><button class="btn" id="lhT"></button><div id="locHist" class="hist" hidden></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
+   '<button class="btn p" id="aBtn">'+t('addPal')+'</button>'+(locItems(lok).length?'<div class="btns"><button class="btn ld" id="ldBtn">'+t('loadedB')+'</button><button class="btn" id="mvAll">'+t('moveAllB')+'</button></div><button class="btn d sm" id="clrBtn">'+t('delLocB')+'</button>':''):'<p class="mut">'+t('viewOnly')+'</p>')+(isOwner()?'<button class="btn" id="capT">'+t('capB')+'</button><div id="capBox" hidden><label>'+t('capLoc')+'</label><div class="add" style="margin-top:0"><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn" id="lCapB" style="margin:0;flex:1">'+t('capSet')+'</button></div></div>':'')+'<div id="qChips"></div><button class="btn" id="lhT"></button><div id="locHist" class="hist" hidden></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
   $('#xB').onclick=closeSheet;
   $('#lhT').onclick=()=>{const e=$('#locHist');e.hidden=!e.hidden};if($('#capT'))$('#capT').onclick=()=>{const e=$('#capBox');e.hidden=!e.hidden};
   if(ed){$('#aBtn').onclick=async()=>{const f=$('#aF').value.trim(),n=parseInt($('#aN').value)||0;if(n<1){toast(t('needFP'));return}
     const dp=$('#aDup').checked;const firma=f?matchFirm(f,knownFirms()):t('noFirm');if(await applyDelta(lok,firma,dp?n*2:n,dp?n:0)){$('#aF').value='';$('#aN').value=1;$('#aDup').checked=false;toast(lok+': '+firma+' +'+(dp?t('dupN',n):n))}};
-  $('#clrBtn').onclick=()=>ask(t('askEmpty',lok),async()=>{await clearLoc(lok);openLoc(lok)},()=>openLoc(lok))}
+  if($('#ldBtn')){$('#ldBtn').onclick=()=>ask(t('loadedQ',lok),async()=>{await clearLoc(lok,null,'n');openLoc(lok)},()=>openLoc(lok),true);
+    $('#mvAll').onclick=()=>openMoveSheet(lok,null,0);
+    $('#clrBtn').onclick=()=>ask(t('delQ',lok),async()=>{await clearLoc(lok,null,'d');openLoc(lok)},()=>openLoc(lok))}}
   if($('#lCapB'))$('#lCapB').onclick=async()=>{const np=clone(state.post);np.kapacitete=np.kapacitete||{};np.kapacitete[lok]=Math.max(0,parseInt($('#lCap').value)||0);if(await run(store.savePost(np))){toast('✓ '+lok+': '+np.kapacitete[lok]);render()}};
   renderLocBody();
 }
 function renderLocBody(){
   const lok=sheetState.lok,st=locItems(lok),info=state.lok[idOf(lok)],cap=capOf(lok);
   const b=$('#locBody');if(!b)return;
-  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-dp="1" title="'+t('dupAdd')+'">⧉</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🗑</button>':'')+'</div>').join('')+
+  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-dp="1" title="'+t('dupAdd')+'">⧉</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🚚</button>':'')+'</div>').join('')+
     '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' · '+placesOf(st)+'/'+cap:'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
     :'<p class="mut">'+t('isEmpty')+'</p>';
   b.querySelectorAll('.sq').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.i];if(!s)return;
     if(x.dataset.m){openMoveSheet(lok,s.firma,s.palete);return}
     if(x.dataset.dp){applyDelta(lok,s.firma,2,1);return}
-    if(x.dataset.x){ask(t('askRemove',s.firma,lok),async()=>{await clearLoc(lok,s.firma);openLoc(lok)},()=>openLoc(lok))}else applyDelta(lok,s.firma,+x.dataset.d)});
+    if(x.dataset.x){openSheet('<h2>'+esc(s.firma)+' · '+esc(lok)+'</h2><p>'+t('loadedFQ',esc(s.firma),esc(lok))+'</p><button class="btn ld" id="cL">'+t('loadedF',pal(s.palete))+'</button><button class="btn d" id="cD">'+t('delF')+'</button><button class="btn" id="cX">'+t('cancel')+'</button>','choice');
+      $('#cL').onclick=async()=>{await clearLoc(lok,s.firma,'n');openLoc(lok)};$('#cD').onclick=async()=>{await clearLoc(lok,s.firma,'d');openLoc(lok)};$('#cX').onclick=()=>openLoc(lok);return}else applyDelta(lok,s.firma,+x.dataset.d)});
   const qc=$('#qChips');if(qc){if(ed){const on=new Set(st.map(s=>norm(s.firma)));const rec=[];for(const x of state.hist){if(rec.length>=6)break;if(x.firma&&!on.has(norm(x.firma))&&!rec.some(r=>norm(r)===norm(x.firma)))rec.push(x.firma)}
     qc.innerHTML=rec.length?'<label>'+t('qAdd')+'</label>'+rec.map(f=>'<button class="lc qa" data-qf="'+esc(f)+'">+1 '+esc(f)+'</button>').join(''):'';
     qc.querySelectorAll('[data-qf]').forEach(x=>x.onclick=()=>applyDelta(lok,x.dataset.qf,1))}else qc.innerHTML=''}
@@ -569,13 +618,14 @@ function renderLocBody(){
   const lh=$('#locHist');lh.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>';wireUndo(lh);
   $('#lhT').textContent=t('lastChB',h.length);
 }
+function opisTxt(x){return x.opis==='n'?t('loaded'):x.opis==='d'?t('deleted'):x.opis?t('emptied'):''}
 function undoneSet(){const s=new Set();state.hist.forEach(x=>{if(x.tip==='undo'&&x.ref)s.add(x.ref)});return s}
 function canUndo(x,U){if(!canEdit()||!x.id||x.tip||U.has(x.id))return false;if(isOwner())return true;
   const mine=x.u?x.u===myUid:x.ko===me;return mine&&Date.now()-x.kad<24*3600e3}
 function histText(x){const d=x.dup?' ('+t('dupN',Math.abs(x.dup))+')':'';return x.do?esc(x.lok)+' → '+esc(x.do)+' '+esc(x.firma)+' ⇄ '+x.delta+d:esc(x.lok)+' '+esc(x.firma)+' '+(x.delta>0?'+':'')+x.delta+d}
 function histLine(x){const U=undoneSet();const un=x.id&&U.has(x.id);
   if(x.tip==='undo')return '<div class="mut">'+fdt(x.kad)+' · '+esc(x.ko||'?')+' · '+t('undoFix')+': '+histText(x)+'</div>';
-  const body=x.do?'<b>'+esc(x.lok)+'</b> → <b>'+esc(x.do)+'</b> '+esc(x.firma)+' <span class="mv">⇄ '+x.delta+'</span>':'<b>'+esc(x.lok)+'</b> '+esc(x.firma)+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'');
+  const body=x.do?'<b>'+esc(x.lok)+'</b> → <b>'+esc(x.do)+'</b> '+esc(x.firma)+' <span class="mv">⇄ '+x.delta+'</span>':'<b>'+esc(x.lok)+'</b> '+esc(x.firma)+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+opisTxt(x)+')</span>':'');
   const d=x.dup?' <span class="mut">('+t('dupN',Math.abs(x.dup))+')</span>':'';
   return '<div class="hl"><div class="'+(un?'strike':'')+'"><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · '+body+d+(un?' <span class="mut">('+t('undone')+')</span>':'')+'</div>'+(canUndo(x,U)?'<button class="ub" data-undo="'+esc(x.id)+'">'+t('undo')+'</button>':'')+'</div>'}
 function wireUndo(el){el.querySelectorAll('[data-undo]').forEach(b=>b.onclick=()=>{const x=state.hist.find(y=>y.id===b.dataset.undo);if(!x)return;const lk=sheetState.lok,tp=sheetState.type;const back=tp==='loc'?()=>openLoc(lk):tp==='hist'?openHist:closeSheet;
@@ -594,15 +644,23 @@ function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').v
 function openOver(){if(!ready())return;openSheet('<h2>'+t('ovT')+'</h2><div id="ovBody"></div><button class="btn" id="xB">'+t('close')+'</button>','over');$('#xB').onclick=closeSheet;renderOver()}
 function renderOver(){
   const el=$('#ovBody');if(!el)return;
-  const L=allLocs(),byF={},free=[],fullL=[];let occ=0,tot=0;
-  for(const l of L){const st=locItems(l),s=sumOf(st),pl=placesOf(st),cap=capOf(l);if(!st.length){free.push(l);continue}occ++;tot+=s;if(cap&&pl>=cap)fullL.push(l+' ('+pl+'/'+cap+')');
-    st.forEach(x=>{byF[x.firma]=byF[x.firma]||{n:0,l:[]};byF[x.firma].n+=x.palete;byF[x.firma].l.push(l+' ('+x.palete+')')})}
-  const fl=Object.entries(byF).sort((a,b)=>b[1].n-a[1].n);
-  el.innerHTML='<div class="stats"><div class="stat"><b>'+occ+'</b>'+t('sOcc')+'</div><div class="stat"><b>'+free.length+'</b>'+t('sFree')+'</div><div class="stat"><b>'+tot+'</b>'+t('sPal')+'</div><div class="stat"><b>'+fullL.length+'</b>'+t('sFull')+'</div></div>'+
-   '<h3>'+t('ovFirms')+'</h3>'+(fl.length?'<p class="mut">'+t('ovTap')+'</p><table class="ft">'+fl.map(([f,v])=>'<tr data-f="'+esc(f)+'"><td><b>'+esc(f)+'</b><div class="mut">'+v.l.map(esc).join(', ')+'</div></td><td>'+v.n+'</td></tr>').join('')+'</table>':'<p class="mut">'+t('ovNo')+'</p>')+
-   '<h3>'+t('ovFull')+'</h3><p class="mut">'+(fullL.map(esc).join(', ')||'—')+'</p>'+
-   '<h3>'+t('ovFree')+' ('+free.length+')</h3><p class="mut">'+(free.map(esc).join(', ')||'—')+'</p>';
-  el.querySelectorAll('tr[data-f]').forEach(r=>r.onclick=()=>{$('#search').value=r.dataset.f;closeSheet();render()});
+  const L=allLocs(),byF={},free=[],fullL=[],spec=[];let occ=0,tot=0,used=0,capT=0;
+  for(const l of L){const st=locItems(l),s=sumOf(st),pl=placesOf(st),cap=capOf(l);if(cap){capT+=cap;used+=Math.min(pl,cap)}
+    if(isSp(l))spec.push([l,s]);
+    if(!st.length){if(!isSp(l))free.push(l);continue}occ++;tot+=s;if(cap&&pl>=cap)fullL.push([l,pl,cap]);
+    st.forEach(x=>{byF[x.firma]=byF[x.firma]||{n:0,l:[]};byF[x.firma].n+=x.palete;byF[x.firma].l.push([l,x.palete])})}
+  const fl=Object.entries(byF).sort((a,b)=>b[1].n-a[1].n),mx=fl.length?fl[0][1].n:1,pct=capT?Math.round(used/capT*100):0;
+  const chip=(l,txt,cls)=>'<button class="oc '+(cls||'')+'" data-l="'+esc(l)+'">'+esc(l)+(txt!==undefined?' <b>'+txt+'</b>':'')+'</button>';
+  el.innerHTML=
+   (capT?'<div class="obar"><div class="obl"><span>'+t('ovUse')+'</span><b>'+pct+' %</b></div><div class="obt"><div style="width:'+pct+'%"></div></div><div class="mut">'+used+' / '+capT+' '+t('ovPlaces')+'</div></div>':'')+
+   '<div class="ost"><div class="os c1"><span>📦</span><b>'+occ+'</b>'+t('sOcc')+'</div><div class="os c2"><span>⬜</span><b>'+free.length+'</b>'+t('sFree')+'</div><div class="os c3"><span>🧱</span><b>'+tot+'</b>'+t('sPal')+'</div><div class="os c4"><span>⚠️</span><b>'+fullL.length+'</b>'+t('sFull')+'</div></div>'+
+   '<h3>'+t('ovFirms')+'</h3>'+(fl.length?'<table class="otb"><thead><tr><th>'+t('firm')+'</th><th>'+t('ovLocs')+'</th><th>Σ</th></tr></thead><tbody>'+
+     fl.map(([f,v])=>'<tr><td class="of" data-f="'+esc(f)+'">'+esc(f)+'<div class="ob"><div style="width:'+Math.max(6,Math.round(v.n/mx*100))+'%"></div></div></td><td>'+v.l.map(([l,n])=>chip(l,n)).join('')+'</td><td class="on">'+v.n+'</td></tr>').join('')+'</tbody></table><p class="mut">'+t('ovTap')+'</p>':'<p class="mut">'+t('ovNo')+'</p>')+
+   (spec.length?'<h3>'+t('spec')+'</h3><div class="ocs">'+spec.map(([l,s])=>chip(l,s,s?'cb':'')).join('')+'</div>':'')+
+   '<h3>'+t('ovFull')+' ('+fullL.length+')</h3><div class="ocs">'+(fullL.map(([l,pl,c])=>chip(l,pl+'/'+c,pl>c?'cr':'co')).join('')||'<span class="mut">—</span>')+'</div>'+
+   '<h3>'+t('ovFree')+' ('+free.length+')</h3><div class="ocs">'+(free.map(l=>chip(l,undefined,'cg')).join('')||'<span class="mut">—</span>')+'</div>';
+  el.querySelectorAll('[data-f]').forEach(r=>r.onclick=()=>{$('#search').value=r.dataset.f;closeSheet();render()});
+  el.querySelectorAll('.oc[data-l]').forEach(b=>b.onclick=()=>openLoc(b.dataset.l));
 }
 
 /* ================= glas ================= */
@@ -643,14 +701,14 @@ function handleText(txt,alts){
 function showConfirm(p,heard){
   if(p.move)return showMoveConfirm(p,heard);
   const cur=locItems(p.lok);let after,what;
-  if(p.clear){after=p.firma?cur.filter(s=>norm(s.firma)!==norm(p.firma)):[];what=p.firma?t('removeAll',esc(p.firma)):t('emptyAll')}
+  if(p.clear){after=p.firma?cur.filter(s=>norm(s.firma)!==norm(p.firma)):[];const L=p.kind!=='d';what=p.firma?t(L?'loadedFirm':'delFirm',esc(p.firma)):t(L?'loadedAll':'delAll')}
   else{after=addTo(clone(cur),p.firma,p.delta,p.dd||0);what=esc(p.firma)+' <span class="'+(p.delta>0?'plus':'minus')+'">'+(p.delta>0?'+ ':'− ')+(p.dd?t('dupN',Math.abs(p.dd))+' = ':'')+pal(p.delta)+'</span>'}
   const c=capOf(p.lok),n=placesOf(after);
   openSheet('<div class="mut">'+t('heard')+': »'+esc(heard)+'«</div><div class="card"><div class="mut">'+t('loc')+'</div><div class="big">'+esc(p.lok)+'</div><div style="font-size:19px">'+what+'</div>'+
     '<div class="mut" style="margin-top:8px">'+t('after')+': '+(after.length?after.map(s=>esc(s.firma)+' '+s.palete+(s.dup?' ('+t('dupN',s.dup)+')':'')).join(', '):t('empty'))+'</div>'+(c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
     '<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
   $('#xB').onclick=closeSheet;
-  $('#okB').onclick=async()=>{closeSheet();const ok=p.clear?await clearLoc(p.lok,p.firma):await applyDelta(p.lok,p.firma,p.delta,p.dd||0);if(ok)toast(t('saved',p.lok))};
+  $('#okB').onclick=async()=>{closeSheet();const ok=p.clear?await clearLoc(p.lok,p.firma,p.kind):await applyDelta(p.lok,p.firma,p.delta,p.dd||0);if(ok)toast(t('saved',p.lok))};
   $('#againB').onclick=startVoice;$('#editB').onclick=()=>openType(heard);
 }
 function showMoveConfirm(p,heard){
@@ -668,6 +726,8 @@ function showMoveConfirm(p,heard){
 function addAll(st,items){items.forEach(x=>addTo(st,x.firma,x.n,x.dm||0));return st}
 function openMoveSheet(lok,firma,n){
   const opts=allLocs().filter(l=>l!==lok).map(l=>'<option>'+esc(l)+'</option>').join('');
+  if(!firma){openSheet('<h2>'+t('mvAllT',esc(lok))+'</h2><p class="mut">'+locItems(lok).map(s=>esc(s.firma)+' '+s.palete).join(', ')+'</p><label>'+t('mvTo')+'</label><select class="in" id="mTo">'+opts+'</select><button class="btn p" id="mGo">'+t('next')+'</button><button class="btn" id="mX">'+t('cancel')+'</button>','move');
+    $('#mX').onclick=()=>openLoc(lok);$('#mGo').onclick=()=>showMoveConfirm({move:true,lok,to:$('#mTo').value,firma:null,qty:null},'');return}
   openSheet('<h2>'+t('mvT')+': '+esc(lok)+'</h2><div class="big" style="font-size:18px">'+esc(firma)+'</div><label>'+t('mvQty')+'</label><input class="in num" id="mQ" type="number" inputmode="numeric" min="1" max="'+n+'" value="'+n+'" style="width:100px"><label>'+t('mvTo')+'</label><select class="in" id="mTo">'+opts+'</select><button class="btn p" id="mGo">'+t('next')+'</button><button class="btn" id="mX">'+t('cancel')+'</button>','move');
   $('#mX').onclick=()=>openLoc(lok);
   $('#mGo').onclick=()=>{const q=Math.max(1,parseInt($('#mQ').value)||0);showMoveConfirm({move:true,lok,to:$('#mTo').value,firma,qty:q},'')};
@@ -680,7 +740,7 @@ function openType(text,focus,err){
   $('#xB').onclick=closeSheet;
   const go=()=>{const v=$('#cmd').value.trim();if(v)handleText(v)};
   $('#goB').onclick=go;$('#cmd').onkeydown=e=>{if(e.key==='Enter')go()};if(SR)$('#vB').onclick=startVoice;
-  if(focus)setTimeout(()=>$('#cmd').focus(),200);
+  if(focus)setTimeout(()=>{const c=$('#cmd');if(c)c.focus()},200);
 }
 
 /* ================= predaja ================= */
@@ -695,7 +755,7 @@ function buildReport(){
   txt+='\n'+t('rEmpty')+' ('+empty.length+'): '+(empty.join(', ')||t('rNone'))+'\n';
   txt+='\n'+t('rByF')+':\n'+Object.entries(byF).sort((a,b)=>a[0].localeCompare(b[0])).map(([f,n])=>f+': '+n).join('\n')+'\n'+t('rAll')+': '+pal(tot)+'\n';
   const UU=undoneSet();const ch=state.hist.filter(x=>x.kad>=since&&x.tip!=='undo'&&!UU.has(x.id)).reverse();
-  txt+='\n'+t('rCh')+' '+fdt(since)+' ('+ch.length+'):\n'+(ch.map(x=>ft(x.kad)+' '+x.ko+' – '+(x.do?x.lok+' → '+x.do+' '+x.firma+' '+x.delta:x.lok+' '+x.firma+' '+(x.delta>0?'+':'')+x.delta+(x.opis?' ('+t('emptied')+')':''))).join('\n')||t('rNone'))+'\n';
+  txt+='\n'+t('rCh')+' '+fdt(since)+' ('+ch.length+'):\n'+(ch.map(x=>ft(x.kad)+' '+x.ko+' – '+(x.do?x.lok+' → '+x.do+' '+x.firma+' '+x.delta:x.lok+' '+x.firma+' '+(x.delta>0?'+':'')+x.delta+(x.opis?' ('+opisTxt(x)+')':''))).join('\n')||t('rNone'))+'\n';
   return{txt,byF,tot,ch,since,now};
 }
 function openReport(){
@@ -809,9 +869,9 @@ function calcReport(){
   const fq=norm($('#rF').value||''),wq=$('#rW').value||'';
   const ok=rows.filter(x=>x.tip!=='undo'&&!U.has(x.id)&&(!fq||norm(x.firma||'').includes(fq))&&(!wq||x.ko===wq));
   const fixes=rows.filter(x=>x.tip==='undo').length;
-  const T={in:0,out:0,mv:0},byF={},byW={},byD={};
+  const T={in:0,out:0,mv:0,del:0},byF={},byW={},byD={};
   const add=(o,k,f,n)=>{o[k]=o[k]||{in:0,out:0,mv:0};o[k][f]+=n};
-  for(const x of ok){const f=x.do?'mv':x.delta>0?'in':'out',n=Math.abs(x.delta);T[f]+=n;add(byF,x.firma||'?',f,n);add(byW,x.ko||'?',f,n);add(byD,ymd(x.kad),f,n)}
+  for(const x of ok){if(x.opis==='d'){T.del+=Math.abs(x.delta);continue}const f=x.do?'mv':x.delta>0?'in':'out',n=Math.abs(x.delta);T[f]+=n;add(byF,x.firma||'?',f,n);add(byW,x.ko||'?',f,n);add(byD,ymd(x.kad),f,n)}
   return{ok,fixes,T,byF,byW,byD};
 }
 function repTable(title,obj,sortByName){const e=Object.entries(obj);if(!e.length)return'';e.sort(sortByName?(a,b)=>a[0].localeCompare(b[0]):(a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out));
@@ -821,15 +881,15 @@ function showReport(){
   const multi=repState.to-repState.from>864e5;const per=dmy(repState.from)+(multi?' – '+dmy(repState.to-1):'');
   if(!R.ok.length){out.innerHTML='<p class="mut">'+per+'</p><p class="mut">'+t('rNone')+'</p>';return}
   const det=[...R.ok].sort((a,b)=>b.kad-a.kad);const MAX=300;
-  out.innerHTML='<p class="mut">'+per+'</p><div class="stats"><div class="stat"><b class="plus">'+R.T.in+'</b>'+t('rIn')+'</div><div class="stat"><b class="minus">'+R.T.out+'</b>'+t('rOut')+'</div><div class="stat"><b class="mv">'+R.T.mv+'</b>'+t('rMv')+'</div><div class="stat"><b>'+R.fixes+'</b>'+t('rFix')+'</div></div>'+
+  out.innerHTML='<p class="mut">'+per+'</p><div class="stats"><div class="stat"><b class="plus">'+R.T.in+'</b>'+t('rIn')+'</div><div class="stat"><b class="minus">'+R.T.out+'</b>'+t('rOut')+'</div><div class="stat"><b class="mv">'+R.T.mv+'</b>'+t('rMv')+'</div><div class="stat"><b>'+R.fixes+'</b>'+t('rFix')+'</div>'+(R.T.del?'<div class="stat"><b>'+R.T.del+'</b>'+t('rDel')+'</div>':'')+'</div>'+
     repTable(t('rByFirm'),R.byF)+repTable(t('rByW'),R.byW)+(multi?repTable(t('rByDay'),Object.fromEntries(Object.entries(R.byD).map(([k,v])=>[dmy(dayStart(k+'T00:00')),v])),true):'')+
-    '<h3>'+t('rDet')+'</h3><div class="hist">'+det.slice(0,MAX).map(x=>'<div><span class="mut">'+(multi?dmy(x.kad)+' ':'')+ft(x.kad)+'</span> · '+esc(x.ko||'?')+' · '+histText(x)+(x.opis?' <span class="mut">('+t('emptied')+')</span>':'')+'</div>').join('')+'</div>'+(det.length>MAX?'<p class="mut">'+t('rMore',MAX)+'</p>':'')+
+    '<h3>'+t('rDet')+'</h3><div class="hist">'+det.slice(0,MAX).map(x=>'<div><span class="mut">'+(multi?dmy(x.kad)+' ':'')+ft(x.kad)+'</span> · '+esc(x.ko||'?')+' · '+histText(x)+(x.opis?' <span class="mut">('+opisTxt(x)+')</span>':'')+'</div>').join('')+'</div>'+(det.length>MAX?'<p class="mut">'+t('rMore',MAX)+'</p>':'')+
     (navigator.share?'<button class="btn p" id="rSh">'+t('send')+'</button>':'')+'<div class="btns"><button class="btn" id="rCp">'+t('copy')+'</button><button class="btn" id="rPd">📄 PDF</button></div>';
   const txt=()=>{const L=[t('repT').toUpperCase()+' '+per];if($('#rF').value)L.push(t('rFirm')+': '+$('#rF').value);if($('#rW').value)L.push(t('rWk')+': '+$('#rW').value);
     L.push('',t('rIn')+': '+R.T.in,t('rOut')+': '+R.T.out,t('rMv')+': '+R.T.mv,'',t('rByFirm').toUpperCase()+':');
     Object.entries(R.byF).forEach(([k,v])=>L.push(k+': +'+v.in+' / -'+v.out+(v.mv?' / ⇄'+v.mv:'')));L.push('',t('rByW').toUpperCase()+':');
     Object.entries(R.byW).forEach(([k,v])=>L.push(k+': +'+v.in+' / -'+v.out+(v.mv?' / ⇄'+v.mv:'')));L.push('',t('rDet').toUpperCase()+':');
-    det.forEach(x=>L.push((multi?dmy(x.kad)+' ':'')+ft(x.kad)+' '+(x.ko||'?')+' – '+histText(x).replace(/&[^;]+;/g,m=>({'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&#39;':"'"}[m]||m))+(x.opis?' ('+t('emptied')+')':'')));return L.join('\n')};
+    det.forEach(x=>L.push((multi?dmy(x.kad)+' ':'')+ft(x.kad)+' '+(x.ko||'?')+' – '+histText(x).replace(/&[^;]+;/g,m=>({'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&#39;':"'"}[m]||m))+(x.opis?' ('+opisTxt(x)+')':'')));return L.join('\n')};
   if($('#rSh'))$('#rSh').onclick=async()=>{try{await navigator.share({title:t('repT')+' '+per,text:txt()})}catch(e){}};
   $('#rCp').onclick=async()=>{try{await navigator.clipboard.writeText(txt());toast(t('copied'))}catch(e){toast(t('noCopy'))}};
   $('#rPd').onclick=()=>{$('#print').innerHTML='<h2>'+t('repT')+' – '+per+'</h2>'+out.innerHTML.replace(/<button[\s\S]*?<\/button>/g,'');setTimeout(()=>window.print(),100)};
