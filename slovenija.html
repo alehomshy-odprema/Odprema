@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Slovenija</title>
+<meta name="theme-color" content="#0d1320">
+<link rel="manifest" href="manifest-slovenija.webmanifest">
+<link rel="icon" href="icon-s-192.png">
+<link rel="apple-touch-icon" href="icon-s-192.png">
+<script>try{var T=localStorage.getItem("lk_theme"),Z=localStorage.getItem("lk_zoom");if(T)document.documentElement.dataset.theme=JSON.parse(T);if(Z)document.documentElement.style.setProperty("--z",JSON.parse(Z))}catch(e){}</script>
+<style>
+:root{--z:1;--gold:#e2bd48;--sheet:#212e47;--bg:#0f1626;--card:#1a2438;--ink:#f6f9ff;--mut:#b6c3d8;--line:#34425e;--acc:#3b8cff;--blue:#7cc0ff;--red:#ff7676;--green:#45e3a0;--orange:#ffb04d;--track:#2a3756;color-scheme:dark}
+:root[data-theme="light"]{--gold:#b8860b;--sheet:#fff;--bg:#eef1f6;--card:#fff;--ink:#0d1726;--mut:#465569;--line:#c3ccda;--acc:#1765d8;--blue:#0f4fae;--red:#c62828;--green:#0d8a52;--orange:#c96a00;--track:#dde3ec;color-scheme:light}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{zoom:var(--z);padding:env(safe-area-inset-top) 0 calc(90px + env(safe-area-inset-bottom))}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 14px 8px;border-bottom:1px solid var(--line)}
+.hr{display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;border-radius:50%;background:#fff;color:#0057b8;font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center;border:2px solid #d52b1e;flex:none}
+h1{margin:0;font-size:22px;color:var(--blue);letter-spacing:.02em;flex:1}
+.pilot{font-size:11px;font-weight:800;color:#111;background:var(--gold);border-radius:8px;padding:2px 7px;letter-spacing:.05em}
+.dn{display:flex;align-items:center;gap:6px;margin-top:8px}
+.dn button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:18px}
+.dn .d{flex:1;text-align:center;font-weight:700}.dn .d small{display:block;font-weight:500;color:var(--mut);font-size:12.5px}
+.reg{width:100%;margin-top:6px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:15px}
+main{padding:10px 14px}
+.top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:7px}
+.k{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--line);border-radius:12px;padding:8px 9px}
+.k b{font-size:23px;display:block;font-variant-numeric:tabular-nums}.k span{font-size:12.5px;color:var(--mut)}
+.k.y{border-top-color:var(--gold)}.k.y b{color:var(--gold)}.k.g{border-top-color:var(--green)}.k.g b{color:var(--green)}.k.o{border-top-color:var(--orange)}.k.o b{color:var(--orange)}
+.prog{height:8px;border-radius:4px;background:var(--track);margin:10px 0 2px;overflow:hidden}.prog i{display:block;height:100%;background:var(--green);transition:width .3s}
+.dl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut)}.dl b{color:var(--orange)}
+.d{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:12px;padding:9px 11px;margin-top:8px}
+.d.ok{border-left-color:var(--green)}
+.dh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;cursor:pointer}
+.dh b{font-size:16.5px}.dh .city{color:var(--blue);font-weight:700;font-size:14px}
+.dh .q{font-weight:800;font-size:15px;white-space:nowrap}.dh .q span{color:var(--mut);font-weight:500;font-size:12.5px}
+.steps{display:flex;gap:4px;margin-top:7px}
+.st{flex:1;text-align:center;font-size:12px;border-radius:8px;padding:8px 2px;background:var(--bg);border:1px solid var(--line);color:var(--mut)}
+.st.on{background:rgba(69,227,160,.16);border-color:var(--green);color:var(--green);font-weight:800}
+.add{display:block;width:100%;border:1px dashed var(--line);background:none;border-radius:12px;padding:12px;text-align:center;color:var(--mut);margin-top:8px;font-size:15px}
+.btn{display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center;font-weight:700;margin-top:10px;background:var(--card);font-size:16px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}.btn.d{color:var(--red);border-color:var(--red);background:none}
+.sent{font-size:13px;color:var(--green);text-align:center;margin-top:6px}
+.empty{text-align:center;color:var(--mut);padding:24px 8px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:6}
+nav button,nav a{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--mut);text-decoration:none;padding:4px}
+nav span{font-size:21px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10;display:flex;align-items:flex-end;justify-content:center}
+.ov[hidden]{display:none}
+.sheet{background:var(--sheet);border-top:3px solid var(--gold);border-radius:18px 18px 0 0;width:100%;max-width:720px;max-height:calc(90vh / var(--z));overflow:auto;padding:14px 14px calc(18px + env(safe-area-inset-bottom));overscroll-behavior:contain}
+@media (min-width:760px){.ov{align-items:center}.sheet{border-radius:18px}}
+.sheet h2{margin:0 0 10px;color:var(--blue);font-size:20px;display:flex;justify-content:space-between;align-items:center}
+.sx{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:16px}
+label{display:block;color:var(--blue);font-size:14px;margin:10px 0 5px;font-weight:600}
+.in{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:16px}
+.row2{display:flex;gap:8px}.row2>*{flex:1}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.c{border:1px solid var(--line);border-radius:16px;padding:8px 12px;font-size:14px;background:var(--bg)}
+.c.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.c.dis{opacity:.4}
+.kr{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}.kr span{flex:1}.kr button{border:0;background:none;color:var(--red);font-size:16px}
+.msg{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.hday{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:14px 2px 4px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.hi{display:flex;gap:8px;font-size:14px;padding:6px 2px;border-bottom:1px dotted var(--line)}.hi .t{color:var(--mut);width:42px;flex:none;font-variant-numeric:tabular-nums}.hi .w{color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2a3a57;color:#fff;padding:10px 16px;border-radius:12px;z-index:20;max-width:90vw;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.gate{max-width:420px;margin:60px auto;padding:20px;text-align:center}
+.gate a{color:var(--blue)}
+.ver{text-align:center;font-size:12px;color:var(--mut);margin-top:18px}
+.pend{font-size:12px;color:var(--orange);text-align:center;margin-top:4px}
+</style>
+</head>
+<body>
+<header>
+  <div class="hr"><div class="logo">S</div><h1>SLOVENIJA</h1><span class="pilot">PILOT</span></div>
+  <div class="dn"><button id="dPrev" aria-label="Prejšnji dan">◀</button><div class="d" id="dTxt"></div><button id="dNext" aria-label="Naslednji dan">▶</button></div>
+  <input class="reg" id="reg" placeholder="Regija za ta dan (neobvezno), npr. Štajerska" autocomplete="off">
+</header>
+<main id="main"><div class="empty">Nalagam …</div></main>
+<nav>
+  <button id="nDay"><span>📦</span>Danes</button>
+  <button id="nKup"><span>🏢</span>Kupci</button>
+  <button id="nHist"><span>🕘</span>Zgodovina</button>
+  <a href="index.html"><span>↩</span>Odprema</a>
+</nav>
+<div class="ov" id="ov" hidden><div class="sheet" id="sheet"></div></div>
+
+<script>
+const VER='1',VER_DATE='07.11.2026';
+const CFG={apiKey:"AIzaSyC2dBxlVzWbvWPPT55g7cXy6C2kCtoWH6Q",authDomain:"odprema-lokacije.firebaseapp.com",projectId:"odprema-lokacije",storageBucket:"odprema-lokacije.firebasestorage.app",messagingSenderId:"152804096191",appId:"1:152804096191:web:274b7867ed99e67e0fae0a"};
+const KOD="odprema-7k2x";
+const FB='https://www.gstatic.com/firebasejs/10.12.2/';
+const STEPS=[['p','Pripr.'],['s','SSCC'],['t','Teht.'],['v','Povito'],['n','Naloženo']];
+const ROK_H=9;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const dmy=d=>pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear();
+const hm=ts=>{const d=new Date(ts);return pad(d.getHours())+':'+pad(d.getMinutes())};
+const DNI=['ned','pon','tor','sre','čet','pet','sob'];
+const fmtKg=n=>n?Number(n).toLocaleString('sl-SI'):'0';
+const uid=()=>Math.random().toString(36).slice(2,9);
+function toast(m){document.querySelectorAll('.toast').forEach(x=>x.remove());const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+
+let db,root,me='',email='',day=new Date(),dayDoc=null,kupci=[],hist=[],unDay=null,pending=false;
+day.setHours(0,0,0,0);
+const dayId=()=>'d-'+ymd(day);
+const isToday=()=>ymd(day)===ymd(new Date());
+
+/* ------------ okno ------------ */
+function openSheet(html){$('#sheet').innerHTML=html;$('#ov').hidden=false;$('#sheet').scrollTop=0;const x=$('#sheet .sx');if(x)x.onclick=closeSheet;try{history.pushState({s:1},'')}catch(e){}}
+function closeSheet(back){if($('#ov').hidden)return;$('#ov').hidden=true;sheetKind='';curOne=null;if(back!==false){try{history.back()}catch(e){}}}
+window.addEventListener('popstate',()=>{if(!$('#ov').hidden)closeSheet(false)});
+$('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
+
+/* ------------ zagon ------------ */
+async function boot(){
+  try{await loadScript(FB+'firebase-app-compat.js');await Promise.all([loadScript(FB+'firebase-auth-compat.js'),loadScript(FB+'firebase-firestore-compat.js')])}
+  catch(e){$('#main').innerHTML='<div class="gate">Ni povezave. Poskusite znova, ko bo signal.</div>';return}
+  firebase.initializeApp(CFG);db=firebase.firestore();
+  try{db.settings({experimentalAutoDetectLongPolling:true,merge:true})}catch(e){}
+  db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+  firebase.auth().onAuthStateChanged(async u=>{
+    if(!u||!u.emailVerified){$('#main').innerHTML='<div class="gate">Najprej se prijavite v aplikaciji <a href="index.html">Odprema</a>, nato se vrnite sem.</div>';return}
+    email=u.email.toLowerCase();root=db.collection('skladista').doc(KOD);
+    try{const c=await root.collection('clani').doc(email).get();if(c.exists)me=c.data().ime||'';}catch(e){}
+    if(!me)me=email.split('@')[0];
+    root.collection('slovenija').doc('kupci').onSnapshot(s=>{kupci=(s.exists&&s.data().list)||[];if(sheetKind==='kupci')openKupci();if(sheetKind==='add')openAdd()},e=>gateErr(e));
+    root.collection('slovenija_hist').orderBy('kad','desc').limit(300).onSnapshot(s=>{hist=s.docs.map(d=>({id:d.id,...d.data()}));if(sheetKind==='hist')openHist()},()=>{});
+    subDay();
+  });
+}
+function gateErr(e){if(e&&e.code==='permission-denied')$('#main').innerHTML='<div class="gate">Pilot je zaenkrat samo za odpremnika.<br><br>(Če ste odpremnik: v Firebase še niso prilepljena nova pravila.)</div>'}
+function subDay(){
+  if(unDay)unDay();dayDoc=null;render();
+  unDay=root.collection('slovenija').doc(dayId()).onSnapshot({includeMetadataChanges:true},s=>{pending=s.metadata.hasPendingWrites;dayDoc=s.exists?s.data():{};render();if(sheetKind==='one'&&curOne)openOne(curOne)},e=>gateErr(e));
+}
+function dayRef(){return root.collection('slovenija').doc(dayId())}
+function logH(txt,tip){root.collection('slovenija_hist').add({kad:Date.now(),ko:me,dan:ymd(day),txt,tip:tip||''}).catch(()=>{})}
+function save(obj){dayRef().set(obj,{merge:true}).catch(e=>toast('Napaka: '+(e.message||e)))}
+
+/* ------------ glavni zaslon ------------ */
+function list(){const D=(dayDoc&&dayDoc.dostave)||{};return Object.entries(D).map(([id,x])=>({id,...x})).sort((a,b)=>(a.kad||0)-(b.kad||0))}
+const done=x=>!!(x.st&&x.st.n);
+function render(){
+  const d=day;$('#dTxt').innerHTML=(isToday()?'Danes':DNI[d.getDay()].replace(/^./,c=>c.toUpperCase()))+', '+dmy(d)+'<small>'+(isToday()?DNI[d.getDay()]:'')+'</small>';
+  const rg=$('#reg');if(document.activeElement!==rg)rg.value=(dayDoc&&dayDoc.regija)||'';
+  if(!dayDoc){$('#main').innerHTML='<div class="empty">Nalagam …</div>';return}
+  const L=list(),n=L.length,ok=L.filter(done).length,pal=L.reduce((a,x)=>a+(+x.pal||0),0),kg=L.reduce((a,x)=>a+(+x.kg||0),0);
+  const pct=n?Math.round(ok/n*100):0;
+  let rok='';if(isToday()){const now=new Date(),r=new Date();r.setHours(ROK_H,0,0,0);const m=Math.round((r-now)/60000);rok=m>0?'rok <b>'+ROK_H+':00</b> · še '+(m>=60?Math.floor(m/60)+' h ':'')+(m%60)+' min':'rok <b>'+ROK_H+':00</b>'+(ok<n?' · <b>zamuda</b>':'')}
+  const sent=(dayDoc.javljeno||[]);
+  $('#main').innerHTML='<div class="top"><div class="k y"><b>'+ok+' / '+n+'</b><span>dostav gotovih</span></div><div class="k g"><b>'+pal+'</b><span>palet</span></div><div class="k o"><b>'+fmtKg(kg)+'</b><span>kg</span></div></div>'+
+    '<div class="prog"><i style="width:'+pct+'%"></i></div><div class="dl"><span>'+pct+' % naloženo</span><span>'+rok+'</span></div>'+
+    (pending?'<div class="pend">⏳ Čaka na povezavo – shrani se samo</div>':'')+
+    (n?L.map(x=>'<div class="d'+(done(x)?' ok':'')+'"><div class="dh" data-one="'+x.id+'"><div><b>'+esc(x.ime)+'</b> · <span class="city">'+esc(x.kraj||'')+'</span></div><div class="q">'+(x.pal?x.pal+' pal':'– pal')+' <span>· '+(x.kg?fmtKg(x.kg)+' kg':'– kg')+'</span></div></div>'+
+      '<div class="steps">'+STEPS.map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-id="'+x.id+'" data-k="'+k+'">'+l+'</button>').join('')+'</div></div>').join('')
+      :'<div class="empty">Za ta dan še ni dostav.<br>Dodajte jih s seznama kupcev.</div>')+
+    '<button class="add" id="bAdd">+ Dodaj dostavo s seznama</button>'+
+    (n?'<button class="btn p" id="bSend">📤 Pošlji pisarni</button>':'')+
+    (sent.length?'<div class="sent">✓ Javljeno pisarni: '+sent.map(s=>hm(s.kad)+' ('+esc(s.ko)+')').join(', ')+'</div>':'')+
+    '<div class="ver">SLOVENIJA · pilot · različica '+VER+' · '+VER_DATE+'</div>';
+  $('#main').querySelectorAll('.st').forEach(b=>b.onclick=()=>toggle(b.dataset.id,b.dataset.k));
+  $('#main').querySelectorAll('[data-one]').forEach(b=>b.onclick=()=>openOne(b.dataset.one));
+  $('#bAdd').onclick=openAdd;if($('#bSend'))$('#bSend').onclick=openSend;
+}
+function toggle(id,k){const x=list().find(y=>y.id===id);if(!x)return;const v=!(x.st&&x.st[k]);
+  save({dostave:{[id]:{st:{[k]:v}}}});const lbl=STEPS.find(s=>s[0]===k)[1];
+  logH((v?'✓ ':'✕ ')+lbl+' – '+x.ime+' '+(x.kraj||''),'st')}
+$('#reg').addEventListener('change',e=>{const v=e.target.value.trim();save({regija:v});logH('Regija: '+(v||'—'),'reg')});
+$('#dPrev').onclick=()=>{day.setDate(day.getDate()-1);subDay()};
+$('#dNext').onclick=()=>{day.setDate(day.getDate()+1);subDay()};
+$('#nDay').onclick=()=>{closeSheet();day=new Date();day.setHours(0,0,0,0);subDay()};
+$('#nKup').onclick=()=>openKupci();$('#nHist').onclick=()=>openHist();
+setInterval(()=>{if(isToday()&&$('#ov').hidden)render()},60000);
+
+/* ------------ dodaj dostavo ------------ */
+let sheetKind='',curOne=null;
+function openAdd(){sheetKind='add';const have=new Set(list().map(x=>x.kid));
+  openSheet('<h2>Dodaj dostavo <button class="sx">✕</button></h2>'+(kupci.length?'<p style="color:var(--mut);font-size:14px;margin:0 0 8px">Izberite kupce, ki so danes na seznamu.</p><div class="pick">'+kupci.slice().sort((a,b)=>(a.ime+a.kraj).localeCompare(b.ime+b.kraj)).map(k=>'<button class="c'+(have.has(k.id)?' dis':'')+'" data-k="'+k.id+'"'+(have.has(k.id)?' disabled':'')+'>'+esc(k.ime)+' · '+esc(k.kraj)+'</button>').join('')+'</div>':'<p class="empty">Seznam kupcev je prazen. Dodajte prvega spodaj.</p>')+
+    '<label>Nov kupec</label><div class="row2"><input class="in" id="nkI" placeholder="Kupec, npr. Merkur" autocomplete="off"><input class="in" id="nkK" placeholder="Kraj, npr. Celje" autocomplete="off"></div><button class="btn" id="nkA">+ Dodaj na seznam</button>'+
+    '<button class="btn p" id="adOk">Dodaj izbrane</button>');
+  const sel=new Set();
+  $('#sheet').querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(sel.has(k))sel.delete(k);else sel.add(k);b.classList.toggle('on',sel.has(k));$('#adOk').textContent=sel.size?'Dodaj izbrane ('+sel.size+')':'Dodaj izbrane'});
+  $('#nkA').onclick=()=>{const i=$('#nkI').value.trim(),k=$('#nkK').value.trim();if(!i){$('#nkI').focus();return}
+    if(kupci.some(x=>x.ime.toLowerCase()===i.toLowerCase()&&(x.kraj||'').toLowerCase()===k.toLowerCase())){toast('Ta kupec je že na seznamu');return}
+    const nk={id:uid(),ime:i,kraj:k};root.collection('slovenija').doc('kupci').set({list:[...kupci,nk]},{merge:true}).then(()=>toast('Dodano: '+i+' · '+k)).catch(e=>toast('Napaka: '+e.message));logH('Nov kupec: '+i+' '+k,'kup')};
+  $('#adOk').onclick=()=>{if(!sel.size){toast('Izberite vsaj enega kupca');return}const D={},t0=Date.now();let i=0;const names=[];
+    sel.forEach(kid=>{const k=kupci.find(x=>x.id===kid);if(!k)return;D[uid()]={kid,ime:k.ime,kraj:k.kraj,pal:0,kg:0,st:{},kad:t0+(i++)};names.push(k.ime+' '+k.kraj)});
+    save({dostave:D});logH('Dodane dostave: '+names.join(', '),'add');closeSheet();toast('Dodano: '+names.length)};
+}
+/* ------------ ena dostava ------------ */
+function openOne(id){const x=list().find(y=>y.id===id);if(!x){closeSheet();return}sheetKind='one';curOne=id;
+  openSheet('<h2>'+esc(x.ime)+' · '+esc(x.kraj||'')+' <button class="sx">✕</button></h2>'+
+    '<div class="row2"><div><label>Palet</label><input class="in" id="oP" type="number" inputmode="numeric" min="0" value="'+(x.pal||'')+'"></div><div><label>kg</label><input class="in" id="oK" type="number" inputmode="decimal" min="0" value="'+(x.kg||'')+'"></div></div>'+
+    '<label>Koraki</label><div class="steps">'+STEPS.map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-k="'+k+'">'+l+'</button>').join('')+'</div>'+
+    '<button class="btn p" id="oS">Shrani</button><button class="btn d" id="oD">Odstrani dostavo</button>');
+  $('#sheet').querySelectorAll('.st').forEach(b=>b.onclick=()=>toggle(id,b.dataset.k));
+  $('#oS').onclick=()=>{const p=Math.max(0,parseInt($('#oP').value)||0),k=Math.max(0,parseFloat(String($('#oK').value).replace(',','.'))||0);
+    save({dostave:{[id]:{pal:p,kg:k}}});logH(x.ime+' '+(x.kraj||'')+': '+p+' pal, '+fmtKg(k)+' kg','q');curOne=null;closeSheet();toast('Shranjeno')};
+  $('#oD').onclick=()=>{if(!$('#oD').dataset.c){$('#oD').dataset.c=1;$('#oD').textContent='Res odstranim? Pritisnite še enkrat';return}
+    dayRef().update({['dostave.'+id]:firebase.firestore.FieldValue.delete()}).catch(e=>toast('Napaka: '+e.message));logH('Odstranjena dostava: '+x.ime+' '+(x.kraj||''),'del');curOne=null;closeSheet()};
+}
+/* ------------ pošlji pisarni ------------ */
+function sendText(){const L=list();const pal=L.reduce((a,x)=>a+(+x.pal||0),0),kg=L.reduce((a,x)=>a+(+x.kg||0),0);
+  return 'SLOVENIJA – '+dmy(day)+((dayDoc&&dayDoc.regija)?' – '+dayDoc.regija:'')+'\n'+L.map(x=>x.ime+' '+(x.kraj||'')+': '+(x.pal||0)+' pal'+(x.kg?', '+fmtKg(x.kg)+' kg':'')+(done(x)?'':' (še ni naloženo)')).join('\n')+'\nSkupaj: '+pal+' palet'+(kg?', '+fmtKg(kg)+' kg':'')+'\n— '+me+' · ODPREMA'}
+function openSend(){sheetKind='send';const txt=sendText();const miss=list().filter(x=>!x.pal).length;
+  openSheet('<h2>📤 Pošlji pisarni <button class="sx">✕</button></h2>'+(miss?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ Pri '+miss+' dostavah še ni vpisanih palet.</p>':'')+'<div class="msg">'+esc(txt)+'</div>'+
+    (navigator.share?'<button class="btn p" id="sSh">📤 Pošlji (Viber, mail …)</button>':'')+'<button class="btn" id="sCp">📋 Kopiraj</button>');
+  const mark=how=>{const j=[...((dayDoc&&dayDoc.javljeno)||[]),{kad:Date.now(),ko:me}];save({javljeno:j});logH('Javljeno pisarni ('+how+'): '+list().length+' dostav','send')};
+  if($('#sSh'))$('#sSh').onclick=async()=>{try{await navigator.share({title:'Slovenija '+dmy(day),text:txt});mark('poslano');closeSheet();toast('✓ Javljeno pisarni')}catch(e){}};
+  $('#sCp').onclick=async()=>{try{await navigator.clipboard.writeText(txt);mark('kopirano');toast('Kopirano – prilepite v sporočilo')}catch(e){toast('Kopiranje ni uspelo')}};
+}
+/* ------------ kupci ------------ */
+function openKupci(){sheetKind='kupci';const L=kupci.slice().sort((a,b)=>(a.ime+a.kraj).localeCompare(b.ime+b.kraj));
+  openSheet('<h2>🏢 Kupci za Slovenijo <button class="sx">✕</button></h2>'+(L.length?L.map(k=>'<div class="kr"><span><b>'+esc(k.ime)+'</b> · '+esc(k.kraj||'')+'</span><button data-x="'+k.id+'" aria-label="Odstrani">✕</button></div>').join(''):'<p class="empty">Še ni kupcev.</p>')+
+    '<label>Nov kupec</label><div class="row2"><input class="in" id="nkI" placeholder="Kupec" autocomplete="off"><input class="in" id="nkK" placeholder="Kraj" autocomplete="off"></div><button class="btn p" id="nkA">+ Dodaj</button>');
+  $('#sheet').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{if(!b.dataset.c){b.dataset.c=1;b.textContent='Res?';return}const k=kupci.find(x=>x.id===b.dataset.x);
+    root.collection('slovenija').doc('kupci').set({list:kupci.filter(x=>x.id!==b.dataset.x)},{merge:true});if(k)logH('Odstranjen kupec: '+k.ime+' '+(k.kraj||''),'kup')});
+  $('#nkA').onclick=()=>{const i=$('#nkI').value.trim(),k=$('#nkK').value.trim();if(!i){$('#nkI').focus();return}
+    if(kupci.some(x=>x.ime.toLowerCase()===i.toLowerCase()&&(x.kraj||'').toLowerCase()===k.toLowerCase())){toast('Ta kupec je že na seznamu');return}
+    root.collection('slovenija').doc('kupci').set({list:[...kupci,{id:uid(),ime:i,kraj:k}]},{merge:true}).catch(e=>toast('Napaka: '+e.message));logH('Nov kupec: '+i+' '+k,'kup')};
+}
+/* ------------ zgodovina ------------ */
+function openHist(){sheetKind='hist';let h='<h2>🕘 Zgodovina <button class="sx">✕</button></h2>';let cur='';
+  if(!hist.length)h+='<p class="empty">Še ni zapisov.</p>';
+  for(const x of hist){const d=dmy(new Date(x.kad));if(d!==cur){cur=d;h+='<div class="hday">'+(ymd(new Date(x.kad))===ymd(new Date())?'Danes':d)+'</div>'}
+    h+='<div class="hi"><span class="t">'+hm(x.kad)+'</span><span>'+esc(x.txt)+' <span class="w">· '+esc(x.ko||'')+(x.dan&&x.dan!==ymd(new Date(x.kad))?' · za '+esc(x.dan.split('-').reverse().join('.')):'')+'</span></span></div>'}
+  openSheet(h)}
+
+boot();
+if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js').catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{if(e.data==='updated'&&$('#ov').hidden&&!pending)location.reload()})}
+</script>
+</body>
+</html>
