@@ -66,6 +66,34 @@ label{display:block;color:var(--blue);font-size:14px;margin:10px 0 5px;font-weig
 .msg{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
 .hday{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:14px 2px 4px;border-bottom:1px solid var(--line);padding-bottom:4px}
 .hi{display:flex;gap:8px;font-size:14px;padding:6px 2px;border-bottom:1px dotted var(--line)}.hi .t{color:var(--mut);width:42px;flex:none;font-variant-numeric:tabular-nums}.hi .w{color:var(--mut)}
+.top4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.top4 .k b{font-size:20px}.top4 .k span{font-size:11.5px}
+.k.b{border-top-color:var(--acc)}.k.b b{color:var(--blue)}.k.v{border-top-color:#c58cff}.k.v b{color:#c58cff}
+.qe{font-style:normal;color:var(--blue)}
+.sub2{color:var(--mut);font-size:13px;margin:0 0 8px}
+.tb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.tbtn{border-radius:12px;padding:11px 4px;text-align:center;font-weight:800;font-size:15px;border:2px solid}.tbtn small{display:block;font-weight:600;font-size:12px;opacity:.85}
+.tbtn.nav{border-color:var(--gold);background:rgba(226,189,72,.12);color:var(--gold)}.tag.x{background:rgba(226,189,72,.18);color:var(--gold)}
+.tbtn.eur{border-color:var(--acc);background:rgba(59,140,255,.15);color:var(--blue)}.tbtn.pol{border-color:#c58cff;background:rgba(197,140,255,.14);color:#c58cff}
+.oth{display:flex;gap:6px;margin-top:8px}.oth .in{padding:8px 10px;font-size:14px}.oth .c{white-space:nowrap}
+.pl{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 9px;margin-top:7px}
+.no{width:26px;height:26px;border-radius:50%;background:var(--bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--mut);flex:none}
+.tag{border-radius:8px;padding:3px 8px;font-size:13px;font-weight:800;flex:none}.tag.e{background:rgba(59,140,255,.18);color:var(--blue)}.tag.h{background:rgba(197,140,255,.18);color:#c58cff}.tag.o{background:rgba(255,176,77,.18);color:var(--orange)}
+.dim{color:var(--mut);font-size:12.5px;flex:1;min-width:0;overflow-wrap:anywhere}
+.kgw{display:flex;align-items:center;gap:3px;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:2px 8px}.kgw.empty{border-color:var(--orange)}
+.kgw input{width:64px;border:0;background:none;text-align:right;font-weight:800;font-size:17px;padding:6px 0;outline:none}.kgw span{color:var(--mut);font-size:12px}
+.pdel{border:0;background:none;color:var(--red);font-size:16px;width:30px;flex:none}.pdel.cf{font-weight:900}
+.warn{font-size:13px;color:var(--orange);margin-top:6px}
+.psum{display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--line);margin-top:10px;padding-top:9px;font-weight:800}.psum b{font-size:21px;color:var(--orange)}
+.seg2{display:flex;gap:6px;margin-bottom:8px}.seg2 button{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px;font-size:14px;color:var(--mut)}.seg2 button.on{border-color:var(--gold);color:var(--gold);font-weight:700}
+.d.ld{border-left-color:var(--mut);opacity:.8}
+.bdg{margin-top:7px;border-radius:9px;padding:7px 10px;font-weight:800;font-size:14px;text-align:center}
+.bdg.ok{background:rgba(69,227,160,.16);color:var(--green);border:1px solid var(--green)}.bdg.ld{background:var(--bg);color:var(--mut);border:1px solid var(--line)}
+.nak{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--orange);border-radius:12px;padding:10px 12px;margin-top:12px}
+.nh{font-weight:800;font-size:16px;color:var(--orange);margin-bottom:4px}.nl{font-size:14px;color:var(--mut);padding:3px 0}.nl.ok{color:var(--green);font-weight:700}.nl span{font-size:12.5px}
+.nw{font-size:13px;color:var(--orange);margin-top:6px}
+.btn.nb{background:var(--orange);border-color:var(--orange);color:#111;font-weight:800}
+.nlist{display:flex;flex-direction:column;gap:6px}.nck{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin:0;color:var(--ink);font-weight:500}
+.nck input{width:22px;height:22px;flex:none}.nck span{flex:1}.nck i{font-style:normal;color:var(--mut);font-size:13px;white-space:nowrap}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2a3a57;color:#fff;padding:10px 16px;border-radius:12px;z-index:20;max-width:90vw;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .gate{max-width:420px;margin:60px auto;padding:20px;text-align:center}
 .gate a{color:var(--blue)}
@@ -89,11 +117,11 @@ label{display:block;color:var(--blue);font-size:14px;margin:10px 0 5px;font-weig
 <div class="ov" id="ov" hidden><div class="sheet" id="sheet"></div></div>
 
 <script>
-const VER='1',VER_DATE='07.11.2026';
+const VER='3',VER_DATE='07.11.2026';
 const CFG={apiKey:"AIzaSyC2dBxlVzWbvWPPT55g7cXy6C2kCtoWH6Q",authDomain:"odprema-lokacije.firebaseapp.com",projectId:"odprema-lokacije",storageBucket:"odprema-lokacije.firebasestorage.app",messagingSenderId:"152804096191",appId:"1:152804096191:web:274b7867ed99e67e0fae0a"};
 const KOD="odprema-7k2x";
 const FB='https://www.gstatic.com/firebasejs/10.12.2/';
-const STEPS=[['p','Pripr.'],['s','SSCC'],['t','Teht.'],['v','Povito'],['n','Naloženo']];
+const STEPS=[['p','Pripr.'],['s','SSCC'],['t','Teht.'],['v','Povito']];
 const ROK_H=9;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -113,7 +141,7 @@ const dayId=()=>'d-'+ymd(day);
 const isToday=()=>ymd(day)===ymd(new Date());
 
 /* ------------ okno ------------ */
-function openSheet(html){$('#sheet').innerHTML=html;$('#ov').hidden=false;$('#sheet').scrollTop=0;const x=$('#sheet .sx');if(x)x.onclick=closeSheet;try{history.pushState({s:1},'')}catch(e){}}
+function openSheet(html){const was=!$('#ov').hidden;$('#sheet').innerHTML=html;$('#ov').hidden=false;$('#sheet').scrollTop=0;const x=$('#sheet .sx');if(x)x.onclick=closeSheet;if(!was){try{history.pushState({s:1},'')}catch(e){}}}
 function closeSheet(back){if($('#ov').hidden)return;$('#ov').hidden=true;sheetKind='';curOne=null;if(back!==false){try{history.back()}catch(e){}}}
 window.addEventListener('popstate',()=>{if(!$('#ov').hidden)closeSheet(false)});
 $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
@@ -138,7 +166,7 @@ async function boot(){
 function gateErr(e){if(e&&e.code==='permission-denied')$('#main').innerHTML='<div class="gate">Pilot je zaenkrat samo za odpremnika.<br><br>(Če ste odpremnik: v Firebase še niso prilepljena nova pravila.)</div>'}
 function subDay(){
   if(unDay)unDay();dayDoc=null;render();
-  unDay=root.collection('slovenija').doc(dayId()).onSnapshot({includeMetadataChanges:true},s=>{pending=s.metadata.hasPendingWrites;dayDoc=s.exists?s.data():{};render();if(sheetKind==='one'&&curOne)openOne(curOne)},e=>gateErr(e));
+  unDay=root.collection('slovenija').doc(dayId()).onSnapshot({includeMetadataChanges:true},s=>{pending=s.metadata.hasPendingWrites;dayDoc=s.exists?s.data():{};render();if(sheetKind==='one'&&curOne){const a=document.activeElement;if(a&&a.tagName==='INPUT'&&$('#sheet').contains(a))oneDirty=true;else openOne(curOne)}},e=>gateErr(e));
 }
 function dayRef(){return root.collection('slovenija').doc(dayId())}
 function logH(txt,tip){root.collection('slovenija_hist').add({kad:Date.now(),ko:me,dan:ymd(day),txt,tip:tip||''}).catch(()=>{})}
@@ -147,27 +175,55 @@ function save(obj){dayRef().set(obj,{merge:true}).catch(e=>toast('Napaka: '+(e.m
 /* ------------ glavni zaslon ------------ */
 function list(){const D=(dayDoc&&dayDoc.dostave)||{};return Object.entries(D).map(([id,x])=>({id,...x})).sort((a,b)=>(a.kad||0)-(b.kad||0))}
 const done=x=>!!(x.st&&x.st.n);
+const ready=x=>!!(x.st&&x.st.p&&x.st.s&&x.st.t&&x.st.v);
+let prevoznik=(()=>{try{return localStorage.getItem('slo_prev')||''}catch(e){return''}})();
+const PT={e:['EUR','120×80'],x:['Navadna','120×80'],h:['½','60×80'],o:['dr.','']};
+function pals(x){return Object.entries(x.palete||{}).map(([pid,v])=>({pid,...v})).sort((a,b)=>(a.o||0)-(b.o||0))}
+function pinfo(x){const P=pals(x);if(!P.length)return{e:+x.pal||0,x:0,h:0,o:0,kg:+x.kg||0,n:+x.pal||0,miss:0,legacy:true};
+  const r={e:0,x:0,h:0,o:0,kg:0,n:P.length,miss:0};P.forEach(p=>{r[p.t]=(r[p.t]||0)+1;if(+p.kg>0)r.kg+=+p.kg;else r.miss++});return r}
+function pTxt(i){const a=[];if(i.e)a.push(i.e+' EUR');if(i.x)a.push(i.x+' nav.');if(i.h)a.push(i.h+' ½');if(i.o)a.push(i.o+' dr.');return a.join(' + ')||'– pal'}
+let sendMode=(()=>{try{return localStorage.getItem('slo_mode')||'vsaka'}catch(e){return'vsaka'}})();
 function render(){
   const d=day;$('#dTxt').innerHTML=(isToday()?'Danes':DNI[d.getDay()].replace(/^./,c=>c.toUpperCase()))+', '+dmy(d)+'<small>'+(isToday()?DNI[d.getDay()]:'')+'</small>';
   const rg=$('#reg');if(document.activeElement!==rg)rg.value=(dayDoc&&dayDoc.regija)||'';
   if(!dayDoc){$('#main').innerHTML='<div class="empty">Nalagam …</div>';return}
-  const L=list(),n=L.length,ok=L.filter(done).length,pal=L.reduce((a,x)=>a+(+x.pal||0),0),kg=L.reduce((a,x)=>a+(+x.kg||0),0);
-  const pct=n?Math.round(ok/n*100):0;
-  let rok='';if(isToday()){const now=new Date(),r=new Date();r.setHours(ROK_H,0,0,0);const m=Math.round((r-now)/60000);rok=m>0?'rok <b>'+ROK_H+':00</b> · še '+(m>=60?Math.floor(m/60)+' h ':'')+(m%60)+' min':'rok <b>'+ROK_H+':00</b>'+(ok<n?' · <b>zamuda</b>':'')}
+  const L=list(),n=L.length,ok=L.filter(done).length,rd=L.filter(x=>ready(x)||done(x)).length;const T={e:0,x:0,h:0,o:0,kg:0};L.forEach(x=>{const i=pinfo(x);T.e+=i.e;T.x+=i.x;T.h+=i.h;T.o+=i.o;T.kg+=i.kg});const kg=T.kg;
+  const pct=n?Math.round(rd/n*100):0;
+  let rok='';if(isToday()){const now=new Date(),r=new Date();r.setHours(ROK_H,0,0,0);const m=Math.round((r-now)/60000);rok=m>0?'rok <b>'+ROK_H+':00</b> · še '+(m>=60?Math.floor(m/60)+' h ':'')+(m%60)+' min':'rok <b>'+ROK_H+':00</b>'+(ok<n?' · <b>zamuda</b>':'')}if(n&&ok===n)rok='🚚 vse naloženo';
   const sent=(dayDoc.javljeno||[]);
-  $('#main').innerHTML='<div class="top"><div class="k y"><b>'+ok+' / '+n+'</b><span>dostav gotovih</span></div><div class="k g"><b>'+pal+'</b><span>palet</span></div><div class="k o"><b>'+fmtKg(kg)+'</b><span>kg</span></div></div>'+
-    '<div class="prog"><i style="width:'+pct+'%"></i></div><div class="dl"><span>'+pct+' % naloženo</span><span>'+rok+'</span></div>'+
+  $('#main').innerHTML='<div class="top4"><div class="k y"><b>'+rd+'/'+n+'</b><span>pripravljenih</span></div><div class="k b"><b>'+(T.e+T.x)+'</b><span>'+(T.x?T.e+' EUR + '+T.x+' nav.':'120×80')+'</span></div><div class="k v"><b>'+T.h+'</b><span>½ palet'+(T.o?' · +'+T.o+' dr.':'')+'</span></div><div class="k o"><b>'+fmtKg(kg)+'</b><span>kg</span></div></div>'+
+    '<div class="prog"><i style="width:'+pct+'%"></i></div><div class="dl"><span>'+pct+' % pripravljeno'+(ok?' · '+ok+' naloženih':'')+'</span><span>'+rok+'</span></div>'+
     (pending?'<div class="pend">⏳ Čaka na povezavo – shrani se samo</div>':'')+
-    (n?L.map(x=>'<div class="d'+(done(x)?' ok':'')+'"><div class="dh" data-one="'+x.id+'"><div><b>'+esc(x.ime)+'</b> · <span class="city">'+esc(x.kraj||'')+'</span></div><div class="q">'+(x.pal?x.pal+' pal':'– pal')+' <span>· '+(x.kg?fmtKg(x.kg)+' kg':'– kg')+'</span></div></div>'+
-      '<div class="steps">'+STEPS.map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-id="'+x.id+'" data-k="'+k+'">'+l+'</button>').join('')+'</div></div>').join('')
+    (n?L.map(x=>'<div class="d'+(done(x)?' ld':ready(x)?' ok':'')+'"><div class="dh" data-one="'+x.id+'"><div><b>'+esc(x.ime)+'</b> · <span class="city">'+esc(x.kraj||'')+'</span></div><div class="q">'+(()=>{const i=pinfo(x);return '<i class="qe">'+pTxt(i)+'</i> <span>· '+(i.kg?fmtKg(i.kg)+' kg':'– kg')+(i.miss?' ⚠':'')+'</span>'})()+'</div></div>'+
+      (done(x)?'<div class="bdg ld">🚚 Naloženo '+(x.nak?hm(x.nak.kad):'')+'</div>':'<div class="steps">'+STEPS.map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-id="'+x.id+'" data-k="'+k+'">'+l+'</button>').join('')+'</div>'+(ready(x)?'<div class="bdg ok">✓ Pripravljeno za naklad</div>':''))+'</div>').join('')
       :'<div class="empty">Za ta dan še ni dostav.<br>Dodajte jih s seznama kupcev.</div>')+
     '<button class="add" id="bAdd">+ Dodaj dostavo s seznama</button>'+
+    (n?nakBlock(L):'')+
     (n?'<button class="btn p" id="bSend">📤 Pošlji pisarni</button>':'')+
     (sent.length?'<div class="sent">✓ Javljeno pisarni: '+sent.map(s=>hm(s.kad)+' ('+esc(s.ko)+')').join(', ')+'</div>':'')+
     '<div class="ver">SLOVENIJA · pilot · različica '+VER+' · '+VER_DATE+'</div>';
   $('#main').querySelectorAll('.st').forEach(b=>b.onclick=()=>toggle(b.dataset.id,b.dataset.k));
   $('#main').querySelectorAll('[data-one]').forEach(b=>b.onclick=()=>openOne(b.dataset.one));
-  $('#bAdd').onclick=openAdd;if($('#bSend'))$('#bSend').onclick=openSend;
+  $('#bAdd').onclick=openAdd;if($('#bSend'))$('#bSend').onclick=openSend;if($('#bNak'))$('#bNak').onclick=openNak;
+}
+function nakBlock(L){const rdy=L.filter(x=>ready(x)&&!done(x)),ld=L.filter(done),nr=L.filter(x=>!ready(x)&&!done(x));const N=(dayDoc&&dayDoc.naklad)||[];
+  return '<div class="nak"><div class="nh">🚚 Naklad</div>'+
+    (N.length?N.map(z=>'<div class="nl">✓ '+hm(z.kad)+' · '+z.n+' dostav'+(z.prevoznik?' · '+esc(z.prevoznik):'')+(z.tablica?' · '+esc(z.tablica):'')+' <span>('+esc(z.ko)+')</span></div>').join(''):'')+
+    (rdy.length?'<button class="btn nb" id="bNak">🚚 Naloži pripravljene ('+rdy.length+')</button>':ld.length===L.length?'<div class="nl ok">Vse dostave so naložene.</div>':'<div class="nl">Ko so dostave pripravljene, jih tukaj naložite skupaj.</div>')+
+    (nr.length&&rdy.length?'<div class="nw">Še v pripravi: '+nr.map(x=>esc(x.ime+' '+(x.kraj||''))).join(', ')+'</div>':'')+'</div>'}
+function openNak(){sheetKind='nak';const L=list().filter(x=>ready(x)&&!done(x)),nr=list().filter(x=>!ready(x)&&!done(x));
+  openSheet('<h2>🚚 Naklad <button class="sx">✕</button></h2><div class="sub2">Naložijo se vse pripravljene dostave naenkrat.</div>'+
+    '<div class="nlist">'+L.map(x=>{const i=pinfo(x);return '<label class="nck"><input type="checkbox" data-n="'+x.id+'" checked><span><b>'+esc(x.ime)+'</b> · '+esc(x.kraj||'')+'</span><i>'+pTxt(i)+(i.kg?' · '+fmtKg(i.kg)+' kg':'')+'</i></label>'}).join('')+'</div>'+
+    (nr.length?'<div class="nw">⚠ Še v pripravi (ne gredo zraven): '+nr.map(x=>esc(x.ime+' '+(x.kraj||''))).join(', ')+'</div>':'')+
+    '<label>Prevoznik</label><input class="in" id="nP" value="'+esc(prevoznik)+'" placeholder="npr. Intereuropa" autocomplete="off"><label>Registrska tablica (neobvezno)</label><input class="in" id="nT" placeholder="npr. LJ 12-ABC" autocomplete="off">'+
+    '<button class="btn nb" id="nOk">🚚 Potrdi naklad</button>');
+  $('#nOk').onclick=()=>{const ids=[...$('#sheet').querySelectorAll('[data-n]')].filter(c=>c.checked).map(c=>c.dataset.n);if(!ids.length){toast('Izberite vsaj eno dostavo');return}
+    const pv=$('#nP').value.trim(),tb=$('#nT').value.trim().toUpperCase();prevoznik=pv;try{localStorage.setItem('slo_prev',pv)}catch(e){}
+    const kad=Date.now(),D={};ids.forEach(id=>D[id]={st:{n:true},nak:{kad,ko:me,prevoznik:pv,tablica:tb}});
+    const z={kad,ko:me,n:ids.length,ids};if(pv)z.prevoznik=pv;if(tb)z.tablica=tb;
+    save({dostave:D,naklad:[...((dayDoc&&dayDoc.naklad)||[]),z]});
+    const names=ids.map(id=>{const x=list().find(y=>y.id===id);return x?x.ime+' '+(x.kraj||''):''});
+    logH('🚚 Naloženo ('+ids.length+')'+(pv?' – '+pv:'')+(tb?' '+tb:'')+': '+names.join(', '),'nak');closeSheet();toast('✓ Naloženo: '+ids.length)};
 }
 function toggle(id,k){const x=list().find(y=>y.id===id);if(!x)return;const v=!(x.st&&x.st[k]);
   save({dostave:{[id]:{st:{[k]:v}}}});const lbl=STEPS.find(s=>s[0]===k)[1];
@@ -195,26 +251,55 @@ function openAdd(){sheetKind='add';const have=new Set(list().map(x=>x.kid));
     save({dostave:D});logH('Dodane dostave: '+names.join(', '),'add');closeSheet();toast('Dodano: '+names.length)};
 }
 /* ------------ ena dostava ------------ */
-function openOne(id){const x=list().find(y=>y.id===id);if(!x){closeSheet();return}sheetKind='one';curOne=id;
-  openSheet('<h2>'+esc(x.ime)+' · '+esc(x.kraj||'')+' <button class="sx">✕</button></h2>'+
-    '<div class="row2"><div><label>Palet</label><input class="in" id="oP" type="number" inputmode="numeric" min="0" value="'+(x.pal||'')+'"></div><div><label>kg</label><input class="in" id="oK" type="number" inputmode="decimal" min="0" value="'+(x.kg||'')+'"></div></div>'+
-    '<label>Koraki</label><div class="steps">'+STEPS.map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-k="'+k+'">'+l+'</button>').join('')+'</div>'+
-    '<button class="btn p" id="oS">Shrani</button><button class="btn d" id="oD">Odstrani dostavo</button>');
+let oneDirty=false;
+function autoTeht(id){const x=list().find(y=>y.id===id);if(!x)return;const i=pinfo(x);if(i.legacy)return;const want=i.n>0&&i.miss===0;if(!!(x.st&&x.st.t)!==want)save({dostave:{[id]:{st:{t:want}}}})}
+function openOne(id){const x=list().find(y=>y.id===id);if(!x){closeSheet();return}
+  const fresh=sheetKind!=='one'||curOne!==id;const keep=fresh?0:$('#sheet').scrollTop;sheetKind='one';curOne=id;oneDirty=false;
+  const P=pals(x),I=pinfo(x);
+  const html='<h2>'+esc(x.ime)+' · '+esc(x.kraj||'')+' <button class="sx">✕</button></h2><div class="sub2">Dodajte paleto in vpišite težo s tehtnice – vse se shrani samo.</div>'+
+    '<div class="tb"><button class="tbtn eur" data-add="e">+ EUR<small>120 × 80</small></button><button class="tbtn nav" data-add="x">+ Navadna<small>120 × 80</small></button><button class="tbtn pol" data-add="h">+ ½ paleta<small>60 × 80</small></button></div>'+
+    '<div class="oth"><input class="in" id="oDim" placeholder="Druga velikost, npr. 120×100" autocomplete="off"><button class="c" id="oAddO">+ druga</button></div>'+
+    (P.length?P.map((p,n)=>'<div class="pl"><span class="no">'+(n+1)+'</span><span class="tag '+p.t+'">'+PT[p.t][0]+'</span><span class="dim">'+esc(p.t==='o'?(p.dim||''):PT[p.t][1])+'</span><span class="kgw'+(+p.kg>0?'':' empty')+'"><input type="number" inputmode="decimal" min="0" step="any" data-kg="'+p.pid+'" value="'+(+p.kg>0?p.kg:'')+'" placeholder="–"><span>kg</span></span><button class="pdel" data-pdel="'+p.pid+'" aria-label="Odstrani paleto">✕</button></div>').join('')
+      +(I.miss?'<div class="warn">⚠ '+I.miss+(I.miss===1?' paleta še ni stehtana':' palet še ni stehtanih')+'</div>':'')+'<div class="psum"><span>'+pTxt(I).replace(/(\d+) /g,'$1× ')+'</span><b>'+fmtKg(I.kg)+' kg</b></div>'
+      :(I.legacy&&I.n?'<p class="sub2">Prej vpisano: '+I.n+' pal, '+fmtKg(I.kg)+' kg. Dodajte palete posebej, če želite.</p>':'<p class="empty" style="padding:12px">Še ni palet.</p>'))+
+    '<label>Priprava</label><div class="steps">'+STEPS.map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-k="'+k+'">'+l+'</button>').join('')+'</div><div class="sub2" style="margin-top:6px">»Teht.« se obkljuka samo, ko imajo vse palete težo.</div>'+
+    (done(x)?'<div class="bdg ld">🚚 Naloženo '+(x.nak?hm(x.nak.kad)+(x.nak.prevoznik?' · '+esc(x.nak.prevoznik):''):'')+'</div><button class="btn" id="oUn">↩ Razveljavi naklad</button>':ready(x)?'<div class="bdg ok">✓ Pripravljeno za naklad</div>':'')+
+    '<button class="btn" id="oX">Zapri</button><button class="btn d" id="oD">Odstrani dostavo</button>';
+  if(fresh)openSheet(html);else{$('#sheet').innerHTML=html;$('#sheet .sx').onclick=closeSheet;$('#sheet').scrollTop=keep}
   $('#sheet').querySelectorAll('.st').forEach(b=>b.onclick=()=>toggle(id,b.dataset.k));
-  $('#oS').onclick=()=>{const p=Math.max(0,parseInt($('#oP').value)||0),k=Math.max(0,parseFloat(String($('#oK').value).replace(',','.'))||0);
-    save({dostave:{[id]:{pal:p,kg:k}}});logH(x.ime+' '+(x.kraj||'')+': '+p+' pal, '+fmtKg(k)+' kg','q');curOne=null;closeSheet();toast('Shranjeno')};
+  $('#sheet').querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const t=b.dataset.add,pid=uid();save({dostave:{[id]:{palete:{[pid]:{t,kg:0,o:Date.now()}},st:{t:false}}}});logH('+ '+PT[t][0]+' – '+x.ime+' '+(x.kraj||''),'pal');
+    setTimeout(()=>{const e=$('#sheet [data-kg="'+pid+'"]');if(e){e.focus();e.scrollIntoView({block:'center'})}},120)});
+  $('#oAddO').onclick=()=>{const d=$('#oDim').value.trim();const pid=uid();save({dostave:{[id]:{palete:{[pid]:{t:'o',dim:d,kg:0,o:Date.now()}},st:{t:false}}}});logH('+ paleta '+(d||'druga')+' – '+x.ime+' '+(x.kraj||''),'pal')};
+  $('#sheet').querySelectorAll('[data-kg]').forEach(e=>{e.onchange=()=>{const v=Math.max(0,parseFloat(String(e.value).replace(',','.'))||0);const pid=e.dataset.kg;
+      save({dostave:{[id]:{palete:{[pid]:{kg:v}}}}});const n=pals(x).findIndex(p=>p.pid===pid)+1;logH(x.ime+' '+(x.kraj||'')+': paleta '+n+' = '+fmtKg(v)+' kg','kg');setTimeout(()=>autoTeht(id),80)};
+    e.onblur=()=>setTimeout(()=>{const a=document.activeElement;if(oneDirty&&sheetKind==='one'&&curOne===id&&!(a&&a.tagName==='INPUT'&&$('#sheet').contains(a)))openOne(id)},60);
+    e.onkeydown=ev=>{if(ev.key==='Enter')e.blur()}});
+  $('#sheet').querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{if(!b.dataset.c){b.dataset.c=1;b.textContent='?';b.classList.add('cf');return}
+    const pid=b.dataset.pdel,n=pals(x).findIndex(p=>p.pid===pid)+1;dayRef().update({['dostave.'+id+'.palete.'+pid]:firebase.firestore.FieldValue.delete()}).then(()=>autoTeht(id)).catch(e=>toast('Napaka: '+e.message));logH('Odstranjena paleta '+n+' – '+x.ime+' '+(x.kraj||''),'pal')});
+  $('#oX').onclick=closeSheet;
+  if($('#oUn'))$('#oUn').onclick=()=>{dayRef().update({['dostave.'+id+'.st.n']:false,['dostave.'+id+'.nak']:firebase.firestore.FieldValue.delete()}).catch(e=>toast('Napaka: '+e.message));logH('↩ Razveljavljen naklad – '+x.ime+' '+(x.kraj||''),'nak')};
   $('#oD').onclick=()=>{if(!$('#oD').dataset.c){$('#oD').dataset.c=1;$('#oD').textContent='Res odstranim? Pritisnite še enkrat';return}
     dayRef().update({['dostave.'+id]:firebase.firestore.FieldValue.delete()}).catch(e=>toast('Napaka: '+e.message));logH('Odstranjena dostava: '+x.ime+' '+(x.kraj||''),'del');curOne=null;closeSheet()};
 }
 /* ------------ pošlji pisarni ------------ */
-function sendText(){const L=list();const pal=L.reduce((a,x)=>a+(+x.pal||0),0),kg=L.reduce((a,x)=>a+(+x.kg||0),0);
-  return 'SLOVENIJA – '+dmy(day)+((dayDoc&&dayDoc.regija)?' – '+dayDoc.regija:'')+'\n'+L.map(x=>x.ime+' '+(x.kraj||'')+': '+(x.pal||0)+' pal'+(x.kg?', '+fmtKg(x.kg)+' kg':'')+(done(x)?'':' (še ni naloženo)')).join('\n')+'\nSkupaj: '+pal+' palet'+(kg?', '+fmtKg(kg)+' kg':'')+'\n— '+me+' · ODPREMA'}
-function openSend(){sheetKind='send';const txt=sendText();const miss=list().filter(x=>!x.pal).length;
-  openSheet('<h2>📤 Pošlji pisarni <button class="sx">✕</button></h2>'+(miss?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ Pri '+miss+' dostavah še ni vpisanih palet.</p>':'')+'<div class="msg">'+esc(txt)+'</div>'+
+function sendText(){const L=list();const T={e:0,x:0,h:0,o:0,kg:0};
+  const lines=L.map(x=>{const i=pinfo(x);T.e+=i.e;T.x+=i.x;T.h+=i.h;T.o+=i.o;T.kg+=i.kg;let s=x.ime+' '+(x.kraj||'')+': ';
+    if(i.legacy)s+=(i.n||0)+' pal'+(i.kg?', '+fmtKg(i.kg)+' kg':'');
+    else if(sendMode==='vsaka'){const P=pals(x);const g=t=>P.filter(p=>p.t===t);const part=[];
+      [['e','EUR'],['x','navadna'],['h','½']].forEach(([t,l])=>{const q=g(t);if(q.length)part.push(q.length+'× '+l+' ('+q.map(p=>+p.kg>0?fmtKg(p.kg):'–').join(', ')+' kg)')});
+      g('o').forEach(p=>part.push('1× '+(p.dim||'druga')+' ('+(+p.kg>0?fmtKg(p.kg):'–')+' kg)'));s+=(part.join(', ')||'0 pal')+' = '+fmtKg(i.kg)+' kg'}
+    else s+=(pTxt(i).replace(/(\d+) /g,'$1× ')||'0 pal')+' = '+fmtKg(i.kg)+' kg';
+    return s+(done(x)?' – naloženo':ready(x)?' – pripravljeno':' – v pripravi')});
+  const tot=[];if(T.e)tot.push(T.e+'× EUR');if(T.x)tot.push(T.x+'× navadna');if(T.h)tot.push(T.h+'× ½');if(T.o)tot.push(T.o+'× druga');
+  const N=(dayDoc&&dayDoc.naklad)||[];const pv=[...new Set(N.map(z=>[z.prevoznik,z.tablica].filter(Boolean).join(' ')).filter(Boolean))];
+  return 'SLOVENIJA – '+dmy(day)+((dayDoc&&dayDoc.regija)?' – '+dayDoc.regija:'')+'\n'+lines.join('\n')+(pv.length?'\nPrevoznik: '+pv.join(', '):'')+'\nSkupaj: '+(tot.join(', ')||'0 palet')+(T.kg?' · '+fmtKg(T.kg)+' kg':'')+'\n— '+me+' · ODPREMA'}
+function openSend(){sheetKind='send';const txt=sendText();const miss=list().filter(x=>pinfo(x).n===0).length,unw=list().reduce((a,x)=>a+pinfo(x).miss,0);
+  openSheet('<h2>📤 Pošlji pisarni <button class="sx">✕</button></h2>'+(miss?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ Pri '+miss+' dostavah še ni vpisanih palet.</p>':'')+(unw?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ '+unw+' palet še ni stehtanih.</p>':'')+'<div class="seg2"><button data-m="vsaka" class="'+(sendMode==='vsaka'?'on':'')+'">Vsaka paleta</button><button data-m="zbir" class="'+(sendMode==='zbir'?'on':'')+'">Samo zbir</button></div><div class="msg">'+esc(txt)+'</div>'+
     (navigator.share?'<button class="btn p" id="sSh">📤 Pošlji (Viber, mail …)</button>':'')+'<button class="btn" id="sCp">📋 Kopiraj</button>');
+  $('#sheet').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{sendMode=b.dataset.m;try{localStorage.setItem('slo_mode',sendMode)}catch(e){}openSend()});
   const mark=how=>{const j=[...((dayDoc&&dayDoc.javljeno)||[]),{kad:Date.now(),ko:me}];save({javljeno:j});logH('Javljeno pisarni ('+how+'): '+list().length+' dostav','send')};
-  if($('#sSh'))$('#sSh').onclick=async()=>{try{await navigator.share({title:'Slovenija '+dmy(day),text:txt});mark('poslano');closeSheet();toast('✓ Javljeno pisarni')}catch(e){}};
-  $('#sCp').onclick=async()=>{try{await navigator.clipboard.writeText(txt);mark('kopirano');toast('Kopirano – prilepite v sporočilo')}catch(e){toast('Kopiranje ni uspelo')}};
+  if($('#sSh'))$('#sSh').onclick=async()=>{try{await navigator.share({title:'Slovenija '+dmy(day),text:sendText()});mark('poslano');closeSheet();toast('✓ Javljeno pisarni')}catch(e){}};
+  $('#sCp').onclick=async()=>{try{await navigator.clipboard.writeText(sendText());mark('kopirano');toast('Kopirano – prilepite v sporočilo')}catch(e){toast('Kopiranje ni uspelo')}};
 }
 /* ------------ kupci ------------ */
 function openKupci(){sheetKind='kupci';const L=kupci.slice().sort((a,b)=>(a.ime+a.kraj).localeCompare(b.ime+b.kraj));
