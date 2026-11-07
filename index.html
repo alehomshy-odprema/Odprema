@@ -141,6 +141,36 @@ pre.rep{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12p
 .msg{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:10px 12px;margin-top:8px}.msg.imp{border-left-color:var(--red)}.msg.dn{opacity:.75;border-left-color:var(--green)}.msg.dl{opacity:.6;border-left-color:var(--mut)}.msg.nw{box-shadow:0 0 0 2px var(--gold) inset}
 .msg .mh{font-size:14px}.msg .mt{font-size:17px;margin:6px 0;overflow-wrap:anywhere}.msg .ma{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.msg .ma .fc{margin:0}.fc.ok{border-color:var(--green);color:var(--green)}
 .fmc[disabled]{opacity:.85}
+body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavior:contain}
+@media (min-width:760px){.ov{align-items:center;justify-content:center;padding:24px}.sheet{max-width:720px;border-radius:18px;max-height:calc(90vh / var(--z))}}
+.hch{display:flex;gap:6px;overflow-x:auto;margin:10px 0 6px;padding-bottom:2px;scrollbar-width:none}.hch::-webkit-scrollbar{display:none}
+.hch button{flex:none;border:1px solid var(--line);border-radius:16px;padding:7px 12px;font-size:14px;background:var(--bg);color:var(--ink)}.hch button.on{background:var(--acc);border-color:var(--acc);color:var(--onacc);font-weight:700}
+.hday{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:16px 2px 4px;padding-bottom:5px;border-bottom:1px solid var(--line)}.hday b{color:var(--gold);font-size:14px;letter-spacing:.06em;text-transform:uppercase}.hday span{display:flex;gap:8px;font-size:13px}.hday em{font-style:normal;font-weight:800}
+.cg{color:var(--green)}.co{color:var(--orange)}.cb{color:var(--blue)}
+.hc{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--mut);border-radius:12px;padding:8px 9px;margin-top:7px}
+.hic{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;background:rgba(127,140,160,.15)}
+.hlk{min-width:52px;text-align:center;border:1.5px solid var(--gold);background:none;border-radius:9px;padding:4px 6px;font-weight:800;font-size:15px;color:var(--blue);flex:none}
+.hmd{flex:1;min-width:0}.hf{font-weight:800;font-size:15.5px;overflow-wrap:anywhere;display:flex;flex-wrap:wrap;align-items:center;gap:4px}.hf .hlk{min-width:0;font-size:13.5px;padding:1px 6px}
+.hs{font-size:12.5px;color:var(--mut);display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;margin-top:2px}
+.hav{width:18px;height:18px;border-radius:50%;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;color:#111;flex:none}
+.hn{font-size:21px;font-weight:800;min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+.hub{border:1px solid var(--line);background:var(--bg);border-radius:8px;width:32px;height:32px;font-size:15px;flex:none;color:var(--mut)}
+.harr{color:var(--mut);font-weight:700}.hgrp{font-size:12px;color:var(--gold);font-weight:800;white-space:nowrap}.hc.gp{cursor:pointer}.hc.gp.opn .hgrp{opacity:.6}
+.hgx{margin-left:14px;border-left:2px dashed var(--line);padding-left:8px}
+.k-g{border-left-color:var(--green)}.k-g .hic{background:rgba(69,227,160,.15)}.k-g .hn{color:var(--green)}
+.k-o{border-left-color:var(--orange)}.k-o .hic{background:rgba(255,176,77,.16)}.k-o .hn{color:var(--orange)}
+.k-b{border-left-color:var(--acc)}.k-b .hic{background:rgba(59,140,255,.18)}.k-b .hn{color:var(--blue)}
+.k-r{border-left-color:var(--red)}.k-r .hic{background:rgba(255,118,118,.15)}.k-r .hn{color:var(--red)}
+.k-d{border-left-color:#7d8aa3}.k-d .hn{color:var(--mut)}
+.k-p{border-left-color:#c58cff}.k-p .hic{background:rgba(197,140,255,.16)}
+.hc.st .hf,.hc.st .hn{text-decoration:line-through;opacity:.55}
+.hund{font-size:12.5px;color:var(--mut);margin:6px 0 0 14px}
+.hmore{display:block;width:100%;margin-top:12px;border:1px dashed var(--line);background:none;border-radius:12px;padding:11px;color:var(--mut);font-size:15px}
+.pdot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#7d8aa3;margin-right:6px;vertical-align:1px}.pdot.on{background:var(--green);box-shadow:0 0 0 3px rgba(69,227,160,.25)}.pon{color:var(--green)}.prs{font-size:13px;margin-top:4px}
+.fth{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 8px}.ft{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;border:1px solid var(--line)}.ft img{width:100%;height:100%;object-fit:cover;display:block}
+.ft button{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:14px}.fe{grid-column:1/-1;padding:14px;text-align:center;border:1px dashed var(--line);border-radius:10px}
+.fsub{display:flex;flex-direction:column;gap:2px;margin-top:12px}.fsub b{font-size:16px;overflow-wrap:anywhere}
+.frow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}.frow span{flex:1;overflow-wrap:anywhere}.fstar{border:0;background:none;font-size:22px;color:var(--mut)}.fstar.on{color:var(--gold)}
 .spx{border:0;background:none;color:var(--red);font-size:14px;padding:0 0 0 4px}
 .cgrid{display:grid;gap:6px}.ci{display:flex;flex-direction:column;align-items:center;background:var(--card);border:1.5px solid var(--gold);border-radius:10px;padding:5px 4px;margin:0;font-weight:700;color:var(--blue)}.ci input{width:100%;max-width:60px;text-align:center;padding:6px 2px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-size:16px;margin-top:3px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom));background:#2a3a57;color:#fff;padding:10px 16px;border-radius:10px;z-index:30;font-size:14px;max-width:90%}
@@ -152,7 +182,7 @@ pre.rep{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12p
 <header>
   <div class="hrow">
     <h1><span id="logoBox"><svg viewBox="0 0 100 100" width="34" height="34" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#e1e1e8" stroke-width="1.5"/><g fill="#e2007a"><rect x="33.5" y="27" width="10.5" height="46" rx="2.2"/><rect x="33.5" y="27" width="35.5" height="10.5" rx="2.2"/><rect x="33.5" y="44.75" width="31" height="10.5" rx="2.2"/><rect x="33.5" y="62.5" width="35.5" height="10.5" rx="2.2"/></g></svg></span>ETI ODPREMA</h1>
-    <button class="chip mg" id="bMsg" hidden aria-label="Sporočila">💬<span id="msgN"></span></button><button class="chip" id="meChip"><span class="dot" id="syncDot"></span><span id="meName">—</span></button>
+    <button class="chip mg" id="bFoto" hidden aria-label="Slike za mail">📷</button><button class="chip mg" id="bMsg" hidden aria-label="Sporočila">💬<span id="msgN"></span></button><button class="chip" id="meChip"><span class="dot" id="syncDot"></span><span id="meName">—</span></button>
   </div>
   <div class="kst" id="sum"></div>
   <div class="srow"><input class="search" id="search" type="search" autocomplete="off"><button class="kb" id="bType" aria-label="Type">⌨️</button></div>
@@ -195,7 +225,7 @@ sl:{search:'Išči podjetje ali lokacijo…',sum:'{0} zasedeno · {1} prosto · 
  cfgHelp:'Prilepite nastavitve Firebase (firebaseConfig) in izmislite kodo skladišča.',cfgPh:'const firebaseConfig = { apiKey: ... }',kodPh:'Koda skladišča, npr. skladisce-7k2x',connect:'Poveži',
  noCfg:'V prilepljenem besedilu ne vidim apiKey in projectId',shortKod:'Koda skladišča: vsaj 4 znaki',invite:'📤 Pošlji povezavo sodelavcem',inviteTxt:'Odpri to povezavo na telefonu za aplikacijo Lokacije (nato »Dodaj na začetni zaslon«) in se prijavi s svojo e-pošto:',linkCopied:'Povezava kopirana',
  disc:'Prekini povezavo na tem telefonu',discQ:'Prekiniti povezavo? Podatki ostanejo v bazi.',
- members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',updated:'Nova različica – osvežujem …',dupN:'{0}× dvojna',dupChk:'Dvojne palete (število = dvojnih)',dupAdd:'+ dvojna',lastChB:'🕘 Zadnje spremembe ({0})',capB:'⚙️ Zmogljivost',undo:'↩',undoQ:'Razveljaviti: {0}?',undone:'razveljavljeno',undoFix:'↩ popravek',undoDone:'Razveljavljeno',mvNoDup:'Na {0} ni dvojnih palet {1}.',repPerm:'Lahko vidi poročila',repB:'📈 Poročila',repT:'Poročila',pToday:'Danes',pYest:'Včeraj',pWeek:'Ta teden',pLWeek:'Prejšnji teden',pMonth:'Ta mesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Vneseno',rOut:'Odvzeto / naloženo',rMv:'Premaknjeno',rByFirm:'Po podjetjih (kupcih)',rByW:'Po delavcih',rByDay:'Po dnevih',rDet:'Podrobno',rFirmF:'Filter: podjetje (neobvezno)',rWF:'Vsi delavci',rLoading:'Nalagam …',rNone:'Ni sprememb v tem obdobju.',rFix:'popravki (ne štejejo)',rDate:'Datum',rFirm:'Podjetje',rWk:'Delavec',rMore:'Prikazanih prvih {0} vrstic.',loadedB:'🚚 Naloži',moveAllB:'⇄ Premakni vse',delLocB:'🗑 Izbriši lokacijo (ni naloženo)',loadedQ:'Vse z lokacije {0} je naloženo?',loadedFQ:'{0} z lokacije {1} – kaj se je zgodilo?',loadedF:'🚚 Naloženo ({0})',delF:'🗑 Izbriši (ni naloženo)',delQ:'Izbrisati vse z lokacije {0}? (ni naloženo)',loadedAll:'🚚 Naloženo – vse z lokacije',loadedFirm:'🚚 Naloženo: {0} (vse palete)',delAll:'🗑 Izbriši vse z lokacije',delFirm:'🗑 Izbriši: {0}',loaded:'naloženo',deleted:'izbrisano',rDel:'izbrisano (ne šteje)',mvAllT:'Premakni vse z lokacije {0}',exitQ:'Za izhod pritisnite Nazaj še enkrat',ovUse:'Zasedenost regalov',ovPlaces:'mest',ovLocs:'Lokacije',kOcc:'zasedeno',kFree:'prosto',kPal:'palet',kPlaces:'prostih mest',pickFirm:'Izberite podjetje:',newFirm:'novo',firmsB:'🏢 Podjetja',fmT:'Seznam podjetij',fmSearch:'Išči podjetje, kratko ime ali šifro…',fmNew:'+ Novo podjetje',fmName:'Naziv (kot na pack listi)',fmAlias:'Kratko ime za glas (več ločite z vejico)',fmCode:'Šifra kupca',fmSave:'Shrani',fmDel:'Izbriši podjetje',fmDelQ:'Izbrisati podjetje {0} s seznama?',fmOnLoc:'Podjetje je trenutno na lokacijah: {0}. Izbrisati s seznama vseeno? (Na lokacijah ostane.)',fmDup:'Podjetje s tem imenom že obstaja.',fmDupCode:'Šifra {0} že pripada podjetju {1}.',fmNeedName:'Vpišite naziv.',fmSaved:'✓ Shranjeno',fmIzg:'izgovor',fmCodeL:'šifra',fmNow:'zdaj {0} na {1} lok.',fmNone:'Ni podjetij. Dodajte prvo.',fmPerm:'Lahko dodaja in ureja podjetja',fmRen:'Preimenovano tudi na lokacijah.',primName:'Odpremni regal',kont:'Kontejner',kOther:'drugo',kNone:'brez',kPh:'npr. K5 ali KINA',ldT:'Naloži',ldHelp:'Vpišite, koliko palet posameznega podjetja je naloženih. Nič ni izbrano vnaprej.',ldOn:'na lokaciji {0}',ldWarn:'Te palete so za {0}!',ldAll:'vse',ldOk:'🚚 Potrdi – naloženo',ldDel:'🗑 Izbriši (ni naloženo)',ldDelQ:'Izbrisati vpisane palete brez nalaganja?',ldWill:'Skupaj {0} palet',ldNone:'Vpišite količino pri podjetju.',prej:'prej',rMsgs:'ODPRTA SPOROČILA',fmRenH:'Če popravite ime, stanje na lokacijah ostane enako. Zgodovina si zapomni staro ime.',fmMergeQ:'Podjetje »{1}« že obstaja. Združiti »{0}« z »{1}«? Vse palete se prenesejo na »{1}«.',fmMerged:'Združeno v {0}',fmNoDel:'Podjetja ni mogoče izbrisati, ker ima palete na lokacijah:',back:'← Nazaj',sMoje:'Moje',sDelo:'Delo',sClani:'Člani',sOwn:'Samo lastnik',profT:'Moj profil',profSub:'tema, velikost pisave, odjava',profH:'Velja samo za ta telefon.',thT:'Tema',thDark:'Temna',thLight:'Svetla',fsT:'Velikost pisave',fsN:'Normalna',fsB:'Večja',fsX:'Največja',memT:'Člani in pravice',memN:'{0} članov',memDup:'Ta član že obstaja.',roleL:'Vloga',permL:'Pravice',mRemove:'Odstrani dostop',roleWs:'Delavec',roleVs:'Samo ogled',pSadm:'Administrator sporočil (vidi vsa sporočila, piše vsem)',pSadmS:'Admin sporočil',pMsg:'Sporočila (vidi sporočila zanj, odgovarja administratorjem)',pMsgS:'Sporočila',fmPermS:'Podjetja',pFirmDel:'Lahko briše podjetja',pFirmDelS:'Briše podjetja',repPermS:'Poročila',pLoc:'Lokacije in regali, zmogljivosti',pLocS:'Lokacije',conT:'Povezava',oldT:'Stare lokacije',oldN:'{0} s paletami',oldH:'Lokacije, ki jih ni več na seznamu, a imajo še palete. Palete premaknite na pravo lokacijo ali jih izbrišite.',oldNone:'Ni starih lokacij s paletami.',oldMv:'Premakni',oldDel:'Izbriši palete',oldDelQ:'Izbrisati vse palete s stare lokacije {0}?',msgT:'Sporočila',mNewB:'Novo sporočilo',mOpen:'Odprta',mDoneT:'Opravljena',mDelT:'🗑 Izbrisana',mNone:'Ni sporočil.',mAll:'Vsi',mTo:'Za',mTxt:'Sporočilo',mLok:'Lokacija (neobvezno)',mImpC:'Pomembno',mSend:'Pošlji',mSent:'Poslano',mNoRcp:'Ni prejemnikov – lastnik mora članom dodeliti sporočila.',mDone:'Opravljeno',mDoneBy:'Opravljeno: {0}, {1}',mDelBy:'Izbrisal: {0}, {1}',mReopen:'Ponovno odpri',mReply:'Odgovori',mDelQ:'Izbrisati sporočilo?',mImp:'Pomembno sporočilo',mRead:'Prebrano',mAllB:'Vsa sporočila',rgT:'Lokacije in regali',rgNew:'+ Nov regal',rgName:'Ime regala',rgPrim:'⭐ Odpremni (glavni) regal – zgoraj, z okenci zasedeno/prosto',rgCols:'Število stolpcev na zaslonu (višine)',rgLocs:'Lokacije (ločene z vejico)',rgLocsH:'Lokacijo lahko dopišete ali izbrišete. Lokacije s paletami ni mogoče izbrisati.',rgDel:'Izbriši regal',rgDelQ:'Izbrisati regal {0}?',rgHasPal:'Na lokacijah so palete: {0}',rgClash:'Te lokacije že obstajajo: {0}',rgStyle:'Oblika oznake',rgNum:'Številka regala',rgPos:'Pozicije od – do',rgNoPos:'Regal nima pozicij (samo višine)',rgHei:'Višine od – do',rgCap:'Zmogljivost lokacije v tem regalu (neobvezno)',rgCErr:'Pri obliki 520 so pozicije in višine lahko samo 0–9.',rgWill:'Ustvarjenih bo {0} lokacij:',rgCapS:'zmogljivost {0}',spPh:'Nova lokacija, npr. SVEA',spDup:'Lokacija že obstaja.',spDelQ:'Izbrisati lokacijo {0}?',capT:'Zmogljivosti',capRg:'Privzeto za ta regal =',capHelp2:'Velja za vse lokacije, ki nimajo svoje številke.',capLow:'Vse najnižje višine =',capSetB:'Nastavi',capLowDone:'Nastavljeno za {0} lokacij – pritisnite Shrani',capSpH:'Prazno = brez omejitve.',pend:'⏳ Čaka na povezavo: {0} lok. – shrani se samodejno',pendOld:'⚠ Spremembe še niso poslane ({0} lok.). Pojdite na mesto s signalom.',loadingW:'Še nalagam … poskusite čez trenutek',done:'✓ Končano',qAdd:'Hitro dodaj',mvT:'Premik',mvTo:'Premakni v',mvQty:'Število palet',mvBtn:'⇄ Premakni',mvDone:'Premaknjeno: {0} → {1}',mvNone:'Na lokaciji {0} ni {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na voljo samo {0} – premaknem {0}.',eSame:'Lokaciji sta isti.',eMoveFirm:'Na lokaciji {0} je več podjetij – povejte katero, npr. »Zunaj Romunija 20 v Šotor kupci«.',capsL:'Posebna zmogljivost (regal ali lokacija)',capsH:'Ena v vrstici, npr.<br><b>05 = 4</b> (cel regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>07-04 = 5</b> (vse višine pozicije 07-04)<br><b>Vani = 30</b><br>Ostalo uporablja zmogljivost zgoraj.',capLoc:'Zmogljivost te lokacije',capSet:'Shrani',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
+ members:'Člani z dostopom',owner:'lastnik',addMember:'Dodaj člana',mEmail:'E-pošta',mName:'Ime',removeQ:'Odstraniti dostop za {0}?',onlyOwner:'Nastavitve lokacij in dostope ureja samo lastnik.',yes:'Da',no:'Ne',updated:'Nova različica – osvežujem …',dupN:'{0}× dvojna',dupChk:'Dvojne palete (število = dvojnih)',dupAdd:'+ dvojna',lastChB:'🕘 Zadnje spremembe ({0})',capB:'⚙️ Zmogljivost',undo:'↩',undoQ:'Razveljaviti: {0}?',undone:'razveljavljeno',undoFix:'↩ popravek',undoDone:'Razveljavljeno',mvNoDup:'Na {0} ni dvojnih palet {1}.',repPerm:'Lahko vidi poročila',repB:'📈 Poročila',repT:'Poročila',pToday:'Danes',pYest:'Včeraj',pWeek:'Ta teden',pLWeek:'Prejšnji teden',pMonth:'Ta mesec',pRange:'Od – do',pShow:'Prikaži',rIn:'Vneseno',rOut:'Odvzeto / naloženo',rMv:'Premaknjeno',rByFirm:'Po podjetjih (kupcih)',rByW:'Po delavcih',rByDay:'Po dnevih',rDet:'Podrobno',rFirmF:'Filter: podjetje (neobvezno)',rWF:'Vsi delavci',rLoading:'Nalagam …',rNone:'Ni sprememb v tem obdobju.',rFix:'popravki (ne štejejo)',rDate:'Datum',rFirm:'Podjetje',rWk:'Delavec',rMore:'Prikazanih prvih {0} vrstic.',loadedB:'🚚 Naloži',moveAllB:'⇄ Premakni vse',delLocB:'🗑 Izbriši lokacijo (ni naloženo)',loadedQ:'Vse z lokacije {0} je naloženo?',loadedFQ:'{0} z lokacije {1} – kaj se je zgodilo?',loadedF:'🚚 Naloženo ({0})',delF:'🗑 Izbriši (ni naloženo)',delQ:'Izbrisati vse z lokacije {0}? (ni naloženo)',loadedAll:'🚚 Naloženo – vse z lokacije',loadedFirm:'🚚 Naloženo: {0} (vse palete)',delAll:'🗑 Izbriši vse z lokacije',delFirm:'🗑 Izbriši: {0}',loaded:'naloženo',deleted:'izbrisano',rDel:'izbrisano (ne šteje)',mvAllT:'Premakni vse z lokacije {0}',exitQ:'Za izhod pritisnite Nazaj še enkrat',ovUse:'Zasedenost regalov',ovPlaces:'mest',ovLocs:'Lokacije',kOcc:'zasedeno',kFree:'prosto',kPal:'palet',kPlaces:'prostih mest',pickFirm:'Izberite podjetje:',newFirm:'novo',firmsB:'🏢 Podjetja',fmT:'Seznam podjetij',fmSearch:'Išči podjetje, kratko ime ali šifro…',fmNew:'+ Novo podjetje',fmName:'Naziv (kot na pack listi)',fmAlias:'Kratko ime za glas (več ločite z vejico)',fmCode:'Šifra kupca',fmSave:'Shrani',fmDel:'Izbriši podjetje',fmDelQ:'Izbrisati podjetje {0} s seznama?',fmOnLoc:'Podjetje je trenutno na lokacijah: {0}. Izbrisati s seznama vseeno? (Na lokacijah ostane.)',fmDup:'Podjetje s tem imenom že obstaja.',fmDupCode:'Šifra {0} že pripada podjetju {1}.',fmNeedName:'Vpišite naziv.',fmSaved:'✓ Shranjeno',fmIzg:'izgovor',fmCodeL:'šifra',fmNow:'zdaj {0} na {1} lok.',fmNone:'Ni podjetij. Dodajte prvo.',fmPerm:'Lahko dodaja in ureja podjetja',fmRen:'Preimenovano tudi na lokacijah.',primName:'Odpremni regal',fT:'Slike za mail',fSetSub:'naslovi in vrste',fCam:'Slikaj',fCamMore:'Slikaj še',fGal:'Iz galerije',fEmpty:'Še ni slik. Pritisnite 📷 Slikaj.',fVrsta:'Vrsta',fFirm:'Podjetje (neobvezno)',fOp:'Opomba (neobvezno)',fOpPh:'npr. Kitajska, poškodovan vogal',fSubj:'Zadeva maila',fTo:'Prejemniki',fHint:'Ob pošiljanju se izbrani naslovi kopirajo. V Gmailu v polju »Za« pridržite prst in izberite Prilepi.',fSend:'Pošlji po mailu',fNoImg:'Najprej naredite vsaj eno sliko.',fSlike:'Slike',fBy:'Poslal',fLokS:'lok.',fDone:'Poslano – zapis je v zgodovini.',fDoneTo:'Naslovi so kopirani – v Gmailu jih prilepite v »Za«.',fSent:'Poslano: {0}',fSetT:'Naslovi in vrste',fAddr:'Naslovi prejemnikov',fAddrH:'★ = vedno izbran (stalni naslov).',fDef:'stalni',fNoAddr:'Ni shranjenih naslovov – dodajte ga spodaj.',fVrste:'Vrste slik',fNewV:'Nova vrsta',fBadMail:'Vpišite pravi e-poštni naslov.',fFall:'Slike so prenesene – dodajte jih v mail.',pFoto:'📷 Slike za mail',pFotoS:'Slike',pOnl:'Vidi, kdo je online',pOnlS:'Online',prOn:'online',prNow:'pravkar',prNever:'še ni bil aktiven',prAgo:'pred {0} min',prToday:'danes {0}',prYday:'včeraj {0}',prLast:'zadnjič',onN:'{0} online',today:'Danes',yday:'Včeraj',hAll:'Vse',hG:'➕ Dodano',hO:'🚚 Naloženo',hB:'⇄ Premiki',hR:'➖ Odvzeto',hD:'🗑 Izbrisano',hP:'📷 Slike',pAll:'Vse',pD:'Danes',pY:'Včeraj',pW:'Teden',hMine:'Samo moje',hMore:'⬇ Naloži starejše',hSearch:'Išči: podjetje, lokacija, K1, delavec …',hRem:'odvzeto',kont:'Kontejner',kOther:'drugo',kNone:'brez',kPh:'npr. K5 ali KINA',ldT:'Naloži',ldHelp:'Vpišite, koliko palet posameznega podjetja je naloženih. Nič ni izbrano vnaprej.',ldOn:'na lokaciji {0}',ldWarn:'Te palete so za {0}!',ldAll:'vse',ldOk:'🚚 Potrdi – naloženo',ldDel:'🗑 Izbriši (ni naloženo)',ldDelQ:'Izbrisati vpisane palete brez nalaganja?',ldWill:'Skupaj {0} palet',ldNone:'Vpišite količino pri podjetju.',prej:'prej',rMsgs:'ODPRTA SPOROČILA',fmRenH:'Če popravite ime, stanje na lokacijah ostane enako. Zgodovina si zapomni staro ime.',fmMergeQ:'Podjetje »{1}« že obstaja. Združiti »{0}« z »{1}«? Vse palete se prenesejo na »{1}«.',fmMerged:'Združeno v {0}',fmNoDel:'Podjetja ni mogoče izbrisati, ker ima palete na lokacijah:',back:'← Nazaj',sMoje:'Moje',sDelo:'Delo',sClani:'Člani',sOwn:'Samo lastnik',profT:'Moj profil',profSub:'tema, velikost pisave, odjava',profH:'Velja samo za ta telefon.',thT:'Tema',thDark:'Temna',thLight:'Svetla',fsT:'Velikost pisave',fsN:'Normalna',fsB:'Večja',fsX:'Največja',memT:'Člani in pravice',memN:'{0} članov',memDup:'Ta član že obstaja.',roleL:'Vloga',permL:'Pravice',mRemove:'Odstrani dostop',roleWs:'Delavec',roleVs:'Samo ogled',pSadm:'Administrator sporočil (vidi vsa sporočila, piše vsem)',pSadmS:'Admin sporočil',pMsg:'Sporočila (vidi sporočila zanj, odgovarja administratorjem)',pMsgS:'Sporočila',fmPermS:'Podjetja',pFirmDel:'Lahko briše podjetja',pFirmDelS:'Briše podjetja',repPermS:'Poročila',pLoc:'Lokacije in regali, zmogljivosti',pLocS:'Lokacije',conT:'Povezava',oldT:'Stare lokacije',oldN:'{0} s paletami',oldH:'Lokacije, ki jih ni več na seznamu, a imajo še palete. Palete premaknite na pravo lokacijo ali jih izbrišite.',oldNone:'Ni starih lokacij s paletami.',oldMv:'Premakni',oldDel:'Izbriši palete',oldDelQ:'Izbrisati vse palete s stare lokacije {0}?',msgT:'Sporočila',mNewB:'Novo sporočilo',mOpen:'Odprta',mDoneT:'Opravljena',mDelT:'🗑 Izbrisana',mNone:'Ni sporočil.',mAll:'Vsi',mTo:'Za',mTxt:'Sporočilo',mLok:'Lokacija (neobvezno)',mImpC:'Pomembno',mSend:'Pošlji',mSent:'Poslano',mNoRcp:'Ni prejemnikov – lastnik mora članom dodeliti sporočila.',mDone:'Opravljeno',mDoneBy:'Opravljeno: {0}, {1}',mDelBy:'Izbrisal: {0}, {1}',mReopen:'Ponovno odpri',mReply:'Odgovori',mDelQ:'Izbrisati sporočilo?',mImp:'Pomembno sporočilo',mRead:'Prebrano',mAllB:'Vsa sporočila',rgT:'Lokacije in regali',rgNew:'+ Nov regal',rgName:'Ime regala',rgPrim:'⭐ Odpremni (glavni) regal – zgoraj, z okenci zasedeno/prosto',rgCols:'Število stolpcev na zaslonu (višine)',rgLocs:'Lokacije (ločene z vejico)',rgLocsH:'Lokacijo lahko dopišete ali izbrišete. Lokacije s paletami ni mogoče izbrisati.',rgDel:'Izbriši regal',rgDelQ:'Izbrisati regal {0}?',rgHasPal:'Na lokacijah so palete: {0}',rgClash:'Te lokacije že obstajajo: {0}',rgStyle:'Oblika oznake',rgNum:'Številka regala',rgPos:'Pozicije od – do',rgNoPos:'Regal nima pozicij (samo višine)',rgHei:'Višine od – do',rgCap:'Zmogljivost lokacije v tem regalu (neobvezno)',rgCErr:'Pri obliki 520 so pozicije in višine lahko samo 0–9.',rgWill:'Ustvarjenih bo {0} lokacij:',rgCapS:'zmogljivost {0}',spPh:'Nova lokacija, npr. SVEA',spDup:'Lokacija že obstaja.',spDelQ:'Izbrisati lokacijo {0}?',capT:'Zmogljivosti',capRg:'Privzeto za ta regal =',capHelp2:'Velja za vse lokacije, ki nimajo svoje številke.',capLow:'Vse najnižje višine =',capSetB:'Nastavi',capLowDone:'Nastavljeno za {0} lokacij – pritisnite Shrani',capSpH:'Prazno = brez omejitve.',pend:'⏳ Čaka na povezavo: {0} lok. – shrani se samodejno',pendOld:'⚠ Spremembe še niso poslane ({0} lok.). Pojdite na mesto s signalom.',loadingW:'Še nalagam … poskusite čez trenutek',done:'✓ Končano',qAdd:'Hitro dodaj',mvT:'Premik',mvTo:'Premakni v',mvQty:'Število palet',mvBtn:'⇄ Premakni',mvDone:'Premaknjeno: {0} → {1}',mvNone:'Na lokaciji {0} ni {1}.',mvEmpty:'Lokacija {0} je prazna.',mvCap:'Na voljo samo {0} – premaknem {0}.',eSame:'Lokaciji sta isti.',eMoveFirm:'Na lokaciji {0} je več podjetij – povejte katero, npr. »Zunaj Romunija 20 v Šotor kupci«.',capsL:'Posebna zmogljivost (regal ali lokacija)',capsH:'Ena v vrstici, npr.<br><b>05 = 4</b> (cel regal 05)<br><b>06-02 = 5</b> (samo lokacija 06-02)<br><b>07-04 = 5</b> (vse višine pozicije 07-04)<br><b>Vani = 30</b><br>Ostalo uporablja zmogljivost zgoraj.',capLoc:'Zmogljivost te lokacije',capSet:'Shrani',spec:'Ostale lokacije',specL:'Ostale lokacije (ena v vrstici)',specH:'Npr. Vani, Nadstrešek, Dule šotor, Šotor. Brez omejitve zmogljivosti. Z glasom: »Vani Romunija 15«.',noFirm:'Brez oznake',noRes:'Ni zadetkov.',pals:'pal.',roleW:'Delavec – lahko ureja',roleV:'Samo ogled',viewOnly:'Imate samo ogled – sprememb ne morete vnašati.',role:'Vloga',
  loginT:'Prijava',email:'E-pošta',pass:'Geslo',login:'Prijava',register:'Nov račun',forgot:'Pozabljeno geslo',resetSent:'Poslali smo e-pošto za novo geslo.',
  verifyT:'Potrdite e-pošto',verifyTxt:'Poslali smo povezavo na {0}. Kliknite jo (preverite tudi vsiljeno pošto), nato pritisnite »Potrdil sem«.',verified:'Potrdil sem',resend:'Pošlji ponovno',sentAgain:'Poslano',notYet:'E-pošta še ni potrjena.',logout:'Odjava',
  noAccess:'Nimate dostopa do tega skladišča. Prosite lastnika, naj v Nastavitvah doda vaš e-naslov:',retry:'Poskusi znova',
@@ -262,8 +292,8 @@ function capOf(l){const k=state.post.kapacitete||{};
   if(pr.length>1&&k[pr[0]]!==undefined)return +k[pr[0]]||0;
   if(rg&&+rg.cap)return +rg.cap;
   return +state.post.kapacitet||0}
-const state={post:clone(DEFAULT_POST),lok:{},hist:[],handover:null,clani:[],vlasnik:null,msgs:[]};
-let me=LS.get('lk_me',null),myEmail=null,myRole='radnik',myUid=null,myRep=false,myFirm=false,myLocP=false,myFirmDel=false,mySadm=false,myMsg=false,myMid='';
+const state={post:clone(DEFAULT_POST),lok:{},hist:[],handover:null,clani:[],vlasnik:null,msgs:[],pris:{}};
+let me=LS.get('lk_me',null),myEmail=null,myRole='radnik',myUid=null,myRep=false,myFirm=false,myLocP=false,myFirmDel=false,mySadm=false,myMsg=false,myMid='',myOnl=false,myFoto=false;
 const idOf=name=>String(name).replace(/[\/#\[\]]/g,'-').trim()||'_';
 
 /*PARSER*/
@@ -447,25 +477,32 @@ const FireStore={
       if(!d.exists){if(!d.metadata.fromCache)showCreate();return}
       const x=d.data()||{};state.post={...clone(DEFAULT_POST),...(x.post||{})};state.handover=x.handover||null;state.vlasnik=x.vlasnik||null;
       if(state.vlasnik===myEmail){myRole='radnik';applyRole();if(!this.ownerList){this.ownerList=true;this.unsub.push(this.root.collection('clani').onSnapshot(s=>{state.clani=s.docs.map(q=>({email:q.id,...q.data()}));if(!s.metadata.fromCache)this.ensureDir();cb()},()=>{}))}}
-      this.msgSync();
+      this.msgSync();this.presSync();
       if(sheetState.type==='create'||sheetState.type==='noacc')closeSheet(true);
       cb()},e=>{if(String(e.code||e.message).includes('permission'))showNoAccess();else setSync('err',e.message);cb()}));
     this.unsub.push(this.root.collection('clani').doc(myEmail).onSnapshot(d=>{const x=d.data();
       if(!x){if(!d.metadata.fromCache&&state.vlasnik&&state.vlasnik!==myEmail)showNoAccess();return}
-      me=x.ime||me;myRep=!!x.porocila;myFirm=!!x.firme;myLocP=!!x.lokacije;myFirmDel=!!x.firmeDel;mySadm=!!x.sadm;myMsg=!!x.sporocila;myMid=x.mid||'';if(state.vlasnik!==myEmail)myRole=x.uloga||'radnik';applyRole();this.msgSync();cb()},()=>{}));
+      me=x.ime||me;myRep=!!x.porocila;myFirm=!!x.firme;myLocP=!!x.lokacije;myFirmDel=!!x.firmeDel;mySadm=!!x.sadm;myMsg=!!x.sporocila;myMid=x.mid||'';myOnl=!!x.vidiOnline;myFoto=!!x.slike;this.presSync();this.beat(true);if(state.vlasnik!==myEmail)myRole=x.uloga||'radnik';applyRole();this.msgSync();cb()},()=>{}));
     this.unsub.push(this.root.collection('lokacije').onSnapshot({includeMetadataChanges:true},s=>{const l={},pd={};
       s.forEach(d=>{l[d.id]=d.data();if(d.metadata.hasPendingWrites)pd[d.id]=1;
         const x=d.data();if(x&&x.stavke&&!x.p&&canEdit()&&!s.metadata.fromCache)this.root.collection('lokacije').doc(d.id).set({p:toP(docItems(x)),stavke:this.FV.delete()},{merge:true}).catch(()=>{})});
       state.lok=l;this.pend=pd;updPending();setSync(s.metadata.fromCache&&!Object.keys(pd).length?'wait':'on');cb()},e=>setSync('err',e.message)));
     this.unsub.push(this.root.collection('historija').orderBy('kad','desc').limit(400).onSnapshot(s=>{state.hist=s.docs.map(d=>({id:d.id,...d.data()}));cb()},()=>{}));
   },
-  stop(){this.unsub.forEach(u=>u());this.unsub=[];(this.msgUn||[]).forEach(u=>u());this.msgUn=[];this.msgKey=''},
+  stop(){this.unsub.forEach(u=>u());this.unsub=[];if(this.presUn){this.presUn();this.presUn=null}state.pris={};(this.msgUn||[]).forEach(u=>u());this.msgUn=[];this.msgKey=''},
   msgSync(){if(!this.root)return;const own=state.vlasnik===myEmail;const on=own||mySadm||myMsg;const key=on&&myMid?((own||mySadm)?'A':'U')+myMid:'';if(key===this.msgKey)return;
     this.msgKey=key;(this.msgUn||[]).forEach(u=>u());this.msgUn=[];state.msgs=[];if(!key){updMsg();return}
     const C=this.root.collection('sporocila');
     if(key[0]==='A')this.msgUn.push(C.orderBy('kad','desc').limit(300).onSnapshot(s=>{state.msgs=s.docs.map(d=>({id:d.id,...d.data()}));updMsg()},e=>console.warn('msg',e)));
     else{const parts={};const upd=()=>{const m={};Object.values(parts).forEach(a=>a.forEach(x=>m[x.id]=x));state.msgs=Object.values(m);updMsg()};
       [['za','array-contains',myMid],['za','array-contains','*'],['od','==',myMid]].forEach((w,i)=>this.msgUn.push(C.where(w[0],w[1],w[2]).limit(200).onSnapshot(s=>{parts[i]=s.docs.map(d=>({id:d.id,...d.data()}));upd()},e=>console.warn('msg',e))))}},
+  presSync(){if(!this.root)return;const on=state.vlasnik===myEmail||myOnl;if(on===!!this.presUn)return;
+    if(this.presUn){this.presUn();this.presUn=null;state.pris={}}
+    if(on)this.presUn=this.root.collection('prisotnost').onSnapshot(s=>{const o={};s.forEach(d=>o[d.id]=d.data());state.pris=o;updPres()},()=>{})},
+  beat(force){if(!this.root||!myEmail||document.visibilityState!=='visible')return;const n=Date.now();if(!force&&n-(this.lastBeat||0)<60e3)return;if(force&&n-(this.lastBeat||0)<20e3)return;this.lastBeat=n;
+    this.root.collection('prisotnost').doc(myEmail).set({kad:n,ime:me||myEmail.split('@')[0]}).catch(()=>{});
+    if(!this.beatT){this.beatT=setInterval(()=>this.beat(),120e3);document.addEventListener('visibilitychange',()=>this.beat(true))}},
+  async older(before){const s=await this.root.collection('historija').where('kad','<',before).orderBy('kad','desc').limit(200).get();return s.docs.map(d=>({id:d.id,...d.data()}))},
   msgSend(o){return this.root.collection('sporocila').add(o)},
   msgRead(id){return this.root.collection('sporocila').doc(id).update({['brano.'+myMid]:Date.now()})},
   msgSet(id,o){return this.root.collection('sporocila').doc(id).update(o)},
@@ -629,7 +666,7 @@ function render(){
   if(sheetState.type==='loc')renderLocBody();
   if(sheetState.type==='hist')renderHist();
   if(sheetState.type==='over')renderOver();
-  updMsg();
+  updMsg();{const fb=$('#bFoto');if(fb)fb.hidden=!canFoto()||!me}
 }
 $('#grid').addEventListener('click',e=>{const x=e.target.closest('.tile');if(x)openLoc(x.dataset.lok)});
 $('#search').addEventListener('input',render);
@@ -646,21 +683,25 @@ $('#sres').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if
 /* ================= okna ================= */
 function ask(msg,onYes,onNo,good){openSheet('<h2>'+(good?'🚚':'⚠️')+'</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var('+(good?'--green);color:#0d1320;border-color:var(--green)':'--red);border-color:var(--red)')+'">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
 let sheetState={};
+let lockY=0;
+function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
+  else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
 function openSheet(html,type,extra){const lk=!!(extra&&extra.locked);
   $('#sheet').innerHTML='<div class="shd"><span class="grab"></span>'+(lk?'':'<button class="sx" aria-label="Zapri">✕</button>')+'</div>'+html;
-  $('#ov').hidden=false;$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0;$('#sheet').style.transform='';
+  $('#ov').hidden=false;lockBody(true);$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0;$('#sheet').style.transform='';
   const sx=$('#sheet .sx');if(sx)sx.onclick=()=>closeSheet();
   if(!sheetHist){try{history.pushState({sheet:1},'')}catch(e){}sheetHist=true}}
-function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').hidden=true;sheetState={};stopRec();
+function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').hidden=true;lockBody(false);sheetState={};stopRec();
   if(sheetHist){sheetHist=false;ignorePop=true;try{history.back()}catch(e){ignorePop=false}}}
 // Nazaj: zapre okno; na glavnem zaslonu dvakrat za izhod
 let lastBack=0;
+try{history.scrollRestoration='manual'}catch(e){}
 try{history.replaceState({base:1},'');history.pushState({guard:1},'')}catch(e){}
 window.addEventListener('popstate',()=>{
   const st=history.state||{};
   if(ignorePop){ignorePop=false;try{if(sheetHist&&!st.sheet)history.pushState({sheet:1},'');else if(!sheetHist&&!st.guard&&!st.sheet)history.pushState({guard:1},'')}catch(e){}return}
-  if(sheetHist){sheetHist=false;if(sheetState.locked){try{history.pushState({sheet:1},'')}catch(e){}sheetHist=true;return}$('#ov').hidden=true;sheetState={};stopRec();
+  if(sheetHist){sheetHist=false;if(sheetState.locked){try{history.pushState({sheet:1},'')}catch(e){}sheetHist=true;return}$('#ov').hidden=true;lockBody(false);sheetState={};stopRec();
     try{if(!st.guard)history.pushState({guard:1},'')}catch(e){}return}
   if(retOver!==null){backToOver();return}
   const now=Date.now();
@@ -715,8 +756,8 @@ function renderLocBody(){
   const qc=$('#qChips');if(qc){if(ed){const on=new Set(st.map(s=>norm(s.firma)));const rec=[];for(const x of state.hist){if(rec.length>=6)break;const F=curName(x.firma);if(F&&knownFirms().includes(F)&&!on.has(norm(F))&&!rec.some(r=>norm(r)===norm(F)))rec.push(F)}
     qc.innerHTML=rec.length?'<label>'+t('qAdd')+'</label>'+rec.map(f=>'<button class="lc qa" data-qf="'+esc(f)+'">+1 '+esc(f)+'</button>').join(''):'';
     qc.querySelectorAll('[data-qf]').forEach(x=>x.onclick=()=>applyDelta(lok,x.dataset.qf,1))}else qc.innerHTML=''}
-  const h=state.hist.filter(x=>x.lok===lok||x.do===lok).slice(0,8);
-  const lh=$('#locHist');lh.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>';wireUndo(lh);
+  const h=state.hist.filter(x=>!x.tip&&(x.lok===lok||x.do===lok)).slice(0,8);
+  const lh=$('#locHist');lh.innerHTML=h.length?histCards(h):'<p class="mut">'+t('noCh')+'</p>';wireHist(lh);
   $('#lhT').textContent=t('lastChB',h.length);
 }
 
@@ -753,17 +794,67 @@ function histLine(x){const U=undoneSet();const un=x.id&&U.has(x.id);
   const FN=fName(x.firma)+tagH(x.k);const body=x.do?'<b>'+esc(x.lok)+'</b> → <b>'+esc(x.do)+'</b> '+FN+' <span class="mv">⇄ '+x.delta+'</span>':'<b>'+esc(x.lok)+'</b> '+FN+' <span class="'+(x.delta>0?'plus':'minus')+'">'+(x.delta>0?'+':'')+x.delta+'</span>'+(x.opis?' <span class="mut">('+opisTxt(x)+')</span>':'');
   const d=x.dup?' <span class="mut">('+t('dupN',Math.abs(x.dup))+')</span>':'';
   return '<div class="hl"><div class="'+(un?'strike':'')+'"><span class="mut">'+fdt(x.kad)+'</span> · '+esc(x.ko||'?')+' · '+body+d+(un?' <span class="mut">('+t('undone')+')</span>':'')+'</div>'+(canUndo(x,U)?'<button class="ub" data-undo="'+esc(x.id)+'">'+t('undo')+'</button>':'')+'</div>'}
-function wireUndo(el){el.querySelectorAll('[data-undo]').forEach(b=>b.onclick=()=>{const x=state.hist.find(y=>y.id===b.dataset.undo);if(!x)return;const lk=sheetState.lok,tp=sheetState.type;const back=tp==='loc'?()=>openLoc(lk):tp==='hist'?openHist:closeSheet;
+function wireUndo(el){el.querySelectorAll('[data-undo]').forEach(b=>b.onclick=e=>{if(e)e.stopPropagation();const x=state.hist.find(y=>y.id===b.dataset.undo)||hOld.find(y=>y.id===b.dataset.undo);if(!x)return;const lk=sheetState.lok,tp=sheetState.type;const back=tp==='loc'?()=>openLoc(lk):tp==='hist'?openHist:closeSheet;
   ask(t('undoQ',histText(x).replace(/<[^>]+>/g,'')),async()=>{doUndo(x);back()},back)})}
 function doUndo(x){if(!writable())return;const lg={kad:Date.now(),ko:me,tip:'undo',ref:x.id,lok:x.lok,firma:x.firma,delta:x.delta};if(x.do)lg.do=x.do;if(x.dup)lg.dup=x.dup;if(x.k)lg.k=x.k;
   const K=x.k||'',F=curName(x.firma);const ch=x.do?[{lok:x.do,firma:F,k:K,d:-x.delta,dd:-(x.dup||0)},{lok:x.lok,firma:F,k:K,d:x.delta,dd:x.dup||0}]:[{lok:x.lok,firma:F,k:K,d:-x.delta,dd:-(x.dup||0)}];
   if(doWrite(ch,[lg]))toast(t('undoDone'))}
 
 /* zgodovina */
-function openHist(){if(!ready())return;openSheet('<h2>'+t('hist')+'</h2><input class="in" id="hQ" placeholder="'+t('filter')+'"><div class="hist" id="hList"></div><button class="btn" id="xB">'+t('close')+'</button>','hist');$('#xB').onclick=closeSheet;$('#hQ').oninput=renderHist;renderHist()}
-function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').value);
-  const h=state.hist.filter(x=>!q||norm(x.ko+' '+x.firma+' '+curName(x.firma)+' '+(x.k||'')+' '+x.lok+' '+(x.do||'')).includes(q)).slice(0,150);
-  el.innerHTML=h.length?h.map(histLine).join(''):'<p class="mut">'+t('noCh')+'</p>';wireUndo(el)}
+const AVC=['#e2bd48','#7cc0ff','#45e3a0','#ff9fb3','#c58cff','#ffb04d','#5ee0e0'];
+const avCol=s=>{let x=0;for(const c of String(s||'?'))x=(x*31+c.charCodeAt(0))>>>0;return AVC[x%AVC.length]};
+const avH=s=>'<span class="hav" style="background:'+avCol(s)+'">'+esc(String(s||'?').trim().charAt(0).toUpperCase()||'?')+'</span>';
+function hKind(x){if(x.tip==='foto')return'p';if(x.tip==='undo')return'u';if(x.do)return'b';if(x.opis==='d')return'd';if(x.opis)return'o';return x.delta>0?'g':'r'}
+const HIC={g:'➕',r:'➖',o:'🚚',b:'⇄',d:'🗑',p:'📷'};
+function hGroup(list,U){const out=[];for(const x of list){const k=hKind(x);const L=out[out.length-1];const un=x.id&&U.has(x.id);
+    if(L&&!un&&!L.un&&(k==='g'||k==='r')&&L.k===k&&L.x.ko===x.ko&&L.x.lok===x.lok&&norm(L.x.firma)===norm(x.firma)&&norm(L.x.k||'')===norm(x.k||'')&&!L.x.dup&&!x.dup&&L.items[L.items.length-1].kad-x.kad<5*60e3&&ymd(L.x.kad)===ymd(x.kad)){L.items.push(x);continue}
+    out.push({k,x,items:[x],un})}return out}
+let hGi=0;
+function hCard(g,U){const x=g.x,k=g.k,n=g.items.length;
+  if(k==='u')return '<div class="hund">↩ '+ft(x.kad)+' · '+esc(x.ko||'?')+' · '+t('undoFix')+': '+histText(x)+'</div>';
+  if(k==='p')return '<div class="hc k-p"><div class="hic">📷</div><div class="hmd"><div class="hf">'+t('fSent',fSl(x.n||0))+'</div><div class="hs">'+avH(x.ko)+'<span>'+esc(x.ko||'?')+' · '+ft(x.kad)+'</span><span>'+esc(x.naslov||'')+'</span>'+(x.za?'<span>✉ '+x.za+'</span>':'')+'</div></div></div>';
+  const un=g.un,sum=g.items.reduce((a,y)=>a+(+y.delta||0),0),gi=n>1?'g'+(hGi++):'';
+  const LK=l=>'<button class="hlk" data-hl="'+esc(l)+'">'+esc(l)+'</button>';
+  const FN=fName(x.firma)+tagH(x.k);
+  const title=k==='b'?LK(x.lok)+'<span class="harr">→</span>'+LK(x.do):FN+(n>1?'<span class="hgrp">'+n+'× ▸</span>':'');
+  const when=n>1?ft(g.items[n-1].kad)+'–'+ft(x.kad):ft(x.kad);
+  const extra=k==='b'?FN:k==='o'?t('loaded'):k==='d'?t('deleted'):k==='r'?t('hRem'):'';
+  const d=x.dup?' ('+t('dupN',Math.abs(x.dup))+')':'';
+  const num=k==='b'?x.delta:sum>0?'+'+sum:'−'+Math.abs(sum);
+  return '<div class="hc k-'+k+(un?' st':'')+(gi?' gp':'')+'"'+(gi?' data-gi="'+gi+'"':'')+'><div class="hic">'+HIC[k]+'</div>'+(k!=='b'?LK(x.lok):'')+
+    '<div class="hmd"><div class="hf">'+title+'</div><div class="hs">'+avH(x.ko)+'<span>'+esc(x.ko||'?')+' · '+when+'</span>'+(extra?'<span>'+extra+d+'</span>':'')+(un?'<span class="err">'+t('undone')+'</span>':'')+'</div></div>'+
+    '<div class="hn">'+num+'</div>'+(n===1&&canUndo(x,U)?'<button class="hub" data-undo="'+esc(x.id)+'" aria-label="'+t('undo')+'">↩</button>':'')+'</div>'+
+    (gi?'<div class="hgx" hidden data-gx="'+gi+'">'+g.items.map(y=>hCard({k,x:y,items:[y],un:false},U)).join('')+'</div>':'')}
+function wireHist(el){
+  el.querySelectorAll('[data-hl]').forEach(b=>b.onclick=e=>{e.stopPropagation();openLoc(b.dataset.hl)});
+  el.querySelectorAll('[data-gi]').forEach(c=>c.onclick=e=>{if(e.target.closest('button'))return;const x=el.querySelector('[data-gx="'+c.dataset.gi+'"]');if(x){x.hidden=!x.hidden;c.classList.toggle('opn',!x.hidden)}});
+  wireUndo(el)}
+function histCards(list){const all=[...state.hist,...hOld];const U=new Set(all.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));return hGroup(list,U).map(g=>hCard(g,U)).join('')}
+let hF='all',hP='all',hMine=false,hOld=[],hOldEnd=false;
+const HF=[['all','hAll'],['g','hG'],['o','hO'],['b','hB'],['r','hR'],['d','hD'],['p','hP']],HP=[['d','pD'],['y','pY'],['w','pW'],['all','pAll']];
+function openHist(){if(!ready())return;
+  openSheet('<h2>🕘 '+t('hist')+'</h2><input class="in" id="hQ" placeholder="'+t('hSearch')+'" autocomplete="off"><div class="hch" id="hF">'+HF.map(([k,l])=>'<button data-k="'+k+'" class="'+(hF===k?'on':'')+'">'+t(l)+'</button>').join('')+'</div>'+
+    '<div class="seg" id="hP">'+HP.map(([k,l])=>'<button data-k="'+k+'" class="'+(hP===k?'on':'')+'">'+t(l)+'</button>').join('')+'</div><label class="chk"><input type="checkbox" id="hMine"'+(hMine?' checked':'')+'>'+t('hMine')+'</label>'+
+    '<div id="hList"></div><button class="hmore" id="hMore">'+t('hMore')+'</button><button class="btn" id="xB">'+t('close')+'</button>','hist');
+  $('#xB').onclick=closeSheet;$('#hQ').oninput=renderHist;$('#hMine').onchange=e=>{hMine=e.target.checked;renderHist()};
+  $('#hF').querySelectorAll('button').forEach(b=>b.onclick=()=>{hF=b.dataset.k;$('#hF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderHist()});
+  $('#hP').querySelectorAll('button').forEach(b=>b.onclick=()=>{hP=b.dataset.k;$('#hP').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderHist()});
+  $('#hMore').onclick=async()=>{if(!store.older){hOldEnd=true;renderHist();return}const all=[...state.hist,...hOld];const before=all.length?Math.min(...all.map(x=>x.kad)):Date.now();$('#hMore').disabled=true;
+    try{const r=await store.older(before);if(r.length<200)hOldEnd=true;const ids=new Set(all.map(x=>x.id));hOld.push(...r.filter(x=>!ids.has(x.id)));if(hP!=='all'){hP='all';$('#hP').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.k==='all'))}}catch(e){toast(t('error')+(e.message||e))}renderHist()};
+  renderHist()}
+function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').value);hGi=0;
+  const ids=new Set(state.hist.map(x=>x.id));const all=[...state.hist,...hOld.filter(x=>!ids.has(x.id))].sort((a,b)=>b.kad-a.kad);
+  const U=new Set(all.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));
+  const t0=new Date();t0.setHours(0,0,0,0);const T0=t0.getTime();
+  const L=all.filter(x=>{if(hP==='d'&&x.kad<T0)return false;if(hP==='y'&&(x.kad<T0-864e5||x.kad>=T0))return false;if(hP==='w'&&x.kad<T0-6*864e5)return false;
+    const k=hKind(x);if(hF!=='all'&&k!==hF)return false;if(hMine&&!(x.u?x.u===myUid:x.ko===me))return false;
+    return !q||norm([x.ko,x.firma,curName(x.firma||''),x.k,x.lok,x.do,x.naslov].filter(Boolean).join(' ')).includes(q)}).slice(0,400);
+  const days=[];let cur=null;for(const x of L){const d=ymd(x.kad);if(!cur||cur.d!==d){cur={d,kad:x.kad,items:[]};days.push(cur)}cur.items.push(x)}
+  el.innerHTML=days.length?days.map(D=>{let pl=0,ld=0,mv=0;D.items.forEach(x=>{if(x.tip||U.has(x.id))return;const k=hKind(x);if(k==='g')pl+=x.delta;else if(k==='o')ld+=Math.abs(x.delta);else if(k==='b')mv+=x.delta});
+      const dl=D.kad>=T0?t('today'):D.kad>=T0-864e5?t('yday')+' · '+fdt(D.kad).split(' ')[0]:fdt(D.kad).split(' ')[0]+new Date(D.kad).getFullYear();
+      return '<div class="hday"><b>'+dl+'</b><span>'+(pl?'<em class="cg">+'+pl+'</em>':'')+(ld?'<em class="co">🚚 '+ld+'</em>':'')+(mv?'<em class="cb">⇄ '+mv+'</em>':'')+'</span></div>'+hGroup(D.items,U).map(g=>hCard(g,U)).join('')}).join('')
+    :'<p class="mut">'+t('noCh')+'</p>';
+  wireHist(el);const m=$('#hMore');if(m){m.hidden=store.mode!=='cloud'||hOldEnd;m.disabled=false}}
 
 /* pregled */
 let retOver=null;const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -775,13 +866,13 @@ function renderOver(){
   for(const l of L){const st=locItems(l),s=sumOf(st),pl=placesOf(st),cap=capOf(l);if(cap){capT+=cap;used+=Math.min(pl,cap)}
     if(isSp(l))spec.push([l,s]);
     if(!st.length){if(!isSp(l))free.push(l);continue}if(!isSp(l)){occ++;tot+=s}if(cap&&pl>=cap)fullL.push([l,pl,cap]);
-    st.forEach(x=>{byF[x.firma]=byF[x.firma]||{n:0,l:[]};byF[x.firma].n+=x.palete;byF[x.firma].l.push([l,x.palete])})}
+    st.forEach(x=>{byF[x.firma]=byF[x.firma]||{n:0,l:[]};byF[x.firma].n+=x.palete;byF[x.firma].l.push([l,x.palete,x.k])})}
   const fl=Object.entries(byF).sort((a,b)=>b[1].n-a[1].n),mx=fl.length?fl[0][1].n:1,pct=capT?Math.round(used/capT*100):0;
-  const chip=(l,txt,cls)=>'<button class="oc '+(cls||'')+'" data-l="'+esc(l)+'">'+esc(l)+(txt!==undefined?' <b>'+txt+'</b>':'')+'</button>';
+  const chip=(l,txt,cls,k)=>'<button class="oc '+(cls||'')+'" data-l="'+esc(l)+'">'+esc(l)+(k?tagH(k):'')+(txt!==undefined?' <b>'+txt+'</b>':'')+'</button>';
   el.innerHTML=
    '<div class="ost"><div class="os c1"><span>📦</span><b>'+occ+'</b>'+t('sOcc')+'</div><div class="os c2"><span>⬜</span><b>'+free.length+'</b>'+t('sFree')+'</div><div class="os c3"><span>🧱</span><b>'+tot+'</b>'+t('sPal')+'</div><div class="os c4"><span>⚠️</span><b>'+fullL.length+'</b>'+t('sFull')+'</div></div>'+
    '<h3>'+t('ovFirms')+'</h3>'+(fl.length?'<table class="otb"><thead><tr><th>'+t('firm')+'</th><th>'+t('ovLocs')+'</th><th>Σ</th></tr></thead><tbody>'+
-     fl.map(([f,v])=>'<tr><td class="of" data-f="'+esc(f)+'">'+esc(f)+'<div class="ob"><div style="width:'+Math.max(6,Math.round(v.n/mx*100))+'%"></div></div></td><td>'+v.l.map(([l,n])=>chip(l,n)).join('')+'</td><td class="on">'+v.n+'</td></tr>').join('')+'</tbody></table><p class="mut">'+t('ovTap')+'</p>':'<p class="mut">'+t('ovNo')+'</p>')+
+     fl.map(([f,v])=>'<tr><td class="of" data-f="'+esc(f)+'">'+esc(f)+'<div class="ob"><div style="width:'+Math.max(6,Math.round(v.n/mx*100))+'%"></div></div></td><td>'+v.l.map(([l,n,k])=>chip(l,n,'',k)).join('')+'</td><td class="on">'+v.n+'</td></tr>').join('')+'</tbody></table><p class="mut">'+t('ovTap')+'</p>':'<p class="mut">'+t('ovNo')+'</p>')+
    (spec.length?'<h3>'+t('spec')+'</h3><div class="ocs">'+spec.map(([l,s])=>chip(l,s,s?'cb':'')).join('')+'</div>':'')+
    '<h3>'+t('ovFull')+' ('+fullL.length+')</h3><div class="ocs">'+(fullL.map(([l,pl,c])=>chip(l,pl+'/'+c,pl>c?'cr':'co')).join('')||'<span class="mut">—</span>')+'</div>'+
    '<h3>'+t('ovFree')+' ('+free.length+')</h3><div class="ocs">'+(free.map(l=>chip(l,undefined,'cg')).join('')||'<span class="mut">—</span>')+'</div>'+
@@ -903,7 +994,7 @@ function buildReport(){
     txt+=l+': '+st.map(x=>fkT(x.firma,x.k)+' '+x.palete).join(', ')+(st.length>1?' ('+t('rTot')+' '+s+')':'')+'\n'}
   txt+='\n'+t('rEmpty')+' ('+empty.length+'): '+(empty.join(', ')||t('rNone'))+'\n';
   txt+='\n'+t('rByF')+':\n'+Object.entries(byF).sort((a,b)=>a[0].localeCompare(b[0])).map(([f,n])=>f+': '+n).join('\n')+'\n'+t('rAll')+': '+pal(tot)+'\n';
-  const UU=undoneSet();const ch=state.hist.filter(x=>x.kad>=since&&x.tip!=='undo'&&!UU.has(x.id)).reverse();
+  const UU=undoneSet();const ch=state.hist.filter(x=>x.kad>=since&&!x.tip&&!UU.has(x.id)).reverse();
   txt+='\n'+t('rCh')+' '+fdt(since)+' ('+ch.length+'):\n'+(ch.map(x=>ft(x.kad)+' '+x.ko+' – '+(x.do?x.lok+' → '+x.do+' '+fkT(curName(x.firma),x.k)+' '+x.delta:x.lok+' '+fkT(curName(x.firma),x.k)+' '+(x.delta>0?'+':'')+x.delta+(x.opis?' ('+opisTxt(x)+')':''))).join('\n')||t('rNone'))+'\n';
   const om=openMsgList();if(om.length)txt+='\n'+t('rMsgs')+' ('+om.length+'):\n'+om.map(m=>'• '+(m.pom?'❗ ':'')+(m.odIme||'?')+' → '+msgTo(m)+(m.lok?' ['+m.lok+']':'')+': '+m.txt).join('\n')+'\n';
   return{txt,byF,tot,ch,since,now};
@@ -1017,7 +1108,7 @@ async function loadReport(){
 function calcReport(){
   const rows=repState.rows||[];const U=new Set(rows.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));
   const fq=norm($('#rF').value||''),wq=$('#rW').value||'';
-  const ok=rows.filter(x=>x.tip!=='undo'&&!U.has(x.id)&&(!fq||norm(x.firma||'').includes(fq)||norm(curName(x.firma||'')).includes(fq))&&(!wq||x.ko===wq));
+  const ok=rows.filter(x=>!x.tip&&!U.has(x.id)&&(!fq||norm(x.firma||'').includes(fq)||norm(curName(x.firma||'')).includes(fq))&&(!wq||x.ko===wq));
   const fixes=rows.filter(x=>x.tip==='undo').length;
   const T={in:0,out:0,mv:0,del:0},byF={},byW={},byD={};
   const add=(o,k,f,n)=>{o[k]=o[k]||{in:0,out:0,mv:0};o[k][f]+=n};
@@ -1151,9 +1242,9 @@ function openSettings(){
   const own=isOwner(),cloud=store.mode==='cloud';
   let h=langBar()+'<h2>⚙️ '+t('set')+'</h2><div class="sgh"><b>'+esc(me||'—')+'</b>'+(cloud?'<span>'+esc(myEmail||'')+'</span>':'')+'<span>'+(own?t('owner'):myRole==='pregled'?t('roleV'):t('roleW'))+(mySadm&&!own?' · '+t('pSadmS'):'')+' · '+stTxt()+'</span></div>';
   h+='<div class="sgt">'+t('sMoje')+'</div>'+mi('sProf','👤',t('profT'),t('profSub'));
-  const work=[];if(msgOn())work.push(mi('sMsg','💬',t('msgT')));if(canFirms())work.push(mi('sFirm','🏢',t('fmT')));if(canLoc()){work.push(mi('sLoc','📍',t('rgT')));work.push(mi('sCap','📦',t('capT')))}
+  const work=[];if(canFoto())work.push(mi('sFoto','📷',t('fT'),t('fSetSub')));if(msgOn())work.push(mi('sMsg','💬',t('msgT')));if(canFirms())work.push(mi('sFirm','🏢',t('fmT')));if(canLoc()){work.push(mi('sLoc','📍',t('rgT')));work.push(mi('sCap','📦',t('capT')))}
   if(work.length)h+='<div class="sgt">'+t('sDelo')+'</div>'+work.join('');
-  if(own)h+='<div class="sgt">'+t('sClani')+'</div>'+(cloud?mi('sMem','👥',t('memT'),state.clani.length?t('memN',state.clani.length):''):mi('sWk','👥',t('workers')));
+  if(own)h+='<div class="sgt">'+t('sClani')+'</div>'+(cloud?mi('sMem','👥',t('memT'),(state.clani.length?t('memN',state.clani.length):'')+'<span id="sMemOn">'+(onlineCount()?' · 🟢 '+t('onN',onlineCount()):'')+'</span>'):mi('sWk','👥',t('workers')));
   if(own)h+='<div class="sgt">'+t('sOwn')+'</div>'+mi('sCon','🔗',t('conT'),stTxt())+mi('sOld','🧹',t('oldT'),oldDocs().length?t('oldN',oldDocs().length):'');
   if(canReports())h+='<div class="sgt">&nbsp;</div>'+mi('sRep','📈',t('repT'));
   if(!own&&!canFirms()&&!canLoc())h+='<p class="mut">'+t('onlyOwner')+'</p>';
@@ -1161,7 +1252,7 @@ function openSettings(){
   openSheet(h,'set');wireLang(()=>openSettings());
   $('#xB').onclick=()=>{closeSheet();if(!me&&!cloud)pickProfile()};
   const on=(id,f)=>{const e=$('#'+id);if(e)e.onclick=f};
-  on('sProf',openProfile);on('sMsg',openMessages);on('sFirm',()=>openFirms());on('sLoc',openRegals);on('sCap',openCaps);on('sMem',openMembers);on('sWk',openWorkers);on('sCon',openConn);on('sOld',openOld);on('sRep',openReports);
+  on('sProf',openProfile);on('sFoto',openFotoSet);on('sMsg',openMessages);on('sFirm',()=>openFirms());on('sLoc',openRegals);on('sCap',openCaps);on('sMem',openMembers);on('sWk',openWorkers);on('sCon',openConn);on('sOld',openOld);on('sRep',openReports);
 }
 function applyTheme(){const th=LS.get('lk_theme','dark'),z=LS.get('lk_zoom',1);document.documentElement.dataset.theme=th;document.documentElement.style.setProperty('--z',z);const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==='light'?'#eef1f6':'#0d1320'}
 function openProfile(){
@@ -1180,11 +1271,11 @@ function openWorkers(){
   $('#xB').onclick=()=>openSettings();
   $('#sS').onclick=async()=>{const np=clone(state.post);np.radnici=$('#sR').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!np.radnici.length){toast(t('needOne'));return}if(await run(store.savePost(np))){toast('✓');openSettings()}};
 }
-const FLAGS=[['sadm','pSadm'],['sporocila','pMsg'],['firme','fmPerm'],['firmeDel','pFirmDel'],['porocila','repPerm'],['lokacije','pLoc']];
+const FLAGS=[['sadm','pSadm'],['sporocila','pMsg'],['slike','pFoto'],['firme','fmPerm'],['firmeDel','pFirmDel'],['porocila','repPerm'],['lokacije','pLoc'],['vidiOnline','pOnl']];
 function openMembers(){
   const C=state.clani.slice().sort((a,b)=>(b.email===state.vlasnik)-(a.email===state.vlasnik)||String(a.ime).localeCompare(String(b.ime)));
   openSheet('<h2>👥 '+t('memT')+'</h2>'+C.map(c=>{const own=c.email===state.vlasnik;const fl=own?[t('owner')]:[c.uloga==='pregled'?t('roleVs'):t('roleWs'),...FLAGS.filter(([k])=>c[k]).map(([k,l])=>t(l+'S'))];
-    return '<button class="fmc" data-me="'+esc(c.email)+'"'+(own?' disabled':'')+'><b>'+esc(c.ime||c.email)+'</b><div class="mut">'+esc(c.email)+'</div><div class="pfl">'+fl.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div></button>'}).join('')+
+    return '<button class="fmc" data-me="'+esc(c.email)+'"'+(own?' disabled':'')+'><b>'+esc(c.ime||c.email)+'</b><div class="mut">'+esc(c.email)+'</div>'+(presOn()&&!own?'<div class="prs" data-pres="'+esc(c.email)+'">'+presH(c.email)+'</div>':'')+'<div class="pfl">'+fl.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div></button>'}).join('')+
     '<button class="btn p" id="mAdd">+ '+t('addMember')+'</button><button class="btn" id="xB">'+t('back')+'</button>','members');
   $('#xB').onclick=()=>openSettings();$('#mAdd').onclick=()=>openMember(null);
   $('#sheet').querySelectorAll('[data-me]').forEach(b=>b.onclick=()=>openMember(b.dataset.me));
@@ -1192,7 +1283,7 @@ function openMembers(){
 function openMember(email){
   const c=email?state.clani.find(x=>x.email===email):null;if(email&&!c){openMembers();return}
   const roleSel='<select class="in" id="mR"><option value="radnik"'+(c&&c.uloga==='pregled'?'':' selected')+'>'+t('roleW')+'</option><option value="pregled"'+(c&&c.uloga==='pregled'?' selected':'')+'>'+t('roleV')+'</option></select>';
-  openSheet('<h2>'+(c?esc(c.ime||c.email):'+ '+t('addMember'))+'</h2>'+(c?'<p class="mut">'+esc(c.email)+'</p>':'<label>'+t('mEmail')+'</label><input class="in" id="mE" type="email" autocomplete="off">')+
+  openSheet('<h2>'+(c?esc(c.ime||c.email):'+ '+t('addMember'))+'</h2>'+(c?'<p class="mut">'+esc(c.email)+'</p>'+(presOn()?'<div class="prs" data-pres="'+esc(c.email)+'">'+presH(c.email)+'</div>':''):'<label>'+t('mEmail')+'</label><input class="in" id="mE" type="email" autocomplete="off">')+
     '<label>'+t('mName')+'</label><input class="in" id="mN" value="'+esc(c?c.ime||'':'')+'"><label>'+t('roleL')+'</label>'+roleSel+
     '<label>'+t('permL')+'</label>'+FLAGS.map(([k,l])=>'<label class="chk big2"><input type="checkbox" data-fl="'+k+'"'+(c&&c[k]?' checked':'')+'>'+t(l)+'</label>').join('')+
     '<button class="btn p" id="mS">'+t('save')+'</button>'+(c?'<button class="btn d" id="mDel">'+t('mRemove')+'</button>':'')+'<button class="btn" id="xB">'+t('back')+'</button>','member');
@@ -1229,6 +1320,96 @@ function openOld(){
   $('#sheet').querySelectorAll('[data-od]').forEach(b=>b.onclick=()=>{const id=L[+b.dataset.od];ask(t('oldDelQ',id),async()=>{await clearLoc(id,null,'d');openOld()},openOld)});
   $('#sheet').querySelectorAll('[data-om]').forEach(b=>b.onclick=async()=>{const i=+b.dataset.om,id=L[i],to=$('#sheet [data-ot="'+i+'"]').value;const pl=planMove({lok:id,firma:null});if(pl.err){toast(pl.err);return}await applyMove(id,to,pl.items);openOld()});
 }
+
+
+
+/* ================= slike za mail ================= */
+const DEF_VRSTE=['Naklad','Prejem','Poškodovana paleta ob prejemu','Poškodba v skladišču','Dokument'];
+const canFoto=()=>store.mode==='local'||isOwner()||(myFoto&&canEdit());
+const vrste=()=>state.post.fotoVrste||DEF_VRSTE;
+const mailList=()=>state.post.mailTo||[];
+const fSl=n=>n+' '+(n%100===1?'slika':n%100===2?'sliki':(n%100===3||n%100===4)?'slike':'slik');
+let FS=null;
+function fotoReset(){if(FS)FS.imgs.forEach(x=>URL.revokeObjectURL(x.url));FS={imgs:[],v:'',firma:'',k:'',lok:'',op:'',t0:0,to:new Set(mailList().filter(m=>m.def).map(m=>m.e))}}
+function fotoDate(){const d=new Date(FS.t0||Date.now());return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
+function fotoTitle(){const parts=[FS.v,FS.firma,FS.k,FS.lok?t('fLokS')+' '+FS.lok:'',FS.op].filter(Boolean);return (parts.length?parts.join(' '):t('fSlike'))+' – '+fotoDate()}
+function fotoFile(i){const d=new Date(FS.t0||Date.now());const base=[FS.v,FS.firma,FS.k].filter(Boolean).join('_')||'slika';
+  const slug=base.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^\w]+/g,'_').replace(/^_|_$/g,'').slice(0,40)||'slika';
+  return slug+'_'+d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'_'+(i+1)+'.jpg'}
+async function shrinkImg(file,doc){const max=doc?2400:1600,q=doc?.86:.8;let src;
+  try{src=await createImageBitmap(file,{imageOrientation:'from-image'})}catch(e){src=await new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=URL.createObjectURL(file)})}
+  const w=src.width,hh=src.height,s=Math.min(1,max/Math.max(w,hh));const c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(hh*s);
+  c.getContext('2d').drawImage(src,0,0,c.width,c.height);const b=await new Promise(r=>c.toBlob(r,'image/jpeg',q));return b||file}
+function openFoto(keep){if(!canFoto())return;if(!keep||!FS)fotoReset();
+  openSheet('<h2>📷 '+t('fT')+'</h2><div class="fth" id="fTh"></div>'+
+    '<div class="add"><button class="btn p" id="fCam" style="margin:0">📷 '+t('fCam')+'</button><button class="btn" id="fGal" style="margin:0;width:auto;padding:12px 16px" aria-label="'+t('fGal')+'">🖼</button></div>'+
+    '<input type="file" id="fIn" accept="image/*" capture="environment" hidden><input type="file" id="fInG" accept="image/*" multiple hidden>'+
+    '<label>'+t('fVrsta')+'</label><div class="ocs" id="fV">'+vrste().map(v=>'<button class="fc'+(FS.v===v?' on':'')+'" data-v="'+esc(v)+'">'+esc(v)+'</button>').join('')+'</div>'+
+    '<label>'+t('fFirm')+'</label><input class="in" id="fFi" list="fFL" value="'+esc(FS.firma)+'" autocomplete="off"><datalist id="fFL">'+[...new Set(knownFirms())].sort((a,b)=>a.localeCompare(b)).map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
+    '<label>'+t('kont')+'</label><div class="ocs" id="fK">'+['K1','K2','K3','K4'].map(k=>'<button class="fc'+(FS.k===k?' on':'')+'" data-k="'+k+'">'+k+'</button>').join('')+'</div>'+
+    '<label>'+t('mLok')+'</label><select class="in" id="fLk"><option value="">—</option>'+allLocs().map(l=>'<option'+(FS.lok===l?' selected':'')+'>'+esc(l)+'</option>').join('')+'</select>'+
+    '<label>'+t('fOp')+'</label><input class="in" id="fOp" value="'+esc(FS.op)+'" placeholder="'+t('fOpPh')+'" autocomplete="off">'+
+    '<div class="card fsub"><span class="mut">'+t('fSubj')+'</span><b id="fTi"></b></div>'+
+    '<label>'+t('fTo')+'</label><div id="fTo"></div><div class="add"><input class="in" id="fNe" type="email" inputmode="email" placeholder="ime@podjetje.si" autocomplete="off"><button class="btn" id="fNa" style="margin:0;width:auto;padding:12px 16px">+</button></div>'+
+    '<p class="mut">'+t('fHint')+'</p><button class="btn ld" id="fSend">📤 '+t('fSend')+'</button><button class="btn sm" id="fSet">⚙️ '+t('fSetT')+'</button><button class="btn" id="fX">'+t('close')+'</button>','foto');
+  const upT=()=>{$('#fTi').textContent=fotoTitle()};
+  const thumbs=()=>{$('#fTh').innerHTML=FS.imgs.map((x,i)=>'<div class="ft"><img src="'+x.url+'" alt=""><button data-fx="'+i+'" aria-label="✕">✕</button></div>').join('')+(FS.imgs.length?'':'<div class="mut fe">'+t('fEmpty')+'</div>');
+    $('#fTh').querySelectorAll('[data-fx]').forEach(b=>b.onclick=()=>{const x=FS.imgs.splice(+b.dataset.fx,1)[0];if(x)URL.revokeObjectURL(x.url);thumbs()});
+    $('#fCam').textContent=FS.imgs.length?'📷 '+t('fCamMore'):'📷 '+t('fCam');$('#fSend').disabled=!FS.imgs.length;$('#fSend').style.opacity=FS.imgs.length?1:.45};
+  const tos=()=>{const L=mailList();$('#fTo').innerHTML=L.length?L.map((m,i)=>'<label class="chk big2"><input type="checkbox" data-to="'+i+'"'+(FS.to.has(m.e)?' checked':'')+'>'+esc(m.e)+(m.def?' <span class="mut">('+t('fDef')+')</span>':'')+'</label>').join(''):'<p class="mut">'+t('fNoAddr')+'</p>';
+    $('#fTo').querySelectorAll('[data-to]').forEach(c=>c.onchange=()=>{const e=mailList()[+c.dataset.to].e;if(c.checked)FS.to.add(e);else FS.to.delete(e)})};
+  const add=async files=>{for(const f of files){if(!f||!/^image\//.test(f.type||'image/'))continue;if(!FS.t0)FS.t0=Date.now();
+      try{const b=await shrinkImg(f,/dokument/i.test(FS.v));FS.imgs.push({blob:b,url:URL.createObjectURL(b)})}catch(e){toast(t('error')+(e.message||e))}}thumbs();upT()};
+  $('#fCam').onclick=()=>$('#fIn').click();$('#fGal').onclick=()=>$('#fInG').click();
+  $('#fIn').onchange=e=>{add([...e.target.files]);e.target.value=''};$('#fInG').onchange=e=>{add([...e.target.files]);e.target.value=''};
+  $('#fV').querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{FS.v=FS.v===b.dataset.v?'':b.dataset.v;$('#fV').querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v===FS.v));upT()});
+  $('#fK').querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{FS.k=FS.k===b.dataset.k?'':b.dataset.k;$('#fK').querySelectorAll('[data-k]').forEach(x=>x.classList.toggle('on',x.dataset.k===FS.k));upT()});
+  $('#fFi').oninput=e=>{FS.firma=e.target.value.trim();upT()};$('#fOp').oninput=e=>{FS.op=e.target.value.trim();upT()};$('#fLk').onchange=e=>{FS.lok=e.target.value;upT()};
+  $('#fNa').onclick=async()=>{const e=$('#fNe').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e)){toast(t('fBadMail'));return}
+    FS.to.add(e);if(!mailList().some(m=>m.e===e)){const np=clone(state.post);np.mailTo=[...(np.mailTo||[]),{e,def:false}];await run(store.savePost(np))}$('#fNe').value='';tos()};
+  $('#fSet').onclick=()=>openFotoSet(true);$('#fX').onclick=closeSheet;
+  $('#fSend').onclick=()=>fotoSend();
+  thumbs();tos();upT()}
+async function fotoSend(){if(!FS||!FS.imgs.length){toast(t('fNoImg'));return}
+  const subj=fotoTitle(),to=[...FS.to];
+  const files=FS.imgs.map((x,i)=>new File([x.blob],fotoFile(i),{type:'image/jpeg'}));
+  const body=subj+'\n'+(FS.lok?t('mLok').replace(/ \(.*\)/,'')+': '+FS.lok+'\n':'')+t('fBy')+': '+(me||'')+'\n';
+  if(to.length){try{await navigator.clipboard.writeText(to.join(', '))}catch(e){}}
+  let ok=false;
+  if(navigator.canShare&&navigator.canShare({files})){
+    try{await navigator.share({files,title:subj,text:body});ok=true}catch(e){if(e&&e.name==='AbortError')return;toast(t('error')+(e.message||e));return}}
+  else{files.forEach(f=>{const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000)});
+    location.href='mailto:'+encodeURIComponent(to.join(','))+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);toast(t('fFall'));ok=true}
+  if(!ok)return;
+  const lg={kad:Date.now(),ko:me,tip:'foto',n:files.length,naslov:subj};if(to.length)lg.za=to.length;
+  try{doWrite([],[lg])}catch(e){}
+  fotoReset();closeSheet();toast(to.length?t('fDoneTo'):t('fDone'))}
+function openFotoSet(back){if(!canFoto())return;
+  const L=clone(mailList()),V=[...vrste()];
+  const draw=()=>{openSheet('<h2>⚙️ '+t('fSetT')+'</h2><h3>'+t('fAddr')+'</h3><p class="mut">'+t('fAddrH')+'</p>'+(L.length?L.map((m,i)=>'<div class="frow"><button class="fstar'+(m.def?' on':'')+'" data-st="'+i+'" aria-label="'+t('fDef')+'">'+(m.def?'★':'☆')+'</button><span>'+esc(m.e)+'</span><button class="spx" data-dx="'+i+'">✕</button></div>').join(''):'<p class="mut">'+t('fNoAddr')+'</p>')+
+      '<div class="add"><input class="in" id="sNe" type="email" inputmode="email" placeholder="ime@podjetje.si" autocomplete="off"><button class="btn" id="sNa" style="margin:0;width:auto;padding:12px 16px">+</button></div>'+
+      '<h3>'+t('fVrste')+'</h3><div class="ocs">'+V.map((v,i)=>'<span class="oc">'+esc(v)+' <button class="spx" data-vx="'+i+'">✕</button></span>').join('')+'</div><div class="add"><input class="in" id="sNv" placeholder="'+t('fNewV')+'" autocomplete="off"><button class="btn" id="sNva" style="margin:0;width:auto;padding:12px 16px">+</button></div>'+
+      '<button class="btn p" id="sSv">'+t('save')+'</button><button class="btn" id="xB">'+t('back')+'</button>','fotoset');
+    $('#xB').onclick=()=>back?openFoto(true):openSettings();
+    $('#sheet').querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{const m=L[+b.dataset.st];m.def=!m.def;draw()});
+    $('#sheet').querySelectorAll('[data-dx]').forEach(b=>b.onclick=()=>{L.splice(+b.dataset.dx,1);draw()});
+    $('#sheet').querySelectorAll('[data-vx]').forEach(b=>b.onclick=()=>{V.splice(+b.dataset.vx,1);draw()});
+    $('#sNa').onclick=()=>{const e=$('#sNe').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e)){toast(t('fBadMail'));return}if(!L.some(m=>m.e===e))L.push({e,def:!L.length});draw()};
+    $('#sNva').onclick=()=>{const v=$('#sNv').value.trim();if(v&&!V.some(x=>norm(x)===norm(v)))V.push(v);draw()};
+    $('#sSv').onclick=async()=>{const np=clone(state.post);np.mailTo=L;np.fotoVrste=V;if(await run(store.savePost(np))){toast('✓');if(FS)FS.to=new Set([...FS.to].filter(e=>L.some(m=>m.e===e)).concat(L.filter(m=>m.def).map(m=>m.e)));back?openFoto(true):openSettings()}}};
+  draw()}
+
+/* ================= prisotnost ================= */
+const presOn=()=>store.mode==='cloud'&&(isOwner()||myOnl);
+function agoTxt(ts){if(!ts)return t('prNever');const n=Date.now(),m=Math.floor((n-ts)/60e3);if(m<1)return t('prNow');if(m<60)return t('prAgo',m);
+  const d=new Date(ts),t0=new Date();t0.setHours(0,0,0,0);if(ts>=t0.getTime())return t('prToday',ft(ts));if(ts>=t0.getTime()-864e5)return t('prYday',ft(ts));return fdt(ts)}
+function presOf(email){const p=(state.pris||{})[email];const on=!!p&&Date.now()-p.kad<210e3;return{on,kad:p&&p.kad}}
+function presH(email){const P=presOf(email);return '<span class="pdot'+(P.on?' on':'')+'"></span>'+(P.on?'<b class="pon">'+t('prOn')+'</b>':'<span class="mut">'+t('prLast')+': '+agoTxt(P.kad)+'</span>')}
+function onlineCount(){return state.clani.filter(c=>c.email!==myEmail&&presOf(c.email).on).length}
+function midEmail(mid){const c=state.clani.find(x=>x.mid===mid);return c?c.email:null}
+function midOnline(mid,ime){let e=midEmail(mid);if(!e){const k=Object.entries(state.pris||{}).find(([_,v])=>v.ime===ime);e=k&&k[0]}return e?presOf(e).on:false}
+function updPres(){document.querySelectorAll('[data-pres]').forEach(e=>e.innerHTML=presH(e.dataset.pres));const s=$('#sMemOn');if(s){const n=onlineCount();s.textContent=n?' · 🟢 '+t('onN',n):''}}
+setInterval(()=>{if(presOn())updPres()},30e3);
 
 /* ================= sporočila ================= */
 const msgOn=()=>store.mode==='cloud'&&!!myMid&&(isOwner()||mySadm||myMsg);
@@ -1272,7 +1453,7 @@ function renderMsgs(){const el=$('#mList');if(!el)return;
   el.innerHTML=L.length?L.map(m=>msgCard(m,true)).join(''):'<p class="mut">'+t('mNone')+'</p>';wireMsg(el,openMessages);
   const un=L.filter(m=>isUnread(m)&&!readSent.has(m.id));if(un.length)setTimeout(()=>un.forEach(m=>{readSent.add(m.id);FireStore.msgRead(m.id).catch(()=>{})}),1500)}
 function openMsgForm(re){
-  const D=state.post.dir||[];const opts=msgAdm()?[['*',t('mAll')],...D.filter(d=>d.msg&&d.id!==myMid).map(d=>[d.id,d.ime+(d.adm?' ★':'')])]:D.filter(d=>d.adm&&d.id!==myMid).map(d=>[d.id,d.ime]);
+  const D=state.post.dir||[];const opts=msgAdm()?[['*',t('mAll')],...D.filter(d=>d.msg&&d.id!==myMid).map(d=>[d.id,(presOn()&&midOnline(d.id,d.ime)?'🟢 ':'')+d.ime+(d.adm?' ★':'')])]:D.filter(d=>d.adm&&d.id!==myMid).map(d=>[d.id,d.ime]);
   if(!opts.length){toast(t('mNoRcp'));return}
   openSheet('<h2>✏️ '+(re?t('mReply'):t('mNewB'))+'</h2>'+(re?'<div class="msg">'+'<div class="mt mut">'+esc(re.txt).slice(0,200)+'</div></div>':'')+'<label>'+t('mTo')+'</label><select class="in" id="mZa">'+opts.map(([v,l])=>'<option value="'+esc(v)+'"'+(re&&re.od===v?' selected':'')+'>'+esc(l)+'</option>').join('')+'</select>'+
     '<label>'+t('mTxt')+'</label><textarea class="in" id="mTx" maxlength="2000"></textarea><label>'+t('mLok')+'</label><select class="in" id="mLk"><option value="">—</option>'+allLocs().map(l=>'<option'+(re&&re.lok===l?' selected':'')+'>'+esc(l)+'</option>').join('')+'</select>'+
@@ -1284,7 +1465,7 @@ function openMsgForm(re){
 }
 
 /* ================= zagon ================= */
-$('#bMsg').onclick=openMessages;$('#bkOv').onclick=()=>{if(retOver!==null)backToOver()};
+$('#bMsg').onclick=openMessages;$('#bFoto').onclick=()=>openFoto(true);$('#bkOv').onclick=()=>{if(retOver!==null)backToOver()};
 $('#bMic').onclick=startVoice;$('#bType').onclick=()=>openType('',true);$('#bHist').onclick=openHist;$('#bRep').onclick=openReport;$('#bSet').onclick=()=>openSettings();$('#bOver').onclick=openOver;
 $('#meChip').onclick=()=>store.mode==='cloud'?openSettings():pickProfile();
 (async function boot(){
