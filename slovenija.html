@@ -94,6 +94,9 @@ label{display:block;color:var(--blue);font-size:14px;margin:10px 0 5px;font-weig
 .btn.nb{background:var(--orange);border-color:var(--orange);color:#111;font-weight:800}
 .nlist{display:flex;flex-direction:column;gap:6px}.nck{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin:0;color:var(--ink);font-weight:500}
 .nck input{width:22px;height:22px;flex:none}.nck span{flex:1}.nck i{font-style:normal;color:var(--mut);font-size:13px;white-space:nowrap}
+.wrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;font-size:14px;color:var(--mut)}.seg2.sm{margin:0;width:120px}.seg2.sm button{padding:6px}
+.wt{border:1px solid var(--line)!important;border-radius:14px;padding:4px 9px;font-size:13px;color:var(--mut)!important;background:var(--bg)!important;margin-right:4px}.wt.on{border-color:var(--orange)!important;color:var(--orange)!important;font-weight:700}
+.chk2{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:500}.chk2 input{width:20px;height:20px}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2a3a57;color:#fff;padding:10px 16px;border-radius:12px;z-index:20;max-width:90vw;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .gate{max-width:420px;margin:60px auto;padding:20px;text-align:center}
 .gate a{color:var(--blue)}
@@ -117,7 +120,7 @@ label{display:block;color:var(--blue);font-size:14px;margin:10px 0 5px;font-weig
 <div class="ov" id="ov" hidden><div class="sheet" id="sheet"></div></div>
 
 <script>
-const VER='4',VER_DATE='07.11.2026';
+const VER='5',VER_DATE='07.11.2026';
 const CFG={apiKey:"AIzaSyC2dBxlVzWbvWPPT55g7cXy6C2kCtoWH6Q",authDomain:"odprema-lokacije.firebaseapp.com",projectId:"odprema-lokacije",storageBucket:"odprema-lokacije.firebasestorage.app",messagingSenderId:"152804096191",appId:"1:152804096191:web:274b7867ed99e67e0fae0a"};
 const KOD="odprema-7k2x";
 const FB='https://www.gstatic.com/firebasejs/10.12.2/';
@@ -158,7 +161,7 @@ async function boot(){
     email=u.email.toLowerCase();root=db.collection('skladista').doc(KOD);
     try{const c=await root.collection('clani').doc(email).get();if(c.exists)me=c.data().ime||'';}catch(e){}
     if(!me)me=email.split('@')[0];
-    root.collection('slovenija').doc('kupci').onSnapshot(s=>{kupci=(s.exists&&s.data().list)||[];const tw=!(s.exists&&s.data().tehta===false);if(tw!==tehta){tehta=tw;render();if(sheetKind==='one'&&curOne)openOne(curOne)}if(sheetKind==='kupci')openKupci();if(sheetKind==='add')openAdd()},e=>gateErr(e));
+    root.collection('slovenija').doc('kupci').onSnapshot(s=>{kupci=(s.exists&&s.data().list)||[];render();if(sheetKind==='kupci')openKupci();if(sheetKind==='add')openAdd()},e=>gateErr(e));
     root.collection('slovenija_hist').orderBy('kad','desc').limit(300).onSnapshot(s=>{hist=s.docs.map(d=>({id:d.id,...d.data()}));if(sheetKind==='hist')openHist()},()=>{});
     subDay();
   });
@@ -175,9 +178,10 @@ function save(obj){dayRef().set(obj,{merge:true}).catch(e=>toast('Napaka: '+(e.m
 /* ------------ glavni zaslon ------------ */
 function list(){const D=(dayDoc&&dayDoc.dostave)||{};return Object.entries(D).map(([id,x])=>({id,...x})).sort((a,b)=>(a.kad||0)-(b.kad||0))}
 const done=x=>!!(x.st&&x.st.n);
-let tehta=true;
-const steps=()=>tehta?STEPS:STEPS.filter(s=>s[0]!=='t');
-const ready=x=>!!x.st&&steps().every(([k])=>x.st[k]);
+const kupOf=x=>kupci.find(k=>k.id===x.kid);
+const needW=x=>x.teza!==undefined?!!x.teza:!!((kupOf(x)||{}).teza);
+const steps=x=>needW(x)?STEPS:STEPS.filter(s=>s[0]!=='t');
+const ready=x=>!!x.st&&steps(x).every(([k])=>x.st[k]);
 const palSl=n=>n+' '+(n%100===1?'paleta':n%100===2?'paleti':(n%100===3||n%100===4)?'palete':'palet');
 function typesTxt(i){const a=[];if(i.e)a.push(i.e+'× EUR');if(i.x)a.push(i.x+'× navadna');if(i.h)a.push(i.h+'× ½');if(i.o)a.push(i.o+'× druga');return a.join(', ')}
 let prevoznik=(()=>{try{return localStorage.getItem('slo_prev')||''}catch(e){return''}})();
@@ -186,7 +190,7 @@ function pals(x){return Object.entries(x.palete||{}).map(([pid,v])=>({pid,...v})
 function pinfo(x){const P=pals(x);if(!P.length)return{e:+x.pal||0,x:0,h:0,o:0,kg:+x.kg||0,n:+x.pal||0,miss:0,legacy:true};
   const r={e:0,x:0,h:0,o:0,kg:0,n:P.length,miss:0};P.forEach(p=>{r[p.t]=(r[p.t]||0)+1;if(+p.kg>0)r.kg+=+p.kg;else r.miss++});return r}
 function pTxt(i){const a=[];if(i.e)a.push(i.e+' EUR');if(i.x)a.push(i.x+' nav.');if(i.h)a.push(i.h+' ½');if(i.o)a.push(i.o+' dr.');return a.join(' + ')||'– pal'}
-let sendMode=(()=>{try{return localStorage.getItem('slo_mode')||'vsaka'}catch(e){return'vsaka'}})();
+
 function render(){
   const d=day;$('#dTxt').innerHTML=(isToday()?'Danes':DNI[d.getDay()].replace(/^./,c=>c.toUpperCase()))+', '+dmy(d)+'<small>'+(isToday()?DNI[d.getDay()]:'')+'</small>';
   const rg=$('#reg');if(document.activeElement!==rg)rg.value=(dayDoc&&dayDoc.regija)||'';
@@ -195,11 +199,11 @@ function render(){
   const pct=n?Math.round(rd/n*100):0;
   let rok='';if(isToday()){const now=new Date(),r=new Date();r.setHours(ROK_H,0,0,0);const m=Math.round((r-now)/60000);rok=m>0?'rok <b>'+ROK_H+':00</b> · še '+(m>=60?Math.floor(m/60)+' h ':'')+(m%60)+' min':'rok <b>'+ROK_H+':00</b>'+(ok<n?' · <b>zamuda</b>':'')}if(n&&ok===n)rok='🚚 vse naloženo';
   const sent=(dayDoc.javljeno||[]);
-  $('#main').innerHTML='<div class="top4"><div class="k y"><b>'+rd+'/'+n+'</b><span>pripravljenih</span></div><div class="k b"><b>'+(T.e+T.x)+'</b><span>'+(T.x?T.e+' EUR + '+T.x+' nav.':'120×80')+'</span></div><div class="k v"><b>'+T.h+'</b><span>½ palet'+(T.o?' · +'+T.o+' dr.':'')+'</span></div>'+(tehta||kg?'<div class="k o"><b>'+fmtKg(kg)+'</b><span>kg</span></div>':'<div class="k o"><b>'+(T.e+T.x+T.h+T.o)+'</b><span>palet skupaj</span></div>')+'</div>'+
+  $('#main').innerHTML='<div class="top4"><div class="k y"><b>'+rd+'/'+n+'</b><span>pripravljenih</span></div><div class="k b"><b>'+(T.e+T.x)+'</b><span>'+(T.x?T.e+' EUR + '+T.x+' nav.':'120×80')+'</span></div><div class="k v"><b>'+T.h+'</b><span>½ palet'+(T.o?' · +'+T.o+' dr.':'')+'</span></div>'+(L.some(needW)||kg?'<div class="k o"><b>'+fmtKg(kg)+'</b><span>kg</span></div>':'<div class="k o"><b>'+(T.e+T.x+T.h+T.o)+'</b><span>palet skupaj</span></div>')+'</div>'+
     '<div class="prog"><i style="width:'+pct+'%"></i></div><div class="dl"><span>'+pct+' % pripravljeno'+(ok?' · '+ok+' naloženih':'')+'</span><span>'+rok+'</span></div>'+
     (pending?'<div class="pend">⏳ Čaka na povezavo – shrani se samo</div>':'')+
-    (n?L.map(x=>'<div class="d'+(done(x)?' ld':ready(x)?' ok':'')+'"><div class="dh" data-one="'+x.id+'"><div><b>'+esc(x.ime)+'</b> · <span class="city">'+esc(x.kraj||'')+'</span></div><div class="q">'+(()=>{const i=pinfo(x);return '<i class="qe">'+pTxt(i)+'</i>'+(tehta||i.kg?' <span>· '+(i.kg?fmtKg(i.kg)+' kg':'– kg')+(tehta&&i.miss?' ⚠':'')+'</span>':'')})()+'</div></div>'+
-      (done(x)?'<div class="bdg ld">🚚 Naloženo '+(x.nak?hm(x.nak.kad):'')+'</div>':'<div class="steps">'+steps().map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-id="'+x.id+'" data-k="'+k+'">'+l+'</button>').join('')+'</div>'+(ready(x)?'<div class="bdg ok">✓ Pripravljeno za naklad</div>':''))+'</div>').join('')
+    (n?L.map(x=>'<div class="d'+(done(x)?' ld':ready(x)?' ok':'')+'"><div class="dh" data-one="'+x.id+'"><div><b>'+esc(x.ime)+'</b> · <span class="city">'+esc(x.kraj||'')+'</span></div><div class="q">'+(()=>{const i=pinfo(x);return '<i class="qe">'+pTxt(i)+'</i>'+(needW(x)||i.kg?' <span>· '+(i.kg?fmtKg(i.kg)+' kg':'– kg')+(needW(x)&&i.miss?' ⚠':'')+'</span>':'')})()+'</div></div>'+
+      (done(x)?'<div class="bdg ld">🚚 Naloženo '+(x.nak?hm(x.nak.kad):'')+'</div>':'<div class="steps">'+steps(x).map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-id="'+x.id+'" data-k="'+k+'">'+l+'</button>').join('')+'</div>'+(ready(x)?'<div class="bdg ok">✓ Pripravljeno za naklad</div>':''))+'</div>').join('')
       :'<div class="empty">Za ta dan še ni dostav.<br>Dodajte jih s seznama kupcev.</div>')+
     '<button class="add" id="bAdd">+ Dodaj dostavo s seznama</button>'+
     (n?nakBlock(L):'')+
@@ -242,7 +246,7 @@ setInterval(()=>{if(isToday()&&$('#ov').hidden)render()},60000);
 /* ------------ dodaj dostavo ------------ */
 let sheetKind='',curOne=null;
 function openAdd(){sheetKind='add';const have=new Set(list().map(x=>x.kid));
-  openSheet('<h2>Dodaj dostavo <button class="sx">✕</button></h2>'+(kupci.length?'<p style="color:var(--mut);font-size:14px;margin:0 0 8px">Izberite kupce, ki so danes na seznamu.</p><div class="pick">'+kupci.slice().sort((a,b)=>(a.ime+a.kraj).localeCompare(b.ime+b.kraj)).map(k=>'<button class="c'+(have.has(k.id)?' dis':'')+'" data-k="'+k.id+'"'+(have.has(k.id)?' disabled':'')+'>'+esc(k.ime)+' · '+esc(k.kraj)+'</button>').join('')+'</div>':'<p class="empty">Seznam kupcev je prazen. Dodajte prvega spodaj.</p>')+
+  openSheet('<h2>Dodaj dostavo <button class="sx">✕</button></h2>'+(kupci.length?'<p style="color:var(--mut);font-size:14px;margin:0 0 8px">Izberite kupce, ki so danes na seznamu.</p><div class="pick">'+kupci.slice().sort((a,b)=>(a.ime+a.kraj).localeCompare(b.ime+b.kraj)).map(k=>'<button class="c'+(have.has(k.id)?' dis':'')+'" data-k="'+k.id+'"'+(have.has(k.id)?' disabled':'')+'>'+esc(k.ime)+' · '+esc(k.kraj)+(k.teza?' ⚖️':'')+'</button>').join('')+'</div>':'<p class="empty">Seznam kupcev je prazen. Dodajte prvega spodaj.</p>')+
     '<label>Nov kupec</label><div class="row2"><input class="in" id="nkI" placeholder="Kupec, npr. Merkur" autocomplete="off"><input class="in" id="nkK" placeholder="Kraj, npr. Celje" autocomplete="off"></div><button class="btn" id="nkA">+ Dodaj na seznam</button>'+
     '<button class="btn p" id="adOk">Dodaj izbrane</button>');
   const sel=new Set();
@@ -256,23 +260,24 @@ function openAdd(){sheetKind='add';const have=new Set(list().map(x=>x.kid));
 }
 /* ------------ ena dostava ------------ */
 let oneDirty=false;
-function autoTeht(id){if(!tehta)return;const x=list().find(y=>y.id===id);if(!x)return;const i=pinfo(x);if(i.legacy)return;const want=i.n>0&&i.miss===0;if(!!(x.st&&x.st.t)!==want)save({dostave:{[id]:{st:{t:want}}}})}
+function autoTeht(id){const x=list().find(y=>y.id===id);if(!x||!needW(x))return;const i=pinfo(x);if(i.legacy)return;const want=i.n>0&&i.miss===0;if(!!(x.st&&x.st.t)!==want)save({dostave:{[id]:{st:{t:want}}}})}
 function openOne(id){const x=list().find(y=>y.id===id);if(!x){closeSheet();return}
   const fresh=sheetKind!=='one'||curOne!==id;const keep=fresh?0:$('#sheet').scrollTop;sheetKind='one';curOne=id;oneDirty=false;
-  const P=pals(x),I=pinfo(x);
-  const html='<h2>'+esc(x.ime)+' · '+esc(x.kraj||'')+' <button class="sx">✕</button></h2><div class="sub2">'+(tehta?'Dodajte paleto in vpišite težo s tehtnice – vse se shrani samo.':'Dodajte palete – vse se shrani samo.')+'</div>'+
+  const P=pals(x),I=pinfo(x),W=needW(x);
+  const html='<h2>'+esc(x.ime)+' · '+esc(x.kraj||'')+' <button class="sx">✕</button></h2><div class="sub2">'+(W?'Dodajte paleto in vpišite težo s tehtnice – vse se shrani samo.':'Dodajte palete – vse se shrani samo.')+'</div>'+
     '<div class="tb"><button class="tbtn eur" data-add="e">+ EUR<small>120 × 80</small></button><button class="tbtn nav" data-add="x">+ Navadna<small>120 × 80</small></button><button class="tbtn pol" data-add="h">+ ½ paleta<small>60 × 80</small></button></div>'+
     '<div class="oth"><input class="in" id="oDim" placeholder="Druga velikost, npr. 120×100" autocomplete="off"><button class="c" id="oAddO">+ druga</button></div>'+
-    (P.length?P.map((p,n)=>'<div class="pl"><span class="no">'+(n+1)+'</span><span class="tag '+p.t+'">'+PT[p.t][0]+'</span><span class="dim">'+esc(p.t==='o'?(p.dim||''):PT[p.t][1])+'</span>'+(tehta?'<span class="kgw'+(+p.kg>0?'':' empty')+'"><input type="number" inputmode="decimal" min="0" step="any" data-kg="'+p.pid+'" value="'+(+p.kg>0?p.kg:'')+'" placeholder="–"><span>kg</span></span>':'')+'<button class="pdel" data-pdel="'+p.pid+'" aria-label="Odstrani paleto">✕</button></div>').join('')
-      +(tehta&&I.miss?'<div class="warn">⚠ '+I.miss+(I.miss===1?' paleta še ni stehtana':' palet še ni stehtanih')+'</div>':'')+'<div class="psum"><span>'+pTxt(I).replace(/(\d+) /g,'$1× ')+'</span><b>'+(tehta||I.kg?fmtKg(I.kg)+' kg':palSl(I.n))+'</b></div>'
+    (P.length?P.map((p,n)=>'<div class="pl"><span class="no">'+(n+1)+'</span><span class="tag '+p.t+'">'+PT[p.t][0]+'</span><span class="dim">'+esc(p.t==='o'?(p.dim||''):PT[p.t][1])+'</span>'+(W?'<span class="kgw'+(+p.kg>0?'':' empty')+'"><input type="number" inputmode="decimal" min="0" step="any" data-kg="'+p.pid+'" value="'+(+p.kg>0?p.kg:'')+'" placeholder="–"><span>kg</span></span>':'')+'<button class="pdel" data-pdel="'+p.pid+'" aria-label="Odstrani paleto">✕</button></div>').join('')
+      +(W&&I.miss?'<div class="warn">⚠ '+I.miss+(I.miss===1?' paleta še ni sWna':' palet še ni sWnih')+'</div>':'')+'<div class="psum"><span>'+pTxt(I).replace(/(\d+) /g,'$1× ')+'</span><b>'+(W||I.kg?fmtKg(I.kg)+' kg':palSl(I.n))+'</b></div>'
       :(I.legacy&&I.n?'<p class="sub2">Prej vpisano: '+I.n+' pal, '+fmtKg(I.kg)+' kg. Dodajte palete posebej, če želite.</p>':'<p class="empty" style="padding:12px">Še ni palet.</p>'))+
-    '<label>Priprava</label><div class="steps">'+steps().map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-k="'+k+'">'+l+'</button>').join('')+'</div>'+(tehta?'<div class="sub2" style="margin-top:6px">»Teht.« se obkljuka samo, ko imajo vse palete težo.</div>':'')+
+    '<div class="wrow"><span>⚖️ Tehtanje '+(x.teza!==undefined?'(samo danes)':'(kot pri kupcu)')+'</span><div class="seg2 sm"><button data-w="1" class="'+(W?'on':'')+'">Da</button><button data-w="0" class="'+(W?'':'on')+'">Ne</button></div></div>'+
+    '<label>Priprava</label><div class="steps">'+steps(x).map(([k,l])=>'<button class="st'+(x.st&&x.st[k]?' on':'')+'" data-k="'+k+'">'+l+'</button>').join('')+'</div>'+(W?'<div class="sub2" style="margin-top:6px">»Teht.« se obkljuka samo, ko imajo vse palete težo.</div>':'')+
     (done(x)?'<div class="bdg ld">🚚 Naloženo '+(x.nak?hm(x.nak.kad)+(x.nak.prevoznik?' · '+esc(x.nak.prevoznik):''):'')+'</div><button class="btn" id="oUn">↩ Razveljavi naklad</button>':ready(x)?'<div class="bdg ok">✓ Pripravljeno za naklad</div>':'')+
     '<button class="btn" id="oX">Zapri</button><button class="btn d" id="oD">Odstrani dostavo</button>';
   if(fresh)openSheet(html);else{$('#sheet').innerHTML=html;$('#sheet .sx').onclick=closeSheet;$('#sheet').scrollTop=keep}
   $('#sheet').querySelectorAll('.st').forEach(b=>b.onclick=()=>toggle(id,b.dataset.k));
   $('#sheet').querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const t=b.dataset.add,pid=uid();save({dostave:{[id]:{palete:{[pid]:{t,kg:0,o:Date.now()}},st:{t:false}}}});logH('+ '+PT[t][0]+' – '+x.ime+' '+(x.kraj||''),'pal');
-    if(tehta)setTimeout(()=>{const e=$('#sheet [data-kg="'+pid+'"]');if(e){e.focus();e.scrollIntoView({block:'center'})}},120)});
+    if(W)setTimeout(()=>{const e=$('#sheet [data-kg="'+pid+'"]');if(e){e.focus();e.scrollIntoView({block:'center'})}},120)});
   $('#oAddO').onclick=()=>{const d=$('#oDim').value.trim();const pid=uid();save({dostave:{[id]:{palete:{[pid]:{t:'o',dim:d,kg:0,o:Date.now()}},st:{t:false}}}});logH('+ paleta '+(d||'druga')+' – '+x.ime+' '+(x.kraj||''),'pal')};
   $('#sheet').querySelectorAll('[data-kg]').forEach(e=>{e.onchange=()=>{const v=Math.max(0,parseFloat(String(e.value).replace(',','.'))||0);const pid=e.dataset.kg;
       save({dostave:{[id]:{palete:{[pid]:{kg:v}}}}});const n=pals(x).findIndex(p=>p.pid===pid)+1;logH(x.ime+' '+(x.kraj||'')+': paleta '+n+' = '+fmtKg(v)+' kg','kg');setTimeout(()=>autoTeht(id),80)};
@@ -280,6 +285,9 @@ function openOne(id){const x=list().find(y=>y.id===id);if(!x){closeSheet();retur
     e.onkeydown=ev=>{if(ev.key==='Enter')e.blur()}});
   $('#sheet').querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{if(!b.dataset.c){b.dataset.c=1;b.textContent='?';b.classList.add('cf');return}
     const pid=b.dataset.pdel,n=pals(x).findIndex(p=>p.pid===pid)+1;dayRef().update({['dostave.'+id+'.palete.'+pid]:firebase.firestore.FieldValue.delete()}).then(()=>autoTeht(id)).catch(e=>toast('Napaka: '+e.message));logH('Odstranjena paleta '+n+' – '+x.ime+' '+(x.kraj||''),'pal')});
+  $('#sheet').querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{const v=b.dataset.w==='1';const kv=!!((kupOf(x)||{}).teza);
+    if(v===kv)dayRef().update({['dostave.'+id+'.teza']:firebase.firestore.FieldValue.delete()}).catch(()=>{});else save({dostave:{[id]:{teza:v}}});
+    if(!v&&x.st&&x.st.t)save({dostave:{[id]:{st:{t:false}}}});logH('Tehtanje '+(v?'da':'ne')+' – '+x.ime+' '+(x.kraj||''),'set');setTimeout(()=>autoTeht(id),120)});
   $('#oX').onclick=closeSheet;
   if($('#oUn'))$('#oUn').onclick=()=>{dayRef().update({['dostave.'+id+'.st.n']:false,['dostave.'+id+'.nak']:firebase.firestore.FieldValue.delete()}).catch(e=>toast('Napaka: '+e.message));logH('↩ Razveljavljen naklad – '+x.ime+' '+(x.kraj||''),'nak')};
   $('#oD').onclick=()=>{if(!$('#oD').dataset.c){$('#oD').dataset.c=1;$('#oD').textContent='Res odstranim? Pritisnite še enkrat';return}
@@ -288,35 +296,31 @@ function openOne(id){const x=list().find(y=>y.id===id);if(!x){closeSheet();retur
 /* ------------ pošlji pisarni ------------ */
 function sendText(){const L=list();const T={e:0,x:0,h:0,o:0,kg:0};
   const lines=L.map(x=>{const i=pinfo(x);T.e+=i.e;T.x+=i.x;T.h+=i.h;T.o+=i.o;T.kg+=i.kg;let s=x.ime+' '+(x.kraj||'')+': ';
-    if(i.legacy)s+=i.n?palSl(i.n)+(i.kg?', '+fmtKg(i.kg)+' kg':''):'še ni palet';
-    else if(!i.kg)s+=i.n?palSl(i.n)+' ('+typesTxt(i)+')':'0 palet';
-    else if(sendMode==='vsaka'){const P=pals(x);const g=t=>P.filter(p=>p.t===t);const part=[];
-      [['e','EUR'],['x','navadna'],['h','½']].forEach(([t,l])=>{const q=g(t);if(q.length)part.push(q.length+'× '+l+' ('+q.map(p=>+p.kg>0?fmtKg(p.kg):'–').join(', ')+' kg)')});
-      g('o').forEach(p=>part.push('1× '+(p.dim||'druga')+' ('+(+p.kg>0?fmtKg(p.kg):'–')+' kg)'));s+=(part.join(', ')||'0 pal')+' = '+fmtKg(i.kg)+' kg'}
-    else s+=(pTxt(i).replace(/(\d+) /g,'$1× ')||'0 pal')+' = '+fmtKg(i.kg)+' kg';
+    if(i.legacy)s+=i.n?palSl(i.n)+(i.kg?' · '+fmtKg(i.kg)+' kg':''):'še ni palet';
+    else{s+=palSl(i.n)+' ('+typesTxt(i)+')';
+      if(needW(x)||i.kg){const P=pals(x);s+=' · '+P.map(p=>+p.kg>0?fmtKg(p.kg):'–').join(' + ')+(P.length>1?' = '+fmtKg(i.kg):'')+' kg'}}
     return s+(done(x)?' – naloženo':ready(x)?' – pripravljeno':' – v pripravi')});
   const tot=[];if(T.e)tot.push(T.e+'× EUR');if(T.x)tot.push(T.x+'× navadna');if(T.h)tot.push(T.h+'× ½');if(T.o)tot.push(T.o+'× druga');
   const N=(dayDoc&&dayDoc.naklad)||[];const pv=[...new Set(N.map(z=>[z.prevoznik,z.tablica].filter(Boolean).join(' ')).filter(Boolean))];
   return 'SLOVENIJA – '+dmy(day)+((dayDoc&&dayDoc.regija)?' – '+dayDoc.regija:'')+'\n'+lines.join('\n')+(pv.length?'\nPrevoznik: '+pv.join(', '):'')+'\nSkupaj: '+palSl(T.e+T.x+T.h+T.o)+(tot.length?' ('+tot.join(', ')+')':'')+(T.kg?' · '+fmtKg(T.kg)+' kg':'')+'\n— '+me+' · ODPREMA'}
-function openSend(){sheetKind='send';const txt=sendText();const miss=list().filter(x=>pinfo(x).n===0).length,unw=list().reduce((a,x)=>a+pinfo(x).miss,0);
-  openSheet('<h2>📤 Pošlji pisarni <button class="sx">✕</button></h2>'+(miss?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ Pri '+miss+' dostavah še ni vpisanih palet.</p>':'')+(tehta&&unw?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ '+unw+' palet še ni stehtanih.</p>':'')+'<div class="seg2"><button data-m="vsaka" class="'+(sendMode==='vsaka'?'on':'')+'">Vsaka paleta</button><button data-m="zbir" class="'+(sendMode==='zbir'?'on':'')+'">Samo zbir</button></div><div class="msg">'+esc(txt)+'</div>'+
+function openSend(){sheetKind='send';const txt=sendText();const miss=list().filter(x=>pinfo(x).n===0).length,unw=list().filter(needW).reduce((a,x)=>a+pinfo(x).miss,0);
+  openSheet('<h2>📤 Pošlji pisarni <button class="sx">✕</button></h2>'+(miss?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ Pri '+miss+' dostavah še ni vpisanih palet.</p>':'')+(unw?'<p style="color:var(--orange);font-size:14px;margin:0 0 8px">⚠ '+unw+' palet še ni stehtanih.</p>':'')+'<div class="msg">'+esc(txt)+'</div>'+
     (navigator.share?'<button class="btn p" id="sSh">📤 Pošlji (Viber, mail …)</button>':'')+'<button class="btn" id="sCp">📋 Kopiraj</button>');
-  $('#sheet').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{sendMode=b.dataset.m;try{localStorage.setItem('slo_mode',sendMode)}catch(e){}openSend()});
   const mark=how=>{const j=[...((dayDoc&&dayDoc.javljeno)||[]),{kad:Date.now(),ko:me}];save({javljeno:j});logH('Javljeno pisarni ('+how+'): '+list().length+' dostav','send')};
   if($('#sSh'))$('#sSh').onclick=async()=>{try{await navigator.share({title:'Slovenija '+dmy(day),text:sendText()});mark('poslano');closeSheet();toast('✓ Javljeno pisarni')}catch(e){}};
   $('#sCp').onclick=async()=>{try{await navigator.clipboard.writeText(sendText());mark('kopirano');toast('Kopirano – prilepite v sporočilo')}catch(e){toast('Kopiranje ni uspelo')}};
 }
 /* ------------ kupci ------------ */
 function openKupci(){sheetKind='kupci';const L=kupci.slice().sort((a,b)=>(a.ime+a.kraj).localeCompare(b.ime+b.kraj));
-  openSheet('<h2>🏢 Kupci za Slovenijo <button class="sx">✕</button></h2>'+(L.length?L.map(k=>'<div class="kr"><span><b>'+esc(k.ime)+'</b> · '+esc(k.kraj||'')+'</span><button data-x="'+k.id+'" aria-label="Odstrani">✕</button></div>').join(''):'<p class="empty">Še ni kupcev.</p>')+
-    '<label>Nov kupec</label><div class="row2"><input class="in" id="nkI" placeholder="Kupec" autocomplete="off"><input class="in" id="nkK" placeholder="Kraj" autocomplete="off"></div><button class="btn p" id="nkA">+ Dodaj</button>'+
-    '<label style="margin-top:18px">⚖️ Tehtanje palet</label><div class="seg2"><button data-tw="1" class="'+(tehta?'on':'')+'">Da – vpis kg</button><button data-tw="0" class="'+(tehta?'':'on')+'">Ne – samo palete</button></div><div class="sub2">Pri »Ne« ni polj za kg in ni koraka »Teht.«; pisarni gre samo število palet.</div>');
-  $('#sheet').querySelectorAll('[data-tw]').forEach(b=>b.onclick=()=>{const v=b.dataset.tw==='1';root.collection('slovenija').doc('kupci').set({tehta:v},{merge:true}).catch(e=>toast('Napaka: '+e.message));logH('Tehtanje: '+(v?'da':'ne'),'set');tehta=v;render();openKupci()});
+  openSheet('<h2>🏢 Kupci za Slovenijo <button class="sx">✕</button></h2>'+(L.length?L.map(k=>'<div class="kr"><span><b>'+esc(k.ime)+'</b> · '+esc(k.kraj||'')+'</span><button class="wt'+(k.teza?' on':'')+'" data-wt="'+k.id+'" aria-label="Zahteva težo">⚖️'+(k.teza?' tehta':'')+'</button><button data-x="'+k.id+'" aria-label="Odstrani">✕</button></div>').join(''):'<p class="empty">Še ni kupcev.</p>')+
+    '<label>Nov kupec</label><div class="row2"><input class="in" id="nkI" placeholder="Kupec" autocomplete="off"><input class="in" id="nkK" placeholder="Kraj" autocomplete="off"></div><label class="chk2"><input type="checkbox" id="nkW"> ⚖️ zahteva težo (tehtanje)</label><button class="btn p" id="nkA">+ Dodaj</button>'+'<div class="sub2">⚖️ pri kupcu = palete se tehtajo in teža gre v poročilo. Dotik na ⚖️ vklopi/izklopi.</div>');
+  $('#sheet').querySelectorAll('[data-wt]').forEach(b=>b.onclick=()=>{const L2=kupci.map(k=>k.id===b.dataset.wt?{...k,teza:!k.teza}:k);const k=L2.find(z=>z.id===b.dataset.wt);
+    root.collection('slovenija').doc('kupci').set({list:L2},{merge:true}).catch(e=>toast('Napaka: '+e.message));logH('Tehtanje '+(k.teza?'da':'ne')+' – kupec '+k.ime+' '+(k.kraj||''),'kup')});
   $('#sheet').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{if(!b.dataset.c){b.dataset.c=1;b.textContent='Res?';return}const k=kupci.find(x=>x.id===b.dataset.x);
     root.collection('slovenija').doc('kupci').set({list:kupci.filter(x=>x.id!==b.dataset.x)},{merge:true});if(k)logH('Odstranjen kupec: '+k.ime+' '+(k.kraj||''),'kup')});
   $('#nkA').onclick=()=>{const i=$('#nkI').value.trim(),k=$('#nkK').value.trim();if(!i){$('#nkI').focus();return}
     if(kupci.some(x=>x.ime.toLowerCase()===i.toLowerCase()&&(x.kraj||'').toLowerCase()===k.toLowerCase())){toast('Ta kupec je že na seznamu');return}
-    root.collection('slovenija').doc('kupci').set({list:[...kupci,{id:uid(),ime:i,kraj:k}]},{merge:true}).catch(e=>toast('Napaka: '+e.message));logH('Nov kupec: '+i+' '+k,'kup')};
+    root.collection('slovenija').doc('kupci').set({list:[...kupci,{id:uid(),ime:i,kraj:k,teza:!!($('#nkW')&&$('#nkW').checked)}]},{merge:true}).catch(e=>toast('Napaka: '+e.message));logH('Nov kupec: '+i+' '+k,'kup')};
 }
 /* ------------ zgodovina ------------ */
 function openHist(){sheetKind='hist';let h='<h2>🕘 Zgodovina <button class="sx">✕</button></h2>';let cur='';
