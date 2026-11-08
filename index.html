@@ -213,6 +213,9 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 @media print{body>*:not(#print){display:none!important}#print{display:block;color:#000;font:12px Arial}#print table{border-collapse:collapse;width:100%}#print td,#print th{border:1px solid #999;padding:4px;text-align:left}}
 .bar{padding:6px 2px calc(8px + env(safe-area-inset-bottom));justify-content:space-between}.bb{min-width:0;flex:1;font-size:10px;position:relative}.bb span{font-size:20px}.bb[hidden]{display:none}.mic{width:60px;height:60px;font-size:27px;margin:-28px 2px 0}
 .bb b{position:absolute;top:-4px;left:50%;margin-left:6px;background:#e5484d;color:#fff;font-size:10px;border-radius:9px;padding:1px 5px;font-style:normal;font-weight:800}.bb b:empty{display:none}
+.dodc,.lc.dodc,.oc.dodc{background:#ff5fa2!important;border-color:#ff5fa2!important;color:#fff!important;font-weight:800}
+.onp{display:block;width:max-content;margin:4px 0 0 auto;background:#ff5fa2;color:#fff;font-size:12px;font-weight:800;border-radius:10px;padding:2px 7px;line-height:1.3}
+.tn .onp{font-size:12px}
 </style>
 </head>
 <body>
@@ -722,12 +725,15 @@ $('#search').addEventListener('input',render);
 function renderSearch(S){const q=S.q;
   const el=$('#sres');if(!q){el.innerHTML='';return}
   const byF={},locHit=[];
-  for(const l of allLocs()){if(!S.k&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||[]).push([l,x.palete])}}
-  let html=Object.entries(byF).slice(0,8).map(([f,a])=>'<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+'</span><span class="tt">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+'</div>').join('');
+  for(const l of allLocs()){if(!S.k&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
+  openDods().forEach(d=>{if(!d.firma||!itHit({firma:d.firma,k:d.k||''},S))return;let g=Object.values(byF).find(g=>norm(g.f)===norm(d.firma)&&(!d.k||norm(g.k||'')===norm(d.k)));
+    if(!g){const key=fkT(d.firma,d.k);g=byF[key]=byF[key]||{f:d.firma,k:d.k,a:[],d:[]}}g.d.push(d)});
+  let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+'</span><span class="tt">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
+    D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+'</div>'}).join('');
   if(locHit.length)html+='<div class="sr">'+locHit.slice(0,12).map(l=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+sumOf(locItems(l))+'</b></button>').join('')+'</div>';
   el.innerHTML=html||'<div class="sr mut">'+t('noRes')+'</div>';
 }
-$('#sres').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
+$('#sres').addEventListener('click',e=>{const dd=e.target.closest('[data-dods]');if(dd){openDodSome(dd.dataset.dods.split(','));return}const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
 
 /* ================= okna ================= */
 function ask(msg,onYes,onNo,good){openSheet('<h2>'+(good?'🚚':'⚠️')+'</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var('+(good?'--green);color:#0d1320;border-color:var(--green)':'--red);border-color:var(--red)')+'">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
@@ -736,7 +742,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='10',APP_DATE='07.11.2026';
+const APP_VER='11',APP_DATE='07.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -927,18 +933,20 @@ function renderOver(){
     if(isSp(l))spec.push([l,s]);
     if(!st.length){if(!isSp(l))free.push(l);continue}if(!isSp(l)){occ++;tot+=s}if(cap&&pl>=cap)fullL.push([l,pl,cap]);
     st.forEach(x=>{byF[x.firma]=byF[x.firma]||{n:0,l:[]};byF[x.firma].n+=x.palete;byF[x.firma].l.push([l,x.palete,x.k])})}
+  const dF={};openDods().forEach(d=>{const f=Object.keys(byF).find(x=>norm(x)===norm(d.firma))||d.firma;(dF[f]=dF[f]||[]).push(d);if(!byF[f])byF[f]={n:0,l:[]}});
   const fl=Object.entries(byF).sort((a,b)=>b[1].n-a[1].n),mx=fl.length?fl[0][1].n:1,pct=capT?Math.round(used/capT*100):0;
   const chip=(l,txt,cls,k)=>'<button class="oc '+(cls||'')+'" data-l="'+esc(l)+'">'+esc(l)+(k?tagH(k):'')+(txt!==undefined?' <b>'+txt+'</b>':'')+'</button>';
   el.innerHTML=
    '<div class="ost"><div class="os c1"><span>📦</span><b>'+occ+'</b>'+t('sOcc')+'</div><div class="os c2"><span>⬜</span><b>'+free.length+'</b>'+t('sFree')+'</div><div class="os c3"><span>🧱</span><b>'+tot+'</b>'+t('sPal')+'</div><div class="os c4"><span>⚠️</span><b>'+fullL.length+'</b>'+t('sFull')+'</div></div>'+
    '<h3>'+t('ovFirms')+'</h3>'+(fl.length?'<table class="otb"><thead><tr><th>'+t('firm')+'</th><th>'+t('ovLocs')+'</th><th>Σ</th></tr></thead><tbody>'+
-     fl.map(([f,v])=>'<tr><td class="of" data-f="'+esc(f)+'">'+esc(f)+'<div class="ob"><div style="width:'+Math.max(6,Math.round(v.n/mx*100))+'%"></div></div></td><td>'+v.l.map(([l,n,k])=>chip(l,n,'',k)).join('')+'</td><td class="on">'+v.n+'</td></tr>').join('')+'</tbody></table><p class="mut">'+t('ovTap')+'</p>':'<p class="mut">'+t('ovNo')+'</p>')+
+     fl.map(([f,v])=>'<tr><td class="of" data-f="'+esc(f)+'">'+esc(f)+'<div class="ob"><div style="width:'+Math.max(6,Math.round(v.n/mx*100))+'%"></div></div></td><td>'+v.l.map(([l,n,k])=>chip(l,n,'',k)).join('')+(dF[f]?'<button class="oc dodc" data-dods="'+dF[f].map(d=>d.id).join(',')+'">📌 '+dodCnt(dF[f])+'</button>':'')+'</td><td class="on">'+v.n+(dF[f]?'<small class="onp">📌+'+dodCnt(dF[f])+'</small>':'')+'</td></tr>').join('')+'</tbody></table><p class="mut">'+t('ovTap')+'</p>':'<p class="mut">'+t('ovNo')+'</p>')+
    (spec.length?'<h3>'+t('spec')+'</h3><div class="ocs">'+spec.map(([l,s])=>chip(l,s,s?'cb':'')).join('')+'</div>':'')+
    '<h3>'+t('ovFull')+' ('+fullL.length+')</h3><div class="ocs">'+(fullL.map(([l,pl,c])=>chip(l,pl+'/'+c,pl>c?'cr':'co')).join('')||'<span class="mut">—</span>')+'</div>'+
    '<h3>'+t('ovFree')+' ('+free.length+')</h3><div class="ocs">'+(free.map(l=>chip(l,undefined,'cg')).join('')||'<span class="mut">—</span>')+'</div>'+
    (capT?'<div class="obar sm"><div class="obl"><span>'+t('ovUse')+'</span><b>'+pct+' %</b></div><div class="obt"><div style="width:'+pct+'%"></div></div><div class="mut">'+used+' / '+capT+' '+t('ovPlaces')+'</div></div>':'');
   el.querySelectorAll('[data-f]').forEach(r=>r.onclick=()=>{retOver=$('#sheet').scrollTop;$('#search').value=r.dataset.f;closeSheet();render();$('#bkOv').hidden=!IOS;window.scrollTo(0,0)});
   el.querySelectorAll('.oc[data-l]').forEach(b=>b.onclick=()=>openLoc(b.dataset.l));
+  el.querySelectorAll('[data-dods]').forEach(b=>b.onclick=()=>openDodSome(b.dataset.dods.split(',')));
 }
 
 /* ================= glas ================= */
@@ -1501,7 +1509,12 @@ const openDods=()=>(state.dod||[]).filter(d=>!d.done&&!d.del).sort((a,b)=>a.kad-
 const dodFor=(f,k)=>openDods().filter(d=>norm(d.firma)===norm(f)&&(!d.k||norm(d.k)===norm(k||'')));
 const dodAt=l=>{const st=locItems(l);const s=new Set();st.forEach(x=>dodFor(x.firma,x.k).forEach(d=>s.add(d)));return[...s]};
 const dodOpenTxt=n=>(n%100===1?n+' odprt dodatek':n%100===2?n+' odprta dodatka':(n%100===3||n%100===4)?n+' odprti dodatki':n+' odprtih dodatkov')+' – dodaj na paleto';
-const dodTxt=d=>(d.n?d.n+' ':'')+(d.opis||t('dodBoxes'));
+const skat=n=>{const m=n%100;return m===1?'škatla':m===2?'škatli':(m===3||m===4)?'škatle':'škatel'};
+const dodTxt=d=>(d.n?d.n+' ':'')+(d.opis||(d.n?skat(+d.n):t('dodBoxes')));
+const dodCnt=L=>L.reduce((s,d)=>s+(+d.n||1),0);
+function openDodSome(ids){const L=openDods().filter(d=>ids.includes(d.id));if(!L.length)return;
+  openSheet('<h2>📌 '+t('dodT')+'</h2>'+dodBanner(L)+'<button class="btn" id="xB">'+t('close')+'</button>','dodone');
+  $('#xB').onclick=goBack;wireDod($('#sheet'),()=>{goBack();setTimeout(render,250)})}
 let dodCleaned=false;
 function dodClean(){if(dodCleaned||!isOwner()||store.mode!=='cloud')return;dodCleaned=true;const old=Date.now()-3*864e5;
   (state.dod||[]).filter(d=>d.done&&d.slika&&d.done.kad<old).slice(0,30).forEach(d=>FireStore.dodSet(d.id,{slika:null}).catch(()=>{}))}
