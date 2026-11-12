@@ -732,7 +732,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   $('#search').placeholder=t('search');$('#lOver').textContent=t('over');$('#lHist').textContent=t('hist');$('#lRep').textContent=t('rep');$('#lSet').textContent=t('set');$('#lMsg').textContent=t('nMsg');$('#lFoto').textContent=t('nFoto');
 }
-function applyRole(){const v=!canEdit();$('#bMic').style.visibility=v?'hidden':'';$('#bType').style.display=v?'none':''}
+function applyRole(){const v=!canEdit();try{kioAuto(v)}catch(e){}$('#bMic').style.visibility=v?'hidden':'';$('#bType').style.display=v?'none':''}
 function searchQ(){const raw=$('#search').value;const tg=extractTag(tokenize(raw));const fq=tg.k?norm(tg.rest.map(x=>x.r).join('')):norm(raw);return{q:norm(raw),fq,k:tg.k}}
 const itHit=(s,S)=>(!S.fq||firmHit(s.firma,S.fq))&&(!S.k||norm(s.k)===norm(S.k));
 function render(){
@@ -780,7 +780,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='19',APP_DATE='07.11.2026';
+const APP_VER='20',APP_DATE='07.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1172,7 +1172,7 @@ function showLogin(msg){
    '<button class="btn p" id="lIn">'+t('login')+'</button><div class="btns"><button class="btn" id="lReg">'+t('register')+'</button><button class="btn" id="lFor">'+t('forgot')+'</button></div>','login',{locked:true,solid:true});
   wireLang(()=>showLogin(msg));
   const em=()=>$('#lE').value.trim(),pw=()=>$('#lP').value;
-  $('#lIn').onclick=async()=>{LS.set('lk_lastmail',em());try{await firebase.auth().signInWithEmailAndPassword(em(),pw())}catch(e){showLogin(authErr(e))}};
+  $('#lIn').onclick=async()=>{LS.set('lk_lastmail',em());try{LOGC={e:em(),p:pw()};await firebase.auth().signInWithEmailAndPassword(em(),pw())}catch(e){showLogin(authErr(e))}};
   $('#lReg').onclick=async()=>{LS.set('lk_lastmail',em());try{const c=await firebase.auth().createUserWithEmailAndPassword(em(),pw());await c.user.sendEmailVerification();showVerify(c.user)}catch(e){showLogin(authErr(e))}};
   $('#lFor').onclick=async()=>{if(!em()){toast(t('eMail'));return}try{await firebase.auth().sendPasswordResetEmail(em());toast(t('resetSent'))}catch(e){showLogin(authErr(e))}};
 }
@@ -1823,7 +1823,7 @@ function openKioskLogin(){
   openSheet('<h2>🔑 Prijava</h2><p class="mut">Prijavite se s svojim računom za urejanje.</p><input class="in" id="qE" type="email" autocomplete="username" placeholder="'+t('email')+'"><input class="in" id="qP" type="password" autocomplete="current-password" placeholder="'+t('pass')+'" style="margin-top:8px">'+
    '<button class="btn p" id="qIn">'+t('login')+'</button><button class="btn" id="qX">← Nazaj na pregled</button>','qlogin');
   $('#qX').onclick=()=>closeSheet();setTimeout(()=>{const x=$('#qE');x&&x.focus()},50);
-  const go=async()=>{const e=$('#qE').value.trim(),p=$('#qP').value;if(!e||!p)return;try{await firebase.auth().signInWithEmailAndPassword(e,p);closeSheet();LS.set('lk_lastAct',Date.now())}catch(er){toast(authErr(er))}};
+  const go=async()=>{const e=$('#qE').value.trim(),p=$('#qP').value;if(!e||!p)return;try{LOGC={e,p};await firebase.auth().signInWithEmailAndPassword(e,p);closeSheet();LS.set('lk_lastAct',Date.now())}catch(er){toast(authErr(er))}};
   $('#qIn').onclick=go;$('#qP').onkeydown=ev=>{if(ev.key==='Enter')go()}}
 let lastAct=+LS.get('lk_lastAct',0)||Date.now();
 ['pointerdown','keydown','wheel'].forEach(ev=>document.addEventListener(ev,()=>{const n=Date.now();if(n-lastAct>15000){lastAct=n;LS.set('lk_lastAct',n)}},{passive:true,capture:true}));
@@ -1833,9 +1833,14 @@ function renderDeskBar(){const el=$('#deskBar');if(!el)return;if(!isDesk()){el.i
   const view=ku||!canEdit();const B=(view?[['bHist','🕘','Zgodovina']]:[['bMsg','💬','Sporočila'],['bFoto','📷','Slike'],['bHist','🕘','Zgodovina'],['bRep','📋','Predaja'],['bSet','⚙️','Nastavitve']]).filter(([id])=>{const b=$('#'+id);return b&&!b.hidden});
   el.innerHTML='<b class="dbr">Odprem@</b><span class="dbu">'+(view?'👁 Pregled · ':'')+esc(me||'')+'</span><span class="dbs">'+
     B.map(([id,ic,l])=>'<button class="dbb" data-db="'+id+'">'+ic+' '+l+'</button>').join('')+
-    (kio?(ku?'<button class="dbb dbk" id="dbIn">🔑 Prijava</button>':'<button class="dbb dbk" id="dbOut">🚪 Odjava</button>'):'')+'</span>';
+    (myEmail?(view?'<button class="dbb dbk" id="dbIn">🔑 Prijava</button>':'<button class="dbb dbk" id="dbOut">🚪 Odjava</button>'):'')+'</span>';
   el.querySelectorAll('[data-db]').forEach(b=>b.onclick=()=>$('#'+b.dataset.db).click());
   if($('#dbIn'))$('#dbIn').onclick=openKioskLogin;if($('#dbOut'))$('#dbOut').onclick=()=>{try{firebase.auth().signOut()}catch(e){}}}
+
+var LOGC=null;
+function kioAuto(view){if(!LOGC||!myEmail||!view)return;const c=LOGC;if(norm(c.e)!==norm(myEmail))return;LOGC=null;
+  if(view&&isDesk()&&cloudOn()){const k=kioGet();if(!k||norm(k.e)!==norm(c.e)||kioPw(k)!==c.p){LS.set('lk_kiosk',{e:c.e,p:btoa(unescape(encodeURIComponent(c.p)))});toast('🖥 Ta računalnik si zapomni pregled: '+c.e)}}}
+function cloudOn(){try{return store&&store.mode==='cloud'}catch(e){return false}}
 </script>
 </body>
 </html>
