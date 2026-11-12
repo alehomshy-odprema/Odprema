@@ -780,7 +780,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='17',APP_DATE='07.11.2026';
+const APP_VER='18',APP_DATE='07.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1830,7 +1830,7 @@ let lastAct=+LS.get('lk_lastAct',0)||Date.now();
 setInterval(()=>{if(kioGet()&&myEmail&&!isKioUser()&&Date.now()-lastAct>15*60*1000){lastAct=Date.now();toast('Samodejna odjava');try{firebase.auth().signOut()}catch(e){}}},30000);
 function renderDeskBar(){const el=$('#deskBar');if(!el)return;if(!isDesk()){el.innerHTML='';return}
   const kio=kioGet(),ku=isKioUser();
-  const view=ku||!canEdit();const B=(view?[['bHist','🕘','Zgodovina']]:[['bHist','🕘','Zgodovina'],['bSet','⚙️','Nastavitve']]).filter(([id])=>{const b=$('#'+id);return b&&!b.hidden});
+  const view=ku||!canEdit();const B=(view?[['bHist','🕘','Zgodovina']]:[['bMsg','💬','Sporočila'],['bFoto','📷','Slike'],['bHist','🕘','Zgodovina'],['bRep','📋','Predaja'],['bSet','⚙️','Nastavitve']]).filter(([id])=>{const b=$('#'+id);return b&&!b.hidden});
   el.innerHTML='<b class="dbr">Odprem@</b><span class="dbu">'+(view?'👁 Pregled · ':'')+esc(me||'')+'</span><span class="dbs">'+
     B.map(([id,ic,l])=>'<button class="dbb" data-db="'+id+'">'+ic+' '+l+'</button>').join('')+
     (kio?(ku?'<button class="dbb dbk" id="dbIn">🔑 Prijava</button>':'<button class="dbb dbk" id="dbOut">🚪 Odjava</button>'):'')+'</span>';
