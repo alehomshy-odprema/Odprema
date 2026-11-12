@@ -225,6 +225,32 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .pkt{display:block;width:100%;text-align:center;margin:8px 0;border:1px dashed var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:10px;font-size:15px;font-weight:700}.pkt.on{background:#22c55e;border:1px solid #22c55e;color:#04210f}
 .pcard .in[data-po]{margin-top:8px}.pin2{display:flex;gap:8px;margin-top:8px}.pin2 label{flex:1;font-size:12px;color:#9aa6bd;margin:0}.pin2 .in{margin-top:3px;width:100%;box-sizing:border-box}
 .nmp{white-space:pre-wrap;background:#f8fafc;color:#111;border-radius:12px;padding:12px;font-size:13px;font-family:Arial,sans-serif;max-height:45vh;overflow:auto}
+#side{display:none}
+@media (min-width:1000px){
+ body{display:grid;grid-template-columns:minmax(0,1fr) minmax(460px,44%);grid-template-rows:auto 1fr;height:100vh;overflow:hidden}
+ header{grid-column:1/3}
+ #grid{grid-column:1;grid-row:2;overflow:auto;padding:10px 18px 100px}
+ #side{display:block;grid-column:2;grid-row:2;overflow:auto;border-left:1px solid var(--line);padding:10px 18px 100px}
+ #ovSide .ost,#ovSide .obar{display:none}#ovSide h3:first-child{margin-top:0}
+ .sdh{font-size:20px;font-weight:800;color:var(--blue);margin:4px 0 10px}
+ #bMic{display:none}
+ .bar{justify-content:center;gap:28px}.bb{flex:none;min-width:84px;font-size:12px}
+ .tile{min-height:92px;padding:8px 10px}.tile .n{font-size:18px}.tile .f{font-size:14px;white-space:normal;overflow:visible}
+ .grp.dense .tile .n{font-size:16px}.grp.dense .tile .f{font-size:13px}
+ .hrow,.kst,.srow,#sres{max-width:1100px}
+ #sheetWrap,.sheetWrap{align-items:center}
+ .sheet{border-radius:18px;border:2px solid var(--gold)}
+}
+#deskBar{display:none}
+@media (min-width:1000px){
+ .bar{display:none!important}
+ #deskBar{display:flex;align-items:center;gap:14px;position:fixed;left:0;right:0;bottom:0;z-index:6;height:40px;padding:0 16px;background:var(--card);border-top:1px solid var(--line);font-size:13px}
+ .dbr{color:var(--blue);font-weight:900;letter-spacing:.5px}.dbu{color:#9aa6bd}.dbs{margin-left:auto;display:flex;gap:6px}
+ .dbb{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer}.dbb:hover{border-color:var(--blue)}
+ .dbk{border-color:var(--gold);color:var(--gold);font-weight:800}
+ #grid,#side{padding-bottom:60px}
+}
+.pk2{display:flex;gap:8px;margin:8px 0}.pk2 .pkt{margin:0;flex:1}.pkt.off{background:#475569;border:1px solid #475569;color:#fff}
 </style>
 </head>
 <body>
@@ -240,6 +266,8 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
   <div id="pendBar" class="pb" hidden></div>
 </header>
 <main id="grid"></main>
+<div id="deskBar"></div>
+<aside id="side"><div class="sdh">📊 Pregled <span class="mut" id="sdT"></span></div><div id="ovSide"></div></aside>
 <nav class="bar">
   <button class="bb" id="bMsg" hidden aria-label="Sporočila"><span>💬</span><i id="lMsg"></i><b id="msgN"></b></button>
   <button class="bb" id="bFoto" hidden aria-label="Slike za mail"><span>📷</span><i id="lFoto"></i></button>
@@ -726,7 +754,7 @@ function render(){
   renderSearch(S);saveCache();
   if(sheetState.type==='loc')renderLocBody();
   if(sheetState.type==='hist')renderHist();
-  if(sheetState.type==='over')renderOver();
+  if(sheetState.type==='over')renderOver();renderSide();renderDeskBar();
   {const D=openDods(),bd=$('#bDod');if(bd){bd.hidden=!D.length;$('#dodN').textContent=D.length?' '+D.length:''}const e=null;if(e){e.innerHTML=D.length?'<button class="dodbar" id="dodB">📌 '+dodOpenTxt(D.length)+'<span>'+esc(D.slice(0,3).map(d=>d.firma+' '+dodTxt(d)).join(' · '))+(D.length>3?' …':'')+'</span></button>':'';if($('#dodB'))$('#dodB').onclick=openDodList}}
   updMsg();{const fb=$('#bFoto');if(fb)fb.hidden=!canFoto()||!me}
 }
@@ -752,7 +780,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='15',APP_DATE='07.11.2026';
+const APP_VER='17',APP_DATE='07.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -938,8 +966,8 @@ function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').v
 let retOver=null;const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 function backToOver(){const r=retOver;retOver=null;$('#bkOv').hidden=true;$('#search').value='';render();openOver();if(r)$('#sheet').scrollTop=r}
 function openOver(){if(!ready())return;retOver=null;$('#bkOv').hidden=true;openSheet('<h2>'+t('ovT')+'</h2><div id="ovBody"></div><button class="btn" id="xB">'+t('close')+'</button>','over');$('#xB').onclick=goBack;renderOver()}
-function renderOver(){
-  const el=$('#ovBody');if(!el)return;
+function renderOver(el){
+  el=el||$('#ovBody');if(!el)return;
   const L=allLocs(),byF={},free=[],fullL=[],spec=[];let occ=0,tot=0,used=0,capT=0;
   for(const l of L){const st=locItems(l),s=sumOf(st),pl=placesOf(st),cap=capOf(l);if(cap){capT+=cap;used+=Math.min(pl,cap)}
     if(isSp(l))spec.push([l,s]);
@@ -1365,7 +1393,7 @@ function openProfile(){
   openSheet('<h2>👤 '+t('profT')+'</h2><div class="sgh"><b>'+esc(me||'—')+'</b>'+(cloud?'<span>'+esc(myEmail||'')+'</span>':'')+'</div>'+
     '<label>'+t('thT')+'</label><div class="seg" id="pTh"><button data-v="dark" class="'+(th!=='light'?'on':'')+'">🌙 '+t('thDark')+'</button><button data-v="light" class="'+(th==='light'?'on':'')+'">☀️ '+t('thLight')+'</button></div>'+
     '<label>'+t('fsT')+'</label><div class="seg" id="pZ">'+[[1,'fsN'],[1.12,'fsB'],[1.25,'fsX']].map(([v,l])=>'<button data-v="'+v+'" class="'+(Math.abs(z-v)<.01?'on':'')+'">'+t(l)+'</button>').join('')+'</div><p class="mut">'+t('profH')+'</p>'+
-    (!cloud&&me?'<button class="btn" id="pMe">'+t('changeMe',esc(me))+'</button>':'')+(cloud?'<button class="btn d" id="pOut">'+t('logout')+'</button>':'')+'<button class="btn" id="xB">'+t('back')+'</button>','prof');
+    (!cloud&&me?'<button class="btn" id="pMe">'+t('changeMe',esc(me))+'</button>':'')+(cloud?'<button class="btn d" id="pOut">'+t('logout')+'</button>':'')+(cloud&&isDesk()?'<button class="btn" id="pKio">🖥 Ta računalnik je za pregled'+(kioGet()?' ✓':'')+'</button>':'')+'<button class="btn" id="xB">'+t('back')+'</button>','prof');if($('#pKio'))$('#pKio').onclick=openKioskSet;
   $('#xB').onclick=()=>openSettings();
   $('#pTh').querySelectorAll('button').forEach(b=>b.onclick=()=>{LS.set('lk_theme',b.dataset.v);applyTheme();openProfile()});
   $('#pZ').querySelectorAll('button').forEach(b=>b.onclick=()=>{LS.set('lk_zoom',+b.dataset.v);applyTheme();openProfile()});
@@ -1550,13 +1578,13 @@ let NAK=[];
 const PV=[['e','EUR lesena'],['l6','Lesena 60×80'],['p','Plastična'],['pp','Pol plast.'],['o','Ostalo']];
 const pvN=v=>(PV.find(x=>x[0]===v)||['',''])[1];
 const palTr=f=>{const i=firmInfo(f);return{w:!!i.pw,k:!!i.pk,on:!!(i.pw||i.pk)}};
-const palOk=(e,tr)=>!!e&&(!tr.w||(e.v&&e.h>0&&e.kg>0))&&(!tr.k||!!e.kt);
-const palMiss=(e,tr)=>{const m=[];if(tr.w){if(!e||!e.v)m.push('vrsta');if(!e||!(e.h>0))m.push('višina');if(!e||!(e.kg>0))m.push('teža')}if(tr.k&&(!e||!e.kt))m.push('karton');return m};
+const palOk=(e,tr)=>tr.w?!!e&&!!(e.v&&e.h>0&&e.kg>0):true;
+const palMiss=(e,tr)=>{const m=[];if(tr.w){if(!e||!e.v)m.push('vrsta');if(!e||!(e.h>0))m.push('višina');if(!e||!(e.kg>0))m.push('teža')}return m};
 function itemPalStat(s){const tr=palTr(s.firma);const ok=Math.min(s.palete,(s.pd||[]).filter(e=>palOk(e,tr)).length);return{n:s.palete,ok,tr}}
 function firmPalStat(f){let n=0,ok=0;allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(s.firma)!==norm(f))return;const r=itemPalStat(s);n+=r.n;ok+=r.ok}));return{n,ok}}
-function palBadge(f,blk){const tr=palTr(f);if(!tr.on)return'';const r=firmPalStat(f);if(!r.n)return'';
+function palBadge(f,blk){const tr=palTr(f);if(!tr.w)return'';const r=firmPalStat(f);if(!r.n)return'';
   return '<small class="pwb'+(r.ok>=r.n?' ok':'')+(blk?' blk':'')+'" data-pmf="'+esc(f)+'">'+(tr.w?'⚖':'📦')+' '+(r.ok>=r.n?'✓':r.ok+'/'+r.n)+' ✉️</small>'}
-function palLine(e,tr){const p=[];if(e.v)p.push(pvN(e.v));if(e.h>0)p.push(e.h+' cm');p.push(e.kg>0?e.kg+' kg':(tr.w?'ni stehtana':''));if(tr.k||e.kt)p.push(e.kt?'📦 karton ✓':'📦 brez kartona');return p.filter(Boolean).join(' · ')}
+function palLine(e,tr){const p=[];if(e.v)p.push(pvN(e.v));if(e.h>0)p.push(e.h+' cm');p.push(e.kg>0?e.kg+' kg':(tr.w?'ni stehtana':''));if(tr.k||e.kt)p.push(e.kt?'s paletnim kartonom':'brez kartona');return p.filter(Boolean).join(' · ')}
 function palBlock(s,i,ed){const tr=palTr(s.firma);const pd=s.pd||[];if(!tr.on&&!pd.length)return'';
   let rows='',kg=0,nw=0;for(let j=0;j<s.palete;j++){const e=pd[j];if(e&&e.kg>0)kg+=+e.kg;else nw++;
     const ok=palOk(e,tr);rows+='<div class="pdr'+(ok?'':' miss')+'"><span class="pdn">'+(j+1)+'</span><span>'+(e?esc(palLine(e,tr))+(e.o?'<div class="mut">📝 '+esc(e.o)+'</div>':''):'<span class="mut">ni vpisano</span>')+'</span>'+(ok?'':'<span class="pdq">?</span>')+'</div>'}
@@ -1583,14 +1611,14 @@ function openPalEd(lok,f,k){const s=locItems(lok).find(x=>sameIt(x,f,k));if(!s){
   const W=tr.w||!tr.on;
   openSheet('<h2>'+esc(lok)+' · '+esc(fkT(f,k))+'</h2><p class="mut">'+pal(s.palete)+' · vpišite, kar veste – ostalo lahko kasneje.</p>'+cards.map((c,j)=>'<div class="pcard" data-pc="'+j+'"><div class="pch">Paleta '+(j+1)+'</div>'+
     (W?'<div class="pvs">'+PV.map(v=>'<button class="pv'+(c.v===v[0]?' on':'')+'" data-pv="'+v[0]+'">'+v[1]+'</button>').join('')+'</div><div class="pin2"><label>Višina (cm)<input class="in" data-ph type="number" inputmode="numeric" value="'+esc(c.h)+'"></label><label>Teža (kg)<input class="in" data-pk type="number" inputmode="decimal" value="'+esc(c.kg)+'"></label></div>':'')+
-    (tr.k?'<button class="pkt'+(c.kt?' on':'')+'" data-kt>📦 Paletni karton '+(c.kt?'✓':'– ni')+'</button>':'')+
+    (tr.k?'<div class="pk2"><button class="pkt'+(c.kt?' on':'')+'" data-kt="1">📦 S kartonom</button><button class="pkt'+(c.kt?'':' off')+'" data-kt="0">🚫 Brez kartona</button></div>':'')+
     '<input class="in" data-po placeholder="📝 Opomba (neobvezno)" value="'+esc(c.o)+'"></div>').join('')+
     '<button class="btn p" id="pSave">Shrani</button><button class="btn" id="pLater">Kasneje</button>','paled',{lok});
   const sh=$('#sheet');
   sh.querySelectorAll('[data-pc]').forEach(el=>{const j=+el.dataset.pc;
     el.querySelectorAll('[data-pv]').forEach(b=>b.onclick=()=>{cards[j].v=b.dataset.pv;el.querySelectorAll('[data-pv]').forEach(x=>x.classList.toggle('on',x===b));
       for(let q=j+1;q<cards.length;q++){if(cards[q].had||cards[q].h||cards[q].kg)break;cards[q].v=b.dataset.pv;const e2=sh.querySelector('[data-pc="'+q+'"]');e2&&e2.querySelectorAll('[data-pv]').forEach(x=>x.classList.toggle('on',x.dataset.pv===b.dataset.pv))}});
-    const kt=el.querySelector('[data-kt]');if(kt)kt.onclick=()=>{cards[j].kt=!cards[j].kt;kt.classList.toggle('on',cards[j].kt);kt.textContent='📦 Paletni karton '+(cards[j].kt?'✓':'– ni')}});
+    el.querySelectorAll('[data-kt]').forEach(b=>b.onclick=()=>{cards[j].kt=b.dataset.kt==='1';el.querySelectorAll('[data-kt]').forEach(x=>{x.classList.toggle('on',x.dataset.kt==='1'&&cards[j].kt);x.classList.toggle('off',x.dataset.kt==='0'&&!cards[j].kt)})})});
   $('#pLater').onclick=()=>openLoc(lok);
   $('#pSave').onclick=()=>{if(!writable())return;const out=[];
     sh.querySelectorAll('[data-pc]').forEach(el=>{const j=+el.dataset.pc,c=cards[j];const hh=el.querySelector('[data-ph]'),kk=el.querySelector('[data-pk]');
@@ -1615,7 +1643,7 @@ function stockMailText(f){const G=[];allLocs().forEach(l=>locItems(l).forEach(s=
   if(!G.length)return null;return palMailBuild(f,G,'PALETE ZA NAKLAD','Palete za naklad',Date.now(),me)}
 function palMailBuild(f,G,HD,SB,kad,ko){const tr=palTr(f);const by={};G.forEach(x=>{(by[x.lok]=by[x.lok]||[]).push(x)});
   let n=0,kg=0,nw=0,nk=0;const vc={},lines=[];
-  Object.keys(by).forEach(lok=>{lines.push('',lok);by[lok].forEach(x=>{const cnt=x.cnt,pd=x.pd;for(let j=0;j<cnt;j++){n++;const e=pd[j];if(tr.k&&!(e&&e.kt))nk++;
+  Object.keys(by).forEach(lok=>{lines.push('',lok);by[lok].forEach(x=>{const cnt=x.cnt,pd=x.pd;for(let j=0;j<cnt;j++){n++;const e=pd[j];if(tr.k&&e&&!e.kt)nk++;
     if(e){if(e.kg>0)kg+=+e.kg;else nw++;if(e.v)vc[e.v]=(vc[e.v]||0)+1;lines.push(n+'. '+palLine(e,tr)+(e.o?' · '+e.o:''))}else{nw++;lines.push(n+'. ni podatkov')}}})});
   const dt=new Date(kad);const ds=pad(dt.getDate())+'. '+pad(dt.getMonth()+1)+'. '+dt.getFullYear();
   const head=[HD+' – '+f.toUpperCase(),ds+', '+pad(dt.getHours())+':'+pad(dt.getMinutes())+' · '+(ko||me||'?')];
@@ -1756,7 +1784,7 @@ $('#meChip').onclick=()=>store.mode==='cloud'?openSettings():pickProfile();
   try{if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js').catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{if(e.data!=='updated')return;const rl=()=>{if(!$('#ov').hidden||(store.mode==='cloud'&&Object.keys(FireStore.pend||{}).length)){setTimeout(rl,3000);return}location.reload()};toast(t('updated'));setTimeout(rl,1500)});let swR=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(swR)return;swR=true})}}catch(e){}
   try{await FireStore.load(cfg)}catch(e){setSync('err',e.message);toast(t('notConn')+e.message);setTimeout(()=>location.reload(),15000);return}
   firebase.auth().onAuthStateChanged(u=>{
-    if(!u){FireStore.stop();myEmail=null;me=null;myRole='radnik';store=LocalStore;state.lok={};state.hist=[];state.clani=[];LS.del('lk_cache');render();showLogin();return}
+    if(!u){FireStore.stop();myEmail=null;me=null;myRole='radnik';store=LocalStore;state.lok={};state.hist=[];state.clani=[];LS.del('lk_cache');render();if(kioskIn())return;showLogin();return}
     if(!u.emailVerified){showVerify(u);return}
     afterLogin(u);
   });
@@ -1769,6 +1797,45 @@ let lastTouch=Date.now();const IDLE_MS=7*60*1000;
 ['pointerdown','touchstart','keydown','scroll'].forEach(ev=>document.addEventListener(ev,()=>{lastTouch=Date.now();if(!wakeL)keepAwake()},{passive:true,capture:true}));
 setInterval(()=>{if(wakeL&&Date.now()-lastTouch>IDLE_MS){try{wakeL.release()}catch(e){}wakeL=null}},20000);
 keepAwake();try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock('portrait').catch(()=>{})}catch(e){}
+
+/* računalnik: pregled stalno desno */
+function isDesk(){return window.matchMedia('(min-width:1000px)').matches}
+function renderSide(){const el=$('#ovSide');if(!el||!isDesk())return;try{renderOver(el);const d=new Date();$('#sdT').textContent='· '+pad(d.getHours())+':'+pad(d.getMinutes())}catch(e){console.warn(e)}}
+window.addEventListener('resize',()=>{clearTimeout(window._rsT);window._rsT=setTimeout(renderSide,200)});
+
+/* ---- računalnik za pregled (kiosk) ---- */
+function kioGet(){return LS.get('lk_kiosk',null)}
+function kioPw(k){try{return decodeURIComponent(escape(atob(k.p)))}catch(e){return''}}
+function isKioUser(){const k=kioGet();return!!(k&&myEmail&&norm(myEmail)===norm(k.e))}
+let kioTry=0;
+function kioskIn(){const k=kioGet();if(!k||!window.firebase||!firebase.auth)return false;if(Date.now()-kioTry<8000)return false;kioTry=Date.now();
+  firebase.auth().signInWithEmailAndPassword(k.e,kioPw(k)).catch(e=>{showLogin('Račun za pregled: '+authErr(e))});return true}
+function openKioskSet(){const k=kioGet();
+  openSheet('<h2>🖥 Ta računalnik je za pregled</h2><p class="mut">Vpišite račun člana »samo pregled«. Računalnik se bo nanj vedno prijavil sam. Po odjavi (ali po 15 min nedejavnosti) se vrne na pregled.</p>'+
+   '<input class="in" id="kE" type="email" placeholder="'+t('email')+'" value="'+esc(k?k.e:'')+'"><input class="in" id="kP" type="password" placeholder="'+t('pass')+'" style="margin-top:8px">'+
+   '<button class="btn p" id="kOk">Shrani</button>'+(k?'<button class="btn d" id="kDel">Izklopi (navaden računalnik)</button>':'')+'<button class="btn" id="xB">'+t('back')+'</button>','kiosk');
+  $('#xB').onclick=()=>openProfile();
+  if($('#kDel'))$('#kDel').onclick=()=>{LS.del('lk_kiosk');toast('Izklopljeno');openProfile()};
+  $('#kOk').onclick=()=>{const e=$('#kE').value.trim(),p=$('#kP').value;if(!e||!p){toast(t('eMail'));return}
+    if(norm(e)===norm(myEmail||'')){toast('Vpišite račun za pregled, ne svojega');return}
+    LS.set('lk_kiosk',{e,p:btoa(unescape(encodeURIComponent(p)))});toast('✓ Shranjeno – ob odjavi se računalnik vrne na pregled');openProfile()}}
+function openKioskLogin(){
+  openSheet('<h2>🔑 Prijava</h2><p class="mut">Prijavite se s svojim računom za urejanje.</p><input class="in" id="qE" type="email" autocomplete="username" placeholder="'+t('email')+'"><input class="in" id="qP" type="password" autocomplete="current-password" placeholder="'+t('pass')+'" style="margin-top:8px">'+
+   '<button class="btn p" id="qIn">'+t('login')+'</button><button class="btn" id="qX">← Nazaj na pregled</button>','qlogin');
+  $('#qX').onclick=()=>closeSheet();setTimeout(()=>{const x=$('#qE');x&&x.focus()},50);
+  const go=async()=>{const e=$('#qE').value.trim(),p=$('#qP').value;if(!e||!p)return;try{await firebase.auth().signInWithEmailAndPassword(e,p);closeSheet();LS.set('lk_lastAct',Date.now())}catch(er){toast(authErr(er))}};
+  $('#qIn').onclick=go;$('#qP').onkeydown=ev=>{if(ev.key==='Enter')go()}}
+let lastAct=+LS.get('lk_lastAct',0)||Date.now();
+['pointerdown','keydown','wheel'].forEach(ev=>document.addEventListener(ev,()=>{const n=Date.now();if(n-lastAct>15000){lastAct=n;LS.set('lk_lastAct',n)}},{passive:true,capture:true}));
+setInterval(()=>{if(kioGet()&&myEmail&&!isKioUser()&&Date.now()-lastAct>15*60*1000){lastAct=Date.now();toast('Samodejna odjava');try{firebase.auth().signOut()}catch(e){}}},30000);
+function renderDeskBar(){const el=$('#deskBar');if(!el)return;if(!isDesk()){el.innerHTML='';return}
+  const kio=kioGet(),ku=isKioUser();
+  const view=ku||!canEdit();const B=(view?[['bHist','🕘','Zgodovina']]:[['bHist','🕘','Zgodovina'],['bSet','⚙️','Nastavitve']]).filter(([id])=>{const b=$('#'+id);return b&&!b.hidden});
+  el.innerHTML='<b class="dbr">Odprem@</b><span class="dbu">'+(view?'👁 Pregled · ':'')+esc(me||'')+'</span><span class="dbs">'+
+    B.map(([id,ic,l])=>'<button class="dbb" data-db="'+id+'">'+ic+' '+l+'</button>').join('')+
+    (kio?(ku?'<button class="dbb dbk" id="dbIn">🔑 Prijava</button>':'<button class="dbb dbk" id="dbOut">🚪 Odjava</button>'):'')+'</span>';
+  el.querySelectorAll('[data-db]').forEach(b=>b.onclick=()=>$('#'+b.dataset.db).click());
+  if($('#dbIn'))$('#dbIn').onclick=openKioskLogin;if($('#dbOut'))$('#dbOut').onclick=()=>{try{firebase.auth().signOut()}catch(e){}}}
 </script>
 </body>
 </html>
