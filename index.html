@@ -216,6 +216,15 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .dodc,.lc.dodc,.oc.dodc{background:#ff5fa2!important;border-color:#ff5fa2!important;color:#fff!important;font-weight:800}
 .onp{display:block;width:max-content;margin:4px 0 0 auto;background:#ff5fa2;color:#fff;font-size:12px;font-weight:800;border-radius:10px;padding:2px 7px;line-height:1.3}
 .tn .onp{font-size:12px}
+.pwb{display:inline-block;background:#f59e0b;color:#1a1300;font-size:12px;font-weight:800;border-radius:10px;padding:2px 7px;line-height:1.3;margin-left:4px}.pwb.ok{background:#22c55e;color:#04210f}.pwb.blk{display:block;width:max-content;margin:4px 0 0 auto}
+.pdb{margin:-2px 0 10px 4px;padding:6px 10px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.06);border-radius:0 10px 10px 0}
+.pdr{display:flex;gap:8px;align-items:flex-start;font-size:14px;padding:4px 0;border-bottom:1px solid var(--line)}.pdr:last-of-type{border-bottom:0}.pdn{min-width:18px;font-weight:800;color:var(--gold)}.pdr>span:nth-child(2){flex:1}.pdq{color:#f59e0b;font-weight:900}
+.pds{font-size:14px;margin-top:4px;color:var(--gold)}.btn.sm.pde{margin:6px 0 0;padding:8px}.pdb .btns{gap:8px}.pwb[data-pmf]{cursor:pointer}
+.pcard{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px 12px;margin:10px 0}.pch{font-weight:800;margin-bottom:6px}
+.pvs{display:flex;flex-wrap:wrap;gap:6px}.pv{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:6px 9px;font-size:13px}.pv.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:800}
+.pkt{display:block;width:100%;text-align:center;margin:8px 0;border:1px dashed var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:10px;font-size:15px;font-weight:700}.pkt.on{background:#22c55e;border:1px solid #22c55e;color:#04210f}
+.pcard .in[data-po]{margin-top:8px}.pin2{display:flex;gap:8px;margin-top:8px}.pin2 label{flex:1;font-size:12px;color:#9aa6bd;margin:0}.pin2 .in{margin-top:3px;width:100%;box-sizing:border-box}
+.nmp{white-space:pre-wrap;background:#f8fafc;color:#111;border-radius:12px;padding:12px;font-size:13px;font-family:Arial,sans-serif;max-height:45vh;overflow:auto}
 </style>
 </head>
 <body>
@@ -491,8 +500,8 @@ const LocalStore={
   write(changes,logs){
     for(const c of changes){const id=idOf(c.lok);let d=state.lok[id];
       if(!d||!d.p)d={p:toP(docItems(d))};d.ko=me;d.kad=Date.now();const k=itemKey(c.firma||'',c.k);
-      if(c.rename){const ok2=firmKey(c.rename.from);for(const[key,e]of Object.entries({...d.p})){if(!e||firmKey(e.f)!==ok2)continue;const nk=itemKey(c.rename.to,e.k);delete d.p[key];const t2=d.p[nk]||{f:c.rename.to,n:0,dup:0};t2.n+=e.n;t2.dup=(t2.dup||0)+(e.dup||0);t2.f=c.rename.to;if(e.k)t2.k=e.k;d.p[nk]=t2}state.lok[id]=d;continue}
-      if(c.clear)d.p={};else if(c.del)delete d.p[k];else{const e=d.p[k]||{f:c.firma,n:0,dup:0};if(c.k)e.k=c.k;e.n+=c.d;e.dup=Math.max(0,(e.dup||0)+(c.dd||0));e.f=e.f||c.firma;if(e.n<=0)delete d.p[k];else d.p[k]=e}
+      if(c.rename){const ok2=firmKey(c.rename.from);for(const[key,e]of Object.entries({...d.p})){if(!e||firmKey(e.f)!==ok2)continue;const nk=itemKey(c.rename.to,e.k);delete d.p[key];const t2=d.p[nk]||{f:c.rename.to,n:0,dup:0};t2.n+=e.n;t2.dup=(t2.dup||0)+(e.dup||0);t2.f=c.rename.to;if(e.pd&&e.pd.length)t2.pd=(t2.pd||[]).concat(e.pd);if(e.k)t2.k=e.k;d.p[nk]=t2}state.lok[id]=d;continue}
+      if(c.clear)d.p={};else if(c.del)delete d.p[k];else{const e=d.p[k]||{f:c.firma,n:0,dup:0};if(c.k)e.k=c.k;e.n+=c.d;e.dup=Math.max(0,(e.dup||0)+(c.dd||0));e.f=e.f||c.firma;if(c.pd!==undefined){if(c.pd&&c.pd.length)e.pd=c.pd;else delete e.pd}if(e.n<=0)delete d.p[k];else d.p[k]=e}
       state.lok[id]=d}
     logs.forEach(l=>state.hist.unshift(l));this.persist()},
   async query(from,to){return state.hist.filter(x=>x.kad>=from&&x.kad<to).sort((a,b)=>a.kad-b.kad)},
@@ -569,13 +578,13 @@ const FireStore={
       if(cur&&cur.stavke&&!cur.p&&!D.legacy){D.legacy=true;Object.assign(D.merge.p,toP(docItems(cur)));D.merge.stavke=FV.delete()}
       if(c.rename){const ok2=firmKey(c.rename.from);for(const it of docItems(cur).filter(x=>firmKey(x.firma)===ok2)){const okk=itemKey(it.firma,it.k),nk=itemKey(c.rename.to,it.k);
           if(okk===nk){D.merge.p[nk]={f:c.rename.to};continue}
-          D.merge.p[nk]={f:c.rename.to,n:FV.increment(it.palete),dup:FV.increment(it.dup||0)};if(it.k)D.merge.p[nk].k=it.k;D.merge.p[okk]=FV.delete()}continue}
+          D.merge.p[nk]={f:c.rename.to,n:FV.increment(it.palete),dup:FV.increment(it.dup||0)};if(it.k)D.merge.p[nk].k=it.k;if(it.pd&&it.pd.length)D.merge.p[nk].pd=it.pd;D.merge.p[okk]=FV.delete()}continue}
       const k=itemKey(c.firma||'',c.k);
       if(c.clear){D.set={p:{},ko:me,kad:Date.now()};continue}
       if(c.del){D.merge.p[k]=FV.delete();continue}
       if(D.legacy){const e=D.merge.p[k];const n=(e&&typeof e.n==='number'?e.n:0)+c.d;D.merge.p[k]=n>0?{f:(e&&e.f)||c.firma,n,dup:Math.max(0,((e&&e.dup)||0)+(c.dd||0))}:FV.delete();continue}
       const prev=D.merge.p[k]||{};const sd=(prev._d||0)+c.d,sdd=(prev._dd||0)+(c.dd||0);
-      D.merge.p[k]={f:prev.f||c.firma,n:FV.increment(sd),_d:sd,_dd:sdd};if(c.k)D.merge.p[k].k=c.k;if(sdd)D.merge.p[k].dup=FV.increment(sdd)}
+      D.merge.p[k]={f:prev.f||c.firma,n:FV.increment(sd),_d:sd,_dd:sdd};if(c.k)D.merge.p[k].k=c.k;if(sdd)D.merge.p[k].dup=FV.increment(sdd);if(c.pd!==undefined)D.merge.p[k].pd=c.pd&&c.pd.length?c.pd:FV.delete()}
     const b=this.db.batch();
     for(const[id,D]of Object.entries(docs)){const ref=this.root.collection('lokacije').doc(id);
       Object.values(D.merge.p).forEach(v=>{if(v&&v._d!==undefined){delete v._d;delete v._dd}});
@@ -614,9 +623,9 @@ const sameIt=(x,f,k)=>norm(x.firma)===norm(f)&&norm(x.k||'')===norm(k||'');
 const tagH=k=>k?' <span class="tg">'+esc(k)+'</span>':'';
 const fkT=(f,k)=>f+(k?' '+k:'');
 function docItems(d){if(!d)return[];
-  if(d.p)return Object.values(d.p).filter(x=>x&&x.n>0&&x.f).map(x=>({firma:x.f,k:x.k||'',palete:x.n,dup:Math.max(0,Math.min(x.dup||0,Math.floor(x.n/2)))})).sort((a,b)=>a.firma.localeCompare(b.firma)||a.k.localeCompare(b.k));
-  return(d.stavke||[]).filter(x=>x.palete>0).map(x=>({...x,dup:0}))}
-function toP(items){const o={};items.forEach(x=>{const e={f:x.firma,n:x.palete,dup:x.dup||0};if(x.k)e.k=x.k;o[itemKey(x.firma,x.k)]=e});return o}
+  if(d.p)return Object.values(d.p).filter(x=>x&&x.n>0&&x.f).map(x=>({firma:x.f,k:x.k||'',palete:x.n,dup:Math.max(0,Math.min(x.dup||0,Math.floor(x.n/2))),pd:Array.isArray(x.pd)?x.pd:[]})).sort((a,b)=>a.firma.localeCompare(b.firma)||a.k.localeCompare(b.k));
+  return(d.stavke||[]).filter(x=>x.palete>0).map(x=>({...x,dup:0,pd:[]}))}
+function toP(items){const o={};items.forEach(x=>{const e={f:x.firma,n:x.palete,dup:x.dup||0};if(x.k)e.k=x.k;if(x.pd&&x.pd.length)e.pd=x.pd;o[itemKey(x.firma,x.k)]=e});return o}
 const locItems=name=>docItems(state.lok[idOf(name)]);
 const allLocData=()=>Object.fromEntries(allLocs().map(l=>[l,locItems(l)]));
 const firmInfo=f=>(state.post.fi||{})[f]||{};
@@ -648,6 +657,7 @@ function doWrite(changes,logs){
     if(it.palete+c.d<=0){c.del=true;delete c.d;delete c.dd;continue}
     const nd=(it.dup||0)+(c.dd||0),mx=Math.floor((it.palete+c.d)/2);
     if(nd>mx)c.dd=mx-(it.dup||0);else if(nd<0)c.dd=-(it.dup||0);if(!c.dd)delete c.dd}
+  try{palHook(changes,logs)}catch(e){console.warn(e)}
   logs.forEach(l=>{if(myUid)l.u=myUid;l.id=l.id||('h'+Date.now().toString(36)+Math.random().toString(36).slice(2,7))});
   try{const pr=store.write(changes,logs);if(pr&&pr.catch)pr.catch(e=>toast(t('error')+(e.message||e)))}catch(e){toast(t('error')+(e.message||e));return false}
   return true;
@@ -728,12 +738,12 @@ function renderSearch(S){const q=S.q;
   for(const l of allLocs()){if(!S.k&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
   openDods().forEach(d=>{if(!d.firma||!itHit({firma:d.firma,k:d.k||''},S))return;let g=Object.values(byF).find(g=>norm(g.f)===norm(d.firma)&&(!d.k||norm(g.k||'')===norm(d.k)));
     if(!g){const key=fkT(d.firma,d.k);g=byF[key]=byF[key]||{f:d.firma,k:d.k,a:[],d:[]}}g.d.push(d)});
-  let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+'</span><span class="tt">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
+  let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+palBadge(g.f,true)+'</span><span class="tt">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
     D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+'</div>'}).join('');
   if(locHit.length)html+='<div class="sr">'+locHit.slice(0,12).map(l=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+sumOf(locItems(l))+'</b></button>').join('')+'</div>';
   el.innerHTML=html||'<div class="sr mut">'+t('noRes')+'</div>';
 }
-$('#sres').addEventListener('click',e=>{const dd=e.target.closest('[data-dods]');if(dd){openDodSome(dd.dataset.dods.split(','));return}const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
+$('#sres').addEventListener('click',e=>{const pm=e.target.closest('[data-pmf]');if(pm){openPalMail(pm.dataset.pmf,closeSheet);return}const dd=e.target.closest('[data-dods]');if(dd){openDodSome(dd.dataset.dods.split(','));return}const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
 
 /* ================= okna ================= */
 function ask(msg,onYes,onNo,good){openSheet('<h2>'+(good?'🚚':'⚠️')+'</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var('+(good?'--green);color:#0d1320;border-color:var(--green)':'--red);border-color:var(--red)')+'">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
@@ -742,7 +752,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='13',APP_DATE='07.11.2026';
+const APP_VER='15',APP_DATE='07.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -794,7 +804,7 @@ function openLoc(lok){
     $('#sheet').querySelectorAll('[data-ak]').forEach(b=>b.onclick=()=>{let v=b.dataset.ak;if(v==='+'){const w=prompt2();return}setK(v)});
     function prompt2(){const box=$('#aKB');if($('#aKI'))return;box.insertAdjacentHTML('beforeend','<div class="add"><input class="in" id="aKI" placeholder="'+t('kPh')+'" maxlength="12"><button class="btn" id="aKO" style="margin:0;width:auto;padding:12px 16px">OK</button></div>');$('#aKO').onclick=()=>{const v=$('#aKI').value.trim().toUpperCase();if(v)setK(v)};$('#aKI').focus()}
     $('#aBtn').onclick=async()=>{const f=$('#aF').value.trim(),n=parseInt($('#aN').value)||0;if(n<1){toast(t('needFP'));return}
-    const dp=$('#aDup').checked;const doAdd=async firma=>{if(await applyDelta(lok,firma,dp?n*2:n,dp?n:0,aK)){toast(lok+': '+fkT(firma,aK)+' +'+(dp?t('dupN',n):n));openLoc(lok)}};
+    const dp=$('#aDup').checked;const doAdd=async firma=>{if(await applyDelta(lok,firma,dp?n*2:n,dp?n:0,aK)){toast(lok+': '+fkT(firma,aK)+' +'+(dp?t('dupN',n):n));openLoc(lok);if(palTr(firma).on)setTimeout(()=>openPalEd(lok,firma,aK),60)}};
     if(!f){doAdd(t('noFirm'));return}const ex=exactFirm(f);if(ex){doAdd(ex);return}
     const c=firmCands(f).slice(0,4);if(!c.length){doAdd(titleCase(f));return}
     openSheet('<h2>'+t('pickFirm')+'</h2><p class="mut">»'+esc(f)+'«</p>'+c.map(x=>'<button class="btn" data-pk="'+esc(x)+'">'+esc(x)+'</button>').join('')+'<button class="btn p" data-pk="'+esc(titleCase(f))+'">➕ '+t('newFirm')+': '+esc(titleCase(f))+'</button><button class="btn" id="pkX">'+t('cancel')+'</button>','pick');
@@ -810,9 +820,11 @@ function renderLocBody(){
   const lok=sheetState.lok,st=locItems(lok),info=state.lok[idOf(lok)],cap=capOf(lok);
   const b=$('#locBody');if(!b)return;
   {const dl=$('#locDod');if(dl){const D=dodAt(lok);dl.innerHTML=dodBanner(D,lok);wireDod(dl,()=>renderLocBody())}}
-  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+tagH(s.k)+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-dp="1" title="'+t('dupAdd')+'">⧉</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🚚</button>':'')+'</div>').join('')+
+  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+tagH(s.k)+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-dp="1" title="'+t('dupAdd')+'">⧉</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🚚</button>':'')+'</div>'+palBlock(s,i,ed)).join('')+
     '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' · '+placesOf(st)+'/'+cap:'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
     :'<p class="mut">'+t('isEmpty')+'</p>';
+  b.querySelectorAll('[data-pe]').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.pe];if(s)openPalEd(lok,s.firma,s.k)});
+  b.querySelectorAll('[data-pm]').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.pm];if(s)openPalMail(s.firma,()=>openLoc(lok))});
   b.querySelectorAll('.sq').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.i];if(!s)return;
     if(x.dataset.m){openMoveSheet(lok,s.firma,s.palete,s.k);return}
     if(x.dataset.dp){applyDelta(lok,s.firma,2,1,s.k);return}
@@ -842,9 +854,9 @@ function openLoad(lok,focusI){
   const go=kind=>{if(!writable())return;const ch=[],logs=[],kad=Date.now();
     st.forEach((s,i)=>{const v=Math.max(0,Math.min(s.palete,parseInt(Q(i).value)||0));if(!v)return;const c={lok,firma:s.firma,k:s.k};if(v>=s.palete)c.del=true;else{c.d=-v;c.dd=0}ch.push(c);
       const l={kad,ko:me,lok,firma:s.firma,delta:-v,opis:kind};if(v>=s.palete&&s.dup)l.dup=-s.dup;if(s.k)l.k=s.k;logs.push(l)});
-    if(!ch.length)return;if(doWrite(ch,logs)){flash(lok);toast(t('saved',lok))}openLoc(lok)};
+    if(!ch.length)return;NAK=[];if(doWrite(ch,logs)){flash(lok);toast(t('saved',lok))}if(kind==='n'&&NAK.length){const L=NAK;NAK=[];openNakMail(L,lok)}else openLoc(lok)};
   $('#ldOk').onclick=()=>{const F=st.filter((s,i)=>(parseInt(Q(i).value)||0)>0).map(s=>[s.firma,s.k]);const vals=st.map((s,i)=>Q(i).value);
-    dodGuard(lok,F,()=>{if(!$('#sheet [data-lq]')){openLoad(lok);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]})}go('n')},()=>{openLoad(lok);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]});upd()})};$('#ldDel').onclick=()=>ask(t('ldDelQ'),()=>go('d'),()=>openLoad(lok));$('#ldX').onclick=()=>openLoc(lok);
+    nakGuard(lok,F,()=>{if(!$('#sheet [data-lq]')){openLoad(lok);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]})}go('n')},()=>{openLoad(lok);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]});upd()})};$('#ldDel').onclick=()=>ask(t('ldDelQ'),()=>go('d'),()=>openLoad(lok));$('#ldX').onclick=()=>openLoc(lok);
   upd();if(focusI!==undefined&&Q(focusI))setTimeout(()=>{const e=Q(focusI);if(e){e.scrollIntoView({block:'center'});e.select()}},150);
 }
 function opisTxt(x){return x.opis==='n'?t('loaded'):x.opis==='d'?t('deleted'):x.opis?t('emptied'):''}
@@ -862,7 +874,7 @@ function histLine(x){const U=undoneSet();const un=x.id&&U.has(x.id);
 function wireUndo(el){el.querySelectorAll('[data-undo]').forEach(b=>b.onclick=e=>{if(e)e.stopPropagation();const x=state.hist.find(y=>y.id===b.dataset.undo)||hOld.find(y=>y.id===b.dataset.undo);if(!x)return;const lk=sheetState.lok,tp=sheetState.type;const back=tp==='loc'?()=>openLoc(lk):tp==='hist'?openHist:closeSheet;
   ask(t('undoQ',histText(x).replace(/<[^>]+>/g,'')),async()=>{doUndo(x);back()},back)})}
 function doUndo(x){if(!writable())return;const lg={kad:Date.now(),ko:me,tip:'undo',ref:x.id,lok:x.lok,firma:x.firma,delta:x.delta};if(x.do)lg.do=x.do;if(x.dup)lg.dup=x.dup;if(x.k)lg.k=x.k;
-  const K=x.k||'',F=curName(x.firma);const ch=x.do?[{lok:x.do,firma:F,k:K,d:-x.delta,dd:-(x.dup||0)},{lok:x.lok,firma:F,k:K,d:x.delta,dd:x.dup||0}]:[{lok:x.lok,firma:F,k:K,d:-x.delta,dd:-(x.dup||0)}];
+  const K=x.k||'',F=curName(x.firma);const ch=x.do?[{lok:x.do,firma:F,k:K,d:-x.delta,dd:-(x.dup||0)},{lok:x.lok,firma:F,k:K,d:x.delta,dd:x.dup||0}]:[{lok:x.lok,firma:F,k:K,d:-x.delta,dd:-(x.dup||0)}];if(!x.do&&x.delta<0&&x.pd&&x.pd.length)ch[0].pdAdd=x.pd;
   if(doWrite(ch,[lg]))toast(t('undoDone'))}
 
 /* zgodovina */
@@ -884,14 +896,14 @@ function hCard(g,U){const x=g.x,k=g.k,n=g.items.length;
   const FN=fName(x.firma)+tagH(x.k);
   const title=k==='b'?LK(x.lok)+'<span class="harr">→</span>'+LK(x.do):FN+(n>1?'<span class="hgrp">'+n+'× ▸</span>':'');
   const when=n>1?ft(g.items[n-1].kad)+'–'+ft(x.kad):ft(x.kad);
-  const extra=k==='b'?FN:k==='o'?t('loaded'):k==='d'?t('deleted'):k==='r'?t('hRem'):'';
+  const extra=k==='b'?FN:k==='o'?t('loaded')+(x.opis==='n'&&(x.pd||palTr(curName(x.firma)).on)?' <button class="ub" data-nm="'+esc(curName(x.firma))+'" data-nd="'+x.kad+'">✉ Pisarni</button>':''):k==='d'?t('deleted'):k==='r'?t('hRem'):'';
   const d=x.dup?' ('+t('dupN',Math.abs(x.dup))+')':'';
   const num=k==='b'?x.delta:sum>0?'+'+sum:'−'+Math.abs(sum);
   return '<div class="hc k-'+k+(un?' st':'')+(gi?' gp':'')+'"'+(gi?' data-gi="'+gi+'"':'')+'><div class="hic">'+HIC[k]+'</div>'+(k!=='b'?LK(x.lok):'')+
     '<div class="hmd"><div class="hf">'+title+'</div><div class="hs">'+avH(x.ko)+'<span>'+esc(x.ko||'?')+' · '+when+'</span>'+(extra?'<span>'+extra+d+'</span>':'')+(un?'<span class="err">'+t('undone')+'</span>':'')+'</div></div>'+
     '<div class="hn">'+num+'</div>'+(n===1&&canUndo(x,U)?'<button class="hub" data-undo="'+esc(x.id)+'" aria-label="'+t('undo')+'">↩</button>':'')+'</div>'+
     (gi?'<div class="hgx" hidden data-gx="'+gi+'">'+g.items.map(y=>hCard({k,x:y,items:[y],un:false},U)).join('')+'</div>':'')}
-function wireHist(el){
+function wireHist(el){el.querySelectorAll('[data-nm]').forEach(b=>b.onclick=e=>{e.stopPropagation();openNakMail([b.dataset.nm],null,+b.dataset.nd)});
   el.querySelectorAll('[data-hl]').forEach(b=>b.onclick=e=>{e.stopPropagation();openLoc(b.dataset.hl)});
   el.querySelectorAll('[data-gi]').forEach(c=>c.onclick=e=>{if(e.target.closest('button'))return;const x=el.querySelector('[data-gx="'+c.dataset.gi+'"]');if(x){x.hidden=!x.hidden;c.classList.toggle('opn',!x.hidden)}});
   wireUndo(el)}
@@ -939,7 +951,7 @@ function renderOver(){
   el.innerHTML=
    '<div class="ost"><div class="os c1"><span>📦</span><b>'+occ+'</b>'+t('sOcc')+'</div><div class="os c2"><span>⬜</span><b>'+free.length+'</b>'+t('sFree')+'</div><div class="os c3"><span>🧱</span><b>'+tot+'</b>'+t('sPal')+'</div><div class="os c4"><span>⚠️</span><b>'+fullL.length+'</b>'+t('sFull')+'</div></div>'+
    '<h3>'+t('ovFirms')+'</h3>'+(fl.length?'<table class="otb"><thead><tr><th>'+t('firm')+'</th><th>'+t('ovLocs')+'</th><th>Σ</th></tr></thead><tbody>'+
-     fl.map(([f,v])=>'<tr><td class="of" data-f="'+esc(f)+'">'+esc(f)+'<div class="ob"><div style="width:'+Math.max(6,Math.round(v.n/mx*100))+'%"></div></div></td><td>'+v.l.map(([l,n,k])=>chip(l,n,'',k)).join('')+(dF[f]?'<button class="oc dodc" data-dods="'+dF[f].map(d=>d.id).join(',')+'">📌 '+dodCnt(dF[f])+'</button>':'')+'</td><td class="on">'+v.n+(dF[f]?'<small class="onp">📌+'+dodCnt(dF[f])+'</small>':'')+'</td></tr>').join('')+'</tbody></table><p class="mut">'+t('ovTap')+'</p>':'<p class="mut">'+t('ovNo')+'</p>')+
+     fl.map(([f,v])=>'<tr><td class="of" data-f="'+esc(f)+'">'+esc(f)+'<div class="ob"><div style="width:'+Math.max(6,Math.round(v.n/mx*100))+'%"></div></div></td><td>'+v.l.map(([l,n,k])=>chip(l,n,'',k)).join('')+(dF[f]?'<button class="oc dodc" data-dods="'+dF[f].map(d=>d.id).join(',')+'">📌 '+dodCnt(dF[f])+'</button>':'')+'</td><td class="on">'+v.n+(dF[f]?'<small class="onp">📌+'+dodCnt(dF[f])+'</small>':'')+palBadge(f,true)+'</td></tr>').join('')+'</tbody></table><p class="mut">'+t('ovTap')+'</p>':'<p class="mut">'+t('ovNo')+'</p>')+
    (spec.length?'<h3>'+t('spec')+'</h3><div class="ocs">'+spec.map(([l,s])=>chip(l,s,s?'cb':'')).join('')+'</div>':'')+
    '<h3>'+t('ovFull')+' ('+fullL.length+')</h3><div class="ocs">'+(fullL.map(([l,pl,c])=>chip(l,pl+'/'+c,pl>c?'cr':'co')).join('')||'<span class="mut">—</span>')+'</div>'+
    '<h3>'+t('ovFree')+' ('+free.length+')</h3><div class="ocs">'+(free.map(l=>chip(l,undefined,'cg')).join('')||'<span class="mut">—</span>')+'</div>'+
@@ -947,6 +959,7 @@ function renderOver(){
   el.querySelectorAll('[data-f]').forEach(r=>r.onclick=()=>{retOver=$('#sheet').scrollTop;$('#search').value=r.dataset.f;closeSheet();render();$('#bkOv').hidden=!IOS;window.scrollTo(0,0)});
   el.querySelectorAll('.oc[data-l]').forEach(b=>b.onclick=()=>openLoc(b.dataset.l));
   el.querySelectorAll('[data-dods]').forEach(b=>b.onclick=()=>openDodSome(b.dataset.dods.split(',')));
+  el.querySelectorAll('[data-pmf]').forEach(b=>b.onclick=e=>{e.stopPropagation();openPalMail(b.dataset.pmf,()=>openOver())});
 }
 
 /* ================= glas ================= */
@@ -1013,9 +1026,9 @@ function showConfirm(p,heard){
     '<div class="mut" style="margin-top:8px">'+t('after')+': '+(after.length?after.map(s=>esc(fkT(s.firma,s.k))+' '+s.palete+(s.dup?' ('+t('dupN',s.dup)+')':'')).join(', '):t('empty'))+'</div>'+(c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
     firmChips(p)+'<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
   $('#xB').onclick=closeSheet;
-  $('#okB').onclick=async()=>{const doIt=async()=>{closeSheet();const ok=p.clear?await clearLoc(p.lok,p.firma,p.kind,p.k||undefined):await applyDelta(p.lok,p.firma,p.delta,p.dd||0,p.k);if(ok)toast(t('saved',p.lok))};
-    if(p.clear&&(p.kind||'n')==='n'){const F=locItems(p.lok).filter(s=>!p.firma||norm(s.firma)===norm(p.firma)).map(s=>[s.firma,s.k]);dodGuard(p.lok,F,doIt,()=>closeSheet());return}
-    if(!p.clear&&p.opis==='n'){dodGuard(p.lok,[[p.firma,p.k]],doIt,()=>closeSheet());return}
+  $('#okB').onclick=async()=>{const doIt=async()=>{closeSheet();NAK=[];const ok=p.clear?await clearLoc(p.lok,p.firma,p.kind,p.k||undefined):await applyDelta(p.lok,p.firma,p.delta,p.dd||0,p.k);if(ok)toast(t('saved',p.lok));if(ok&&NAK.length){const L=NAK;NAK=[];openNakMail(L,p.lok)}};
+    if(p.clear&&(p.kind||'n')==='n'){const F=locItems(p.lok).filter(s=>!p.firma||norm(s.firma)===norm(p.firma)).map(s=>[s.firma,s.k]);nakGuard(p.lok,F,doIt,()=>closeSheet());return}
+    if(!p.clear&&p.opis==='n'){nakGuard(p.lok,[[p.firma,p.k]],doIt,()=>closeSheet());return}
     doIt()};
   wireChips(p,()=>showConfirm(p,heard));
   $('#againB').onclick=startVoice;$('#editB').onclick=()=>openType(heard);
@@ -1243,9 +1256,9 @@ function renderFirms(){const el=$('#fmL');if(!el)return;const q=norm($('#fmQ').v
 function openFirmForm(f,prefill){
   const i=f?firmInfo(f):{};const R=state.post.renames||{};const prev=Object.keys(R).filter(k=>R[k]===f);
   openSheet('<h2>'+(f?esc(f):t('fmNew'))+'</h2>'+(prev.length?'<p class="mut">'+t('prej')+': '+esc(prev.join(', '))+'</p>':'')+'<label>'+t('fmName')+'</label><input class="in" id="fN" value="'+esc(f||prefill||'')+'" autocomplete="off">'+(f?'<p class="mut">'+t('fmRenH')+'</p>':'')+'<label>'+t('fmAlias')+'</label><input class="in" id="fA" value="'+esc(i.a||'')+'" autocomplete="off" placeholder="Eti de"><label>'+t('fmCode')+'</label><input class="in" id="fS" value="'+esc(i.s||'')+'" inputmode="numeric" autocomplete="off" placeholder="110000123">'+
-    '<button class="btn p" id="fSave">'+t('fmSave')+'</button>'+(f&&canFirmDel()?'<button class="btn d" id="fDel">'+t('fmDel')+'</button>':'')+'<button class="btn" id="fX">'+t('cancel')+'</button>','firm');
+    '<label class="chk"><input type="checkbox" id="fPW"'+(i.pw?' checked':'')+'>⚖ Beleži palete (vrsta, višina, teža)</label><label class="chk"><input type="checkbox" id="fPK"'+(i.pk?' checked':'')+'>📦 Paletni karton</label><p class="mut">Pri vključenih se po vnosu palet odpre vpis za vsako paleto.</p>'+'<button class="btn p" id="fSave">'+t('fmSave')+'</button>'+(f&&canFirmDel()?'<button class="btn d" id="fDel">'+t('fmDel')+'</button>':'')+'<button class="btn" id="fX">'+t('cancel')+'</button>','firm');
   $('#fX').onclick=()=>openFirms();
-  $('#fSave').onclick=async()=>{const name=$('#fN').value.trim().replace(/\s+/g,' '),a=$('#fA').value.split(',').map(s=>s.trim()).filter(Boolean).join(', '),s=$('#fS').value.trim();
+  $('#fSave').onclick=async()=>{const PW=$('#fPW').checked,PK=$('#fPK').checked;const name=$('#fN').value.trim().replace(/\s+/g,' '),a=$('#fA').value.split(',').map(s=>s.trim()).filter(Boolean).join(', '),s=$('#fS').value.trim();
     if(!name){toast(t('fmNeedName'));return}
     const all=[...new Set([...state.post.firme,...knownFirms()])];
     const other=all.find(x=>x!==f&&norm(x)===norm(name));
@@ -1254,8 +1267,8 @@ function openFirmForm(f,prefill){
     const save=async(target,merge)=>{const np=clone(state.post);np.fi=np.fi||{};np.firme=np.firme||[];
       if(f&&f!==target){np.firme=np.firme.filter(x=>x!==f);delete np.fi[f];np.renames=np.renames||{};np.renames[f]=target;delete np.renames[target]}
       if(!np.firme.includes(target))np.firme.push(target);np.firme.sort((x,y)=>x.localeCompare(y));
-      if(merge){const ti=np.fi[target]||{};const al=[...new Set([...String(ti.a||'').split(','),...a.split(','),f].map(x=>x.trim()).filter(x=>x&&norm(x)!==norm(target)))];np.fi[target]={a:al.join(', '),s:ti.s||s}}
-      else np.fi[target]={a,s};
+      if(merge){const ti=np.fi[target]||{};const al=[...new Set([...String(ti.a||'').split(','),...a.split(','),f].map(x=>x.trim()).filter(x=>x&&norm(x)!==norm(target)))];np.fi[target]={a:al.join(', '),s:ti.s||s};if(ti.pw||PW)np.fi[target].pw=true;if(ti.pk||PK)np.fi[target].pk=true}
+      else{np.fi[target]={a,s};if(PW)np.fi[target].pw=true;if(PK)np.fi[target].pk=true}
       if(!await run(store.savePost(np)))return;
       if(f&&f!==target){const ch=Object.keys(state.lok).filter(id=>docItems(state.lok[id]).some(x=>x.firma===f)).map(id=>({lok:id,rename:{from:f,to:target}}));if(ch.length){try{const pr=store.write(ch,[]);if(pr&&pr.catch)pr.catch(e=>toast(t('error')+e.message))}catch(e){}}}
       toast(merge?t('fmMerged',target):t('fmSaved'));openFirms()};
@@ -1532,6 +1545,95 @@ function dodConfirm(ids,lok,after){if(!writable())return;let n=0;
     const done={ko:me,kad:Date.now()};if(lok)done.lok=lok;store.dodSet(id,{done});n++;
     const lg={kad:Date.now(),ko:me,tip:'dod',akc:'ok',firma:d.firma,n:d.n||0,opis:d.opis||''};if(d.k)lg.k=d.k;if(lok)lg.lok=lok;try{doWrite([],[lg])}catch(e){}});
   if(n)toast('✓ '+t('dodDone'));if(after)after()}
+/* ================= podatki po paleti (⚖ višina/teža, 📦 karton) ================= */
+let NAK=[];
+const PV=[['e','EUR lesena'],['l6','Lesena 60×80'],['p','Plastična'],['pp','Pol plast.'],['o','Ostalo']];
+const pvN=v=>(PV.find(x=>x[0]===v)||['',''])[1];
+const palTr=f=>{const i=firmInfo(f);return{w:!!i.pw,k:!!i.pk,on:!!(i.pw||i.pk)}};
+const palOk=(e,tr)=>!!e&&(!tr.w||(e.v&&e.h>0&&e.kg>0))&&(!tr.k||!!e.kt);
+const palMiss=(e,tr)=>{const m=[];if(tr.w){if(!e||!e.v)m.push('vrsta');if(!e||!(e.h>0))m.push('višina');if(!e||!(e.kg>0))m.push('teža')}if(tr.k&&(!e||!e.kt))m.push('karton');return m};
+function itemPalStat(s){const tr=palTr(s.firma);const ok=Math.min(s.palete,(s.pd||[]).filter(e=>palOk(e,tr)).length);return{n:s.palete,ok,tr}}
+function firmPalStat(f){let n=0,ok=0;allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(s.firma)!==norm(f))return;const r=itemPalStat(s);n+=r.n;ok+=r.ok}));return{n,ok}}
+function palBadge(f,blk){const tr=palTr(f);if(!tr.on)return'';const r=firmPalStat(f);if(!r.n)return'';
+  return '<small class="pwb'+(r.ok>=r.n?' ok':'')+(blk?' blk':'')+'" data-pmf="'+esc(f)+'">'+(tr.w?'⚖':'📦')+' '+(r.ok>=r.n?'✓':r.ok+'/'+r.n)+' ✉️</small>'}
+function palLine(e,tr){const p=[];if(e.v)p.push(pvN(e.v));if(e.h>0)p.push(e.h+' cm');p.push(e.kg>0?e.kg+' kg':(tr.w?'ni stehtana':''));if(tr.k||e.kt)p.push(e.kt?'📦 karton ✓':'📦 brez kartona');return p.filter(Boolean).join(' · ')}
+function palBlock(s,i,ed){const tr=palTr(s.firma);const pd=s.pd||[];if(!tr.on&&!pd.length)return'';
+  let rows='',kg=0,nw=0;for(let j=0;j<s.palete;j++){const e=pd[j];if(e&&e.kg>0)kg+=+e.kg;else nw++;
+    const ok=palOk(e,tr);rows+='<div class="pdr'+(ok?'':' miss')+'"><span class="pdn">'+(j+1)+'</span><span>'+(e?esc(palLine(e,tr))+(e.o?'<div class="mut">📝 '+esc(e.o)+'</div>':''):'<span class="mut">ni vpisano</span>')+'</span>'+(ok?'':'<span class="pdq">?</span>')+'</div>'}
+  return '<div class="pdb">'+rows+(tr.w?'<div class="pds">Skupaj: <b>'+kg+' kg</b>'+(nw?' · '+nw+' ni stehtan'+(nw===1?'a':'ih'):'')+'</div>':'')+'<div class="btns">'+(ed?'<button class="btn sm pde" data-pe="'+i+'">✏️ Uredi palete</button>':'')+(tr.on?'<button class="btn sm pde" data-pm="'+i+'">✉️ Pisarni</button>':'')+'</div></div>'}
+/* pri spremembah palet podatki potujejo s paletami */
+function palHook(changes,logs){
+  const work={},pool={};
+  const W=(lok,f,k)=>{const id=lok+'|'+itemKey(f,k);if(!(id in work)){const it=locItems(lok).find(x=>sameIt(x,f,k));work[id]=it?(it.pd||[]).slice():[]}return work[id]};
+  const attach=(lok,f,k,arr)=>{const l=logs.find(l=>!l.do&&l.lok===lok&&norm(l.firma)===norm(f)&&norm(l.k||'')===norm(k||'')&&l.delta<0&&!l.pd);if(l){if(arr.length)l.pd=arr.map(e=>({...e}));if(l.opis==='n'&&(arr.length||palTr(f).on)&&!NAK.some(x=>norm(x)===norm(f)))NAK.push(f)}};
+  for(const c of changes){if(c.rename)continue;
+    if(c.clear){locItems(c.lok).forEach(it=>{const a=(it.pd||[]).slice();const key=itemKey(it.firma,it.k);(pool[key]=pool[key]||[]).push(...a);attach(c.lok,it.firma,it.k,a)});continue}
+    if(c.pdSet){c.pd=c.pdSet;delete c.pdSet;work[c.lok+'|'+itemKey(c.firma,c.k)]=c.pd.slice();continue}
+    const key=itemKey(c.firma,c.k);
+    if(c.del){const a=W(c.lok,c.firma,c.k);const rm=a.splice(0,a.length);(pool[key]=pool[key]||[]).push(...rm);attach(c.lok,c.firma,c.k,rm);continue}
+    if(c.d<0){const a=W(c.lok,c.firma,c.k);if(a.length){const rm=a.splice(Math.max(0,a.length+c.d),-c.d);(pool[key]=pool[key]||[]).push(...rm);c.pd=a.slice();attach(c.lok,c.firma,c.k,rm)}else attach(c.lok,c.firma,c.k,[]);continue}}
+  for(const c of changes){if(c.rename||c.clear||c.del||!(c.d>0))continue;const key=itemKey(c.firma,c.k);
+    const add=[];if(c.pdAdd){add.push(...c.pdAdd);delete c.pdAdd}else if(pool[key]&&pool[key].length)add.push(...pool[key].splice(0,c.d));
+    if(add.length){const a=W(c.lok,c.firma,c.k);a.push(...add);c.pd=a.slice()}}
+}
+/* vnos */
+function openPalEd(lok,f,k){const s=locItems(lok).find(x=>sameIt(x,f,k));if(!s){openLoc(lok);return}
+  const tr=palTr(f),pd=(s.pd||[]).map(e=>({...e}));let lastV='e';
+  const cards=[];for(let j=0;j<s.palete;j++){const e=pd[j]||{};if(e.v)lastV=e.v;cards.push({v:e.v||lastV,h:e.h||'',kg:e.kg||'',o:e.o||'',kt:!!e.kt,had:!!pd[j]})}
+  const W=tr.w||!tr.on;
+  openSheet('<h2>'+esc(lok)+' · '+esc(fkT(f,k))+'</h2><p class="mut">'+pal(s.palete)+' · vpišite, kar veste – ostalo lahko kasneje.</p>'+cards.map((c,j)=>'<div class="pcard" data-pc="'+j+'"><div class="pch">Paleta '+(j+1)+'</div>'+
+    (W?'<div class="pvs">'+PV.map(v=>'<button class="pv'+(c.v===v[0]?' on':'')+'" data-pv="'+v[0]+'">'+v[1]+'</button>').join('')+'</div><div class="pin2"><label>Višina (cm)<input class="in" data-ph type="number" inputmode="numeric" value="'+esc(c.h)+'"></label><label>Teža (kg)<input class="in" data-pk type="number" inputmode="decimal" value="'+esc(c.kg)+'"></label></div>':'')+
+    (tr.k?'<button class="pkt'+(c.kt?' on':'')+'" data-kt>📦 Paletni karton '+(c.kt?'✓':'– ni')+'</button>':'')+
+    '<input class="in" data-po placeholder="📝 Opomba (neobvezno)" value="'+esc(c.o)+'"></div>').join('')+
+    '<button class="btn p" id="pSave">Shrani</button><button class="btn" id="pLater">Kasneje</button>','paled',{lok});
+  const sh=$('#sheet');
+  sh.querySelectorAll('[data-pc]').forEach(el=>{const j=+el.dataset.pc;
+    el.querySelectorAll('[data-pv]').forEach(b=>b.onclick=()=>{cards[j].v=b.dataset.pv;el.querySelectorAll('[data-pv]').forEach(x=>x.classList.toggle('on',x===b));
+      for(let q=j+1;q<cards.length;q++){if(cards[q].had||cards[q].h||cards[q].kg)break;cards[q].v=b.dataset.pv;const e2=sh.querySelector('[data-pc="'+q+'"]');e2&&e2.querySelectorAll('[data-pv]').forEach(x=>x.classList.toggle('on',x.dataset.pv===b.dataset.pv))}});
+    const kt=el.querySelector('[data-kt]');if(kt)kt.onclick=()=>{cards[j].kt=!cards[j].kt;kt.classList.toggle('on',cards[j].kt);kt.textContent='📦 Paletni karton '+(cards[j].kt?'✓':'– ni')}});
+  $('#pLater').onclick=()=>openLoc(lok);
+  $('#pSave').onclick=()=>{if(!writable())return;const out=[];
+    sh.querySelectorAll('[data-pc]').forEach(el=>{const j=+el.dataset.pc,c=cards[j];const hh=el.querySelector('[data-ph]'),kk=el.querySelector('[data-pk]');
+      const H=hh?Math.round(parseFloat(hh.value)||0):0,KG=kk?Math.round((parseFloat(String(kk.value).replace(',','.'))||0)*10)/10:0,O=el.querySelector('[data-po]').value.trim();
+      if(!H&&!KG&&!O&&!c.kt&&!c.had)return;const e={v:W?c.v:'',kad:Date.now(),ko:me||''};if(!e.v)delete e.v;if(H)e.h=H;if(KG)e.kg=KG;if(O)e.o=O.slice(0,120);if(c.kt)e.kt=true;out.push(e)});
+    if(doWrite([{lok,firma:s.firma,k:s.k||'',d:0,pdSet:out}],[])){toast('✓ Palete shranjene')}openLoc(lok)};
+}
+/* pred nakladom: opozori, a pusti naprej */
+function palGuard(lok,firms,proceed,cancel){const L=[];
+  firms.forEach(([f,k])=>{const s=locItems(lok).find(x=>sameIt(x,f,k));if(!s)return;const tr=palTr(s.firma);if(!tr.on)return;
+    for(let j=0;j<s.palete;j++){const e=(s.pd||[])[j];if(!palOk(e,tr))L.push({s,j,m:palMiss(e,tr)})}});
+  if(!L.length){proceed();return}
+  openSheet('<h2>⚠️ Ni vse vpisano</h2>'+L.slice(0,12).map(x=>'<div class="pdr miss"><span><b>Paleta '+(x.j+1)+'</b> · '+esc(fkT(x.s.firma,x.s.k))+' ('+esc(lok)+'): manjka '+x.m.join(', ')+'</span></div>').join('')+(L.length>12?'<p class="mut">… in še '+(L.length-12)+'</p>':'')+
+    '<button class="btn" id="gpE">✏️ Vpiši zdaj</button><button class="btn ld" id="gpGo">Naloži vseeno</button><button class="btn" id="gpX">✕ '+t('cancel')+'</button>','palguard');
+  $('#gpE').onclick=()=>openPalEd(lok,L[0].s.firma,L[0].s.k);$('#gpGo').onclick=proceed;$('#gpX').onclick=()=>{if(cancel)cancel();else closeSheet()}}
+function nakGuard(lok,firms,proceed,cancel){palGuard(lok,firms,()=>dodGuard(lok,firms,proceed,cancel),cancel)}
+/* mail pisarni */
+function nakMailText(f,day){const d0=new Date(day||Date.now());d0.setHours(0,0,0,0);const a=d0.getTime(),b=a+864e5;const U=undoneSet();
+  const L=state.hist.filter(x=>!x.tip&&x.opis==='n'&&x.delta<0&&x.kad>=a&&x.kad<b&&norm(curName(x.firma))===norm(f)&&!(x.id&&U.has(x.id))).sort((x,y)=>x.kad-y.kad);
+  if(!L.length)return null;const last=L[L.length-1];return palMailBuild(f,L.map(x=>({lok:x.lok,cnt:-x.delta,pd:x.pd||[]})),'NAKLAD','Naklad',last.kad,last.ko)}
+function stockMailText(f){const G=[];allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(s.firma)===norm(f))G.push({lok:l,cnt:s.palete,pd:s.pd||[]})}));
+  if(!G.length)return null;return palMailBuild(f,G,'PALETE ZA NAKLAD','Palete za naklad',Date.now(),me)}
+function palMailBuild(f,G,HD,SB,kad,ko){const tr=palTr(f);const by={};G.forEach(x=>{(by[x.lok]=by[x.lok]||[]).push(x)});
+  let n=0,kg=0,nw=0,nk=0;const vc={},lines=[];
+  Object.keys(by).forEach(lok=>{lines.push('',lok);by[lok].forEach(x=>{const cnt=x.cnt,pd=x.pd;for(let j=0;j<cnt;j++){n++;const e=pd[j];if(tr.k&&!(e&&e.kt))nk++;
+    if(e){if(e.kg>0)kg+=+e.kg;else nw++;if(e.v)vc[e.v]=(vc[e.v]||0)+1;lines.push(n+'. '+palLine(e,tr)+(e.o?' · '+e.o:''))}else{nw++;lines.push(n+'. ni podatkov')}}})});
+  const dt=new Date(kad);const ds=pad(dt.getDate())+'. '+pad(dt.getMonth()+1)+'. '+dt.getFullYear();
+  const head=[HD+' – '+f.toUpperCase(),ds+', '+pad(dt.getHours())+':'+pad(dt.getMinutes())+' · '+(ko||me||'?')];
+  const sum='Skupaj: '+pal(n)+(tr.w||kg?' · '+kg+' kg'+(nw?' ('+nw+' ni stehtan'+(nw===1?'a':'ih')+')':''):'')+(nk?' · '+nk+' brez kartona':'');
+  const vs=Object.entries(vc).map(([v,c])=>c+'× '+pvN(v)).join(', ');
+  return{subj:SB+' – '+f+' – '+ds,miss:nw||nk,body:[...head,...lines,'',sum,vs].filter((x,i,A)=>x!==undefined&&!(x===''&&i===A.length-1)).join('\n')+'\n\n— ODPREMA'}}
+function openPalMail(f,back){const m=stockMailText(f);if(!m){toast('Ni palet');return}mailSheet(m.subj,m.body,'✉️ Podatki za pisarno','Palete na lokacijah: '+esc(f)+(m.miss?'<div class="err">⚠ Ni vse vpisano – v mailu je označeno.</div>':''),back)}
+function openNakMail(firms,lok,day){const M=firms.map(f=>({f,m:nakMailText(f,day)})).filter(x=>x.m);if(!M.length){if(lok)openLoc(lok);else toast('Ni podatkov');return}
+  const subj=M.length===1?M[0].m.subj:'Naklad – '+M.map(x=>x.f).join(', '),body=M.map(x=>x.m.body).join('\n\n');
+  mailSheet(subj,body,'✉️ Pošlji pisarni','Naloženo: '+esc(M.map(x=>x.f).join(', ')),()=>{if(lok)openLoc(lok);else goBack()})}
+function mailSheet(subj,body,title,sub,back){
+  const ml=mailList();const sel=new Set(ml.filter(m=>m.def).map(m=>m.e));
+  openSheet('<h2>'+title+'</h2><p class="mut">'+sub+'</p>'+(ml.length?'<div class="ocs">'+ml.map(m=>'<button class="fc'+(sel.has(m.e)?' on':'')+'" data-me="'+esc(m.e)+'">'+esc(m.e)+'</button>').join('')+'</div>':'<p class="mut">Naslovi za mail se nastavijo pri 📷 Slike.</p>')+
+    '<pre class="nmp">'+esc(body)+'</pre><button class="btn p" id="nmS">✉️ Pošlji</button><button class="btn" id="nmC">📋 Kopiraj</button><button class="btn" id="nmX">'+t('close')+'</button>','nakmail');
+  $('#sheet').querySelectorAll('[data-me]').forEach(b=>b.onclick=()=>{const e=b.dataset.me;if(sel.has(e))sel.delete(e);else sel.add(e);b.classList.toggle('on',sel.has(e))});
+  $('#nmS').onclick=()=>{location.href='mailto:'+encodeURIComponent([...sel].join(','))+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body)};
+  $('#nmC').onclick=async()=>{try{await navigator.clipboard.writeText(body);toast('✓ Kopirano')}catch(e){}};
+  $('#nmX').onclick=()=>{if(back)back();else goBack()}}
 /* pred nakladom: zakleni, dokler dodatek ni potrjen */
 function dodGuard(lok,firms,proceed,cancel){const L=[];firms.forEach(([f,k])=>dodFor(f,k).forEach(d=>{if(!L.includes(d))L.push(d)}));
   if(!L.length){proceed();return}
