@@ -251,6 +251,18 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  #grid,#side{padding-bottom:60px}
 }
 .pk2{display:flex;gap:8px;margin:8px 0}.pk2 .pkt{margin:0;flex:1}.pkt.off{background:#475569;border:1px solid #475569;color:#fff}
+.lrow{padding:10px 0;border-bottom:1px solid var(--line)}.lrn{display:flex;align-items:center;gap:8px}.lrn .nm{flex:1;min-width:0;overflow-wrap:anywhere}
+.nob{background:transparent;border:1px dashed var(--line);color:#9aa6bd;border-radius:9px;padding:4px 9px;font-size:12px;flex:none}
+.lno{margin-top:4px;font-size:14px;color:#fde68a;background:rgba(250,204,21,.08);border-radius:8px;padding:5px 8px}
+.lrc{display:flex;align-items:center;gap:8px;margin-top:8px}.lrc .sp{flex:1}
+.sq.big{width:52px;height:48px;font-size:26px;font-weight:700;border-radius:12px}.cnt.big{min-width:40px;font-size:24px}
+.sq.big.act{width:58px;font-size:24px;border-color:var(--gold)}
+.capl{text-decoration:underline dotted;cursor:pointer}
+.sq.big.dpb{width:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:2px;color:#7cc0ff;border-color:#7cc0ff}.dpic{width:30px;height:30px}.dpb small{font-size:10px;font-weight:800;line-height:1;margin-top:-1px}
+@media (max-width:380px){.lrc{gap:6px}.sq.big{width:46px;height:46px;font-size:24px}.sq.big.act,.sq.big.dpb{width:50px}.cnt.big{min-width:32px;font-size:22px}.dpic{width:26px;height:26px}}
+.drk{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 10px}.drk div{background:var(--bg);border-radius:14px;padding:10px;text-align:center;border-top:3px solid var(--blue);color:#9aa6bd;font-size:13px}.drk div.g{border-top-color:#22c55e}.drk b{display:block;font-size:30px;color:var(--ink)}
+.drt td:not(:first-child),.drt th:not(:first-child){text-align:right}.drt tr.tt td{font-weight:800;color:var(--gold)}
+.drw{display:flex;justify-content:space-between;gap:10px;padding:7px 2px;border-bottom:1px solid var(--line)}.drw b{color:var(--gold)}
 </style>
 </head>
 <body>
@@ -528,8 +540,8 @@ const LocalStore={
   write(changes,logs){
     for(const c of changes){const id=idOf(c.lok);let d=state.lok[id];
       if(!d||!d.p)d={p:toP(docItems(d))};d.ko=me;d.kad=Date.now();const k=itemKey(c.firma||'',c.k);
-      if(c.rename){const ok2=firmKey(c.rename.from);for(const[key,e]of Object.entries({...d.p})){if(!e||firmKey(e.f)!==ok2)continue;const nk=itemKey(c.rename.to,e.k);delete d.p[key];const t2=d.p[nk]||{f:c.rename.to,n:0,dup:0};t2.n+=e.n;t2.dup=(t2.dup||0)+(e.dup||0);t2.f=c.rename.to;if(e.pd&&e.pd.length)t2.pd=(t2.pd||[]).concat(e.pd);if(e.k)t2.k=e.k;d.p[nk]=t2}state.lok[id]=d;continue}
-      if(c.clear)d.p={};else if(c.del)delete d.p[k];else{const e=d.p[k]||{f:c.firma,n:0,dup:0};if(c.k)e.k=c.k;e.n+=c.d;e.dup=Math.max(0,(e.dup||0)+(c.dd||0));e.f=e.f||c.firma;if(c.pd!==undefined){if(c.pd&&c.pd.length)e.pd=c.pd;else delete e.pd}if(e.n<=0)delete d.p[k];else d.p[k]=e}
+      if(c.rename){const ok2=firmKey(c.rename.from);for(const[key,e]of Object.entries({...d.p})){if(!e||firmKey(e.f)!==ok2)continue;const nk=itemKey(c.rename.to,e.k);delete d.p[key];const t2=d.p[nk]||{f:c.rename.to,n:0,dup:0};t2.n+=e.n;t2.dup=(t2.dup||0)+(e.dup||0);t2.f=c.rename.to;if(e.pd&&e.pd.length)t2.pd=(t2.pd||[]).concat(e.pd);if(e.o&&!t2.o)t2.o=e.o;if(e.k)t2.k=e.k;d.p[nk]=t2}state.lok[id]=d;continue}
+      if(c.clear)d.p={};else if(c.del)delete d.p[k];else{const e=d.p[k]||{f:c.firma,n:0,dup:0};if(c.k)e.k=c.k;e.n+=c.d;e.dup=Math.max(0,(e.dup||0)+(c.dd||0));e.f=e.f||c.firma;if(c.pd!==undefined){if(c.pd&&c.pd.length)e.pd=c.pd;else delete e.pd}if(c.note!==undefined){if(c.note)e.o=c.note;else delete e.o}if(e.n<=0)delete d.p[k];else d.p[k]=e}
       state.lok[id]=d}
     logs.forEach(l=>state.hist.unshift(l));this.persist()},
   async query(from,to){return state.hist.filter(x=>x.kad>=from&&x.kad<to).sort((a,b)=>a.kad-b.kad)},
@@ -606,13 +618,13 @@ const FireStore={
       if(cur&&cur.stavke&&!cur.p&&!D.legacy){D.legacy=true;Object.assign(D.merge.p,toP(docItems(cur)));D.merge.stavke=FV.delete()}
       if(c.rename){const ok2=firmKey(c.rename.from);for(const it of docItems(cur).filter(x=>firmKey(x.firma)===ok2)){const okk=itemKey(it.firma,it.k),nk=itemKey(c.rename.to,it.k);
           if(okk===nk){D.merge.p[nk]={f:c.rename.to};continue}
-          D.merge.p[nk]={f:c.rename.to,n:FV.increment(it.palete),dup:FV.increment(it.dup||0)};if(it.k)D.merge.p[nk].k=it.k;if(it.pd&&it.pd.length)D.merge.p[nk].pd=it.pd;D.merge.p[okk]=FV.delete()}continue}
+          D.merge.p[nk]={f:c.rename.to,n:FV.increment(it.palete),dup:FV.increment(it.dup||0)};if(it.k)D.merge.p[nk].k=it.k;if(it.pd&&it.pd.length)D.merge.p[nk].pd=it.pd;if(it.o)D.merge.p[nk].o=it.o;D.merge.p[okk]=FV.delete()}continue}
       const k=itemKey(c.firma||'',c.k);
       if(c.clear){D.set={p:{},ko:me,kad:Date.now()};continue}
       if(c.del){D.merge.p[k]=FV.delete();continue}
       if(D.legacy){const e=D.merge.p[k];const n=(e&&typeof e.n==='number'?e.n:0)+c.d;D.merge.p[k]=n>0?{f:(e&&e.f)||c.firma,n,dup:Math.max(0,((e&&e.dup)||0)+(c.dd||0))}:FV.delete();continue}
       const prev=D.merge.p[k]||{};const sd=(prev._d||0)+c.d,sdd=(prev._dd||0)+(c.dd||0);
-      D.merge.p[k]={f:prev.f||c.firma,n:FV.increment(sd),_d:sd,_dd:sdd};if(c.k)D.merge.p[k].k=c.k;if(sdd)D.merge.p[k].dup=FV.increment(sdd);if(c.pd!==undefined)D.merge.p[k].pd=c.pd&&c.pd.length?c.pd:FV.delete()}
+      D.merge.p[k]={f:prev.f||c.firma,n:FV.increment(sd),_d:sd,_dd:sdd};if(c.k)D.merge.p[k].k=c.k;if(sdd)D.merge.p[k].dup=FV.increment(sdd);if(c.pd!==undefined)D.merge.p[k].pd=c.pd&&c.pd.length?c.pd:FV.delete();if(c.note!==undefined)D.merge.p[k].o=c.note?c.note:FV.delete()}
     const b=this.db.batch();
     for(const[id,D]of Object.entries(docs)){const ref=this.root.collection('lokacije').doc(id);
       Object.values(D.merge.p).forEach(v=>{if(v&&v._d!==undefined){delete v._d;delete v._dd}});
@@ -651,9 +663,9 @@ const sameIt=(x,f,k)=>norm(x.firma)===norm(f)&&norm(x.k||'')===norm(k||'');
 const tagH=k=>k?' <span class="tg">'+esc(k)+'</span>':'';
 const fkT=(f,k)=>f+(k?' '+k:'');
 function docItems(d){if(!d)return[];
-  if(d.p)return Object.values(d.p).filter(x=>x&&x.n>0&&x.f).map(x=>({firma:x.f,k:x.k||'',palete:x.n,dup:Math.max(0,Math.min(x.dup||0,Math.floor(x.n/2))),pd:Array.isArray(x.pd)?x.pd:[]})).sort((a,b)=>a.firma.localeCompare(b.firma)||a.k.localeCompare(b.k));
+  if(d.p)return Object.values(d.p).filter(x=>x&&x.n>0&&x.f).map(x=>({firma:x.f,k:x.k||'',palete:x.n,dup:Math.max(0,Math.min(x.dup||0,Math.floor(x.n/2))),pd:Array.isArray(x.pd)?x.pd:[],o:x.o||''})).sort((a,b)=>a.firma.localeCompare(b.firma)||a.k.localeCompare(b.k));
   return(d.stavke||[]).filter(x=>x.palete>0).map(x=>({...x,dup:0,pd:[]}))}
-function toP(items){const o={};items.forEach(x=>{const e={f:x.firma,n:x.palete,dup:x.dup||0};if(x.k)e.k=x.k;if(x.pd&&x.pd.length)e.pd=x.pd;o[itemKey(x.firma,x.k)]=e});return o}
+function toP(items){const o={};items.forEach(x=>{const e={f:x.firma,n:x.palete,dup:x.dup||0};if(x.k)e.k=x.k;if(x.pd&&x.pd.length)e.pd=x.pd;if(x.o)e.o=x.o;o[itemKey(x.firma,x.k)]=e});return o}
 const locItems=name=>docItems(state.lok[idOf(name)]);
 const allLocData=()=>Object.fromEntries(allLocs().map(l=>[l,locItems(l)]));
 const firmInfo=f=>(state.post.fi||{})[f]||{};
@@ -675,6 +687,8 @@ const sumOf=st=>st.reduce((a,s)=>a+s.palete,0);
 const placesOf=st=>st.reduce((a,s)=>a+s.palete-(s.dup||0),0);
 const dupTxt=s=>s.dup?' <span class="mut">('+t('dupN',s.dup)+')</span>':'';
 async function run(p){try{await p;return true}catch(e){toast(t('error')+(e.message||e));return false}}
+async function runQ(p){if(!p||!p.then)return true;let done=false,err=null;p.then(()=>{done=true},e=>{done=true;err=e;toast(t('error')+(e.message||e))});
+  await new Promise(r=>setTimeout(r,400));return !err}
 /* sprememba = {lok, firma, d} (prištej/odštej) | {lok, firma, del:true} | {lok, clear:true} */
 function writable(){if(getCfg()&&store.mode!=='cloud'){toast(t('loadingW'));return false}return true}
 function doWrite(changes,logs){
@@ -685,6 +699,7 @@ function doWrite(changes,logs){
     if(it.palete+c.d<=0){c.del=true;delete c.d;delete c.dd;continue}
     const nd=(it.dup||0)+(c.dd||0),mx=Math.floor((it.palete+c.d)/2);
     if(nd>mx)c.dd=mx-(it.dup||0);else if(nd<0)c.dd=-(it.dup||0);if(!c.dd)delete c.dd}
+  try{logs.forEach(l=>{if(l.opis==='n'&&l.delta<0&&!l.do&&!l.o){const it=locItems(l.lok).find(x=>norm(x.firma)===norm(l.firma)&&norm(x.k||'')===norm(l.k||''));if(it&&it.o)l.o=it.o}})}catch(e){}
   try{palHook(changes,logs)}catch(e){console.warn(e)}
   logs.forEach(l=>{if(myUid)l.u=myUid;l.id=l.id||('h'+Date.now().toString(36)+Math.random().toString(36).slice(2,7))});
   try{const pr=store.write(changes,logs);if(pr&&pr.catch)pr.catch(e=>toast(t('error')+(e.message||e)))}catch(e){toast(t('error')+(e.message||e));return false}
@@ -780,8 +795,8 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='20',APP_DATE='07.11.2026';
-const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
+const APP_VER='21',APP_DATE='18.11.2026';
+const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
 function openSheet(html,type,extra){const lk=!!(extra&&extra.locked);
@@ -824,9 +839,9 @@ function openLoc(lok){
    (ed?'<div class="add"><input class="in" id="aF" list="firmList" placeholder="'+t('firm')+'" autocomplete="off"><input class="in num" id="aN" type="number" inputmode="numeric" min="1" value="1"></div><label class="chk"><input type="checkbox" id="aDup">'+t('dupChk')+'</label>'+
    '<datalist id="firmList">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
    '<button class="kt" id="aKT">🚛 '+t('kont')+' <span id="aKV"></span> ▸</button><div id="aKB" hidden><div class="ocs">'+['K1','K2','K3','K4'].map(k=>'<button class="fc" data-ak="'+k+'">'+k+'</button>').join('')+'<button class="fc" data-ak="+">+ '+t('kOther')+'</button><button class="fc" data-ak="">'+t('kNone')+'</button></div></div>'+
-   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn dnew" id="aDod">📌 '+t('dodNew')+'</button>'+(locItems(lok).length?'<div class="btns"><button class="btn ld" id="ldBtn">'+t('loadedB')+'</button><button class="btn" id="mvAll">'+t('moveAllB')+'</button></div><button class="btn d sm" id="clrBtn">'+t('delLocB')+'</button>':''):'<p class="mut">'+t('viewOnly')+'</p>')+(isOwner()?'<button class="btn" id="capT">'+t('capB')+'</button><div id="capBox" hidden><label>'+t('capLoc')+'</label><div class="add" style="margin-top:0"><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn" id="lCapB" style="margin:0;flex:1">'+t('capSet')+'</button></div></div>':'')+'<div id="qChips"></div><button class="btn" id="lhT"></button><div id="locHist" class="hist" hidden></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
+   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn dnew" id="aDod">📌 '+t('dodNew')+'</button>'+(locItems(lok).length?'<div class="btns"><button class="btn ld" id="ldBtn">'+t('loadedB')+'</button><button class="btn" id="mvAll">'+t('moveAllB')+'</button></div><button class="btn d sm" id="clrBtn">'+t('delLocB')+'</button>':''):'<p class="mut">'+t('viewOnly')+'</p>')+'<button class="btn" id="lhT"></button><div id="locHist" class="hist" hidden></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
   $('#xB').onclick=goBack;
-  $('#lhT').onclick=()=>{const e=$('#locHist');e.hidden=!e.hidden};if($('#capT'))$('#capT').onclick=()=>{const e=$('#capBox');e.hidden=!e.hidden};
+  $('#lhT').onclick=()=>{const e=$('#locHist');e.hidden=!e.hidden};
   if(ed){let aK='';const setK=v=>{aK=v;$('#aKV').textContent=v?'· '+v:'';$('#sheet').querySelectorAll('[data-ak]').forEach(b=>b.classList.toggle('on',b.dataset.ak===v&&v!==''))};
     $('#aKT').onclick=()=>{const e=$('#aKB');e.hidden=!e.hidden};
     $('#sheet').querySelectorAll('[data-ak]').forEach(b=>b.onclick=()=>{let v=b.dataset.ak;if(v==='+'){const w=prompt2();return}setK(v)});
@@ -841,25 +856,24 @@ function openLoc(lok){
   if($('#ldBtn')){$('#ldBtn').onclick=()=>openLoad(lok);
     $('#mvAll').onclick=()=>openMoveSheet(lok,null,0);
     $('#clrBtn').onclick=()=>ask(t('delQ',lok),async()=>{await clearLoc(lok,null,'d');openLoc(lok)},()=>openLoc(lok))}}
-  if($('#lCapB'))$('#lCapB').onclick=async()=>{const np=clone(state.post);np.kapacitete=np.kapacitete||{};np.kapacitete[lok]=Math.max(0,parseInt($('#lCap').value)||0);if(await run(store.savePost(np))){toast('✓ '+lok+': '+np.kapacitete[lok]);render()}};
   renderLocBody();
 }
 function renderLocBody(){
   const lok=sheetState.lok,st=locItems(lok),info=state.lok[idOf(lok)],cap=capOf(lok);
   const b=$('#locBody');if(!b)return;
   {const dl=$('#locDod');if(dl){const D=dodAt(lok);dl.innerHTML=dodBanner(D,lok);wireDod(dl,()=>renderLocBody())}}
-  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="row"><span class="nm">'+esc(s.firma)+tagH(s.k)+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt">'+s.palete+'</span>'+(ed?'<button class="sq" data-i="'+i+'" data-d="1">+</button><button class="sq" data-i="'+i+'" data-dp="1" title="'+t('dupAdd')+'">⧉</button><button class="sq" data-i="'+i+'" data-m="1">⇄</button><button class="sq" data-i="'+i+'" data-x="1">🚚</button>':'')+'</div>'+palBlock(s,i,ed)).join('')+
-    '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' · '+placesOf(st)+'/'+cap:'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
+  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="lrow"><div class="lrn"><span class="nm">'+esc(s.firma)+tagH(s.k)+'</span>'+(ed?'<button class="nob" data-no="'+i+'">'+(s.o?'✏️':'📝 Opomba')+'</button>':'')+'</div>'+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+(s.o?'<div class="lno" data-no="'+i+'">📝 '+esc(s.o)+'</div>':'')+
+      '<div class="lrc">'+(ed?'<button class="sq big" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt big">'+s.palete+'</span>'+(ed?'<button class="sq big" data-i="'+i+'" data-d="1">+</button><span class="sp"></span><button class="sq big dpb" data-i="'+i+'" data-dp="1" title="Dodaj dvojno paleto (paleta na paleti)"><svg class="dpic" viewBox="0 0 28 28" aria-hidden="true"><rect x="5" y="3" width="18" height="7" rx="1.2" fill="currentColor" opacity=".9"/><rect x="3" y="10.5" width="22" height="2" rx=".6" fill="currentColor"/><rect x="4" y="12.5" width="3" height="2" fill="currentColor"/><rect x="12.5" y="12.5" width="3" height="2" fill="currentColor"/><rect x="21" y="12.5" width="3" height="2" fill="currentColor"/><rect x="5" y="15" width="18" height="7" rx="1.2" fill="currentColor" opacity=".55"/><rect x="3" y="22.5" width="22" height="2" rx=".6" fill="currentColor"/><rect x="4" y="24.5" width="3" height="2" fill="currentColor"/><rect x="12.5" y="24.5" width="3" height="2" fill="currentColor"/><rect x="21" y="24.5" width="3" height="2" fill="currentColor"/></svg><small>+1</small></button><button class="sq big act" data-i="'+i+'" data-m="1" title="'+t('moveAllB')+'">⇄</button><button class="sq big act" data-i="'+i+'" data-x="1" title="'+t('loadedB')+'">🚚</button>':'')+'</div></div>'+palBlock(s,i,ed)).join('')+
+    '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' · <span'+(isOwner()?' class="capl" id="capL"':'')+'>'+placesOf(st)+'/'+cap+(isOwner()?' ✎':'')+'</span>':'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
     :'<p class="mut">'+t('isEmpty')+'</p>';
+  b.querySelectorAll('[data-no]').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.no];if(s)openItemNote(lok,s)});
+  if($('#capL'))$('#capL').onclick=()=>openCapEdit(lok);
   b.querySelectorAll('[data-pe]').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.pe];if(s)openPalEd(lok,s.firma,s.k)});
   b.querySelectorAll('[data-pm]').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.pm];if(s)openPalMail(s.firma,()=>openLoc(lok))});
   b.querySelectorAll('.sq').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.i];if(!s)return;
     if(x.dataset.m){openMoveSheet(lok,s.firma,s.palete,s.k);return}
     if(x.dataset.dp){applyDelta(lok,s.firma,2,1,s.k);return}
     if(x.dataset.x){openLoad(lok,+x.dataset.i);return}else applyDelta(lok,s.firma,+x.dataset.d,0,s.k)});
-  const qc=$('#qChips');if(qc){if(ed){const on=new Set(st.map(s=>norm(s.firma)));const rec=[];for(const x of state.hist){if(rec.length>=6)break;const F=curName(x.firma);if(F&&knownFirms().includes(F)&&!on.has(norm(F))&&!rec.some(r=>norm(r)===norm(F)))rec.push(F)}
-    qc.innerHTML=rec.length?'<label>'+t('qAdd')+'</label>'+rec.map(f=>'<button class="lc qa" data-qf="'+esc(f)+'">+1 '+esc(f)+'</button>').join(''):'';
-    qc.querySelectorAll('[data-qf]').forEach(x=>x.onclick=()=>applyDelta(lok,x.dataset.qf,1))}else qc.innerHTML=''}
   const h=state.hist.filter(x=>!x.tip&&(x.lok===lok||x.do===lok)).slice(0,8);
   const lh=$('#locHist');lh.innerHTML=h.length?histCards(h):'<p class="mut">'+t('noCh')+'</p>';wireHist(lh);
   $('#lhT').textContent=t('lastChB',h.length);
@@ -924,7 +938,7 @@ function hCard(g,U){const x=g.x,k=g.k,n=g.items.length;
   const FN=fName(x.firma)+tagH(x.k);
   const title=k==='b'?LK(x.lok)+'<span class="harr">→</span>'+LK(x.do):FN+(n>1?'<span class="hgrp">'+n+'× ▸</span>':'');
   const when=n>1?ft(g.items[n-1].kad)+'–'+ft(x.kad):ft(x.kad);
-  const extra=k==='b'?FN:k==='o'?t('loaded')+(x.opis==='n'&&(x.pd||palTr(curName(x.firma)).on)?' <button class="ub" data-nm="'+esc(curName(x.firma))+'" data-nd="'+x.kad+'">✉ Pisarni</button>':''):k==='d'?t('deleted'):k==='r'?t('hRem'):'';
+  const extra=k==='b'?FN:k==='o'?t('loaded')+(x.o?' · 📝 '+esc(x.o):'')+(x.opis==='n'&&(x.pd||palTr(curName(x.firma)).on)?' <button class="ub" data-nm="'+esc(curName(x.firma))+'" data-nd="'+x.kad+'">✉ Pisarni</button>':''):k==='d'?t('deleted'):k==='r'?t('hRem'):'';
   const d=x.dup?' ('+t('dupN',Math.abs(x.dup))+')':'';
   const num=k==='b'?x.delta:sum>0?'+'+sum:'−'+Math.abs(sum);
   return '<div class="hc k-'+k+(un?' st':'')+(gi?' gp':'')+'"'+(gi?' data-gi="'+gi+'"':'')+'><div class="hic">'+HIC[k]+'</div>'+(k!=='b'?LK(x.lok):'')+
@@ -1297,7 +1311,8 @@ function openFirmForm(f,prefill){
       if(!np.firme.includes(target))np.firme.push(target);np.firme.sort((x,y)=>x.localeCompare(y));
       if(merge){const ti=np.fi[target]||{};const al=[...new Set([...String(ti.a||'').split(','),...a.split(','),f].map(x=>x.trim()).filter(x=>x&&norm(x)!==norm(target)))];np.fi[target]={a:al.join(', '),s:ti.s||s};if(ti.pw||PW)np.fi[target].pw=true;if(ti.pk||PK)np.fi[target].pk=true}
       else{np.fi[target]={a,s};if(PW)np.fi[target].pw=true;if(PK)np.fi[target].pk=true}
-      if(!await run(store.savePost(np)))return;
+      if(!await runQ(store.savePost(np)))return;
+      if(f&&f!==target){try{(state.dod||[]).filter(d=>!d.done&&!d.del&&norm(d.firma)===norm(f)).forEach(d=>store.dodSet(d.id,{firma:target}))}catch(e){}}
       if(f&&f!==target){const ch=Object.keys(state.lok).filter(id=>docItems(state.lok[id]).some(x=>x.firma===f)).map(id=>({lok:id,rename:{from:f,to:target}}));if(ch.length){try{const pr=store.write(ch,[]);if(pr&&pr.catch)pr.catch(e=>toast(t('error')+e.message))}catch(e){}}}
       toast(merge?t('fmMerged',target):t('fmSaved'));openFirms()};
     if(other&&f){ask(t('fmMergeQ',f,other),()=>save(other,true),()=>openFirmForm(f));return}
@@ -1305,7 +1320,7 @@ function openFirmForm(f,prefill){
   if($('#fDel'))$('#fDel').onclick=()=>{const on=allLocs().filter(l=>locItems(l).some(x=>x.firma===f));
     if(on.length){openSheet('<h2>'+esc(f)+'</h2><p class="err">'+t('fmNoDel')+'</p><div class="ocs">'+on.map(l=>'<button class="oc" data-l="'+esc(l)+'">'+esc(l)+' <b>'+locItems(l).filter(x=>x.firma===f).reduce((a,x)=>a+x.palete,0)+'</b></button>').join('')+'</div><button class="btn" id="fX">'+t('back')+'</button>','firm');
       $('#fX').onclick=()=>openFirmForm(f);$('#sheet').querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>openLoc(b.dataset.l));return}
-    ask(t('fmDelQ',f),async()=>{const np=clone(state.post);np.firme=(np.firme||[]).filter(x=>x!==f);if(np.fi)delete np.fi[f];await run(store.savePost(np));openFirms()},()=>openFirmForm(f))};
+    ask(t('fmDelQ',f),async()=>{const np=clone(state.post);np.firme=(np.firme||[]).filter(x=>x!==f);if(np.fi)delete np.fi[f];await runQ(store.savePost(np));openFirms()},()=>openFirmForm(f))};
 }
 
 /* ================= lokacije in regali ================= */
@@ -1318,8 +1333,8 @@ function openRegals(){
     '<div class="add"><input class="in" id="spN" placeholder="'+t('spPh')+'" autocomplete="off"><button class="btn" id="spA" style="margin:0;width:auto;padding:12px 16px">+</button></div><button class="btn" id="xB">'+t('close')+'</button>','regals');
   $('#xB').onclick=()=>openSettings();
   $('#sheet').querySelectorAll('[data-rg]').forEach(b=>b.onclick=()=>openRegalForm(+b.dataset.rg));$('#rgN').onclick=()=>openRegalForm(-1);
-  $('#spA').onclick=async()=>{const v=$('#spN').value.trim();if(!v)return;if(allLocs().includes(v)){toast(t('spDup'));return}const np=clone(state.post);np.posebne=[...(np.posebne||[]),v];if(await run(store.savePost(np)))openRegals()};
-  $('#sheet').querySelectorAll('[data-spx]').forEach(b=>b.onclick=()=>{const s=b.dataset.spx;if(locItems(s).length){toast(t('rgHasPal',s));return}ask(t('spDelQ',s),async()=>{const np=clone(state.post);np.posebne=(np.posebne||[]).filter(x=>x!==s);await run(store.savePost(np));openRegals()},openRegals)});
+  $('#spA').onclick=async()=>{const v=$('#spN').value.trim();if(!v)return;if(allLocs().includes(v)){toast(t('spDup'));return}const np=clone(state.post);np.posebne=[...(np.posebne||[]),v];if(await runQ(store.savePost(np)))openRegals()};
+  $('#sheet').querySelectorAll('[data-spx]').forEach(b=>b.onclick=()=>{const s=b.dataset.spx;if(locItems(s).length){toast(t('rgHasPal',s));return}ask(t('spDelQ',s),async()=>{const np=clone(state.post);np.posebne=(np.posebne||[]).filter(x=>x!==s);await runQ(store.savePost(np));openRegals()},openRegals)});
 }
 function genLocs(f){const o=[];const R=f.R;for(let p=f.p0;p<=f.p1;p++)for(let v=f.v0;v<=f.v1;v++){
     if(f.style==='c')o.push(String(R)+(f.noPos?'':String(p))+String(v));else o.push(pad(R)+(f.noPos?'':'-'+pad(p))+'-'+pad(v))}
@@ -1365,7 +1380,7 @@ function openCaps(){
     low.forEach(l=>{const e=$('#sheet [data-cap="'+CSS.escape(l)+'"]');if(e)e.value=v});toast(t('capLowDone',low.length))});
   $('#cS').onclick=async()=>{const np=clone(state.post);np.kapacitet=Math.max(0,parseInt($('#cG').value)||0);const nk={};
     $('#sheet').querySelectorAll('[data-cap]').forEach(e=>{if(e.value!=='')nk[e.dataset.cap]=Math.max(0,parseInt(e.value)||0)});
-    Object.entries(K).forEach(([k,v])=>{if(!allLocs().includes(k)&&!(k in nk))nk[k]=v});np.kapacitete=nk;const rs=clone(regals());$('#sheet').querySelectorAll('[data-rcap]').forEach(e=>{const r=rs[+e.dataset.rcap];const v=parseInt(e.value);if(v>0)r.cap=v;else delete r.cap});np.regali=rs;np.lokacije=[...new Set(rs.flatMap(r=>r.lok))];if(await run(store.savePost(np))){toast('✓');openSettings()}};
+    Object.entries(K).forEach(([k,v])=>{if(!allLocs().includes(k)&&!(k in nk))nk[k]=v});np.kapacitete=nk;const rs=clone(regals());$('#sheet').querySelectorAll('[data-rcap]').forEach(e=>{const r=rs[+e.dataset.rcap];const v=parseInt(e.value);if(v>0)r.cap=v;else delete r.cap});np.regali=rs;np.lokacije=[...new Set(rs.flatMap(r=>r.lok))];if(await runQ(store.savePost(np))){toast('✓');openSettings()}};
 }
 
 /* ================= nastavitve ================= */
@@ -1385,7 +1400,7 @@ function openSettings(){
   openSheet(h,'set');wireLang(()=>openSettings());
   $('#xB').onclick=()=>{closeSheet();if(!me&&!cloud)pickProfile()};
   const on=(id,f)=>{const e=$('#'+id);if(e)e.onclick=f};
-  on('sProf',openProfile);on('sFoto',openFotoSet);on('sMsg',openMessages);on('sFirm',()=>openFirms());on('sLoc',openRegals);on('sCap',openCaps);on('sMem',openMembers);on('sWk',openWorkers);on('sCon',openConn);on('sOld',openOld);on('sRep',openReports);
+  on('sProf',openProfile);on('sFoto',openFotoSet);on('sMsg',openMessages);on('sFirm',()=>openFirms());on('sLoc',openRegals);on('sCap',openCaps);on('sMem',openMembers);on('sWk',openWorkers);on('sCon',openConn);on('sOld',openOld);on('sRep',openDayRep);
 }
 function applyTheme(){const th=LS.get('lk_theme','dark'),z=LS.get('lk_zoom',1);document.documentElement.dataset.theme=th;document.documentElement.style.setProperty('--z',z);const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==='light'?'#eef1f6':'#0d1320'}
 function openProfile(){
@@ -1402,7 +1417,7 @@ function openProfile(){
 function openWorkers(){
   openSheet('<h2>👥 '+t('workers')+'</h2><textarea class="in" id="sR">'+esc(state.post.radnici.join('\n'))+'</textarea><button class="btn p" id="sS">'+t('save')+'</button><button class="btn" id="xB">'+t('back')+'</button>','wk');
   $('#xB').onclick=()=>openSettings();
-  $('#sS').onclick=async()=>{const np=clone(state.post);np.radnici=$('#sR').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!np.radnici.length){toast(t('needOne'));return}if(await run(store.savePost(np))){toast('✓');openSettings()}};
+  $('#sS').onclick=async()=>{const np=clone(state.post);np.radnici=$('#sR').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!np.radnici.length){toast(t('needOne'));return}if(await runQ(store.savePost(np))){toast('✓');openSettings()}};
 }
 const FLAGS=[['sadm','pSadm'],['sporocila','pMsg'],['slike','pFoto'],['firme','fmPerm'],['firmeDel','pFirmDel'],['porocila','repPerm'],['lokacije','pLoc'],['vidiOnline','pOnl']];
 const DEF_NAZ=['Odpremnik','Namestnik odpremnika','Delavec','Pisarna'];
@@ -1511,7 +1526,7 @@ function openFoto(keep){if(!canFoto())return;if(!keep||!FS)fotoReset();
   $('#fK').querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{FS.k=FS.k===b.dataset.k?'':b.dataset.k;$('#fK').querySelectorAll('[data-k]').forEach(x=>x.classList.toggle('on',x.dataset.k===FS.k));upT()});
   $('#fFi').oninput=e=>{FS.firma=e.target.value.trim();upT()};$('#fOp').oninput=e=>{FS.op=e.target.value.trim();upT()};$('#fLk').onchange=e=>{FS.lok=e.target.value;upT()};
   $('#fNa').onclick=async()=>{const e=$('#fNe').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e)){toast(t('fBadMail'));return}
-    FS.to.add(e);if(!mailList().some(m=>m.e===e)){const np=clone(state.post);np.mailTo=[...(np.mailTo||[]),{e,def:false}];await run(store.savePost(np))}$('#fNe').value='';tos()};
+    FS.to.add(e);if(!mailList().some(m=>m.e===e)){const np=clone(state.post);np.mailTo=[...(np.mailTo||[]),{e,def:false}];await runQ(store.savePost(np))}$('#fNe').value='';tos()};
   $('#fSet').onclick=()=>openFotoSet(true);$('#fX').onclick=goBack;
   $('#fSend').onclick=()=>fotoSend();
   thumbs();tos();upT()}
@@ -1541,7 +1556,7 @@ function openFotoSet(back){if(!canFoto())return;
     $('#sheet').querySelectorAll('[data-vx]').forEach(b=>b.onclick=()=>{V.splice(+b.dataset.vx,1);draw()});
     $('#sNa').onclick=()=>{const e=$('#sNe').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e)){toast(t('fBadMail'));return}if(!L.some(m=>m.e===e))L.push({e,def:!L.length});draw()};
     $('#sNva').onclick=()=>{const v=$('#sNv').value.trim();if(v&&!V.some(x=>norm(x)===norm(v)))V.push(v);draw()};
-    $('#sSv').onclick=async()=>{const np=clone(state.post);np.mailTo=L;np.fotoVrste=V;if(await run(store.savePost(np))){toast('✓');if(FS)FS.to=new Set([...FS.to].filter(e=>L.some(m=>m.e===e)).concat(L.filter(m=>m.def).map(m=>m.e)));back?openFoto(true):openSettings()}}};
+    $('#sSv').onclick=async()=>{const np=clone(state.post);np.mailTo=L;np.fotoVrste=V;if(await runQ(store.savePost(np))){toast('✓');if(FS)FS.to=new Set([...FS.to].filter(e=>L.some(m=>m.e===e)).concat(L.filter(m=>m.def).map(m=>m.e)));back?openFoto(true):openSettings()}}};
   draw()}
 
 
@@ -1591,16 +1606,16 @@ function palBlock(s,i,ed){const tr=palTr(s.firma);const pd=s.pd||[];if(!tr.on&&!
   return '<div class="pdb">'+rows+(tr.w?'<div class="pds">Skupaj: <b>'+kg+' kg</b>'+(nw?' · '+nw+' ni stehtan'+(nw===1?'a':'ih'):'')+'</div>':'')+'<div class="btns">'+(ed?'<button class="btn sm pde" data-pe="'+i+'">✏️ Uredi palete</button>':'')+(tr.on?'<button class="btn sm pde" data-pm="'+i+'">✉️ Pisarni</button>':'')+'</div></div>'}
 /* pri spremembah palet podatki potujejo s paletami */
 function palHook(changes,logs){
-  const work={},pool={};
+  const work={},pool={},NOTE={};
   const W=(lok,f,k)=>{const id=lok+'|'+itemKey(f,k);if(!(id in work)){const it=locItems(lok).find(x=>sameIt(x,f,k));work[id]=it?(it.pd||[]).slice():[]}return work[id]};
   const attach=(lok,f,k,arr)=>{const l=logs.find(l=>!l.do&&l.lok===lok&&norm(l.firma)===norm(f)&&norm(l.k||'')===norm(k||'')&&l.delta<0&&!l.pd);if(l){if(arr.length)l.pd=arr.map(e=>({...e}));if(l.opis==='n'&&(arr.length||palTr(f).on)&&!NAK.some(x=>norm(x)===norm(f)))NAK.push(f)}};
   for(const c of changes){if(c.rename)continue;
     if(c.clear){locItems(c.lok).forEach(it=>{const a=(it.pd||[]).slice();const key=itemKey(it.firma,it.k);(pool[key]=pool[key]||[]).push(...a);attach(c.lok,it.firma,it.k,a)});continue}
     if(c.pdSet){c.pd=c.pdSet;delete c.pdSet;work[c.lok+'|'+itemKey(c.firma,c.k)]=c.pd.slice();continue}
     const key=itemKey(c.firma,c.k);
-    if(c.del){const a=W(c.lok,c.firma,c.k);const rm=a.splice(0,a.length);(pool[key]=pool[key]||[]).push(...rm);attach(c.lok,c.firma,c.k,rm);continue}
+    if(c.del){const it0=locItems(c.lok).find(x=>sameIt(x,c.firma,c.k));if(it0&&it0.o)NOTE[key]=it0.o;const a=W(c.lok,c.firma,c.k);const rm=a.splice(0,a.length);(pool[key]=pool[key]||[]).push(...rm);attach(c.lok,c.firma,c.k,rm);continue}
     if(c.d<0){const a=W(c.lok,c.firma,c.k);if(a.length){const rm=a.splice(Math.max(0,a.length+c.d),-c.d);(pool[key]=pool[key]||[]).push(...rm);c.pd=a.slice();attach(c.lok,c.firma,c.k,rm)}else attach(c.lok,c.firma,c.k,[]);continue}}
-  for(const c of changes){if(c.rename||c.clear||c.del||!(c.d>0))continue;const key=itemKey(c.firma,c.k);
+  for(const c of changes){if(c.rename||c.clear||c.del||!(c.d>0))continue;const key=itemKey(c.firma,c.k);if(NOTE[key]&&c.note===undefined){const d0=locItems(c.lok).find(x=>sameIt(x,c.firma,c.k));if(!d0||!d0.o)c.note=NOTE[key]}
     const add=[];if(c.pdAdd){add.push(...c.pdAdd);delete c.pdAdd}else if(pool[key]&&pool[key].length)add.push(...pool[key].splice(0,c.d));
     if(add.length){const a=W(c.lok,c.firma,c.k);a.push(...add);c.pd=a.slice()}}
 }
@@ -1638,12 +1653,12 @@ function nakGuard(lok,firms,proceed,cancel){palGuard(lok,firms,()=>dodGuard(lok,
 /* mail pisarni */
 function nakMailText(f,day){const d0=new Date(day||Date.now());d0.setHours(0,0,0,0);const a=d0.getTime(),b=a+864e5;const U=undoneSet();
   const L=state.hist.filter(x=>!x.tip&&x.opis==='n'&&x.delta<0&&x.kad>=a&&x.kad<b&&norm(curName(x.firma))===norm(f)&&!(x.id&&U.has(x.id))).sort((x,y)=>x.kad-y.kad);
-  if(!L.length)return null;const last=L[L.length-1];return palMailBuild(f,L.map(x=>({lok:x.lok,cnt:-x.delta,pd:x.pd||[]})),'NAKLAD','Naklad',last.kad,last.ko)}
-function stockMailText(f){const G=[];allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(s.firma)===norm(f))G.push({lok:l,cnt:s.palete,pd:s.pd||[]})}));
+  if(!L.length)return null;const last=L[L.length-1];return palMailBuild(f,L.map(x=>({lok:x.lok,cnt:-x.delta,pd:x.pd||[],o:x.o})),'NAKLAD','Naklad',last.kad,last.ko)}
+function stockMailText(f){const G=[];allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(s.firma)===norm(f))G.push({lok:l,cnt:s.palete,pd:s.pd||[],o:s.o})}));
   if(!G.length)return null;return palMailBuild(f,G,'PALETE ZA NAKLAD','Palete za naklad',Date.now(),me)}
 function palMailBuild(f,G,HD,SB,kad,ko){const tr=palTr(f);const by={};G.forEach(x=>{(by[x.lok]=by[x.lok]||[]).push(x)});
   let n=0,kg=0,nw=0,nk=0;const vc={},lines=[];
-  Object.keys(by).forEach(lok=>{lines.push('',lok);by[lok].forEach(x=>{const cnt=x.cnt,pd=x.pd;for(let j=0;j<cnt;j++){n++;const e=pd[j];if(tr.k&&e&&!e.kt)nk++;
+  Object.keys(by).forEach(lok=>{lines.push('',lok);by[lok].forEach(x=>{if(x.o)lines.push('📝 '+x.o);const cnt=x.cnt,pd=x.pd;for(let j=0;j<cnt;j++){n++;const e=pd[j];if(tr.k&&e&&!e.kt)nk++;
     if(e){if(e.kg>0)kg+=+e.kg;else nw++;if(e.v)vc[e.v]=(vc[e.v]||0)+1;lines.push(n+'. '+palLine(e,tr)+(e.o?' · '+e.o:''))}else{nw++;lines.push(n+'. ni podatkov')}}})});
   const dt=new Date(kad);const ds=pad(dt.getDate())+'. '+pad(dt.getMonth()+1)+'. '+dt.getFullYear();
   const head=[HD+' – '+f.toUpperCase(),ds+', '+pad(dt.getHours())+':'+pad(dt.getMinutes())+' · '+(ko||me||'?')];
@@ -1841,6 +1856,63 @@ var LOGC=null;
 function kioAuto(view){if(!LOGC||!myEmail||!view)return;const c=LOGC;if(norm(c.e)!==norm(myEmail))return;LOGC=null;
   if(view&&isDesk()&&cloudOn()){const k=kioGet();if(!k||norm(k.e)!==norm(c.e)||kioPw(k)!==c.p){LS.set('lk_kiosk',{e:c.e,p:btoa(unescape(encodeURIComponent(c.p)))});toast('🖥 Ta računalnik si zapomni pregled: '+c.e)}}}
 function cloudOn(){try{return store&&store.mode==='cloud'}catch(e){return false}}
+
+function openItemNote(lok,s){
+  openSheet('<h2>📝 Opomba</h2><p class="mut">'+esc(lok)+' · '+esc(fkT(s.firma,s.k))+' · '+pal(s.palete)+'</p><textarea class="in" id="noT" rows="3" maxlength="200" placeholder="npr. poškodovan ovoj, čaka na dokumente …">'+esc(s.o||'')+'</textarea>'+
+   '<button class="btn p" id="noS">Shrani</button>'+(s.o?'<button class="btn d" id="noD">🗑 Izbriši opombo</button>':'')+'<button class="btn" id="noX">'+t('cancel')+'</button>','note',{lok});
+  const put=v=>{if(!writable())return;doWrite([{lok,firma:s.firma,k:s.k||'',d:0,note:v}],[]);openLoc(lok)};
+  $('#noS').onclick=()=>put($('#noT').value.trim().slice(0,200));if($('#noD'))$('#noD').onclick=()=>put('');$('#noX').onclick=()=>openLoc(lok);setTimeout(()=>{const x=$('#noT');x&&x.focus()},60)}
+function openCapEdit(lok){
+  openSheet('<h2>'+t('capLoc')+' · '+esc(lok)+'</h2><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn p" id="lCapB">'+t('capSet')+'</button><button class="btn" id="cX">'+t('cancel')+'</button>','cap',{lok});
+  $('#cX').onclick=()=>openLoc(lok);
+  $('#lCapB').onclick=async()=>{const np=clone(state.post);np.kapacitete=np.kapacitete||{};np.kapacitete[lok]=Math.max(0,parseInt($('#lCap').value)||0);if(await runQ(store.savePost(np))){toast('✓ '+lok+': '+np.kapacitete[lok]);render()}openLoc(lok)}}
+/* ===== dnevno poročilo ===== */
+const DR={k:'today',day:'',firm:'',sh:'',rows:null,L:null};
+const DR_SH={'':['Cel dan',0,24],'1':['6–14',6,14],'2':['14–22',14,22]};
+function openDayRep(){if(!canReports())return;if(!DR.day)DR.day=ymd(Date.now());
+  openSheet('<h2>📊 Dnevno poročilo</h2><div class="seg" id="drSeg">'+[['today','Danes'],['yest','Včeraj'],['date','📅 Datum']].map(([k,l])=>'<button data-k="'+k+'" class="'+(DR.k===k?'on':'')+'">'+l+'</button>').join('')+'</div>'+
+    '<input class="in" type="date" id="drD" value="'+DR.day+'" '+(DR.k==='date'?'':'hidden')+' style="margin-bottom:8px">'+
+    '<div class="add" style="margin-top:0"><input class="in" id="drF" list="drFl" placeholder="Vsi kupci" value="'+esc(DR.firm)+'" autocomplete="off"><select class="in" id="drS" style="max-width:40%">'+Object.entries(DR_SH).map(([k,v])=>'<option value="'+k+'"'+(DR.sh===k?' selected':'')+'>'+v[0]+'</option>').join('')+'</select></div><datalist id="drFl">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
+    '<div id="drOut"><p class="mut">'+t('rLoading')+'</p></div><button class="btn" id="drDet">📋 Podrobno (vse spremembe)</button><button class="btn" id="xB">'+t('close')+'</button>','dayrep');
+  $('#xB').onclick=goBack;$('#drDet').onclick=()=>{repState.k=DR.k==='yest'?'yest':'today';openReports()};
+  $('#drSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{DR.k=b.dataset.k;$('#drSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#drD').hidden=DR.k!=='date';
+    if(DR.k==='today')DR.day=ymd(Date.now());if(DR.k==='yest')DR.day=ymd(Date.now()-864e5);if(DR.k==='date')DR.day=$('#drD').value||DR.day;$('#drD').value=DR.day;loadDayRep()});
+  $('#drD').onchange=()=>{DR.day=$('#drD').value||DR.day;loadDayRep()};
+  $('#drF').onchange=()=>{DR.firm=$('#drF').value.trim();showDayRep()};$('#drF').oninput=()=>{if(!$('#drF').value){DR.firm='';showDayRep()}};
+  $('#drS').onchange=()=>{DR.sh=$('#drS').value;showDayRep()};
+  if(DR.k==='today')DR.day=ymd(Date.now());if(DR.k==='yest')DR.day=ymd(Date.now()-864e5);loadDayRep()}
+async function loadDayRep(){const out=$('#drOut');if(!out)return;out.innerHTML='<p class="mut">'+t('rLoading')+'</p>';
+  const a=dayStart(DR.day+'T00:00'),b=a+864e5;try{DR.rows=await store.query(a,b)}catch(e){out.innerHTML='<p class="err">'+esc(t('error')+(e.message||e))+'</p>';return}showDayRep()}
+function calcDayRep(){const rows=DR.rows||[];const U=new Set(rows.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));const sh=DR_SH[DR.sh]||DR_SH[''];const fq=norm(DR.firm||'');
+  const ok=rows.filter(x=>!x.tip&&!U.has(x.id)&&!x.do&&(()=>{const hh=new Date(x.kad).getHours();return hh>=sh[1]&&hh<sh[2]})()&&(!fq||norm(curName(x.firma||'')).includes(fq)||norm(x.firma||'').includes(fq)));
+  const T={in:0,out:0},F={},W={},N=[];
+  for(const x of ok){const f=curName(x.firma||'?'),n=Math.abs(x.delta||0);
+    if(x.delta>0&&!x.opis){T.in+=n;(F[f]=F[f]||{in:0,out:0}).in+=n}
+    else if(x.delta<0&&x.opis==='n'){T.out+=n;(F[f]=F[f]||{in:0,out:0}).out+=n;W[x.ko||'?']=(W[x.ko||'?']||0)+n;if(x.o)N.push(x)}}
+  return{T,F,W,N}}
+function showDayRep(){const out=$('#drOut');if(!out||!DR.rows)return;const R=calcDayRep();DR.L=R;
+  const F=Object.entries(R.F).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out)),W=Object.entries(R.W).sort((a,b)=>b[1]-a[1]);
+  const head='<p class="mut">'+dmy(dayStart(DR.day+'T00:00'))+(DR.sh?' · '+DR_SH[DR.sh][0]:'')+(DR.firm?' · '+esc(DR.firm):'')+'</p>';
+  out.innerHTML=head+'<div class="drk"><div><b>'+R.T.in+'</b>pospravljeno</div><div class="g"><b>'+R.T.out+'</b>naloženo</div></div>'+
+    (F.length?'<h3>Po kupcih</h3><table class="rt drt"><tr><th>Kupec</th><th>pospr.</th><th>nalož.</th></tr>'+F.map(([f,v])=>'<tr><td>'+esc(f)+'</td><td>'+(v.in||'–')+'</td><td>'+(v.out||'–')+'</td></tr>').join('')+'<tr class="tt"><td>Skupaj</td><td>'+R.T.in+'</td><td>'+R.T.out+'</td></tr></table>':'<p class="mut">'+t('rNone')+'</p>')+
+    (W.length?'<h3>Kdo je nalagal</h3>'+W.map(([w,n])=>'<div class="drw"><span>'+esc(w)+'</span><b>'+pal(n)+'</b></div>').join(''):'')+
+    (R.N.length?'<h3>Opombe pri nakladu</h3>'+R.N.map(x=>'<div class="drw"><span>'+esc(x.lok)+' · '+esc(curName(x.firma))+'</span><span class="mut">📝 '+esc(x.o)+'</span></div>').join(''):'')+
+    (F.length?'<button class="btn p" id="drM">✉️ Pošlji po mailu</button>':'');
+  if($('#drM'))$('#drM').onclick=openDayRepMail}
+function dayRepText(withW){const R=DR.L;if(!R)return'';const pad2=(s,n)=>{s=String(s);return s+' '.repeat(Math.max(1,n-s.length))};
+  const F=Object.entries(R.F).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out));const w=Math.min(26,Math.max(14,...F.map(([f])=>f.length+2)));
+  const L=['DNEVNO POROČILO – '+dmy(dayStart(DR.day+'T00:00'))+(DR.sh?' ('+DR_SH[DR.sh][0]+')':'')+(DR.firm?' – '+DR.firm:''),'','Pospravljeno: '+pal(R.T.in),'Naloženo:     '+pal(R.T.out),'','PO KUPCIH',pad2('',w)+'pospr.  nalož.'];
+  F.forEach(([f,v])=>L.push(pad2(f,w)+pad2(v.in||'–',8)+(v.out||'–')));
+  if(R.N.length){L.push('','OPOMBE PRI NAKLADU');R.N.forEach(x=>L.push(x.lok+' · '+curName(x.firma)+': '+x.o))}
+  if(withW){const W=Object.entries(R.W).sort((a,b)=>b[1]-a[1]);if(W.length){L.push('','KDO JE NALAGAL');W.forEach(([k,n])=>L.push(pad2(k,14)+pal(n)))}}
+  return L.join('\n')+'\n\n— ODPREMA'}
+function openDayRepMail(){let wW=false;const ml=mailList();const sel=new Set(ml.filter(m=>m.def).map(m=>m.e));const subj='Dnevno poročilo – '+dmy(dayStart(DR.day+'T00:00'));
+  openSheet('<h2>✉️ Pošlji poročilo</h2>'+(ml.length?'<div class="ocs">'+ml.map(m=>'<button class="fc'+(sel.has(m.e)?' on':'')+'" data-me="'+esc(m.e)+'">'+esc(m.e)+'</button>').join('')+'</div>':'<p class="mut">Naslovi za mail se nastavijo pri 📷 Slike.</p>')+
+    '<label class="chk"><input type="checkbox" id="drWW"> Vključi »Kdo je nalagal«</label><pre class="nmp" id="drPre"></pre><button class="btn p" id="nmS">✉️ Pošlji</button><button class="btn" id="nmC">📋 Kopiraj</button><button class="btn" id="nmX">'+t('back')+'</button>','drmail');
+  const upd=()=>{$('#drPre').textContent=dayRepText(wW)};upd();$('#drWW').onchange=()=>{wW=$('#drWW').checked;upd()};
+  $('#sheet').querySelectorAll('[data-me]').forEach(b=>b.onclick=()=>{const e=b.dataset.me;if(sel.has(e))sel.delete(e);else sel.add(e);b.classList.toggle('on',sel.has(e))});
+  $('#nmS').onclick=()=>{location.href='mailto:'+encodeURIComponent([...sel].join(','))+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(dayRepText(wW))};
+  $('#nmC').onclick=async()=>{try{await navigator.clipboard.writeText(dayRepText(wW));toast('✓ Kopirano')}catch(e){}};$('#nmX').onclick=()=>openDayRep()}
 </script>
 </body>
 </html>
