@@ -267,6 +267,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .pdt{display:flex;align-items:center;gap:8px;width:100%;background:transparent;border:0;color:var(--ink);font-size:15px;padding:6px 0;text-align:left;cursor:pointer}.pdt .pda{margin-left:auto;color:#9aa6bd;font-size:16px}.pmiss{color:#f59e0b;font-weight:800}
 .btn.ded{flex:none;width:auto;padding:12px 14px}
 .ffc{margin:4px 0}
+.sr .tt{cursor:pointer;text-decoration:underline dotted;text-underline-offset:4px}
 </style>
 </head>
 <body>
@@ -755,7 +756,8 @@ function applyLang(){
 }
 function applyRole(){const v=!canEdit();try{kioAuto(v)}catch(e){}$('#bMic').style.visibility=v?'hidden':'';$('#bType').style.display=v?'none':''}
 function searchQ(){const raw=$('#search').value;const tg=extractTag(tokenize(raw));const fq=tg.k?norm(tg.rest.map(x=>x.r).join('')):norm(raw);return{q:norm(raw),fq,k:tg.k}}
-const itHit=(s,S)=>(!S.fq||firmHit(s.firma,S.fq))&&(!S.k||norm(s.k)===norm(S.k));
+let SX=null;
+const itHit=(s,S)=>(SX&&S.q===norm(SX)?norm(curName(s.firma))===norm(SX)||norm(s.firma)===norm(SX):(!S.fq||firmHit(s.firma,S.fq)))&&(!S.k||norm(s.k)===norm(S.k));
 function render(){
   const S=searchQ(),q=S.q;
   let full=0,tot=0;const RG=regals().slice().sort((a,b)=>(b.prim?1:0)-(a.prim?1:0));
@@ -780,19 +782,19 @@ function render(){
   updMsg();{const fb=$('#bFoto');if(fb)fb.hidden=!canFoto()||!me}
 }
 $('#grid').addEventListener('click',e=>{const x=e.target.closest('.tile');if(x)openLoc(x.dataset.lok)});
-$('#search').addEventListener('input',render);
+$('#search').addEventListener('input',()=>{SX=null;render()});
 function renderSearch(S){const q=S.q;
   const el=$('#sres');if(!q){el.innerHTML='';return}
   const byF={},locHit=[];
   for(const l of allLocs()){if(!S.k&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
   openDods().forEach(d=>{if(!d.firma||!itHit({firma:d.firma,k:d.k||''},S))return;let g=Object.values(byF).find(g=>norm(g.f)===norm(d.firma)&&(!d.k||norm(g.k||'')===norm(d.k)));
     if(!g){const key=fkT(d.firma,d.k);g=byF[key]=byF[key]||{f:d.firma,k:d.k,a:[],d:[]}}g.d.push(d)});
-  let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+palBadge(g.f,true)+'</span><span class="tt">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
+  let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+palBadge(g.f,true)+'</span><span class="tt" data-sf="'+esc(g.f)+'">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
     D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+'</div>'}).join('');
   if(locHit.length)html+='<div class="sr">'+locHit.slice(0,12).map(l=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+sumOf(locItems(l))+'</b></button>').join('')+'</div>';
   el.innerHTML=html||'<div class="sr mut">'+t('noRes')+'</div>';
 }
-$('#sres').addEventListener('click',e=>{const pm=e.target.closest('[data-pmf]');if(pm){openPalMail(pm.dataset.pmf,closeSheet);return}const dd=e.target.closest('[data-dods]');if(dd){openDodSome(dd.dataset.dods.split(','));return}const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
+$('#sres').addEventListener('click',e=>{const sf=e.target.closest('[data-sf]');if(sf){SX=sf.dataset.sf;$('#search').value=SX;render();return}const pm=e.target.closest('[data-pmf]');if(pm){openPalMail(pm.dataset.pmf,closeSheet);return}const dd=e.target.closest('[data-dods]');if(dd){openDodSome(dd.dataset.dods.split(','));return}const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
 
 /* ================= okna ================= */
 function ask(msg,onYes,onNo,good){openSheet('<h2>'+(good?'🚚':'⚠️')+'</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var('+(good?'--green);color:#0d1320;border-color:var(--green)':'--red);border-color:var(--red)')+'">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
