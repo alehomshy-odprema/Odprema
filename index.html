@@ -347,6 +347,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.lt .voh{background:#f7f9fc}
 }
 .drseg{flex-wrap:wrap}.drseg button{flex:1 1 30%}
+.fmc.fmhl{outline:3px solid var(--gold);outline-offset:-3px;transition:outline-color .6s}
 </style>
 </head>
 <body>
@@ -881,7 +882,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='25',APP_DATE='20.11.2026';
+const APP_VER='26',APP_DATE='20.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1377,16 +1378,18 @@ function showReport(){
 
 
 /* ================= podjetja ================= */
+let FMS=null;
 function openFirms(q){
-  if(!canFirms())return;
+  if(!canFirms())return;const back=FMS&&FMS.ret;if(back&&q===undefined)q=FMS.q;
   openSheet('<h2>'+t('fmT')+'</h2><input class="in" id="fmQ" placeholder="'+t('fmSearch')+'" value="'+esc(q||'')+'" autocomplete="off"><button class="btn p" id="fmN">'+t('fmNew')+'</button><div id="fmL"></div><button class="btn" id="xB">'+t('close')+'</button>','firms');
   $('#xB').onclick=()=>openSettings();$('#fmN').onclick=()=>openFirmForm(null,$('#fmQ').value.trim());$('#fmQ').oninput=renderFirms;renderFirms();
+  if(back){const top=FMS.top,f=FMS.f;FMS.ret=false;let n=0,hl=false;const go=()=>{const s=$('#sheet');if(!s||sheetState.type!=='firms')return;s.scrollTop=top;const c=[...document.querySelectorAll('#fmL [data-fm]')].find(b=>b.dataset.fm===f);if(c&&!hl){hl=true;c.classList.add('fmhl');setTimeout(()=>c.classList.remove('fmhl'),1600)}if(Math.abs(s.scrollTop-top)>2&&++n<30)setTimeout(go,60)};requestAnimationFrame(go)}else FMS=null;
 }
 function renderFirms(){const el=$('#fmL');if(!el)return;const q=norm($('#fmQ').value);
   const use={};allLocs().forEach(l=>locItems(l).forEach(x=>{const u=use[x.firma]=use[x.firma]||{n:0,l:0};u.n+=x.palete;u.l++}));
   const list=[...new Set([...state.post.firme,...knownFirms()])].filter(f=>f!==t('noFirm')&&(!q||firmHit(f,q))).sort((a,b)=>a.localeCompare(b));
   el.innerHTML=list.length?list.map(f=>{const i=firmInfo(f),u=use[f];return '<button class="fmc" data-fm="'+esc(f)+'"><b>'+esc(f)+'</b>'+(u?'<span class="fmn">'+u.n+'</span>':'')+'<div class="mut">'+[i.a?t('fmIzg')+': '+esc(i.a):'',i.s?t('fmCodeL')+' '+esc(i.s):'',u?t('fmNow',pal(u.n),u.l):''].filter(Boolean).join(' · ')+'</div></button>'}).join(''):'<p class="mut">'+t('fmNone')+'</p>';
-  el.querySelectorAll('[data-fm]').forEach(b=>b.onclick=()=>openFirmForm(b.dataset.fm))}
+  el.querySelectorAll('[data-fm]').forEach(b=>b.onclick=()=>{const s=$('#sheet');FMS={q:$('#fmQ').value,top:s?s.scrollTop:0,f:b.dataset.fm,ret:true};openFirmForm(b.dataset.fm)})}
 function openFirmForm(f,prefill){
   const i=f?firmInfo(f):{};const R=state.post.renames||{};const prev=Object.keys(R).filter(k=>R[k]===f);
   openSheet('<h2>'+(f?esc(f):t('fmNew'))+'</h2>'+(prev.length?'<p class="mut">'+t('prej')+': '+esc(prev.join(', '))+'</p>':'')+'<label>'+t('fmName')+'</label><input class="in" id="fN" value="'+esc(f||prefill||'')+'" autocomplete="off">'+(f?'<p class="mut">'+t('fmRenH')+'</p>':'')+'<label>'+t('fmAlias')+'</label><input class="in" id="fA" value="'+esc(i.a||'')+'" autocomplete="off" placeholder="Eti de"><label>'+t('fmCode')+'</label><input class="in" id="fS" value="'+esc(i.s||'')+'" inputmode="numeric" autocomplete="off" placeholder="110000123">'+
