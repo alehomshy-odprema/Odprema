@@ -17,6 +17,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <title>ETI Odprema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet" media="(min-width:1000px)">
 <style>
 :root{--z:1;--gold:#e2bd48;--sheet:#212e47;--bg:#0f1626;--card:#1a2438;--ink:#f6f9ff;--mut:#b6c3d8;--line:#34425e;--acc:#3b8cff;--blue:#7cc0ff;--acc2:#16294a;--full:#183056;--fullb:#5aaeff;--red:#ff7676;--hit:#1f3d6e;--green:#45e3a0;--orange:#ffb04d;--hl:#2d3a58;--th:#25334f;--track:#2a3756;--onacc:#fff;color-scheme:dark}
 :root[data-theme="light"]{--gold:#b8860b;--sheet:#ffffff;--bg:#eef1f6;--card:#ffffff;--ink:#0d1726;--mut:#465569;--line:#c3ccda;--acc:#1765d8;--blue:#0f4fae;--acc2:#e3edfc;--full:#e6f0ff;--fullb:#1765d8;--red:#c62828;--hit:#fff3c4;--green:#0d8a52;--orange:#c96a00;--hl:#fff4cc;--th:#e8edf5;--track:#dde3ec;--onacc:#fff;color-scheme:light}
@@ -269,6 +270,54 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .ffc{margin:4px 0}
 .sr .tt{cursor:pointer;text-decoration:underline dotted;text-underline-offset:4px}
 .nob.dnb{border-color:#ff5fa2;color:#ff5fa2}.lrn{flex-wrap:wrap}
+.tile .meter{display:none}
+@media (min-width:1000px){
+ :root{--bg:#0d1828;--card:#14223a;--line:#25385a;--ink:#eef3fa;--mut:#8fa3c0;--blue:#82c6ff;--full:#182c4b;--th:#172a47;--acc2:#122036;
+   --lv1:#34c27a;--lv2:#f1b52e;--lv3:#ef5d5d;--dsk:'Barlow Semi Condensed',system-ui,sans-serif}
+ body{background:var(--bg)}
+ #side{background:#0f1c30}
+ .gh{font-family:var(--dsk);font-size:17px;font-weight:700;letter-spacing:.3px;color:var(--mut);margin:14px 0 8px}
+ .grp{gap:10px}
+ .tile{font-family:var(--dsk);background:#111d32;border:1px dashed #22344f;border-radius:10px;padding:9px 11px 12px;min-height:96px;gap:3px;transition:transform .12s,box-shadow .12s}
+ .tile .n{font-size:22px;font-weight:800;color:#5e7495;letter-spacing:0}
+ .tile .n small{font-size:14px;font-weight:600;color:var(--mut)}
+ .tile.full{background:var(--card);border:1px solid #2c4369;border-left:6px solid var(--lv1)}
+ .tile.full .n{color:var(--blue)}
+ .tile.lv2{border-left-color:var(--lv2)}.tile.lv3,.tile.over{border-left-color:var(--lv3)}
+ .tile.lv3 .n small,.tile.over .n small{color:var(--lv3);font-weight:800}.tile.lv2 .n small{color:var(--lv2);font-weight:700}
+ .tile .f{font-size:16px;font-weight:600;color:var(--ink);display:flex;gap:6px;align-items:baseline;white-space:nowrap;overflow:hidden}
+ .tile .f b{margin-left:auto;font-weight:800;font-size:17px;color:#fff}
+ .tile{overflow:visible}.tile .fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+ .tile .pinb{top:-10px;bottom:auto;right:8px;z-index:2;font-size:13px;padding:2px 7px}
+ .tile .meter{display:block;position:absolute;left:0;right:0;bottom:0;height:4px;background:#1b2b46;border-radius:0 0 8px 0;overflow:hidden}
+ .tile .meter::after{content:'';position:absolute;left:0;top:0;bottom:0;width:var(--fill);background:var(--lv1)}
+ .tile.lv2 .meter::after{background:var(--lv2)}.tile.lv3 .meter::after,.tile.over .meter::after{background:var(--lv3)}
+ .tile.lv0 .meter{display:none}
+ .tile:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.35)}
+ .tile.hov{outline:3px solid var(--blue);outline-offset:1px;background:#1d3558}
+ .tile.hit{outline:3px solid #ffd166;background:#22385c;transform:none}
+ .tile.dim{opacity:.22}
+ .ks{font-family:var(--dsk);font-size:15px;padding:8px 10px}.ks b{font-size:30px;font-weight:800}
+ .sdh{font-family:var(--dsk);font-size:24px;font-weight:800;color:var(--ink)}
+ #ovSide .otb{font-family:var(--dsk);font-size:17px;border-color:var(--line)}
+ #ovSide .otb th{font-size:15px;font-weight:700;background:#14243e;color:var(--mut)}
+ #ovSide .otb td{padding:9px 10px;border-color:#1f3150}
+ #ovSide .otb tbody tr:nth-child(even) td{background:#112036}
+ #ovSide .otb tbody tr:hover td{background:#1b3254}
+ #ovSide .of{font-size:18px;font-weight:700;color:var(--blue);cursor:pointer}
+ #ovSide .on{font-size:26px;font-weight:800;color:var(--lv2);white-space:nowrap}
+ #ovSide .oc{font-size:15px;padding:4px 9px;border-radius:8px;border-width:1px;background:#14243e;font-weight:700}
+ #ovSide .ob{display:none}
+ #ovSide h3{font-family:var(--dsk);font-size:18px;color:var(--mut);font-weight:700}
+}
+.voh{background:var(--card);border:1px solid var(--line);border-left:6px solid #34c27a;border-radius:12px;padding:12px 14px;margin:4px 0 12px}.voh.lv2{border-left-color:#f1b52e}.voh.lv3{border-left-color:#ef5d5d}.voh.lv0{border-left-color:var(--line)}
+.vot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}.vos{font-size:22px;font-weight:800}.voc{color:var(--mut);font-weight:600}
+.voh.lv3 .voc{color:#ef5d5d;font-weight:800}.voh.lv2 .voc{color:#f1b52e}
+.vom{height:6px;border-radius:3px;background:var(--line);margin-top:8px;overflow:hidden}.vom i{display:block;height:100%;background:#34c27a}.voh.lv2 .vom i{background:#f1b52e}.voh.lv3 .vom i{background:#ef5d5d}
+.vor{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line)}.von{flex:1;min-width:0}.von b{display:block;font-size:19px;overflow-wrap:anywhere}.von .mut{font-size:13px}
+.voq{font-size:30px;font-weight:800;color:var(--gold);text-align:right;line-height:1}.voq small{display:block;font-size:12px;font-weight:600;color:var(--mut);margin-top:2px}
+.vof{margin:12px 2px 4px;font-size:13px;color:var(--mut)}
+@media (min-width:1000px){.voh,.vor,.vos,.von b,.voq{font-family:var(--dsk)}.von b{font-size:22px}.voq{font-size:34px}}
 </style>
 </head>
 <body>
@@ -755,7 +804,7 @@ function applyLang(){
 }
 function applyRole(){const v=!canEdit();try{kioAuto(v)}catch(e){}$('#bMic').style.visibility=v?'hidden':'';$('#bType').style.display=v?'none':''}
 function searchQ(){const raw=$('#search').value;const tg=extractTag(tokenize(raw));const fq=tg.k?norm(tg.rest.map(x=>x.r).join('')):norm(raw);return{q:norm(raw),fq,k:tg.k}}
-let SX=null;
+let SX=null;const sxOn=S=>!!(SX&&S.q===norm(SX));
 const itHit=(s,S)=>(SX&&S.q===norm(SX)?norm(curName(s.firma))===norm(SX)||norm(s.firma)===norm(SX):(!S.fq||firmHit(s.firma,S.fq)))&&(!S.k||norm(s.k)===norm(S.k));
 function render(){
   const S=searchQ(),q=S.q;
@@ -764,11 +813,12 @@ function render(){
   if((state.post.posebne||[]).length)groups.push({g:'*',name:t('spec'),items:state.post.posebne});
   $('#grid').innerHTML=groups.filter(G=>G.items.length).map(G=>'<div class="gh'+(G.g==='*'?' sph':'')+'">'+esc(G.name)+'</div><div class="grp'+(G.g==='*'?'':' rack')+(G.g!=='*'&&(G.cols>=5||G.items.some(l=>String(l).length>5))?' dense':'')+'"'+(G.g==='*'?'':' style="grid-template-columns:repeat('+G.cols+',1fr)"')+'>'+G.items.map(l=>{
     const st=locItems(l),sum=sumOf(st),pl=placesOf(st),cap=capOf(l);if(st.length){full++;tot+=sum}
-    const hit=q&&(st.some(s=>itHit(s,S))||(!S.k&&norm(l).includes(q)));
+    const hit=q&&(st.some(s=>itHit(s,S))||(!S.k&&!sxOn(S)&&norm(l).includes(q)));
     const cls='tile'+(isSp(l)?' sp':'')+(st.length?' full':'')+(cap&&pl>cap?' over':cap&&pl===cap?' atcap':'')+(q?(hit?' hit':' dim'):'');const pdg=FireStore.pend&&FireStore.pend[idOf(l)]&&store.mode==='cloud'?'<span class="pd">⏳</span>':'';
-    const mx=isSp(l)?5:3;const lines=st.slice(0,mx).map(s=>'<div class="f">'+esc(s.firma)+tagH(s.k)+' <b>'+s.palete+'</b>'+(s.dup?' <span class="mut">('+s.dup+'×2)</span>':'')+'</div>').join('')+(st.length>mx?'<div class="f mut">+'+(st.length-mx)+'</div>':'');
+    const mx=isSp(l)?5:3;const lines=st.slice(0,mx).map(s=>'<div class="f"><span class="fn">'+esc(s.firma)+tagH(s.k)+'</span> <b>'+s.palete+'</b>'+(s.dup?' <span class="mut">('+s.dup+'×2)</span>':'')+'</div>').join('')+(st.length>mx?'<div class="f mut">+'+(st.length-mx)+'</div>':'');
     const dd=dodAt(l);const dodB=dd.length?'<span class="pinb">📌 '+(dd.reduce((a,d)=>a+(+d.n||0),0)||dd.length)+'</span>':'';
-    return '<button class="'+cls+(dd.length?' pin':'')+'" data-lok="'+esc(l)+'">'+dodB+'<div class="n">'+esc(l)+pdg+(cap?'<small>'+pl+'/'+cap+(pl!==sum?' · '+sum+'p':'')+'</small>':(sum?'<small>'+sum+'</small>':''))+'</div>'+lines+'</button>';
+    const fr=cap?pl/cap:(sum?.5:0);const lv=!st.length?0:fr>=1?3:fr>=.6?2:1;
+    return '<button class="'+cls+(dd.length?' pin':'')+' lv'+lv+'" data-lok="'+esc(l)+'" style="--fill:'+Math.min(100,Math.round(fr*100))+'%">'+dodB+'<div class="n">'+esc(l)+pdg+(cap?'<small>'+pl+'/'+cap+(pl!==sum?' · '+sum+'p':'')+'</small>':(sum?'<small>'+sum+'</small>':''))+'</div>'+lines+'<i class="meter"></i></button>';
   }).join('')+'</div>').join('');
   {let o=0,f=0,p=0,fr=0;for(const l of primLocs()){const st=locItems(l),c=capOf(l);if(st.length)o++;else f++;p+=sumOf(st);if(c)fr+=Math.max(0,c-placesOf(st))}
    $('#sum').innerHTML='<div class="ks k1"><b>'+o+'</b>'+t('kOcc')+'</div><div class="ks k2"><b>'+f+'</b>'+t('kFree')+'</div><div class="ks k3"><b>'+p+'</b>'+t('kPal')+'</div><div class="ks k4"><b>'+fr+'</b>'+t('kPlaces')+'</div>'+(store.mode==='local'?'<div class="loconly" style="grid-column:1/-1">'+t('localOnly')+'</div>':'')}
@@ -785,7 +835,7 @@ $('#search').addEventListener('input',()=>{SX=null;render()});
 function renderSearch(S){const q=S.q;
   const el=$('#sres');if(!q){el.innerHTML='';return}
   const byF={},locHit=[];
-  for(const l of allLocs()){if(!S.k&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
+  for(const l of allLocs()){if(!S.k&&!sxOn(S)&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
   openDods().forEach(d=>{if(!d.firma||!itHit({firma:d.firma,k:d.k||''},S))return;let g=Object.values(byF).find(g=>norm(g.f)===norm(d.firma)&&(!d.k||norm(g.k||'')===norm(d.k)));
     if(!g){const key=fkT(d.firma,d.k);g=byF[key]=byF[key]||{f:d.firma,k:d.k,a:[],d:[]}}g.d.push(d)});
   let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+palBadge(g.f,true)+'</span><span class="tt" data-sf="'+esc(g.f)+'">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
@@ -802,7 +852,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='22',APP_DATE='20.11.2026';
+const APP_VER='23',APP_DATE='20.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -846,7 +896,7 @@ function openLoc(lok){
    (ed?(has?'<button class="btn p" id="aTog">+ Dodaj</button>':'')+'<div id="aForm"'+(has?' hidden':'')+'><div class="add"><input class="in" id="aF" list="firmList" placeholder="'+t('firm')+'" autocomplete="off"><input class="in num" id="aN" type="number" inputmode="numeric" min="1" value="1"></div><label class="chk"><input type="checkbox" id="aDup">'+t('dupChk')+'</label>'+
    '<datalist id="firmList">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
    '<button class="kt" id="aKT">🚛 '+t('kont')+' <span id="aKV"></span> ▸</button><div id="aKB" hidden><div class="ocs">'+['K1','K2','K3','K4'].map(k=>'<button class="fc" data-ak="'+k+'">'+k+'</button>').join('')+'<button class="fc" data-ak="+">+ '+t('kOther')+'</button><button class="fc" data-ak="">'+t('kNone')+'</button></div></div>'+
-   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn dnew" id="aDod">📌 '+t('dodNew')+'</button></div>'+(has?'<button class="btn" id="mvAll">'+t('moveAllB')+'</button>':''):'<p class="mut">'+t('viewOnly')+'</p>')+
+   '<button class="btn p" id="aBtn">'+t('addPal')+'</button><button class="btn dnew" id="aDod">📌 '+t('dodNew')+'</button></div>'+(has?'<button class="btn" id="mvAll">'+t('moveAllB')+'</button>':''):'')+
    '<button class="btn vec" id="vecT">Več ▸</button><div id="vecB" hidden>'+(ed&&has?'<button class="btn ld" id="ldBtn">🚚 Naloži celo lokacijo</button><button class="btn d sm" id="clrBtn">'+t('delLocB')+'</button>':'')+'<button class="btn" id="lhT"></button><div id="locHist" class="hist" hidden></div></div><button class="btn" id="xB">'+t('close')+'</button>','loc',{lok});
   $('#vecT').onclick=()=>{const e=$('#vecB');e.hidden=!e.hidden;$('#vecT').textContent=e.hidden?'Več ▸':'Več ▾';if(!e.hidden)setTimeout(()=>e.scrollIntoView({block:'nearest',behavior:'smooth'}),30)};
   if($('#aTog'))$('#aTog').onclick=()=>{const e=$('#aForm');e.hidden=!e.hidden;$('#aTog').textContent=e.hidden?'+ Dodaj':'– Skrij';if(!e.hidden)setTimeout(()=>{const f=$('#aF');f&&f.focus()},60)};
@@ -872,7 +922,8 @@ function renderLocBody(){
   const lok=sheetState.lok,st=locItems(lok),info=state.lok[idOf(lok)],cap=capOf(lok);
   const b=$('#locBody');if(!b)return;
   {const dl=$('#locDod');if(dl){const D=dodAt(lok);dl.innerHTML=dodBanner(D,lok);wireDod(dl,()=>renderLocBody())}}
-  const ed=canEdit();b.innerHTML=st.length?st.map((s,i)=>'<div class="lrow"><div class="lrn"><span class="nm">'+esc(s.firma)+tagH(s.k)+'</span>'+(ed?'<button class="nob dnb" data-nd="'+i+'">📌 Dodatek</button><button class="nob" data-no="'+i+'">'+(s.o?'✏️':'📝 Opomba')+'</button>':'')+'</div>'+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+(s.o?'<div class="lno" data-no="'+i+'">📝 '+esc(s.o)+'</div>':'')+
+  const ed=canEdit();if(!ed){b.innerHTML=voBody(lok,st,info,cap);b.querySelectorAll('[data-pt]').forEach(x=>x.onclick=()=>{const k=x.dataset.pt;if(PAL_OPEN.has(k))PAL_OPEN.delete(k);else PAL_OPEN.add(k);renderLocBody()});return}
+  b.innerHTML=st.length?st.map((s,i)=>'<div class="lrow"><div class="lrn"><span class="nm">'+esc(s.firma)+tagH(s.k)+'</span>'+(ed?'<button class="nob dnb" data-nd="'+i+'">📌 Dodatek</button><button class="nob" data-no="'+i+'">'+(s.o?'✏️':'📝 Opomba')+'</button>':'')+'</div>'+(s.dup?'<div class="mut">'+t('dupN',s.dup)+'</div>':'')+(s.o?'<div class="lno" data-no="'+i+'">📝 '+esc(s.o)+'</div>':'')+
       '<div class="lrc">'+(ed?'<button class="sq big" data-i="'+i+'" data-d="-1">−</button>':'')+'<span class="cnt big">'+s.palete+'</span>'+(ed?'<button class="sq big" data-i="'+i+'" data-d="1">+</button><span class="sp"></span><button class="sq big dpb" data-i="'+i+'" data-dp="1" title="Dodaj dvojno paleto (paleta na paleti)"><svg class="dpic" viewBox="0 0 28 28" aria-hidden="true"><rect x="5" y="3" width="18" height="7" rx="1.2" fill="currentColor" opacity=".9"/><rect x="3" y="10.5" width="22" height="2" rx=".6" fill="currentColor"/><rect x="4" y="12.5" width="3" height="2" fill="currentColor"/><rect x="12.5" y="12.5" width="3" height="2" fill="currentColor"/><rect x="21" y="12.5" width="3" height="2" fill="currentColor"/><rect x="5" y="15" width="18" height="7" rx="1.2" fill="currentColor" opacity=".55"/><rect x="3" y="22.5" width="22" height="2" rx=".6" fill="currentColor"/><rect x="4" y="24.5" width="3" height="2" fill="currentColor"/><rect x="12.5" y="24.5" width="3" height="2" fill="currentColor"/><rect x="21" y="24.5" width="3" height="2" fill="currentColor"/></svg><small>+1</small></button><button class="sq big act" data-i="'+i+'" data-m="1" title="'+t('moveAllB')+'">⇄</button><button class="sq big act" data-i="'+i+'" data-x="1" title="'+t('loadedB')+'">🚚</button>':'')+'</div></div>'+palBlock(s,i,ed)).join('')+
     '<div class="mut" style="margin-top:6px">'+t('total')+': '+pal(sumOf(st))+(cap?' · <span'+(isOwner()?' class="capl" id="capL"':'')+'>'+placesOf(st)+'/'+cap+(isOwner()?' ✎':'')+'</span>':'')+(info?.ko?' · '+t('last')+': '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'
     :'<p class="mut">'+t('isEmpty')+'</p>';
@@ -1010,7 +1061,7 @@ function renderOver(el){
    '<h3>'+t('ovFull')+' ('+fullL.length+')</h3><div class="ocs">'+(fullL.map(([l,pl,c])=>chip(l,pl+'/'+c,pl>c?'cr':'co')).join('')||'<span class="mut">—</span>')+'</div>'+
    '<h3>'+t('ovFree')+' ('+free.length+')</h3><div class="ocs">'+(free.map(l=>chip(l,undefined,'cg')).join('')||'<span class="mut">—</span>')+'</div>'+
    (capT?'<div class="obar sm"><div class="obl"><span>'+t('ovUse')+'</span><b>'+pct+' %</b></div><div class="obt"><div style="width:'+pct+'%"></div></div><div class="mut">'+used+' / '+capT+' '+t('ovPlaces')+'</div></div>':'');
-  el.querySelectorAll('[data-f]').forEach(r=>r.onclick=()=>{retOver=$('#sheet').scrollTop;$('#search').value=r.dataset.f;closeSheet();render();$('#bkOv').hidden=!IOS;window.scrollTo(0,0)});
+  el.querySelectorAll('[data-f]').forEach(r=>r.onclick=()=>{retOver=$('#sheet').scrollTop;SX=r.dataset.f;$('#search').value=r.dataset.f;closeSheet();render();$('#bkOv').hidden=!IOS;window.scrollTo(0,0)});
   el.querySelectorAll('.oc[data-l]').forEach(b=>b.onclick=()=>openLoc(b.dataset.l));
   el.querySelectorAll('[data-dods]').forEach(b=>b.onclick=()=>openDodSome(b.dataset.dods.split(',')));
   el.querySelectorAll('[data-pmf]').forEach(b=>b.onclick=e=>{e.stopPropagation();openPalMail(b.dataset.pmf,()=>openOver())});
@@ -1843,7 +1894,7 @@ keepAwake();try{screen.orientation&&screen.orientation.lock&&screen.orientation.
 
 /* računalnik: pregled stalno desno */
 function isDesk(){return window.matchMedia('(min-width:1000px)').matches}
-function renderSide(){const el=$('#ovSide');if(!el||!isDesk())return;try{renderOver(el);const d=new Date();$('#sdT').textContent='· '+pad(d.getHours())+':'+pad(d.getMinutes())}catch(e){console.warn(e)}}
+function renderSide(){const el=$('#ovSide');if(!el||!isDesk())return;try{renderOver(el);el.querySelectorAll('tbody tr').forEach(tr=>{const L=[...tr.querySelectorAll('.oc[data-l]')].map(b=>b.dataset.l);tr.onmouseenter=()=>{document.querySelectorAll('#grid .tile').forEach(t=>t.classList.toggle('hov',L.includes(t.dataset.lok)))};tr.onmouseleave=()=>document.querySelectorAll('#grid .tile.hov').forEach(t=>t.classList.remove('hov'))});const d=new Date();$('#sdT').textContent='· '+pad(d.getHours())+':'+pad(d.getMinutes())}catch(e){console.warn(e)}}
 window.addEventListener('resize',()=>{clearTimeout(window._rsT);window._rsT=setTimeout(renderSide,200)});
 
 /* ---- računalnik za pregled (kiosk) ---- */
@@ -1941,6 +1992,11 @@ function openDayRepMail(){let wW=false;const ml=mailList();const sel=new Set(ml.
   $('#sheet').querySelectorAll('[data-me]').forEach(b=>b.onclick=()=>{const e=b.dataset.me;if(sel.has(e))sel.delete(e);else sel.add(e);b.classList.toggle('on',sel.has(e))});
   $('#nmS').onclick=()=>{location.href='mailto:'+encodeURIComponent([...sel].join(','))+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(dayRepText(wW))};
   $('#nmC').onclick=async()=>{try{await navigator.clipboard.writeText(dayRepText(wW));toast('✓ Kopirano')}catch(e){}};$('#nmX').onclick=()=>openDayRep()}
+
+function voBody(lok,st,info,cap){const sum=sumOf(st),pl=placesOf(st);const fr=cap?pl/cap:0;const lv=!st.length?0:fr>=1?3:fr>=.6?2:1;
+  const head='<div class="voh lv'+lv+'"><div class="vot"><span class="vos">'+(st.length?pal(sum):'Prazna lokacija')+'</span>'+(cap?'<span class="voc">'+pl+' / '+cap+' mest'+(pl>cap?' · prepolna':pl===cap?' · polna':'')+'</span>':'')+'</div>'+(cap?'<div class="vom"><i style="width:'+Math.min(100,Math.round(fr*100))+'%"></i></div>':'')+'</div>';
+  const rows=st.map((s,i)=>'<div class="vor"><div class="von"><b>'+esc(s.firma)+tagH(s.k)+'</b>'+(s.dup?'<span class="mut">'+t('dupN',s.dup)+'</span>':'')+(s.o?'<div class="lno">📝 '+esc(s.o)+'</div>':'')+'</div><div class="voq">'+s.palete+'<small>'+(s.palete===1?'paleta':s.palete===2?'paleti':s.palete<5?'palete':'palet')+'</small></div></div>'+palBlock(s,i,false)).join('');
+  return head+rows+'<div class="vof">👁 Samo pregled'+(info&&info.ko?' · zadnja sprememba: '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'}
 </script>
 </body>
 </html>
