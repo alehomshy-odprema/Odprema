@@ -346,6 +346,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.lt .sheet{background:#fff;color:var(--ink)}
  html.lt .voh{background:#f7f9fc}
 }
+.drseg{flex-wrap:wrap}.drseg button{flex:1 1 30%}
 </style>
 </head>
 <body>
@@ -880,7 +881,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='24',APP_DATE='20.11.2026';
+const APP_VER='25',APP_DATE='20.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1973,47 +1974,51 @@ function openCapEdit(lok){
   openSheet('<h2>'+t('capLoc')+' · '+esc(lok)+'</h2><input class="in num" id="lCap" type="number" inputmode="numeric" min="0" value="'+capOf(lok)+'"><button class="btn p" id="lCapB">'+t('capSet')+'</button><button class="btn" id="cX">'+t('cancel')+'</button>','cap',{lok});
   $('#cX').onclick=()=>openLoc(lok);
   $('#lCapB').onclick=async()=>{const np=clone(state.post);np.kapacitete=np.kapacitete||{};np.kapacitete[lok]=Math.max(0,parseInt($('#lCap').value)||0);if(await runQ(store.savePost(np))){toast('✓ '+lok+': '+np.kapacitete[lok]);render()}openLoc(lok)}}
-/* ===== dnevno poročilo ===== */
-const DR={k:'today',day:'',firm:'',sh:'',rows:null,L:null};
+/* ===== poročilo (dan / teden / mesec / od–do) ===== */
+const DR={k:'today',from:0,to:0,firm:'',sh:'',rows:null,L:null,a:'',b:''};
 const DR_SH={'':['Cel dan',0,24],'1':['6–14',6,14],'2':['14–22',14,22]};
-function openDayRep(){if(!canReports())return;if(!DR.day)DR.day=ymd(Date.now());
-  openSheet('<h2>📊 Dnevno poročilo</h2><div class="seg" id="drSeg">'+[['today','Danes'],['yest','Včeraj'],['date','📅 Datum']].map(([k,l])=>'<button data-k="'+k+'" class="'+(DR.k===k?'on':'')+'">'+l+'</button>').join('')+'</div>'+
-    '<input class="in" type="date" id="drD" value="'+DR.day+'" '+(DR.k==='date'?'':'hidden')+' style="margin-bottom:8px">'+
+const DR_SEG=[['today','Danes'],['yest','Včeraj'],['week','Ta teden'],['lweek','Prejšnji teden'],['month','Ta mesec'],['range','📅 Od – do']];
+function drRange(){if(DR.k!=='range')return periodRange(DR.k);const D=864e5,t0=dayStart(Date.now());const fa=DR.a?dayStart(DR.a+'T00:00'):t0,fb=DR.b?dayStart(DR.b+'T00:00')+D:fa+D;return[fa,Math.max(fb,fa+D)]}
+const drMulti=()=>DR.to-DR.from>864e5+3600e3;
+const drPer=()=>dmy(DR.from)+(drMulti()?' – '+dmy(DR.to-1):'');
+function openDayRep(){if(!canReports())return;if(!DR.a){DR.a=ymd(Date.now());DR.b=DR.a}
+  openSheet('<h2>📊 Poročilo</h2><div class="seg drseg" id="drSeg">'+DR_SEG.map(([k,l])=>'<button data-k="'+k+'" class="'+(DR.k===k?'on':'')+'">'+l+'</button>').join('')+'</div>'+
+    '<div class="add" id="drR" '+(DR.k==='range'?'':'hidden')+' style="margin-top:0"><input class="in" type="date" id="drA" value="'+DR.a+'"><input class="in" type="date" id="drB" value="'+DR.b+'"></div>'+
     '<div class="add" style="margin-top:0"><input class="in" id="drF" list="drFl" placeholder="Vsi kupci" value="'+esc(DR.firm)+'" autocomplete="off"><select class="in" id="drS" style="max-width:40%">'+Object.entries(DR_SH).map(([k,v])=>'<option value="'+k+'"'+(DR.sh===k?' selected':'')+'>'+v[0]+'</option>').join('')+'</select></div><datalist id="drFl">'+knownFirms().map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist>'+
     '<div id="drOut"><p class="mut">'+t('rLoading')+'</p></div><button class="btn" id="drDet">📋 Podrobno (vse spremembe)</button><button class="btn" id="xB">'+t('close')+'</button>','dayrep');
-  $('#xB').onclick=goBack;$('#drDet').onclick=()=>{repState.k=DR.k==='yest'?'yest':'today';openReports()};
-  $('#drSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{DR.k=b.dataset.k;$('#drSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#drD').hidden=DR.k!=='date';
-    if(DR.k==='today')DR.day=ymd(Date.now());if(DR.k==='yest')DR.day=ymd(Date.now()-864e5);if(DR.k==='date')DR.day=$('#drD').value||DR.day;$('#drD').value=DR.day;loadDayRep()});
-  $('#drD').onchange=()=>{DR.day=$('#drD').value||DR.day;loadDayRep()};
+  $('#xB').onclick=goBack;$('#drDet').onclick=()=>{repState.k=DR.k==='range'?'today':DR.k;openReports()};
+  $('#drSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{DR.k=b.dataset.k;$('#drSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#drR').hidden=DR.k!=='range';loadDayRep()});
+  const rr=()=>{DR.a=$('#drA').value||DR.a;DR.b=$('#drB').value||DR.a;if(DR.b<DR.a){DR.b=DR.a;$('#drB').value=DR.b}loadDayRep()};$('#drA').onchange=rr;$('#drB').onchange=rr;
   $('#drF').onchange=()=>{DR.firm=$('#drF').value.trim();showDayRep()};$('#drF').oninput=()=>{if(!$('#drF').value){DR.firm='';showDayRep()}};
-  $('#drS').onchange=()=>{DR.sh=$('#drS').value;showDayRep()};
-  if(DR.k==='today')DR.day=ymd(Date.now());if(DR.k==='yest')DR.day=ymd(Date.now()-864e5);loadDayRep()}
+  $('#drS').onchange=()=>{DR.sh=$('#drS').value;showDayRep()};loadDayRep()}
 async function loadDayRep(){const out=$('#drOut');if(!out)return;out.innerHTML='<p class="mut">'+t('rLoading')+'</p>';
-  const a=dayStart(DR.day+'T00:00'),b=a+864e5;try{DR.rows=await store.query(a,b)}catch(e){out.innerHTML='<p class="err">'+esc(t('error')+(e.message||e))+'</p>';return}showDayRep()}
+  [DR.from,DR.to]=drRange();try{DR.rows=await store.query(DR.from,DR.to)}catch(e){out.innerHTML='<p class="err">'+esc(t('error')+(e.message||e))+'</p>';return}showDayRep()}
 function calcDayRep(){const rows=DR.rows||[];const U=new Set(rows.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));const sh=DR_SH[DR.sh]||DR_SH[''];const fq=norm(DR.firm||'');
   const ok=rows.filter(x=>!x.tip&&!U.has(x.id)&&!x.do&&(()=>{const hh=new Date(x.kad).getHours();return hh>=sh[1]&&hh<sh[2]})()&&(!fq||norm(curName(x.firma||'')).includes(fq)||norm(x.firma||'').includes(fq)));
-  const T={in:0,out:0},F={},W={},N=[];
-  for(const x of ok){const f=curName(x.firma||'?'),n=Math.abs(x.delta||0);
-    if(x.delta>0&&!x.opis){T.in+=n;(F[f]=F[f]||{in:0,out:0}).in+=n}
-    else if(x.delta<0&&x.opis==='n'){T.out+=n;(F[f]=F[f]||{in:0,out:0}).out+=n;W[x.ko||'?']=(W[x.ko||'?']||0)+n;if(x.o)N.push(x)}}
-  return{T,F,W,N}}
-function showDayRep(){const out=$('#drOut');if(!out||!DR.rows)return;const R=calcDayRep();DR.L=R;
-  const F=Object.entries(R.F).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out)),W=Object.entries(R.W).sort((a,b)=>b[1]-a[1]);
-  const head='<p class="mut">'+dmy(dayStart(DR.day+'T00:00'))+(DR.sh?' · '+DR_SH[DR.sh][0]:'')+(DR.firm?' · '+esc(DR.firm):'')+'</p>';
+  const T={in:0,out:0},F={},W={},N=[],Dy={};
+  for(const x of ok){const f=curName(x.firma||'?'),n=Math.abs(x.delta||0),dk=ymd(x.kad);
+    if(x.delta>0&&!x.opis){T.in+=n;(F[f]=F[f]||{in:0,out:0}).in+=n;(Dy[dk]=Dy[dk]||{in:0,out:0}).in+=n}
+    else if(x.delta<0&&x.opis==='n'){T.out+=n;(F[f]=F[f]||{in:0,out:0}).out+=n;(Dy[dk]=Dy[dk]||{in:0,out:0}).out+=n;W[x.ko||'?']=(W[x.ko||'?']||0)+n;if(x.o)N.push(x)}}
+  return{T,F,W,N,Dy}}
+function showDayRep(){const out=$('#drOut');if(!out||!DR.rows)return;const R=calcDayRep();DR.L=R;const M=drMulti();
+  const F=Object.entries(R.F).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out)),W=Object.entries(R.W).sort((a,b)=>b[1]-a[1]),Dy=Object.entries(R.Dy).sort((a,b)=>a[0].localeCompare(b[0]));
+  const head='<p class="mut">'+drPer()+(DR.sh?' · '+DR_SH[DR.sh][0]:'')+(DR.firm?' · '+esc(DR.firm):'')+'</p>';
   out.innerHTML=head+'<div class="drk"><div><b>'+R.T.in+'</b>pospravljeno</div><div class="g"><b>'+R.T.out+'</b>naloženo</div></div>'+
     (F.length?'<h3>Po kupcih</h3><table class="rt drt"><tr><th>Kupec</th><th>pospr.</th><th>nalož.</th></tr>'+F.map(([f,v])=>'<tr><td>'+esc(f)+'</td><td>'+(v.in||'–')+'</td><td>'+(v.out||'–')+'</td></tr>').join('')+'<tr class="tt"><td>Skupaj</td><td>'+R.T.in+'</td><td>'+R.T.out+'</td></tr></table>':'<p class="mut">'+t('rNone')+'</p>')+
+    (M&&Dy.length?'<h3>Po dnevih</h3><table class="rt drt"><tr><th>Dan</th><th>pospr.</th><th>nalož.</th></tr>'+Dy.map(([d,v])=>'<tr><td>'+dmy(dayStart(d+'T00:00'))+'</td><td>'+(v.in||'–')+'</td><td>'+(v.out||'–')+'</td></tr>').join('')+'</table>':'')+
     (W.length?'<h3>Kdo je nalagal</h3>'+W.map(([w,n])=>'<div class="drw"><span>'+esc(w)+'</span><b>'+pal(n)+'</b></div>').join(''):'')+
-    (R.N.length?'<h3>Opombe pri nakladu</h3>'+R.N.map(x=>'<div class="drw"><span>'+esc(x.lok)+' · '+esc(curName(x.firma))+'</span><span class="mut">📝 '+esc(x.o)+'</span></div>').join(''):'')+
+    (R.N.length?'<h3>Opombe pri nakladu</h3>'+R.N.map(x=>'<div class="drw"><span>'+(M?dmy(x.kad)+' · ':'')+esc(x.lok)+' · '+esc(curName(x.firma))+'</span><span class="mut">📝 '+esc(x.o)+'</span></div>').join(''):'')+
     (F.length?'<button class="btn p" id="drM">✉️ Pošlji po mailu</button>':'');
   if($('#drM'))$('#drM').onclick=openDayRepMail}
-function dayRepText(withW){const R=DR.L;if(!R)return'';const pad2=(s,n)=>{s=String(s);return s+' '.repeat(Math.max(1,n-s.length))};
+function dayRepText(withW){const R=DR.L;if(!R)return'';const M=drMulti();const pad2=(s,n)=>{s=String(s);return s+' '.repeat(Math.max(1,n-s.length))};
   const F=Object.entries(R.F).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out));const w=Math.min(26,Math.max(14,...F.map(([f])=>f.length+2)));
-  const L=['DNEVNO POROČILO – '+dmy(dayStart(DR.day+'T00:00'))+(DR.sh?' ('+DR_SH[DR.sh][0]+')':'')+(DR.firm?' – '+DR.firm:''),'','Pospravljeno: '+pal(R.T.in),'Naloženo:     '+pal(R.T.out),'','PO KUPCIH',pad2('',w)+'pospr.  nalož.'];
+  const L=[(M?'POROČILO':'DNEVNO POROČILO')+' – '+drPer()+(DR.sh?' ('+DR_SH[DR.sh][0]+')':'')+(DR.firm?' – '+DR.firm:''),'','Pospravljeno: '+pal(R.T.in),'Naloženo:     '+pal(R.T.out),'','PO KUPCIH',pad2('',w)+'pospr.  nalož.'];
   F.forEach(([f,v])=>L.push(pad2(f,w)+pad2(v.in||'–',8)+(v.out||'–')));
-  if(R.N.length){L.push('','OPOMBE PRI NAKLADU');R.N.forEach(x=>L.push(x.lok+' · '+curName(x.firma)+': '+x.o))}
+  if(M){const Dy=Object.entries(R.Dy).sort((a,b)=>a[0].localeCompare(b[0]));if(Dy.length){L.push('','PO DNEVIH',pad2('',w)+'pospr.  nalož.');Dy.forEach(([d,v])=>L.push(pad2(dmy(dayStart(d+'T00:00')),w)+pad2(v.in||'–',8)+(v.out||'–')))}}
+  if(R.N.length){L.push('','OPOMBE PRI NAKLADU');R.N.forEach(x=>L.push((M?dmy(x.kad)+' · ':'')+x.lok+' · '+curName(x.firma)+': '+x.o))}
   if(withW){const W=Object.entries(R.W).sort((a,b)=>b[1]-a[1]);if(W.length){L.push('','KDO JE NALAGAL');W.forEach(([k,n])=>L.push(pad2(k,14)+pal(n)))}}
   return L.join('\n')+'\n\n— ODPREMA'}
-function openDayRepMail(){let wW=false;const ml=mailList();const sel=new Set(ml.filter(m=>m.def).map(m=>m.e));const subj='Dnevno poročilo – '+dmy(dayStart(DR.day+'T00:00'));
+function openDayRepMail(){let wW=false;const ml=mailList();const sel=new Set(ml.filter(m=>m.def).map(m=>m.e));const subj=(drMulti()?'Poročilo':'Dnevno poročilo')+' – '+drPer();
   openSheet('<h2>✉️ Pošlji poročilo</h2>'+(ml.length?'<div class="ocs">'+ml.map(m=>'<button class="fc'+(sel.has(m.e)?' on':'')+'" data-me="'+esc(m.e)+'">'+esc(m.e)+'</button>').join('')+'</div>':'<p class="mut">Naslovi za mail se nastavijo pri 📷 Slike.</p>')+
     '<label class="chk"><input type="checkbox" id="drWW"> Vključi »Kdo je nalagal«</label><pre class="nmp" id="drPre"></pre><button class="btn p" id="nmS">✉️ Pošlji</button><button class="btn" id="nmC">📋 Kopiraj</button><button class="btn" id="nmX">'+t('back')+'</button>','drmail');
   const upd=()=>{$('#drPre').textContent=dayRepText(wW)};upd();$('#drWW').onchange=()=>{wW=$('#drWW').checked;upd()};
