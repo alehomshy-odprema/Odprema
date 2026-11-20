@@ -650,7 +650,7 @@ const FireStore={
 let store=LocalStore;
 const PendingStore={mode:'pending',query(){return Promise.reject(new Error(t('loadingW')))},write(){throw new Error(t('loadingW'))},savePost(){return Promise.reject(new Error(t('loadingW')))},setHandover(){return Promise.resolve()}};
 let syncState={s:'off'};
-function updPending(){
+function updPending(){const pb=$('#pendBar');if(pb)pb.hidden=true;return;
   const n=Object.keys(FireStore.pend||{}).length;
   if(n&&!FireStore.pendSince)FireStore.pendSince=Date.now();if(!n)FireStore.pendSince=0;
   const el=$('#pendBar');const old=n&&Date.now()-FireStore.pendSince>3*60e3;
@@ -1501,6 +1501,8 @@ function fotoCands(){const U=undoneSet();const H=(state.hist||[]).filter(x=>!(x.
   const d0=new Date();d0.setHours(0,0,0,0);const N=H.filter(x=>!x.tip&&x.opis==='n'&&x.delta<0&&!x.do).sort((a,b)=>b.kad-a.kad);
   const sel=[],oth=[];N.forEach(x=>{const f=curName(x.firma||'');if(!f)return;if(x.kad>last){if(!sel.some(y=>norm(y)===norm(f)))sel.push(f)}else if(x.kad>=d0.getTime()&&oth.length<8&&!oth.some(y=>norm(y)===norm(f)))oth.push(f)});
   return{sel,cand:[...sel,...oth.filter(f=>!sel.some(y=>norm(y)===norm(f)))]}}
+function fotoRefresh(){try{const C=fotoCands();FS.cand=FS.cand||[];FS.sel=FS.sel||[];C.cand.forEach(f=>{if(!FS.cand.some(y=>norm(y)===norm(f)))FS.cand.push(f)});
+  C.sel.forEach(f=>{if(!FS.sel.some(y=>norm(y)===norm(f))&&!(FS.off||[]).some(y=>norm(y)===norm(f)))FS.sel.push(f)});FS.sel=FS.cand.filter(x=>FS.sel.some(y=>norm(y)===norm(x)));FS.firma=FS.sel.join(', ')}catch(e){}}
 function fotoReset(){if(FS)FS.imgs.forEach(x=>URL.revokeObjectURL(x.url));let C={sel:[],cand:[]};try{C=fotoCands()}catch(e){}
   FS={imgs:[],v:'',firma:C.sel.join(', '),sel:C.sel.slice(),cand:C.cand.slice(),k:'',lok:'',op:'',t0:0,to:new Set(mailList().filter(m=>m.def).map(m=>m.e))}}
 function fotoDate(){const d=new Date(FS.t0||Date.now());return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
@@ -1515,7 +1517,7 @@ async function shrinkImg(file,doc,mx,qq){const max=mx||(doc?2400:1600),q=qq||(do
   try{src=await createImageBitmap(file,{imageOrientation:'from-image'})}catch(e){src=await new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=URL.createObjectURL(file)})}
   const w=src.width,hh=src.height,s=Math.min(1,max/Math.max(w,hh));const c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(hh*s);
   c.getContext('2d').drawImage(src,0,0,c.width,c.height);const b=await new Promise(r=>c.toBlob(r,'image/jpeg',q));return b||file}
-function openFoto(keep){if(!canFoto())return;if(!keep||!FS)fotoReset();
+function openFoto(keep){if(!canFoto())return;if(!keep||!FS)fotoReset();else fotoRefresh();
   openSheet('<h2>📷 '+t('fT')+'</h2><div class="fth" id="fTh"></div>'+
     '<div class="add"><button class="btn p" id="fCam" style="margin:0">📷 '+t('fCam')+'</button><button class="btn" id="fGal" style="margin:0;width:auto;padding:12px 16px" aria-label="'+t('fGal')+'">🖼</button></div>'+
     '<input type="file" id="fIn" accept="image/*" capture="environment" hidden><input type="file" id="fInG" accept="image/*" multiple hidden>'+
@@ -1540,7 +1542,7 @@ function openFoto(keep){if(!canFoto())return;if(!keep||!FS)fotoReset();
   $('#fV').querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{FS.v=FS.v===b.dataset.v?'':b.dataset.v;$('#fV').querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v===FS.v));upT()});
   $('#fK').querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{FS.k=FS.k===b.dataset.k?'':b.dataset.k;$('#fK').querySelectorAll('[data-k]').forEach(x=>x.classList.toggle('on',x.dataset.k===FS.k));upT()});
   const drawFs=()=>{FS.firma=FS.sel.join(', ');$('#fFs').innerHTML=FS.cand.map(f=>'<label class="chk big2 ffc"><input type="checkbox" data-ff="'+esc(f)+'"'+(FS.sel.some(y=>norm(y)===norm(f))?' checked':'')+'>'+esc(f)+'</label>').join('');
-    $('#fFs').querySelectorAll('[data-ff]').forEach(c=>c.onchange=()=>{const f=c.dataset.ff;const on=c.checked;FS.sel=FS.cand.filter(x=>norm(x)===norm(f)?on:FS.sel.some(y=>norm(y)===norm(x)));drawFs();upT()})};
+    $('#fFs').querySelectorAll('[data-ff]').forEach(c=>c.onchange=()=>{const f=c.dataset.ff;const on=c.checked;FS.off=(FS.off||[]).filter(y=>norm(y)!==norm(f));if(!on)FS.off.push(f);FS.sel=FS.cand.filter(x=>norm(x)===norm(f)?on:FS.sel.some(y=>norm(y)===norm(x)));drawFs();upT()})};
   const addF=()=>{const v=$('#fFi').value.trim();if(!v)return;const f=exactFirm(v)||titleCase(v);if(!FS.cand.some(y=>norm(y)===norm(f)))FS.cand.push(f);FS.sel=FS.cand.filter(x=>norm(x)===norm(f)||FS.sel.some(y=>norm(y)===norm(x)));$('#fFi').value='';drawFs();upT()};
   $('#fFa').onclick=addF;$('#fFi').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addF()}};$('#fFi').onchange=addF;drawFs();$('#fOp').oninput=e=>{FS.op=e.target.value.trim();upT()};$('#fLk').onchange=e=>{FS.lok=e.target.value;upT()};
   $('#fNa').onclick=async()=>{const e=$('#fNe').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e)){toast(t('fBadMail'));return}
