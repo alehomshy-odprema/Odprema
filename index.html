@@ -882,7 +882,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='26',APP_DATE='20.11.2026';
+const APP_VER='27',APP_DATE='21.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -966,7 +966,9 @@ function renderLocBody(){
   b.querySelectorAll('.sq').forEach(x=>x.onclick=()=>{const s=st[+x.dataset.i];if(!s)return;
     if(x.dataset.m){openMoveSheet(lok,s.firma,s.palete,s.k);return}
     if(x.dataset.dp){applyDelta(lok,s.firma,2,1,s.k);return}
-    if(x.dataset.x){openLoad(lok,+x.dataset.i);return}else applyDelta(lok,s.firma,+x.dataset.d,0,s.k)});
+    if(x.dataset.x){openLoad(lok,+x.dataset.i);return}
+    if(+x.dataset.d<0&&(s.pd||[]).length){openMinusWarn(lok,s);return}
+    applyDelta(lok,s.firma,+x.dataset.d,0,s.k)});
   const h=state.hist.filter(x=>!x.tip&&(x.lok===lok||x.do===lok)).slice(0,8);
   const lh=$('#locHist');lh.innerHTML=h.length?histCards(h):'<p class="mut">'+t('noCh')+'</p>';wireHist(lh);
   $('#lhT').textContent=t('lastChB',h.length);
@@ -2035,6 +2037,13 @@ function voBody(lok,st,info,cap){const sum=sumOf(st),pl=placesOf(st);const fr=ca
   return head+rows+'<div class="vof">👁 Samo pregled'+(info&&info.ko?' · zadnja sprememba: '+esc(info.ko)+', '+fdt(info.kad):'')+'</div>'}
 
 try{if(LS.get('lk_light',false))document.documentElement.classList.add('lt')}catch(e){}
+
+function openMinusWarn(lok,s){const n=(s.pd||[]).length;
+  openSheet('<h2>⚠️ Palete imajo podatke</h2><p><b>'+esc(fkT(s.firma,s.k))+'</b> na '+esc(lok)+': '+n+' '+(n===1?'paleta ima':n===2?'paleti imata':n<5?'palete imajo':'palet ima')+' vpisano višino in težo.</p><p class="mut">Če palete premikaš na drugo lokacijo, uporabi ⇄ Premakni – samo tako gredo podatki s paletami. Pri odštevanju se podatki ne prenesejo.</p>'+
+   '<button class="btn p" id="mwM">⇄ Premakni</button><button class="btn" id="mwG">Vseeno odštej 1</button><button class="btn" id="mwX">'+t('cancel')+'</button>','minuswarn',{lok});
+  $('#mwM').onclick=()=>openMoveSheet(lok,s.firma,s.palete,s.k);
+  $('#mwG').onclick=async()=>{await applyDelta(lok,s.firma,-1,0,s.k);openLoc(lok)};
+  $('#mwX').onclick=()=>openLoc(lok)}
 </script>
 </body>
 </html>
