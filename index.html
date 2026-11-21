@@ -2,7 +2,7 @@
 <html lang="sl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ETI Odprema">
@@ -349,6 +349,12 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .drseg{flex-wrap:wrap}.drseg button{flex:1 1 30%}
 .fmc.fmhl{outline:3px solid var(--gold);outline-offset:-3px;transition:outline-color .6s}
 .in.needf{border-color:#ef5d5d!important;box-shadow:0 0 0 3px rgba(239,93,93,.35)}
+.toast{top:calc(14px + env(safe-area-inset-top));bottom:auto!important;background:#24344f;border:1px solid #3a5177;box-shadow:0 10px 30px rgba(0,0,0,.45);padding:12px 18px;border-radius:14px;font-size:15px;font-weight:600;line-height:1.35;text-align:center;z-index:60;animation:tIn .18s ease-out}
+.toast.warn{background:#4a1f25;border-color:#ef5d5d;color:#ffe3e3}.toast.ok{background:#173a2a;border-color:#2fbf71;color:#dcffe9}
+@keyframes tIn{from{opacity:0;transform:translate(-50%,-8px)}to{opacity:1;transform:translate(-50%,0)}}
+@media (prefers-reduced-motion:reduce){.toast{animation:none}}
+.sheet{padding-bottom:calc(18px + env(safe-area-inset-bottom) + var(--kb,0px))}
+.fmsg{margin:6px 2px 0;color:#ff8f8f;font-weight:700;font-size:14px}
 </style>
 </head>
 <body>
@@ -452,7 +458,7 @@ const clone=x=>JSON.parse(JSON.stringify(x));
 const pad=n=>String(n).padStart(2,'0');
 const fdt=x=>{const d=new Date(x);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'. '+pad(d.getHours())+':'+pad(d.getMinutes())};
 const ft=x=>{const d=new Date(x);return pad(d.getHours())+':'+pad(d.getMinutes())};
-function toast(m){document.querySelectorAll('.toast').forEach(x=>x.remove());const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}
+function toast(m){document.querySelectorAll('.toast').forEach(x=>x.remove());const e=document.createElement('div');e.className='toast'+(/^(⚠|✕|❌)/.test(String(m))||/^Napaka|^Error/i.test(String(m))?' warn':/^✓/.test(String(m))?' ok':'');e.setAttribute('role','status');e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}
 function makeLocs(od,doR,vis,vOd,poz){const o=[];vOd=vOd===undefined?1:vOd;for(let r=od;r<=doR;r++){const P=poz?Array.from({length:poz},(_,k)=>k+1):[null];for(const q of P)for(let v=vOd;v<vOd+vis;v++)o.push(pad(r)+(q?'-'+pad(q):'')+'-'+pad(v))}return o}
 function sortLocs(a){const k=l=>String(l).split('-').map(Number);return a.sort((x,y)=>{const A=k(x),B=k(y);for(let i=0;i<Math.max(A.length,B.length);i++){const d=(A[i]??-1)-(B[i]??-1);if(d)return d}return 0})}
 const DEFAULT_POST={radnici:['Delavec 1','Delavec 2','Delavec 3','Delavec 4'],lokacije:makeLocs(1,16,3),posebne:['Vani','Nadstrešek','Šotor'],firme:[],kapacitet:10};
@@ -883,7 +889,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='28',APP_DATE='21.11.2026';
+const APP_VER='29',APP_DATE='21.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -939,7 +945,7 @@ function openLoc(lok){
     function prompt2(){const box=$('#aKB');if($('#aKI'))return;box.insertAdjacentHTML('beforeend','<div class="add"><input class="in" id="aKI" placeholder="'+t('kPh')+'" maxlength="12"><button class="btn" id="aKO" style="margin:0;width:auto;padding:12px 16px">OK</button></div>');$('#aKO').onclick=()=>{const v=$('#aKI').value.trim().toUpperCase();if(v)setK(v)};$('#aKI').focus()}
     $('#aBtn').onclick=async()=>{const f=$('#aF').value.trim(),n=parseInt($('#aN').value)||0;if(n<1){toast(t('needFP'));return}
     const dp=$('#aDup').checked;const doAdd=async firma=>{if(await applyDelta(lok,firma,dp?n*2:n,dp?n:0,aK)){toast(lok+': '+fkT(firma,aK)+' +'+(dp?t('dupN',n):n));openLoc(lok);if(palTr(firma).on)setTimeout(()=>openPalEd(lok,firma,aK),60)}};
-    if(!f){toast('⚠️ Vpiši podjetje – palet brez oznake ni mogoče dodati');const fi=$('#aF');if(fi){fi.focus();fi.classList.add('needf');setTimeout(()=>fi.classList.remove('needf'),1500)}return}const ex=exactFirm(f);if(ex){doAdd(ex);return}
+    if(!f){const fi=$('#aF');if(fi){let m=$('#aFmsg');if(!m){m=document.createElement('div');m.id='aFmsg';m.className='fmsg';fi.closest('.add').after(m)}m.textContent='⚠️ Vpiši podjetje – palet brez oznake ni mogoče dodati.';fi.classList.add('needf');fi.focus();fi.oninput=()=>{fi.classList.remove('needf');const mm=$('#aFmsg');if(mm)mm.remove()}}return}const ex=exactFirm(f);if(ex){doAdd(ex);return}
     const c=firmCands(f).slice(0,4);if(!c.length){doAdd(titleCase(f));return}
     openSheet('<h2>'+t('pickFirm')+'</h2><p class="mut">»'+esc(f)+'«</p>'+c.map(x=>'<button class="btn" data-pk="'+esc(x)+'">'+esc(x)+'</button>').join('')+'<button class="btn p" data-pk="'+esc(titleCase(f))+'">➕ '+t('newFirm')+': '+esc(titleCase(f))+'</button><button class="btn" id="pkX">'+t('cancel')+'</button>','pick');
     $('#pkX').onclick=()=>openLoc(lok);$('#sheet').querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>doAdd(b.dataset.pk))};
@@ -2045,6 +2051,10 @@ function openMinusWarn(lok,s){const n=(s.pd||[]).length;
   $('#mwM').onclick=()=>openMoveSheet(lok,s.firma,s.palete,s.k);
   $('#mwG').onclick=async()=>{await applyDelta(lok,s.firma,-1,0,s.k);openLoc(lok)};
   $('#mwX').onclick=()=>openLoc(lok)}
+
+/* tipkovnica (Android): vsebina ne sme biti pod tipkovnico */
+(function(){const vv=window.visualViewport;if(!vv)return;const upd=()=>{const kb=Math.max(0,Math.round(window.innerHeight-vv.height-vv.offsetTop));document.documentElement.style.setProperty('--kb',(kb>80?kb:0)+'px')};vv.addEventListener('resize',upd);vv.addEventListener('scroll',upd);upd()})();
+document.addEventListener('focusin',e=>{const el=e.target;if(!el||!el.matches||!el.matches('input,textarea,select'))return;if(!el.closest('.sheet'))return;setTimeout(()=>{try{el.scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}},320)});
 </script>
 </body>
 </html>
