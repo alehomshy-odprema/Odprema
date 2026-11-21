@@ -348,6 +348,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 }
 .drseg{flex-wrap:wrap}.drseg button{flex:1 1 30%}
 .fmc.fmhl{outline:3px solid var(--gold);outline-offset:-3px;transition:outline-color .6s}
+.in.needf{border-color:#ef5d5d!important;box-shadow:0 0 0 3px rgba(239,93,93,.35)}
 </style>
 </head>
 <body>
@@ -882,7 +883,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='27',APP_DATE='21.11.2026';
+const APP_VER='28',APP_DATE='21.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -938,7 +939,7 @@ function openLoc(lok){
     function prompt2(){const box=$('#aKB');if($('#aKI'))return;box.insertAdjacentHTML('beforeend','<div class="add"><input class="in" id="aKI" placeholder="'+t('kPh')+'" maxlength="12"><button class="btn" id="aKO" style="margin:0;width:auto;padding:12px 16px">OK</button></div>');$('#aKO').onclick=()=>{const v=$('#aKI').value.trim().toUpperCase();if(v)setK(v)};$('#aKI').focus()}
     $('#aBtn').onclick=async()=>{const f=$('#aF').value.trim(),n=parseInt($('#aN').value)||0;if(n<1){toast(t('needFP'));return}
     const dp=$('#aDup').checked;const doAdd=async firma=>{if(await applyDelta(lok,firma,dp?n*2:n,dp?n:0,aK)){toast(lok+': '+fkT(firma,aK)+' +'+(dp?t('dupN',n):n));openLoc(lok);if(palTr(firma).on)setTimeout(()=>openPalEd(lok,firma,aK),60)}};
-    if(!f){doAdd(t('noFirm'));return}const ex=exactFirm(f);if(ex){doAdd(ex);return}
+    if(!f){toast('⚠️ Vpiši podjetje – palet brez oznake ni mogoče dodati');const fi=$('#aF');if(fi){fi.focus();fi.classList.add('needf');setTimeout(()=>fi.classList.remove('needf'),1500)}return}const ex=exactFirm(f);if(ex){doAdd(ex);return}
     const c=firmCands(f).slice(0,4);if(!c.length){doAdd(titleCase(f));return}
     openSheet('<h2>'+t('pickFirm')+'</h2><p class="mut">»'+esc(f)+'«</p>'+c.map(x=>'<button class="btn" data-pk="'+esc(x)+'">'+esc(x)+'</button>').join('')+'<button class="btn p" data-pk="'+esc(titleCase(f))+'">➕ '+t('newFirm')+': '+esc(titleCase(f))+'</button><button class="btn" id="pkX">'+t('cancel')+'</button>','pick');
     $('#pkX').onclick=()=>openLoc(lok);$('#sheet').querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>doAdd(b.dataset.pk))};
@@ -1137,8 +1138,8 @@ function resolveFirm(p,typed){
 function handleText(txt,alts,typed){
   const ld=allLocData(),kf=knownFirms();
   const known=f=>!f||kf.some(k=>norm(k)===norm(f));
-  let p=parseCommand(txt,allLocs(),kf,ld,t('noFirm'));
-  if((p.err||!known(p.firma))&&alts)for(const a of alts){if(a===txt)continue;const q=parseCommand(a,allLocs(),kf,ld,t('noFirm'));if(!q.err&&(p.err||known(q.firma))){p=q;txt=a;if(known(q.firma))break}}
+  let p=parseCommand(txt,allLocs(),kf,ld,undefined);
+  if((p.err||!known(p.firma))&&alts)for(const a of alts){if(a===txt)continue;const q=parseCommand(a,allLocs(),kf,ld,undefined);if(!q.err&&(p.err||known(q.firma))){p=q;txt=a;if(known(q.firma))break}}
   if(p.err){openType(txt,false,t(p.err,p.arg));return}
   showConfirm(resolveFirm(p,typed),txt);
 }
