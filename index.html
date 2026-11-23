@@ -355,6 +355,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 @media (prefers-reduced-motion:reduce){.toast{animation:none}}
 .sheet{padding-bottom:calc(18px + env(safe-area-inset-bottom) + var(--kb,0px))}
 .fmsg{margin:6px 2px 0;color:#ff8f8f;font-weight:700;font-size:14px}
+.nmp{user-select:text;-webkit-user-select:text;cursor:text}
 </style>
 </head>
 <body>
@@ -889,7 +890,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='29',APP_DATE='21.11.2026';
+const APP_VER='30',APP_DATE='23.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1713,7 +1714,7 @@ const palMiss=(e,tr)=>{const m=[];if(tr.w){if(!e||!e.v)m.push('vrsta');if(!e||!(
 function itemPalStat(s){const tr=palTr(s.firma);const ok=Math.min(s.palete,(s.pd||[]).filter(e=>palOk(e,tr)).length);return{n:s.palete,ok,tr}}
 function firmPalStat(f){let n=0,ok=0;allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(s.firma)!==norm(f))return;const r=itemPalStat(s);n+=r.n;ok+=r.ok}));return{n,ok}}
 function palBadge(f,blk){const tr=palTr(f);if(!tr.w)return'';const r=firmPalStat(f);if(!r.n)return'';
-  return '<small class="pwb'+(r.ok>=r.n?' ok':'')+(blk?' blk':'')+'" data-pmf="'+esc(f)+'">'+(tr.w?'⚖':'📦')+' '+(r.ok>=r.n?'✓':r.ok+'/'+r.n)+' ✉️</small>'}
+  return '<small class="pwb'+(r.ok>=r.n?' ok':'')+(blk?' blk':'')+'" data-pmf="'+esc(f)+'">'+(tr.w?'⚖':'📦')+' '+(r.ok>=r.n?'✓':r.ok+'/'+r.n)+(canEdit()?' ✉️':' 📋')+'</small>'}
 function palLine(e,tr){const p=[];if(e.v)p.push(pvN(e.v));if(e.h>0)p.push(e.h+' cm');p.push(e.kg>0?e.kg+' kg':(tr.w?'ni stehtana':''));if(tr.k||e.kt)p.push(e.kt?'s paletnim kartonom':'brez kartona');return p.filter(Boolean).join(' · ')}
 function palBlock(s,i,ed){const tr=palTr(s.firma);const pd=s.pd||[];if(!tr.on&&!pd.length)return'';
   let rows='',kg=0,nw=0;for(let j=0;j<s.palete;j++){const e=pd[j];if(e&&e.kg>0)kg+=+e.kg;else nw++;
@@ -1787,12 +1788,15 @@ function openNakMail(firms,lok,day){const M=firms.map(f=>({f,m:nakMailText(f,day
   const subj=M.length===1?M[0].m.subj:'Naklad – '+M.map(x=>x.f).join(', '),body=M.map(x=>x.m.body).join('\n\n');
   mailSheet(subj,body,'✉️ Pošlji pisarni','Naloženo: '+esc(M.map(x=>x.f).join(', ')),()=>{if(lok)openLoc(lok);else goBack()})}
 function mailSheet(subj,body,title,sub,back){
-  const ml=mailList();const sel=new Set(ml.filter(m=>m.def).map(m=>m.e));
-  openSheet('<h2>'+title+'</h2><p class="mut">'+sub+'</p>'+(ml.length?'<div class="ocs">'+ml.map(m=>'<button class="fc'+(sel.has(m.e)?' on':'')+'" data-me="'+esc(m.e)+'">'+esc(m.e)+'</button>').join('')+'</div>':'<p class="mut">Naslovi za mail se nastavijo pri 📷 Slike.</p>')+
-    '<pre class="nmp">'+esc(body)+'</pre><button class="btn p" id="nmS">✉️ Pošlji</button><button class="btn" id="nmC">📋 Kopiraj</button><button class="btn" id="nmX">'+t('close')+'</button>','nakmail');
+  const view=!canEdit();const ml=view?[]:mailList();const sel=new Set(ml.filter(m=>m.def).map(m=>m.e));
+  if(view)title='📋 Podatki o paletah';
+  openSheet('<h2>'+title+'</h2><p class="mut">'+sub+'</p>'+(view?'':(ml.length?'<div class="ocs">'+ml.map(m=>'<button class="fc'+(sel.has(m.e)?' on':'')+'" data-me="'+esc(m.e)+'">'+esc(m.e)+'</button>').join('')+'</div>':'<p class="mut">Naslovi za mail se nastavijo pri 📷 Slike.</p>'))+
+    '<pre class="nmp" id="nmPre" tabindex="0">'+esc(body)+'</pre>'+(view?'':'<button class="btn p" id="nmS">✉️ Pošlji</button>')+'<button class="btn'+(view?' p':'')+'" id="nmC">📋 Kopiraj besedilo</button><button class="btn" id="nmX">'+t('close')+'</button>','nakmail');
   $('#sheet').querySelectorAll('[data-me]').forEach(b=>b.onclick=()=>{const e=b.dataset.me;if(sel.has(e))sel.delete(e);else sel.add(e);b.classList.toggle('on',sel.has(e))});
-  $('#nmS').onclick=()=>{location.href='mailto:'+encodeURIComponent([...sel].join(','))+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body)};
-  $('#nmC').onclick=async()=>{try{await navigator.clipboard.writeText(body);toast('✓ Kopirano')}catch(e){}};
+  if($('#nmS'))$('#nmS').onclick=()=>{location.href='mailto:'+encodeURIComponent([...sel].join(','))+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body)};
+  $('#nmC').onclick=async()=>{let ok=false;try{await navigator.clipboard.writeText(body);ok=true}catch(e){}
+    if(!ok){try{const r=document.createRange();r.selectNodeContents($('#nmPre'));const s=getSelection();s.removeAllRanges();s.addRange(r);ok=document.execCommand('copy')}catch(e){}}
+    toast(ok?'✓ Kopirano – prilepite s Ctrl+V':'Označite besedilo in kopirajte (Ctrl+C)')};
   $('#nmX').onclick=()=>{if(back)back();else goBack()}}
 /* pred nakladom: zakleni, dokler dodatek ni potrjen */
 function dodGuard(lok,firms,proceed,cancel){const L=[];firms.forEach(([f,k])=>dodFor(f,k).forEach(d=>{if(!L.includes(d))L.push(d)}));
