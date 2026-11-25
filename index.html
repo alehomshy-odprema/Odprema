@@ -360,6 +360,13 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .drk.one{grid-template-columns:1fr}
 .nkf{border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0;background:var(--card)}.nkh{display:flex;justify-content:space-between;gap:10px;font-size:17px;padding-bottom:4px;border-bottom:1px solid var(--line);margin-bottom:4px}.nkh span{color:var(--gold);font-weight:800;white-space:nowrap}
 .nkr{display:flex;gap:10px;align-items:baseline;font-size:14px;padding:3px 0;flex-wrap:wrap}.nkt{color:#9aa6bd;min-width:46px}.nkl{color:var(--blue);font-weight:700;min-width:54px}.nkn{font-weight:800;min-width:22px;text-align:right}
+.nkall.nkon{background:#f59e0b;color:#1a1206;border-color:#ffcf7a}
+.nkall{display:block;width:100%;margin-top:10px;border-radius:12px;padding:11px;font-weight:800;font-size:16px;background:#2a2016;border:2px solid #f59e0b;color:#ffcf7a;cursor:pointer}
+.fkr{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line)}.fkr.off .fkl,.fkr.off .fkq{opacity:.4}
+.fkc input{width:24px;height:24px;accent-color:#3b82f6}.fkl{border:2px solid var(--gold);border-radius:10px;padding:3px 10px;color:var(--blue);font-weight:700;min-width:46px;text-align:center}
+.fkq{margin-left:auto;display:flex;align-items:center;gap:6px}.fkq .in{width:64px;text-align:center;font-weight:800;margin:0}.fkq i{font-style:normal;color:#9aa6bd;font-size:13px}
+.fkt{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding:12px 2px;color:var(--gold)}
+.fkd{background:rgba(255,95,162,.12);border:2px solid #ff5fa2;border-radius:12px;padding:9px 11px;font-size:14px;margin:4px 0 8px}
 </style>
 </head>
 <body>
@@ -845,7 +852,8 @@ function applyLang(){
   $('#search').placeholder=t('search');$('#lOver').textContent=t('over');$('#lHist').textContent=t('hist');$('#lRep').textContent=t('rep');$('#lSet').textContent=t('set');$('#lMsg').textContent=t('nMsg');$('#lFoto').textContent=t('nFoto');
 }
 function applyRole(){const v=!canEdit();try{kioAuto(v)}catch(e){}$('#bMic').style.visibility=v?'hidden':'';$('#bType').style.display=v?'none':''}
-function searchQ(){const raw=$('#search').value;const tg=extractTag(tokenize(raw));const fq=tg.k?norm(tg.rest.map(x=>x.r).join('')):norm(raw);return{q:norm(raw),fq,k:tg.k}}
+const NAKRX=/^\s*(naklad\S*|nalo[žz]\S*|nalaganje|utovar\S*)\s+/i;
+function searchQ(){const raw0=$('#search').value;const raw=raw0.replace(NAKRX,'');const nak=raw!==raw0;const tg=extractTag(tokenize(raw));const fq=tg.k?norm(tg.rest.map(x=>x.r).join('')):norm(raw);return{q:norm(raw),fq,k:tg.k,nak}}
 let SX=null;const sxOn=S=>!!(SX&&S.q===norm(SX));
 const itHit=(s,S)=>(SX&&S.q===norm(SX)?norm(curName(s.firma))===norm(SX)||norm(s.firma)===norm(SX):(!S.fq||firmHit(s.firma,S.fq)))&&(!S.k||norm(s.k)===norm(S.k));
 function render(){
@@ -874,18 +882,22 @@ function render(){
 }
 $('#grid').addEventListener('click',e=>{const x=e.target.closest('.tile');if(x)openLoc(x.dataset.lok)});
 $('#search').addEventListener('input',()=>{SX=null;render()});
+$('#search').addEventListener('keydown',e=>{if(e.key!=='Enter')return;const S=searchQ();if(!S.nak||!S.q)return;e.preventDefault();
+  const F=[...new Set((NAKF||[]).map(f=>curName(f)))];const ex=F.filter(f=>norm(f)===S.q);const f=F.length===1?F[0]:ex.length===1?ex[0]:null;
+  if(f){$('#search').blur();openFirmLoad(f)}else toast(F.length?'⚠ Več firm – izberite s tapom':'⚠ Ni zadetkov')});
+let NAKF=[];
 function renderSearch(S){const q=S.q;
-  const el=$('#sres');if(!q){el.innerHTML='';return}
+  const el=$('#sres');NAKF=[];if(!q){el.innerHTML=S.nak?'<div class="sr mut">🚚 Vpišite firmo za naklad</div>':'';return}
   const byF={},locHit=[];
-  for(const l of allLocs()){if(!S.k&&!sxOn(S)&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
+  for(const l of allLocs()){if(!S.nak&&!S.k&&!sxOn(S)&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
   openDods().forEach(d=>{if(!d.firma||!itHit({firma:d.firma,k:d.k||''},S))return;let g=Object.values(byF).find(g=>norm(g.f)===norm(d.firma)&&(!d.k||norm(g.k||'')===norm(d.k)));
     if(!g){const key=fkT(d.firma,d.k);g=byF[key]=byF[key]||{f:d.firma,k:d.k,a:[],d:[]}}g.d.push(d)});
   let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+palBadge(g.f,true)+'</span><span class="tt" data-sf="'+esc(g.f)+'">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
-    D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+'</div>'}).join('');
+    D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+(canEdit()&&a.length?(NAKF.push(g.f),'')+'<button class="nkall'+(S.nak?' nkon':'')+'" data-nkf="'+esc(g.f)+'">🚚 Naklad vse ('+a.reduce((s,x)=>s+x[1],0)+')</button>':'')+'</div>'}).join('');
   if(locHit.length)html+='<div class="sr">'+locHit.slice(0,12).map(l=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+sumOf(locItems(l))+'</b></button>').join('')+'</div>';
   el.innerHTML=html||'<div class="sr mut">'+t('noRes')+'</div>';
 }
-$('#sres').addEventListener('click',e=>{const sf=e.target.closest('[data-sf]');if(sf){SX=sf.dataset.sf;$('#search').value=SX;render();return}const pm=e.target.closest('[data-pmf]');if(pm){openPalMail(pm.dataset.pmf,closeSheet);return}const dd=e.target.closest('[data-dods]');if(dd){openDodSome(dd.dataset.dods.split(','));return}const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
+$('#sres').addEventListener('click',e=>{const nk=e.target.closest('[data-nkf]');if(nk){openFirmLoad(nk.dataset.nkf);return}const sf=e.target.closest('[data-sf]');if(sf){SX=sf.dataset.sf;$('#search').value=SX;render();return}const pm=e.target.closest('[data-pmf]');if(pm){openPalMail(pm.dataset.pmf,closeSheet);return}const dd=e.target.closest('[data-dods]');if(dd){openDodSome(dd.dataset.dods.split(','));return}const b=e.target.closest('[data-go]');if(b)openLoc(b.dataset.go)});
 
 /* ================= okna ================= */
 function ask(msg,onYes,onNo,good){openSheet('<h2>'+(good?'🚚':'⚠️')+'</h2><p style="font-size:18px">'+esc(msg)+'</p><button class="btn p" id="qY" style="background:var('+(good?'--green);color:#0d1320;border-color:var(--green)':'--red);border-color:var(--red)')+'">'+t('yes')+'</button><button class="btn" id="qN">'+t('no')+'</button>','ask');$('#qY').onclick=async()=>{$('#qY').disabled=true;await onYes()};$('#qN').onclick=()=>onNo?onNo():closeSheet()}
@@ -894,7 +906,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='33',APP_DATE='24.11.2026';
+const APP_VER='35',APP_DATE='25.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1148,6 +1160,7 @@ function resolveFirm(p,typed){
   return p}
 function handleText(txt,alts,typed){
   const ld=allLocData(),kf=knownFirms();
+  {const cands=[txt,...(alts||[])];for(const tx of cands){const m=String(tx).trim().match(/^(naklad|nakladaj|naloži|nalozi|naloženo|nalozeno|nalaganje)\s+(.+)$/i);if(!m)continue;const f=voiceFirm(m[2]);if(f){openFirmLoad(f);return}}}
   const known=f=>!f||kf.some(k=>norm(k)===norm(f));
   let p=parseCommand(txt,allLocs(),kf,ld,undefined);
   if((p.err||!known(p.firma))&&alts)for(const a of alts){if(a===txt)continue;const q=parseCommand(a,allLocs(),kf,ld,undefined);if(!q.err&&(p.err||known(q.firma))){p=q;txt=a;if(known(q.firma))break}}
@@ -1175,7 +1188,7 @@ function showConfirm(p,heard){
     '<div class="mut" style="margin-top:8px">'+t('after')+': '+(after.length?after.map(s=>esc(fkT(s.firma,s.k))+' '+s.palete+(s.dup?' ('+t('dupN',s.dup)+')':'')).join(', '):t('empty'))+'</div>'+(c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
     firmChips(p)+'<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
   $('#xB').onclick=closeSheet;
-  $('#okB').onclick=async()=>{const doIt=async()=>{closeSheet();NAK=[];const ok=p.clear?await clearLoc(p.lok,p.firma,p.kind,p.k||undefined):await applyDelta(p.lok,p.firma,p.delta,p.dd||0,p.k);if(ok)toast(t('saved',p.lok));if(ok&&NAK.length){const L=NAK;NAK=[];openNakMail(L,p.lok)}};
+  $('#okB').onclick=async()=>{const doIt=async()=>{closeSheet();NAK=[];if(!p.clear&&p.delta<0&&/nalo[žz]|naklad/i.test(String(heard||''))){const it=locItems(p.lok).find(x=>sameIt(x,p.firma,p.k||''));if(it){const v=Math.min(it.palete,-p.delta);const c={lok:p.lok,firma:it.firma,k:it.k||''};if(v>=it.palete)c.del=true;else{c.d=-v;c.dd=0}const l={kad:Date.now(),ko:me,lok:p.lok,firma:it.firma,delta:-v,opis:'n'};if(it.k)l.k=it.k;if(doWrite([c],[l])){flash(p.lok);toast(t('saved',p.lok))}if(NAK.length){const L=NAK;NAK=[];openNakMail(L,p.lok)}return}}const ok=p.clear?await clearLoc(p.lok,p.firma,p.kind,p.k||undefined):await applyDelta(p.lok,p.firma,p.delta,p.dd||0,p.k);if(ok)toast(t('saved',p.lok));if(ok&&NAK.length){const L=NAK;NAK=[];openNakMail(L,p.lok)}};
     if(p.clear&&(p.kind||'n')==='n'){const F=locItems(p.lok).filter(s=>!p.firma||norm(s.firma)===norm(p.firma)).map(s=>[s.firma,s.k]);nakGuard(p.lok,F,doIt,()=>closeSheet());return}
     if(!p.clear&&p.opis==='n'){nakGuard(p.lok,[[p.firma,p.k]],doIt,()=>closeSheet());return}
     doIt()};
@@ -2077,6 +2090,31 @@ function openNakDetail(){const R=DR.L;if(!R)return;const M=drMulti();const by={}
   $('#nkX').onclick=()=>openDayRep();
   if($('#nkC'))$('#nkC').onclick=async()=>{try{await navigator.clipboard.writeText(nakDetailText());toast('✓ Kopirano – prilepite s Ctrl+V')}catch(e){toast('Kopiranje ni uspelo')}};
   if($('#nkM'))$('#nkM').onclick=()=>{const v=!canEdit();if(v){toast('Pošiljanje ni na voljo');return}mailSheet('Nakladi – '+drPer(),nakDetailText(),'✉️ Pošlji naklade','Nakladi: '+drPer(),()=>openNakDetail())}}
+
+function voiceFirm(raw){try{const L=allLocs();if(!L.length)return null;const p=parseCommand(L[0]+' naloženo '+raw,L,knownFirms(),{},undefined);if(p&&!p.err&&p.firma&&firmRows(p.firma).length)return p.firma}catch(e){}
+  const q=norm(raw);const F=[...new Set(allLocs().flatMap(l=>locItems(l).map(s=>curName(s.firma))))];return F.find(f=>norm(f)===q)||F.find(f=>norm(f).startsWith(q))||F.find(f=>norm(f).includes(q))||null}
+function firmRows(f){const n=norm(curName(f));const R=[];allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(curName(s.firma))===n)R.push({lok:l,s})}));return R}
+function openFirmLoad(f){if(!canEdit())return;const R=firmRows(f);if(!R.length){toast('Firma '+f+' ni na nobeni lokaciji');return}const F=curName(R[0].s.firma);
+  const sel=R.map(()=>true),val=R.map(r=>r.s.palete);
+  const D=openDods().filter(d=>norm(d.firma)===norm(F));
+  openSheet('<h2>🚚 Naklad · '+esc(F)+'</h2><p class="mut">Odkljukaj lokacije, ki ne gredo na ta kamion.</p><div id="fkR"></div><div class="fkt"><span>Skupaj naloženo</span><b id="fkS"></b></div>'+
+    (D.length?'<div class="fkd">📌 Dodatek: '+D.map(d=>esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')).join(', ')+' – dodaj na paleto pred nakladom</div>':'')+
+    '<button class="btn ld" id="fkOk"></button><button class="btn" id="fkX">'+t('cancel')+'</button>','firmload');
+  const draw=()=>{$('#fkR').innerHTML=R.map((r,i)=>'<div class="fkr'+(sel[i]?'':' off')+'"><label class="fkc"><input type="checkbox" data-fc="'+i+'"'+(sel[i]?' checked':'')+'></label><span class="fkl">'+esc(r.lok)+'</span>'+(r.s.k?'<span class="mut">'+esc(r.s.k)+'</span>':'')+'<span class="fkq"><input class="in num" type="number" inputmode="numeric" min="0" max="'+r.s.palete+'" value="'+(sel[i]?val[i]:0)+'" data-fq="'+i+'"><i>/ '+r.s.palete+'</i></span></div>').join('');
+    $('#fkR').querySelectorAll('[data-fc]').forEach(c=>c.onchange=()=>{const i=+c.dataset.fc;sel[i]=c.checked;if(sel[i]&&!val[i])val[i]=R[i].s.palete;draw()});
+    $('#fkR').querySelectorAll('[data-fq]').forEach(c=>c.oninput=()=>{const i=+c.dataset.fq;val[i]=Math.max(0,Math.min(R[i].s.palete,parseInt(c.value)||0));sel[i]=val[i]>0;c.closest('.fkr').classList.toggle('off',!sel[i]);$('#fkR [data-fc="'+i+'"]').checked=sel[i];sum()});sum()};
+  const sum=()=>{const n=R.reduce((s,r,i)=>s+(sel[i]?val[i]:0),0);$('#fkS').textContent=pal(n);$('#fkOk').textContent='✓ Potrdi naklad ('+n+')';$('#fkOk').disabled=!n};
+  draw();$('#fkX').onclick=()=>{closeSheet()};
+  $('#fkOk').onclick=()=>{if(!writable())return;const S=R.map((r,i)=>({r,v:sel[i]?Math.min(val[i],r.s.palete):0})).filter(x=>x.v>0);if(!S.length)return;
+    let i=0;const next=()=>{if(i>=S.length){doIt();return}const x=S[i++];nakGuard(x.r.lok,[[x.r.s.firma,x.r.s.k]],next,()=>openFirmLoad(F))};
+    const doIt=()=>{const ch=[],logs=[],kad=Date.now();S.forEach(({r,v})=>{const s=r.s;const c={lok:r.lok,firma:s.firma,k:s.k};if(v>=s.palete)c.del=true;else{c.d=-v;c.dd=0}ch.push(c);const l={kad,ko:me,lok:r.lok,firma:s.firma,delta:-v,opis:'n'};if(v>=s.palete&&s.dup)l.dup=-s.dup;if(s.k)l.k=s.k;logs.push(l)});
+      NAK=[];const ok=doWrite(ch,logs);const M=NAK.slice();NAK=[];if(!ok)return;S.forEach(x=>flash(x.r.lok));
+      const left=firmRows(F);const tot=S.reduce((a,x)=>a+x.v,0);
+      openSheet('<h2>✓ Naloženo</h2><p class="mut">'+esc(F)+' · '+pal(tot)+'</p>'+S.map(x=>'<div class="fkr"><span class="fkl">'+esc(x.r.lok)+'</span><span class="fkq"><i>'+pal(x.v)+'</i></span></div>').join('')+
+        (left.length?'<p class="mut" style="margin-top:10px">Ostane: '+left.map(r=>esc(r.lok)+' ('+r.s.palete+')').join(', ')+'</p>':'')+
+        (M.length?'<button class="btn p" id="fkM">✉️ Pošlji pisarni</button>':'')+'<button class="btn" id="fkC">'+t('close')+'</button>','firmloaded');
+      if($('#fkM'))$('#fkM').onclick=()=>openNakMail(M,null);$('#fkC').onclick=()=>closeSheet()};
+    next()}}
 </script>
 </body>
 </html>
