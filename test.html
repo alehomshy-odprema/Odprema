@@ -360,6 +360,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .drk.one{grid-template-columns:1fr}
 .nkf{border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0;background:var(--card)}.nkh{display:flex;justify-content:space-between;gap:10px;font-size:17px;padding-bottom:4px;border-bottom:1px solid var(--line);margin-bottom:4px}.nkh span{color:var(--gold);font-weight:800;white-space:nowrap}
 .nkr{display:flex;gap:10px;align-items:baseline;font-size:14px;padding:3px 0;flex-wrap:wrap}.nkt{color:#9aa6bd;min-width:46px}.nkl{color:var(--blue);font-weight:700;min-width:54px}.nkn{font-weight:800;min-width:22px;text-align:right}
+.nkall.nkon{background:#f59e0b;color:#1a1206;border-color:#ffcf7a}
 .nkall{display:block;width:100%;margin-top:10px;border-radius:12px;padding:11px;font-weight:800;font-size:16px;background:#2a2016;border:2px solid #f59e0b;color:#ffcf7a;cursor:pointer}
 .fkr{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line)}.fkr.off .fkl,.fkr.off .fkq{opacity:.4}
 .fkc input{width:24px;height:24px;accent-color:#3b82f6}.fkl{border:2px solid var(--gold);border-radius:10px;padding:3px 10px;color:var(--blue);font-weight:700;min-width:46px;text-align:center}
@@ -853,7 +854,8 @@ function applyLang(){
   $('#search').placeholder=t('search');$('#lOver').textContent=t('over');$('#lHist').textContent=t('hist');$('#lRep').textContent=t('rep');$('#lSet').textContent=t('set');$('#lMsg').textContent=t('nMsg');$('#lFoto').textContent=t('nFoto');
 }
 function applyRole(){const v=!canEdit();try{kioAuto(v)}catch(e){}$('#bMic').style.visibility=v?'hidden':'';$('#bType').style.display=v?'none':''}
-function searchQ(){const raw=$('#search').value;const tg=extractTag(tokenize(raw));const fq=tg.k?norm(tg.rest.map(x=>x.r).join('')):norm(raw);return{q:norm(raw),fq,k:tg.k}}
+const NAKRX=/^\s*(naklad\S*|nalo[žz]\S*|nalaganje|utovar\S*)\s+/i;
+function searchQ(){const raw0=$('#search').value;const raw=raw0.replace(NAKRX,'');const nak=raw!==raw0;const tg=extractTag(tokenize(raw));const fq=tg.k?norm(tg.rest.map(x=>x.r).join('')):norm(raw);return{q:norm(raw),fq,k:tg.k,nak}}
 let SX=null;const sxOn=S=>!!(SX&&S.q===norm(SX));
 const itHit=(s,S)=>(SX&&S.q===norm(SX)?norm(curName(s.firma))===norm(SX)||norm(s.firma)===norm(SX):(!S.fq||firmHit(s.firma,S.fq)))&&(!S.k||norm(s.k)===norm(S.k));
 function render(){
@@ -882,14 +884,18 @@ function render(){
 }
 $('#grid').addEventListener('click',e=>{const x=e.target.closest('.tile');if(x)openLoc(x.dataset.lok)});
 $('#search').addEventListener('input',()=>{SX=null;render()});
+$('#search').addEventListener('keydown',e=>{if(e.key!=='Enter')return;const S=searchQ();if(!S.nak||!S.q)return;e.preventDefault();
+  const F=[...new Set((NAKF||[]).map(f=>curName(f)))];const ex=F.filter(f=>norm(f)===S.q);const f=F.length===1?F[0]:ex.length===1?ex[0]:null;
+  if(f){$('#search').blur();openFirmLoad(f)}else toast(F.length?'⚠ Več firm – izberite s tapom':'⚠ Ni zadetkov')});
+let NAKF=[];
 function renderSearch(S){const q=S.q;
-  const el=$('#sres');if(!q){el.innerHTML='';return}
+  const el=$('#sres');NAKF=[];if(!q){el.innerHTML=S.nak?'<div class="sr mut">🚚 Vpišite firmo za naklad</div>':'';return}
   const byF={},locHit=[];
-  for(const l of allLocs()){if(!S.k&&!sxOn(S)&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
+  for(const l of allLocs()){if(!S.nak&&!S.k&&!sxOn(S)&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
   openDods().forEach(d=>{if(!d.firma||!itHit({firma:d.firma,k:d.k||''},S))return;let g=Object.values(byF).find(g=>norm(g.f)===norm(d.firma)&&(!d.k||norm(g.k||'')===norm(d.k)));
     if(!g){const key=fkT(d.firma,d.k);g=byF[key]=byF[key]||{f:d.firma,k:d.k,a:[],d:[]}}g.d.push(d)});
   let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+palBadge(g.f,true)+'</span><span class="tt" data-sf="'+esc(g.f)+'">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
-    D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+(canEdit()&&a.length?'<button class="nkall" data-nkf="'+esc(g.f)+'">🚚 Naklad vse ('+a.reduce((s,x)=>s+x[1],0)+')</button>':'')+'</div>'}).join('');
+    D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+(canEdit()&&a.length?(NAKF.push(g.f),'')+'<button class="nkall'+(S.nak?' nkon':'')+'" data-nkf="'+esc(g.f)+'">🚚 Naklad vse ('+a.reduce((s,x)=>s+x[1],0)+')</button>':'')+'</div>'}).join('');
   if(locHit.length)html+='<div class="sr">'+locHit.slice(0,12).map(l=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+sumOf(locItems(l))+'</b></button>').join('')+'</div>';
   el.innerHTML=html||'<div class="sr mut">'+t('noRes')+'</div>';
 }
@@ -902,7 +908,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='34',APP_DATE='25.11.2026';
+const APP_VER='35',APP_DATE='25.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
