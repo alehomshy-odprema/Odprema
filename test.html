@@ -360,6 +360,13 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .drk.one{grid-template-columns:1fr}
 .nkf{border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0;background:var(--card)}.nkh{display:flex;justify-content:space-between;gap:10px;font-size:17px;padding-bottom:4px;border-bottom:1px solid var(--line);margin-bottom:4px}.nkh span{color:var(--gold);font-weight:800;white-space:nowrap}
 .nkr{display:flex;gap:10px;align-items:baseline;font-size:14px;padding:3px 0;flex-wrap:wrap}.nkt{color:#9aa6bd;min-width:46px}.nkl{color:var(--blue);font-weight:700;min-width:54px}.nkn{font-weight:800;min-width:22px;text-align:right}
+.ssr{display:flex;gap:8px;margin-top:8px}.ssr .in{flex:1;margin:0;font-variant-numeric:tabular-nums;letter-spacing:.5px}.ssr .in.bad{border-color:#ff7676;background:rgba(255,118,118,.1)}
+.scb{flex:0 0 54px;border-radius:12px;border:2px solid var(--line);background:var(--card,#1b2433);font-size:24px;cursor:pointer}
+.scov{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column}.scov video{flex:1;width:100%;height:100%;object-fit:cover;min-height:0}
+.scfr{position:absolute;left:8%;right:8%;top:32%;height:22%;border:3px solid #f59e0b;border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.35);pointer-events:none}
+.scbt{position:absolute;left:0;right:0;bottom:0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(0,0,0,.85) 30%)}.scm{color:#fff;font-weight:700;font-size:17px;text-align:center;margin-bottom:8px}.scbt .btns{display:flex;gap:8px}.scbt .btn{flex:1;margin:0}
+.pkw{margin-top:8px}.pkb{background:none;border:0;color:var(--gold,#f5c542);font-weight:700;font-size:15px;padding:6px 0;cursor:pointer}
+.pkl{border:1px solid var(--line);border-radius:12px;padding:4px 10px;margin-top:4px}.pkr{display:flex;gap:10px;align-items:center;padding:9px 0;color:var(--ink);font-weight:500;margin:0;border-bottom:1px solid var(--line);font-size:15px;cursor:pointer}.pkr:last-child{border-bottom:0}.pkr input{width:22px;height:22px;flex:0 0 22px;margin:0}
 .nkall.nkon{background:#f59e0b;color:#1a1206;border-color:#ffcf7a}
 .nkall{display:block;width:100%;margin-top:10px;border-radius:12px;padding:11px;font-weight:800;font-size:16px;background:#2a2016;border:2px solid #f59e0b;color:#ffcf7a;cursor:pointer}
 .fkr{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line)}.fkr.off .fkl,.fkr.off .fkq{opacity:.4}
@@ -842,7 +849,7 @@ function planMove(p){
 async function applyMove(from,to,items){
   if(!writable())return false;
   const kad=Date.now();
-  const ok=doWrite([...items.map(x=>({lok:from,firma:x.firma,k:x.k||'',d:-x.n,dd:-(x.dm||0)})),...items.map(x=>({lok:to,firma:x.firma,k:x.k||'',d:x.n,dd:x.dm||0}))],
+  const ok=doWrite([...items.map(x=>{const c={lok:from,firma:x.firma,k:x.k||'',d:-x.n,dd:-(x.dm||0)};if(x.pick&&x.pick.length===x.n)c.pdPick=x.pick;return c}),...items.map(x=>({lok:to,firma:x.firma,k:x.k||'',d:x.n,dd:x.dm||0}))],
     items.map(x=>{const l={kad,ko:me,lok:from,do:to,firma:x.firma,delta:x.n};if(x.dm)l.dup=x.dm;if(x.k)l.k=x.k;return l}));
   if(ok){flash(to);toast(t('mvDone',from,to))}return ok;
 }
@@ -908,7 +915,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='35',APP_DATE='25.11.2026';
+const APP_VER='36',APP_DATE='25.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true)};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1005,21 +1012,23 @@ function openLoad(lok,focusI){
   const st0=locItems(lok);if(!st0.length){openLoc(lok);return}const one=typeof focusI==='number'&&st0[focusI];const st=one?[st0[focusI]]:st0;if(one)focusI=0;const S=searchQ();
   openSheet('<h2>🚚 '+t('ldT')+' · '+esc(lok)+'</h2><p class="mut">'+t('ldHelp')+'</p>'+st.map((s,i)=>{const warn=S.k&&S.fq&&firmHit(s.firma,S.fq)&&norm(s.k)!==norm(S.k);
     return '<div class="ldr'+(warn?' wr':'')+'"><div class="nm">'+esc(s.firma)+tagH(s.k)+' <span class="mut">· '+t('ldOn',s.palete)+(s.dup?' ('+t('dupN',s.dup)+')':'')+'</span>'+(warn?'<div class="err">⚠ '+t('ldWarn',esc(fkT(s.firma,s.k)))+'</div>':'')+'</div>'+
-    '<div class="ldq"><button class="sq" data-lm="'+i+'">−</button><input class="in num" type="number" inputmode="numeric" min="0" max="'+s.palete+'" value="'+(one?s.palete:0)+'" data-lq="'+i+'"><button class="sq" data-lp="'+i+'">+</button><button class="fc" data-la="'+i+'">'+t('ldAll')+'</button></div></div>'}).join('')+
+    '<div class="ldq"><button class="sq" data-lm="'+i+'">−</button><input class="in num" type="number" inputmode="numeric" min="0" max="'+s.palete+'" value="'+(one?s.palete:0)+'" data-lq="'+i+'"><button class="sq" data-lp="'+i+'">+</button><button class="fc" data-la="'+i+'">'+t('ldAll')+'</button></div>'+pickHtml(s,'l'+i)+'</div>'}).join('')+
     '<div class="card" id="ldSum"></div><button class="btn ld" id="ldOk">'+t('ldOk')+'</button><button class="btn d sm" id="ldDel">'+t('ldDel')+'</button><button class="btn" id="ldX">'+t('cancel')+'</button>','load',{lok});
   const Q=i=>$('#sheet [data-lq="'+i+'"]');
   const upd=()=>{let n=0;const parts=[];st.forEach((s,i)=>{let v=Math.max(0,Math.min(s.palete,parseInt(Q(i).value)||0));if(String(v)!==Q(i).value)Q(i).value=v;if(v){n+=v;parts.push(esc(fkT(s.firma,s.k))+' '+v)}});
     $('#ldSum').innerHTML=n?'<b>'+t('ldWill',n)+'</b><div class="mut">'+parts.join(', ')+'</div>':'<span class="mut">'+t('ldNone')+'</span>';$('#ldOk').disabled=$('#ldDel').disabled=!n;$('#ldOk').style.opacity=$('#ldDel').style.opacity=n?1:.4;return n};
-  $('#sheet').querySelectorAll('[data-lq]').forEach(e=>e.oninput=upd);
-  $('#sheet').querySelectorAll('[data-lm]').forEach(b=>b.onclick=()=>{const e=Q(b.dataset.lm);e.value=Math.max(0,(parseInt(e.value)||0)-1);upd()});
-  $('#sheet').querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{const e=Q(b.dataset.lp);e.value=(parseInt(e.value)||0)+1;upd()});
-  $('#sheet').querySelectorAll('[data-la]').forEach(b=>b.onclick=()=>{const i=+b.dataset.la;Q(i).value=st[i].palete;upd()});
-  const go=kind=>{if(!writable())return;const ch=[],logs=[],kad=Date.now();
-    st.forEach((s,i)=>{const v=Math.max(0,Math.min(s.palete,parseInt(Q(i).value)||0));if(!v)return;const c={lok,firma:s.firma,k:s.k};if(v>=s.palete)c.del=true;else{c.d=-v;c.dd=0}ch.push(c);
+  const sh0=$('#sheet'),pc=i=>pickClear(sh0,'l'+i);
+  sh0.querySelectorAll('[data-lq]').forEach(e=>e.oninput=()=>{pc(e.dataset.lq);upd()});
+  sh0.querySelectorAll('[data-lm]').forEach(b=>b.onclick=()=>{pc(b.dataset.lm);const e=Q(b.dataset.lm);e.value=Math.max(0,(parseInt(e.value)||0)-1);upd()});
+  sh0.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{pc(b.dataset.lp);const e=Q(b.dataset.lp);e.value=(parseInt(e.value)||0)+1;upd()});
+  sh0.querySelectorAll('[data-la]').forEach(b=>b.onclick=()=>{const i=+b.dataset.la;pc(i);Q(i).value=st[i].palete;upd()});
+  st.forEach((s,i)=>pickWire(sh0,'l'+i,ix=>{Q(i).value=ix.length;upd()}));
+  const go=(kind,P)=>{if(!writable())return;const ch=[],logs=[],kad=Date.now();P=P||st.map((s,i)=>pickGet($('#sheet'),'l'+i));
+    st.forEach((s,i)=>{const v=Math.max(0,Math.min(s.palete,parseInt(Q(i).value)||0));if(!v)return;const c={lok,firma:s.firma,k:s.k};if(v>=s.palete)c.del=true;else{c.d=-v;c.dd=0;if(P[i]&&P[i].length===v)c.pdPick=P[i]}ch.push(c);
       const l={kad,ko:me,lok,firma:s.firma,delta:-v,opis:kind};if(v>=s.palete&&s.dup)l.dup=-s.dup;if(s.k)l.k=s.k;logs.push(l)});
     if(!ch.length)return;NAK=[];if(doWrite(ch,logs)){flash(lok);toast(t('saved',lok))}if(kind==='n'&&NAK.length){const L=NAK;NAK=[];openNakMail(L,lok)}else openLoc(lok)};
-  $('#ldOk').onclick=()=>{const F=st.filter((s,i)=>(parseInt(Q(i).value)||0)>0).map(s=>[s.firma,s.k]);const vals=st.map((s,i)=>Q(i).value);
-    nakGuard(lok,F,()=>{if(!$('#sheet [data-lq]')){openLoad(lok);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]})}go('n')},()=>{openLoad(lok);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]});upd()})};$('#ldDel').onclick=()=>ask(t('ldDelQ'),()=>go('d'),()=>openLoad(lok));$('#ldX').onclick=()=>openLoc(lok);
+  $('#ldOk').onclick=()=>{const F=st.filter((s,i)=>(parseInt(Q(i).value)||0)>0).map(s=>[s.firma,s.k]);const vals=st.map((s,i)=>Q(i).value);const P=st.map((s,i)=>pickGet(sh0,'l'+i));
+    nakGuard(lok,F,()=>{if(!$('#sheet [data-lq]')){openLoad(lok,one?st0.indexOf(st[0]):undefined);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]})}go('n',P)},()=>{openLoad(lok);st.forEach((s,i)=>{const e=Q(i);if(e)e.value=vals[i]});upd()})};$('#ldDel').onclick=()=>ask(t('ldDelQ'),()=>go('d'),()=>openLoad(lok));$('#ldX').onclick=()=>openLoc(lok);
   upd();if(focusI!==undefined&&Q(focusI))setTimeout(()=>{const e=Q(focusI);if(e){e.scrollIntoView({block:'center'});e.select()}},150);
 }
 function opisTxt(x){return x.opis==='n'?t('loaded'):x.opis==='d'?t('deleted'):x.opis?t('emptied'):''}
@@ -1200,10 +1209,10 @@ function showConfirm(p,heard){
 function showMoveConfirm(p,heard){
   if(p.needPick)return pickScreen(p,heard,()=>showMoveConfirm(p,heard));
   const pl=planMove(p);if(pl.err){openType(heard,false,pl.err);return}
-  const items=pl.items,aft=addAll(clone(locItems(p.to)),items),c=capOf(p.to),n=placesOf(aft);
+  const items=pl.items;if(p.pick&&items.length===1&&items[0].n===p.pick.length)items[0].pick=p.pick;const aft=addAll(clone(locItems(p.to)),items),c=capOf(p.to),n=placesOf(aft);
   const bef=addAll(clone(locItems(p.lok)),items.map(x=>({...x,n:-x.n,dm:-(x.dm||0)})));
   openSheet((heard?'<div class="mut">'+t('heard')+': »'+esc(heard)+'«</div>':'')+'<div class="card"><div class="mut">'+t('mvT')+'</div><div class="big">'+esc(p.lok)+' → '+esc(p.to)+'</div>'+
-    items.map(x=>'<div style="font-size:19px">'+esc(x.firma)+tagH(x.k)+' <span class="plus">'+pal(x.n)+'</span>'+(x.dm?' <span class="mut">('+t('dupN',x.dm)+')</span>':'')+'</div>'+(x.capped?'<div class="err">'+t('mvCap',x.avail)+'</div>':'')).join('')+
+    items.map(x=>'<div style="font-size:19px">'+esc(x.firma)+tagH(x.k)+' <span class="plus">'+pal(x.n)+'</span>'+(x.dm?' <span class="mut">('+t('dupN',x.dm)+')</span>':'')+'</div>'+(x.capped?'<div class="err">'+t('mvCap',x.avail)+'</div>':'')+(x.pick?(()=>{const s=locItems(p.lok).find(y=>sameIt(y,x.firma,x.k||''));const tr=palTr(x.firma);return x.pick.map(j=>{const e=s&&(s.pd||[])[j];return '<div class="pdr"><span class="pdn">'+(j+1)+'</span><span>'+(e?esc(palLine(e,tr)):'<span class="mut">ni podatkov</span>')+'</span></div>'}).join('')})():'')).join('')+
     '<div class="mut" style="margin-top:8px">'+esc(p.lok)+': '+(bef.length?bef.map(s=>esc(s.firma)+' '+s.palete).join(', '):t('empty'))+'<br>'+esc(p.to)+': '+aft.map(s=>esc(s.firma)+' '+s.palete).join(', ')+'</div>'+
     (c&&n>c?'<div class="err">'+t('overCap',n,c)+'</div>':'')+'</div>'+
     firmChips(p)+'<button class="btn p" id="okB">'+t('confirm')+'</button><div class="btns"><button class="btn" id="againB">'+t('again')+'</button><button class="btn" id="editB">'+t('fix')+'</button></div><button class="btn" id="xB">'+t('cancel')+'</button>','confirm');
@@ -1216,9 +1225,11 @@ function openMoveSheet(lok,firma,n,k){
   const opts=allLocs().filter(l=>l!==lok).map(l=>'<option>'+esc(l)+'</option>').join('');
   if(!firma){openSheet('<h2>'+t('mvAllT',esc(lok))+'</h2><p class="mut">'+locItems(lok).map(s=>esc(s.firma)+' '+s.palete).join(', ')+'</p><label>'+t('mvTo')+'</label><select class="in" id="mTo">'+opts+'</select><button class="btn p" id="mGo">'+t('next')+'</button><button class="btn" id="mX">'+t('cancel')+'</button>','move');
     $('#mX').onclick=()=>openLoc(lok);$('#mGo').onclick=()=>showMoveConfirm({move:true,lok,to:$('#mTo').value,firma:null,qty:null},'');return}
-  openSheet('<h2>'+t('mvT')+': '+esc(lok)+'</h2><div class="big" style="font-size:18px">'+esc(firma)+tagH(k)+'</div><label>'+t('mvQty')+'</label><input class="in num" id="mQ" type="number" inputmode="numeric" min="1" max="'+n+'" value="'+n+'" style="width:100px"><label>'+t('mvTo')+'</label><select class="in" id="mTo">'+opts+'</select><button class="btn p" id="mGo">'+t('next')+'</button><button class="btn" id="mX">'+t('cancel')+'</button>','move');
+  const s0=locItems(lok).find(x=>sameIt(x,firma,k||''));const pkH=s0?pickHtml(s0,'m',[],true):'';
+  openSheet('<h2>'+t('mvT')+': '+esc(lok)+'</h2><div class="big" style="font-size:18px">'+esc(firma)+tagH(k)+'</div><label>'+t('mvQty')+'</label><input class="in num" id="mQ" type="number" inputmode="numeric" min="1" max="'+n+'" value="'+n+'" style="width:100px">'+(pkH?'<p class="mut" style="margin:6px 0 0">Označi palete, ki jih premikaš – ali samo vpiši število.</p>'+pkH:'')+'<label>'+t('mvTo')+'</label><select class="in" id="mTo">'+opts+'</select><button class="btn p" id="mGo">'+t('next')+'</button><button class="btn" id="mX">'+t('cancel')+'</button>','move');
   $('#mX').onclick=()=>openLoc(lok);
-  $('#mGo').onclick=()=>{const q=Math.max(1,parseInt($('#mQ').value)||0);showMoveConfirm({move:true,lok,to:$('#mTo').value,firma,k:k||'',qty:q},'')};
+  const shm=$('#sheet');pickWire(shm,'m',ix=>{$('#mQ').value=ix.length||n});$('#mQ').oninput=()=>pickClear(shm,'m');
+  $('#mGo').onclick=()=>{const q=Math.max(1,parseInt($('#mQ').value)||0);const P=pickGet(shm,'m');showMoveConfirm({move:true,lok,to:$('#mTo').value,firma,k:k||'',qty:q,pick:P.length===q&&q<n?P:null},'')};
 }
 function openType(text,focus,err){
   if(!ready()||noEdit())return;
@@ -1734,7 +1745,34 @@ function itemPalStat(s){const tr=palTr(s.firma);const ok=Math.min(s.palete,(s.pd
 function firmPalStat(f){let n=0,ok=0;allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(s.firma)!==norm(f))return;const r=itemPalStat(s);n+=r.n;ok+=r.ok}));return{n,ok}}
 function palBadge(f,blk){const tr=palTr(f);if(!tr.w)return'';const r=firmPalStat(f);if(!r.n)return'';
   return '<small class="pwb'+(r.ok>=r.n?' ok':'')+(blk?' blk':'')+'" data-pmf="'+esc(f)+'">'+(tr.w?'⚖':'📦')+' '+(r.ok>=r.n?'✓':r.ok+'/'+r.n)+(canEdit()?' ✉️':' 📋')+'</small>'}
-function palLine(e,tr){const p=[];if(e.v)p.push(pvN(e.v));if(e.h>0)p.push(e.h+' cm');p.push(e.kg>0?e.kg+' kg':(tr.w?'ni stehtana':''));if(tr.k||e.kt)p.push(e.kt?'s paletnim kartonom':'brez kartona');return p.filter(Boolean).join(' · ')}
+function palLine(e,tr){const p=[];p.push(e.kg>0?e.kg+' kg':(tr.w?'ni stehtana':''));if(e.h>0)p.push(e.h+' cm');if(e.v)p.push(pvN(e.v));if(tr.k||e.kt)p.push(e.kt?'s paletnim kartonom':'brez kartona');if(e.ss)p.push('SSCC '+e.ss);return p.filter(Boolean).join(' · ')}
+/* SSCC */
+function gs1ok(d){if(!/^\d{18}$/.test(d))return false;let t=0;for(let i=0;i<17;i++)t+=(+d[16-i])*(i%2?1:3);return (10-t%10)%10===+d[17]}
+function ssNorm(v){let d=String(v||'').replace(/\D/g,'');if(d.length===20&&d.startsWith('00'))d=d.slice(2);return d}
+function ssccOf(raw){raw=String(raw||'');const m=raw.match(/\(00\)\s*(\d{18})/);if(m&&gs1ok(m[1]))return m[1];
+  const D=raw.replace(/^\][A-Za-z]\d/,'').replace(/\D/g,'');if(D.length>=20&&D.startsWith('00')&&gs1ok(D.slice(2,20)))return D.slice(2,20);if(D.length===18&&gs1ok(D))return D;return null}
+function ssWhere(ss,skip){let r=null;allLocs().forEach(l=>locItems(l).forEach(s=>(s.pd||[]).forEach((e,j)=>{if(!r&&e&&e.ss===ss&&!(skip&&skip(l,s,j)))r=l+' · '+fkT(s.firma,s.k)+' · paleta '+(j+1)})));return r}
+let BDX=null;
+async function getBD(){if(BDX)return BDX;const fm=['code_128','data_matrix','qr_code'];
+  if('BarcodeDetector' in window){try{const sf=await BarcodeDetector.getSupportedFormats();if(sf.includes('code_128'))return BDX=new BarcodeDetector({formats:fm.filter(f=>sf.includes(f))})}catch(e){}}
+  const m=await import('https://cdn.jsdelivr.net/npm/barcode-detector@3.2.1/dist/es/ponyfill.min.js');return BDX=new m.BarcodeDetector({formats:fm})}
+function scanSSCC(cb){document.querySelectorAll('.scov').forEach(x=>x.remove());
+  const ov=document.createElement('div');ov.className='scov';ov.innerHTML='<video playsinline muted></video><div class="scfr"></div><div class="scbt"><div class="scm">Nalagam kamero …</div><div class="btns"><button class="btn" data-sct hidden>🔦 Luč</button><button class="btn" data-scx>✕ Zapri</button></div></div>';
+  document.body.appendChild(ov);const v=ov.querySelector('video'),msg=ov.querySelector('.scm');let st=null,on=true,tm=null,torch=false;
+  const stop=()=>{on=false;clearTimeout(tm);try{st&&st.getTracks().forEach(t=>t.stop())}catch(e){}ov.remove()};
+  ov.querySelector('[data-scx]').onclick=stop;
+  (async()=>{let det;try{[st,det]=await Promise.all([navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},audio:false}),getBD()])}
+    catch(e){stop();toast(e&&e.name==='NotAllowedError'?'⚠ Kamera ni dovoljena – dovolite jo v nastavitvah brskalnika':'⚠ Skener ni na voljo – vpišite SSCC ročno');return}
+    if(!on){st.getTracks().forEach(t=>t.stop());return}
+    v.srcObject=st;try{await v.play()}catch(e){}
+    try{const tr=st.getVideoTracks()[0],cp=tr.getCapabilities?tr.getCapabilities():{};if(cp.torch){const tb=ov.querySelector('[data-sct]');tb.hidden=false;tb.onclick=()=>{torch=!torch;tr.applyConstraints({advanced:[{torch}]}).catch(()=>{});tb.classList.toggle('p',torch)}}}catch(e){}
+    msg.textContent='Usmerite kamero na črtno kodo SSCC';const cv=document.createElement('canvas'),cx=cv.getContext('2d',{willReadFrequently:true});let bad=0;
+    const loop=async()=>{if(!on)return;try{if(v.readyState>=2&&v.videoWidth){const sc=Math.min(1,1600/v.videoWidth);cv.width=Math.round(v.videoWidth*sc);cv.height=Math.round(v.videoHeight*sc);cx.drawImage(v,0,0,cv.width,cv.height);
+      const R=await det.detect(cv);if(!on)return;let got=null;for(const b of R||[]){got=ssccOf(b.rawValue);if(got)break}
+      if(got){try{navigator.vibrate&&navigator.vibrate(80)}catch(e){}stop();cb(got);return}
+      if(R&&R.length){bad++;msg.textContent='To ni SSCC koda – poiščite kodo (00) …'}}}catch(e){}
+      tm=setTimeout(loop,150)};loop()})()}
+
 function palBlock(s,i,ed){const tr=palTr(s.firma);const pd=s.pd||[];if(!tr.on&&!pd.length)return'';
   let rows='',kg=0,nw=0;for(let j=0;j<s.palete;j++){const e=pd[j];if(e&&e.kg>0)kg+=+e.kg;else nw++;
     const ok=palOk(e,tr);rows+='<div class="pdr'+(ok?'':' miss')+'"><span class="pdn">'+(j+1)+'</span><span>'+(e?esc(palLine(e,tr))+(e.o?'<div class="mut">📝 '+esc(e.o)+'</div>':''):'<span class="mut">ni vpisano</span>')+'</span>'+(ok?'':'<span class="pdq">?</span>')+'</div>'}
@@ -1751,31 +1789,49 @@ function palHook(changes,logs){
     if(c.pdSet){c.pd=c.pdSet;delete c.pdSet;work[c.lok+'|'+itemKey(c.firma,c.k)]=c.pd.slice();continue}
     const key=itemKey(c.firma,c.k);
     if(c.del){const it0=locItems(c.lok).find(x=>sameIt(x,c.firma,c.k));if(it0&&it0.o)NOTE[key]=it0.o;const a=W(c.lok,c.firma,c.k);const rm=a.splice(0,a.length);(pool[key]=pool[key]||[]).push(...rm);attach(c.lok,c.firma,c.k,rm);continue}
-    if(c.d<0){const a=W(c.lok,c.firma,c.k);if(a.length){const rm=a.splice(Math.max(0,a.length+c.d),-c.d);(pool[key]=pool[key]||[]).push(...rm);c.pd=a.slice();attach(c.lok,c.firma,c.k,rm)}else attach(c.lok,c.firma,c.k,[]);continue}}
+    if(c.d<0){const a=W(c.lok,c.firma,c.k);const PK=c.pdPick;delete c.pdPick;
+      if(a.length&&PK&&PK.length===-c.d){const ix=PK.filter(j=>j<a.length).sort((x,y)=>y-x);const rm=[];ix.forEach(j=>rm.unshift(...a.splice(j,1)));(pool[key]=pool[key]||[]).push(...rm);c.pd=a.slice();attach(c.lok,c.firma,c.k,rm);continue}
+      if(a.length){const rm=a.splice(Math.max(0,a.length+c.d),-c.d);(pool[key]=pool[key]||[]).push(...rm);c.pd=a.slice();attach(c.lok,c.firma,c.k,rm)}else attach(c.lok,c.firma,c.k,[]);continue}}
   for(const c of changes){if(c.rename||c.clear||c.del||!(c.d>0))continue;const key=itemKey(c.firma,c.k);if(NOTE[key]&&c.note===undefined){const d0=locItems(c.lok).find(x=>sameIt(x,c.firma,c.k));if(!d0||!d0.o)c.note=NOTE[key]}
     const add=[];if(c.pdAdd){add.push(...c.pdAdd);delete c.pdAdd}else if(pool[key]&&pool[key].length)add.push(...pool[key].splice(0,c.d));
     if(add.length){const a=W(c.lok,c.firma,c.k);a.push(...add);c.pd=a.slice()}}
 }
+/* izbira palet */
+function pickHtml(s,id,ch,op){const pd=s.pd||[];if(!pd.length||s.palete<2)return'';const tr=palTr(s.firma);ch=ch||[];
+  let r='';for(let j=0;j<s.palete;j++){const e=pd[j];r+='<label class="pkr"><input type="checkbox" data-pki="'+id+'" value="'+j+'"'+(ch.includes(j)?' checked':'')+'><span class="pdn">'+(j+1)+'</span><span>'+(e?esc(palLine(e,tr)+(e.o?' · '+e.o:'')):'<span class="mut">ni podatkov</span>')+'</span></label>'}
+  return '<div class="pkw"><button type="button" class="pkb" data-pko="'+id+'">'+(op?'▾':'▸')+' Izberi točno katere palete</button><div class="pkl" data-pkl="'+id+'"'+(op?'':' hidden')+'>'+r+'</div></div>'}
+function pickGet(root,id){return [...root.querySelectorAll('[data-pki="'+id+'"]:checked')].map(x=>+x.value)}
+function pickClear(root,id){root.querySelectorAll('[data-pki="'+id+'"]').forEach(x=>x.checked=false)}
+function pickWire(root,id,onCh,onTog){const b=root.querySelector('[data-pko="'+id+'"]');if(!b)return;const L=root.querySelector('[data-pkl="'+id+'"]');
+  b.onclick=()=>{L.hidden=!L.hidden;b.textContent=(L.hidden?'▸':'▾')+' Izberi točno katere palete';onTog&&onTog(!L.hidden)};
+  root.querySelectorAll('[data-pki="'+id+'"]').forEach(x=>x.onchange=()=>onCh(pickGet(root,id)))}
 /* vnos */
 function openPalEd(lok,f,k){const s=locItems(lok).find(x=>sameIt(x,f,k));if(!s){openLoc(lok);return}
   const tr=palTr(f),pd=(s.pd||[]).map(e=>({...e}));let lastV='e';
-  const cards=[];for(let j=0;j<s.palete;j++){const e=pd[j]||{};if(e.v)lastV=e.v;cards.push({v:e.v||lastV,h:e.h||'',kg:e.kg||'',o:e.o||'',kt:!!e.kt,had:!!pd[j]})}
+  const cards=[];for(let j=0;j<s.palete;j++){const e=pd[j]||{};if(e.v)lastV=e.v;cards.push({v:e.v||lastV,h:e.h||'',kg:e.kg||'',o:e.o||'',ss:e.ss||'',kt:!!e.kt,had:!!pd[j]})}
   const W=tr.w||!tr.on;
   openSheet('<h2>'+esc(lok)+' · '+esc(fkT(f,k))+'</h2><p class="mut">'+pal(s.palete)+' · vpišite, kar veste – ostalo lahko kasneje.</p>'+cards.map((c,j)=>'<div class="pcard" data-pc="'+j+'"><div class="pch">Paleta '+(j+1)+'</div>'+
     (W?'<div class="pvs">'+PV.map(v=>'<button class="pv'+(c.v===v[0]?' on':'')+'" data-pv="'+v[0]+'">'+v[1]+'</button>').join('')+'</div><div class="pin2"><label>Višina (cm)<input class="in" data-ph type="number" inputmode="numeric" value="'+esc(c.h)+'"></label><label>Teža (kg)<input class="in" data-pk type="number" inputmode="decimal" value="'+esc(c.kg)+'"></label></div>':'')+
     (tr.k?'<div class="pk2"><button class="pkt'+(c.kt?' on':'')+'" data-kt="1">📦 S kartonom</button><button class="pkt'+(c.kt?'':' off')+'" data-kt="0">🚫 Brez kartona</button></div>':'')+
-    '<input class="in" data-po placeholder="📝 Opomba (neobvezno)" value="'+esc(c.o)+'"></div>').join('')+
+    '<input class="in" data-po placeholder="📝 Opomba (neobvezno)" value="'+esc(c.o)+'"><div class="ssr"><input class="in" data-pss inputmode="numeric" autocomplete="off" placeholder="SSCC (18 številk)" value="'+esc(c.ss)+'"><button class="scb" data-scan aria-label="Skeniraj SSCC">📷</button></div></div>').join('')+
     '<button class="btn p" id="pSave">Shrani</button><button class="btn" id="pLater">Kasneje</button>','paled',{lok});
   const sh=$('#sheet');
   sh.querySelectorAll('[data-pc]').forEach(el=>{const j=+el.dataset.pc;
     el.querySelectorAll('[data-pv]').forEach(b=>b.onclick=()=>{cards[j].v=b.dataset.pv;el.querySelectorAll('[data-pv]').forEach(x=>x.classList.toggle('on',x===b));
       for(let q=j+1;q<cards.length;q++){if(cards[q].had||cards[q].h||cards[q].kg)break;cards[q].v=b.dataset.pv;const e2=sh.querySelector('[data-pc="'+q+'"]');e2&&e2.querySelectorAll('[data-pv]').forEach(x=>x.classList.toggle('on',x.dataset.pv===b.dataset.pv))}});
+    {const si=el.querySelector('[data-pss]');si.oninput=()=>si.classList.remove('bad');el.querySelector('[data-scan]').onclick=()=>scanSSCC(ss=>{
+      const dupH=[...sh.querySelectorAll('[data-pc]')].find(x=>x!==el&&ssNorm(x.querySelector('[data-pss]').value)===ss);
+      const dupO=ssWhere(ss,(l,s2,q)=>l===lok&&sameIt(s2,f,k));
+      if(dupH){toast('⚠ Ta SSCC je že vpisan na paleti '+(+dupH.dataset.pc+1));return}if(dupO){toast('⚠ Ta SSCC je že na: '+dupO);return}
+      si.value=ss;si.classList.remove('bad');toast('✓ SSCC prebran – paleta '+(j+1))})}
     el.querySelectorAll('[data-kt]').forEach(b=>b.onclick=()=>{cards[j].kt=b.dataset.kt==='1';el.querySelectorAll('[data-kt]').forEach(x=>{x.classList.toggle('on',x.dataset.kt==='1'&&cards[j].kt);x.classList.toggle('off',x.dataset.kt==='0'&&!cards[j].kt)})})});
   $('#pLater').onclick=()=>openLoc(lok);
   $('#pSave').onclick=()=>{if(!writable())return;const out=[];
+    {let badJ=-1;sh.querySelectorAll('[data-pc]').forEach(el=>{const i=el.querySelector('[data-pss]'),d=ssNorm(i.value);const bad=!!d&&!gs1ok(d);i.classList.toggle('bad',bad);if(bad&&badJ<0)badJ=+el.dataset.pc});
+     if(badJ>=0){toast('⚠ SSCC na paleti '+(badJ+1)+' ni pravilen (18 številk)');const e=sh.querySelector('[data-pc="'+badJ+'"] [data-pss]');e&&e.scrollIntoView({block:'center'});return}}
     sh.querySelectorAll('[data-pc]').forEach(el=>{const j=+el.dataset.pc,c=cards[j];const hh=el.querySelector('[data-ph]'),kk=el.querySelector('[data-pk]');
-      const H=hh?Math.round(parseFloat(hh.value)||0):0,KG=kk?Math.round((parseFloat(String(kk.value).replace(',','.'))||0)*10)/10:0,O=el.querySelector('[data-po]').value.trim();
-      if(!H&&!KG&&!O&&!c.kt&&!c.had)return;const e={v:W?c.v:'',kad:Date.now(),ko:me||''};if(!e.v)delete e.v;if(H)e.h=H;if(KG)e.kg=KG;if(O)e.o=O.slice(0,120);if(c.kt)e.kt=true;out.push(e)});
+      const H=hh?Math.round(parseFloat(hh.value)||0):0,KG=kk?Math.round((parseFloat(String(kk.value).replace(',','.'))||0)*10)/10:0,O=el.querySelector('[data-po]').value.trim(),SS=ssNorm(el.querySelector('[data-pss]').value);
+      if(!H&&!KG&&!O&&!SS&&!c.kt&&!c.had)return;const e={v:W?c.v:'',kad:Date.now(),ko:me||''};if(!e.v)delete e.v;if(H)e.h=H;if(KG)e.kg=KG;if(O)e.o=O.slice(0,120);if(SS)e.ss=SS;if(c.kt)e.kt=true;out.push(e)});
     if(doWrite([{lok,firma:s.firma,k:s.k||'',d:0,pdSet:out}],[])){toast('✓ Palete shranjene')}openLoc(lok)};
 }
 /* pred nakladom: opozori, a pusti naprej */
@@ -2097,19 +2153,20 @@ function voiceFirm(raw){try{const L=allLocs();if(!L.length)return null;const p=p
   const q=norm(raw);const F=[...new Set(allLocs().flatMap(l=>locItems(l).map(s=>curName(s.firma))))];return F.find(f=>norm(f)===q)||F.find(f=>norm(f).startsWith(q))||F.find(f=>norm(f).includes(q))||null}
 function firmRows(f){const n=norm(curName(f));const R=[];allLocs().forEach(l=>locItems(l).forEach(s=>{if(norm(curName(s.firma))===n)R.push({lok:l,s})}));return R}
 function openFirmLoad(f){if(!canEdit())return;const R=firmRows(f);if(!R.length){toast('Firma '+f+' ni na nobeni lokaciji');return}const F=curName(R[0].s.firma);
-  const sel=R.map(()=>true),val=R.map(r=>r.s.palete);
+  const sel=R.map(()=>true),val=R.map(r=>r.s.palete),pk=R.map(()=>[]),po=R.map(()=>false);
   const D=openDods().filter(d=>norm(d.firma)===norm(F));
   openSheet('<h2>🚚 Naklad · '+esc(F)+'</h2><p class="mut">Odkljukaj lokacije, ki ne gredo na ta kamion.</p><div id="fkR"></div><div class="fkt"><span>Skupaj naloženo</span><b id="fkS"></b></div>'+
     (D.length?'<div class="fkd">📌 Dodatek: '+D.map(d=>esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')).join(', ')+' – dodaj na paleto pred nakladom</div>':'')+
     '<button class="btn ld" id="fkOk"></button><button class="btn" id="fkX">'+t('cancel')+'</button>','firmload');
-  const draw=()=>{$('#fkR').innerHTML=R.map((r,i)=>'<div class="fkr'+(sel[i]?'':' off')+'"><label class="fkc"><input type="checkbox" data-fc="'+i+'"'+(sel[i]?' checked':'')+'></label><span class="fkl">'+esc(r.lok)+'</span>'+(r.s.k?'<span class="mut">'+esc(r.s.k)+'</span>':'')+'<span class="fkq"><input class="in num" type="number" inputmode="numeric" min="0" max="'+r.s.palete+'" value="'+(sel[i]?val[i]:0)+'" data-fq="'+i+'"><i>/ '+r.s.palete+'</i></span></div>').join('');
+  const draw=()=>{$('#fkR').innerHTML=R.map((r,i)=>'<div class="fkr'+(sel[i]?'':' off')+'"><label class="fkc"><input type="checkbox" data-fc="'+i+'"'+(sel[i]?' checked':'')+'></label><span class="fkl">'+esc(r.lok)+'</span>'+(r.s.k?'<span class="mut">'+esc(r.s.k)+'</span>':'')+'<span class="fkq"><input class="in num" type="number" inputmode="numeric" min="0" max="'+r.s.palete+'" value="'+(sel[i]?val[i]:0)+'" data-fq="'+i+'"><i>/ '+r.s.palete+'</i></span></div>'+(sel[i]?pickHtml(r.s,'f'+i,pk[i],po[i]):'')).join('');
+    R.forEach((r,i)=>pickWire($('#fkR'),'f'+i,ix=>{pk[i]=ix;val[i]=ix.length||r.s.palete;const q=$('#fkR [data-fq="'+i+'"]');if(q)q.value=val[i];sum()},o=>po[i]=o));
     $('#fkR').querySelectorAll('[data-fc]').forEach(c=>c.onchange=()=>{const i=+c.dataset.fc;sel[i]=c.checked;if(sel[i]&&!val[i])val[i]=R[i].s.palete;draw()});
-    $('#fkR').querySelectorAll('[data-fq]').forEach(c=>c.oninput=()=>{const i=+c.dataset.fq;val[i]=Math.max(0,Math.min(R[i].s.palete,parseInt(c.value)||0));sel[i]=val[i]>0;c.closest('.fkr').classList.toggle('off',!sel[i]);$('#fkR [data-fc="'+i+'"]').checked=sel[i];sum()});sum()};
+    $('#fkR').querySelectorAll('[data-fq]').forEach(c=>c.oninput=()=>{const i=+c.dataset.fq;val[i]=Math.max(0,Math.min(R[i].s.palete,parseInt(c.value)||0));sel[i]=val[i]>0;pk[i]=[];pickClear($('#fkR'),'f'+i);c.closest('.fkr').classList.toggle('off',!sel[i]);$('#fkR [data-fc="'+i+'"]').checked=sel[i];sum()});sum()};
   const sum=()=>{const n=R.reduce((s,r,i)=>s+(sel[i]?val[i]:0),0);$('#fkS').textContent=pal(n);$('#fkOk').textContent='✓ Potrdi naklad ('+n+')';$('#fkOk').disabled=!n};
   draw();$('#fkX').onclick=()=>{closeSheet()};
-  $('#fkOk').onclick=()=>{if(!writable())return;const S=R.map((r,i)=>({r,v:sel[i]?Math.min(val[i],r.s.palete):0})).filter(x=>x.v>0);if(!S.length)return;
+  $('#fkOk').onclick=()=>{if(!writable())return;const S=R.map((r,i)=>({r,v:sel[i]?Math.min(val[i],r.s.palete):0,p:pk[i]})).filter(x=>x.v>0);if(!S.length)return;
     let i=0;const next=()=>{if(i>=S.length){doIt();return}const x=S[i++];nakGuard(x.r.lok,[[x.r.s.firma,x.r.s.k]],next,()=>openFirmLoad(F))};
-    const doIt=()=>{const ch=[],logs=[],kad=Date.now();S.forEach(({r,v})=>{const s=r.s;const c={lok:r.lok,firma:s.firma,k:s.k};if(v>=s.palete)c.del=true;else{c.d=-v;c.dd=0}ch.push(c);const l={kad,ko:me,lok:r.lok,firma:s.firma,delta:-v,opis:'n'};if(v>=s.palete&&s.dup)l.dup=-s.dup;if(s.k)l.k=s.k;logs.push(l)});
+    const doIt=()=>{const ch=[],logs=[],kad=Date.now();S.forEach(({r,v,p})=>{const s=r.s;const c={lok:r.lok,firma:s.firma,k:s.k};if(v>=s.palete)c.del=true;else{c.d=-v;c.dd=0;if(p&&p.length===v)c.pdPick=p}ch.push(c);const l={kad,ko:me,lok:r.lok,firma:s.firma,delta:-v,opis:'n'};if(v>=s.palete&&s.dup)l.dup=-s.dup;if(s.k)l.k=s.k;logs.push(l)});
       NAK=[];const ok=doWrite(ch,logs);const M=NAK.slice();NAK=[];if(!ok)return;S.forEach(x=>flash(x.r.lok));
       const left=firmRows(F);const tot=S.reduce((a,x)=>a+x.v,0);
       openSheet('<h2>✓ Naloženo</h2><p class="mut">'+esc(F)+' · '+pal(tot)+'</p>'+S.map(x=>'<div class="fkr"><span class="fkl">'+esc(x.r.lok)+'</span><span class="fkq"><i>'+pal(x.v)+'</i></span></div>').join('')+

@@ -1,6 +1,6 @@
 // ODPREMA / SLOVENIJA – strani vedno najprej z interneta (nova različica takoj),
 // kopija v telefonu samo, ko ni signala.
-const C='odprema-v8';
+const C='odprema-v9';
 const SHELL=['./','./index.html','./slovenija.html','./manifest.webmanifest','./manifest-slovenija.webmanifest','./icon-192.png','./icon-512.png','./icon-s-192.png','./icon-s-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(SHELL.map(u=>c.add(new Request(u,{cache:'reload'})).catch(()=>{})))));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
@@ -12,6 +12,9 @@ self.addEventListener('fetch',e=>{
   // Firebase knjižnice: iz kopije (ne spreminjajo se)
   if(u.hostname==='www.gstatic.com'&&u.pathname.startsWith('/firebasejs/')){
     e.respondWith(caches.open(C).then(c=>c.match(r).then(m=>m||fetch(r).then(res=>{c.put(r,res.clone());return res}))));return}
+  // čitalnik črtnih kod (iPhone): iz kopije
+  if(/jsdelivr\.net$/.test(u.hostname)&&/\/npm\/(barcode-detector|zxing-wasm)@/.test(u.pathname)){
+    e.respondWith(caches.open(C).then(c=>c.match(r).then(m=>m||fetch(r).then(res=>{if(res&&res.ok)c.put(r,res.clone());return res}))));return}
   if(u.origin!==location.origin)return;
   const page=r.mode==='navigate'||/\.html$|\/$|\.webmanifest$/.test(u.pathname);
   if(page){
