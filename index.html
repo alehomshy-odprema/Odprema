@@ -382,7 +382,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .cilbig{display:flex;align-items:baseline;gap:8px;margin:4px 0}.cilbig b{font-size:48px;line-height:1;color:#7cc0ff}.cilbig span{font-size:22px;font-weight:700;color:#9aa6bd}.cilbig.ok b{color:#4ade80}.cilbig.ov b{color:#ff7676}
 .cilbar{height:12px;border-radius:6px;background:rgba(154,166,189,.2);overflow:hidden}.cilbar i{display:block;height:100%;background:#7cc0ff}
 .cilz{border:2px solid #9aa6bd;border-radius:12px;padding:10px 12px;margin:8px 0;background:rgba(154,166,189,.1)}.cilz .btn{margin-top:8px}
-.cilh{margin:18px 0 6px;font-size:16px}
+.cilh{margin:18px 0 6px;font-size:16px}.cilrow{border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:6px 0;cursor:pointer}.cilrow .cil{margin:4px 0 0}
 .fkz{font-size:12px;font-weight:800;border-radius:8px;padding:2px 7px;background:rgba(124,192,255,.15);color:#7cc0ff;margin:0 6px}.fkz.z{background:rgba(154,166,189,.25);color:#e6ebf3}
 .lkb2{position:absolute;right:4px;bottom:4px;font-size:12px}
 .navov{position:fixed;inset:0;z-index:9990;background:var(--bg,#0d1320);display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top)) 20px calc(18px + env(safe-area-inset-bottom));overflow:auto}
@@ -949,6 +949,7 @@ function renderSearch(S){const q=S.q;
   for(const l of allLocs()){if(!S.nak&&!S.k&&!sxOn(S)&&norm(l).includes(q))locHit.push(l);for(const x of locItems(l))if(itHit(x,S)){const key=fkT(x.firma,x.k);(byF[key]=byF[key]||{f:x.firma,k:x.k,a:[],d:[]}).a.push([l,x.palete])}}
   openDods().forEach(d=>{if(!d.firma||!itHit({firma:d.firma,k:d.k||''},S))return;let g=Object.values(byF).find(g=>norm(g.f)===norm(d.firma)&&(!d.k||norm(g.k||'')===norm(d.k)));
     if(!g){const key=fkT(d.firma,d.k);g=byF[key]=byF[key]||{f:d.firma,k:d.k,a:[],d:[]}}g.d.push(d)});
+  (state.cil||[]).forEach(c=>{const f=curName(c.f||'');if(!f||!itHit({firma:f,k:''},S))return;if(Object.values(byF).some(g=>norm(curName(g.f))===norm(f)))return;byF[f]={f,k:'',a:[],d:[]}});
   let html=Object.entries(byF).slice(0,8).map(([f,g])=>{const a=g.a,D=g.d;return '<div class="sr"><span class="tn">'+a.reduce((s,x)=>s+x[1],0)+(D.length?'<small class="onp">📌+'+dodCnt(D)+'</small>':'')+palBadge(g.f,true)+'</span><span class="tt" data-sf="'+esc(g.f)+'">'+esc(f)+'</span><br>'+a.map(([l,n])=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+n+'</b></button>').join('')+
     D.map(d=>'<button class="lc dodc" data-dods="'+d.id+'">📌 '+esc(dodTxt(d))+(d.kje?' · '+esc(d.kje):'')+'</button>').join('')+cilCard(g.f)+(canEdit()&&a.length?(NAKF.push(g.f),'')+'<button class="nkall'+(S.nak?' nkon':'')+'" data-nkf="'+esc(g.f)+'">🚚 Naklad vse ('+a.reduce((s,x)=>s+x[1],0)+')</button>':'')+'</div>'}).join('');
   if(locHit.length)html+='<div class="sr">'+locHit.slice(0,12).map(l=>'<button class="lc" data-go="'+esc(l)+'">'+esc(l)+' <b>'+sumOf(locItems(l))+'</b></button>').join('')+'</div>';
@@ -963,8 +964,8 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='39',APP_DATE='26.11.2026';
-const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true),cilj:d=>openCilj(d.f),nav:()=>openNav()};
+const APP_VER='40',APP_DATE='26.11.2026';
+const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true),cilj:d=>openCilj(d.f),nav:()=>openNav(),cilnew:()=>openCilNew()};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
 function openSheet(html,type,extra){const lk=!!(extra&&extra.locked);
@@ -1917,19 +1918,23 @@ function navSt(n){const td=ymdL(Date.now());if(n.done)return ymdL(n.done.kad)===
   if(n.tip==='dan')return ymdL(n.kad)===td?'due':ymdL(n.kad)<td?'old':'fut';
   if(n.tip==='dat')return !n.dat?'due':n.dat<td?'old':n.dat===td?'due':'fut';return 'due'}
 const navRead=n=>!!(n.brano&&n.brano[navRK()]);
-const navUnread=()=>(state.nav||[]).filter(n=>navSt(n)==='due'&&!navRead(n)&&!NAV_SEEN.has(n.id)).sort((a,b)=>a.kad-b.kad);
+const navUnreadN=()=>(state.nav||[]).filter(n=>navSt(n)==='due'&&!navRead(n)&&!NAV_SEEN.has(n.id)).sort((a,b)=>a.kad-b.kad);
+const cilSeen=()=>LS.get('lk_cilSeen',[]);
+const cilUnread=()=>{const sn=cilSeen();return (state.cil||[]).filter(c=>c.st!=='z'&&c.ko&&c.ko!==me&&c.kad>Date.now()-3*864e5&&!sn.includes(c.id)&&!NAV_SEEN.has(c.id)).sort((a,b)=>a.kad-b.kad)};
+const navUnread=()=>[...navUnreadN(),...cilUnread().map(c=>({...c,_cil:1}))];
+function cilMarkSeen(id){NAV_SEEN.add(id);const sn=cilSeen().filter(x=>(state.cil||[]).some(c=>c.id===x));sn.push(id);LS.set('lk_cilSeen',sn.slice(-200))}
 const navCol=n=>{const d=(state.post.dir||[]).find(x=>x.id===n.od);return (d&&d.barva)||avCol(n.ko)};
 const navDate=n=>{const d=new Date(n.dat+'T12:00');return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'};
 const navTip=n=>n.tip==='dan'?'Velja danes':n.tip==='dat'?'Za '+(n.dat===ymdL(Date.now()+864e5)?'jutri, ':'')+navDate(n):'Do izpolnitve';
 const NAV_SEEN=new Set();let NAV_OV=false,navCleaned=false;
 function navClean(){if(navCleaned||!isOwner()||store.mode!=='cloud')return;navCleaned=true;const old=Date.now()-14*864e5;(state.nav||[]).forEach(n=>{if(navSt(n)==='old'&&(n.done?n.done.kad:n.kad)<old)store.navDel(n.id)})}
-function updNav(){const b=$('#bNav');if(!b)return;const act=(state.nav||[]).filter(n=>{const x=navSt(n);return x==='due'||x==='fut'});const un=act.filter(n=>navSt(n)==='due'&&!navRead(n)).length;
-  b.hidden=!me||(!act.length&&!canNav());b.classList.toggle('hot',un>0);$('#navN').textContent=un?' '+un:(act.length?' '+act.length:'');navCheck()}
+function updNav(){const b=$('#bNav');if(!b)return;const act=(state.nav||[]).filter(n=>{const x=navSt(n);return x==='due'||x==='fut'});const un=act.filter(n=>navSt(n)==='due'&&!navRead(n)).length+cilUnread().length;
+  b.hidden=!me||(!act.length&&!canNav()&&!canCil()&&!(state.cil||[]).length);b.classList.toggle('hot',un>0);$('#navN').textContent=un?' '+un:(act.length?' '+act.length:'');navCheck()}
 function navCheck(){if(NAV_OV||!me||(store.mode==='cloud'&&!myEmail))return;const L=navUnread();if(!L.length)return;showNavOv()}
 function showNavOv(){const L=navUnread();if(!L.length){NAV_OV=false;const o=$('#navOv');if(o)o.remove();return}NAV_OV=true;const n=L[0],tot=L.length;
   let o=$('#navOv');if(!o){o=document.createElement('div');o.id='navOv';o.className='navov';document.body.appendChild(o);try{navigator.vibrate&&navigator.vibrate([120,80,120])}catch(e){}}
-  const c=navCol(n);o.innerHTML='<div class="navin"><div class="navtop">📢 Navodilo'+(tot>1?' <span>1/'+tot+'</span>':'')+'</div><div class="navau" style="color:'+c+'"><i style="background:'+c+'"></i>'+esc(n.ko||'')+'</div><div class="mut navwh">'+fdt(n.kad)+' · '+esc(navTip(n))+'</div><div class="navtx">'+esc(n.txt||'')+'</div></div><button class="btn p navok" id="navOk">✓ Prebrano</button>';
-  $('#navOk').onclick=()=>{NAV_SEEN.add(n.id);store.navSet(n.id,{['brano.'+navRK()]:{kad:Date.now(),ime:me||''}});const r=navUnread();if(r.length)showNavOv();else{NAV_OV=false;o.remove();updNav()}}}
+  const c=navCol(n);o.innerHTML='<div class="navin"><div class="navtop">'+(n._cil?'🎯 Nov cilj':'📢 Navodilo')+(tot>1?' <span>1/'+tot+'</span>':'')+'</div><div class="navau" style="color:'+c+'"><i style="background:'+c+'"></i>'+esc(n.ko||'')+'</div><div class="mut navwh">'+fdt(n.kad)+(n._cil?'':' · '+esc(navTip(n)))+'</div><div class="navtx">'+(n._cil?esc(curName(n.f))+' – '+n.n+' palet'+(n.op?'\n📝 '+esc(n.op):'')+'\n\nZdaj: '+cilProg(n)+'/'+n.n:esc(n.txt||''))+'</div></div><button class="btn p navok" id="navOk">✓ Prebrano</button>';
+  $('#navOk').onclick=()=>{if(n._cil){cilMarkSeen(n.id)}else{NAV_SEEN.add(n.id);store.navSet(n.id,{['brano.'+navRK()]:{kad:Date.now(),ime:me||''}})}const r=navUnread();if(r.length)showNavOv();else{NAV_OV=false;o.remove();updNav()}}}
 function openNav(){const N=(state.nav||[]).slice();const can=canNav()&&!!me,ed=canEdit()||canNav();const dir=state.post.dir||[];
   const grp=[['due','Danes'],['fut','Prihaja'],['done','Opravljeno danes']];
   const card=n=>{const st=navSt(n),c=navCol(n),rd=Object.values(n.brano||{}).map(x=>x.ime).filter(Boolean);const nr=dir.filter(d=>!(n.brano||{})[d.id]&&d.id!==n.od).map(d=>d.ime);const mine=n.od&&n.od===myMid||n.ko===me;
@@ -1937,14 +1942,25 @@ function openNav(){const N=(state.nav||[]).slice();const can=canNav()&&!!me,ed=c
       (n.done?'<div class="mut">✓ Opravil '+esc(n.done.ko||'')+' · '+fdt(n.done.kad)+'</div>':'')+
       ((can||mine||isOwner())?'<div class="mut">👁 Prebrali: '+(rd.length?esc(rd.join(', ')):'še nihče')+(nr.length?'<br>Še ni prebral: '+esc(nr.join(', ')):'')+'</div>':'')+
       '<div class="btns">'+(st==='due'&&!navRead(n)?'<button class="btn sm" data-nr="'+n.id+'">✓ Prebrano</button>':'')+(n.tip!=='dan'&&!n.done&&ed?'<button class="btn sm ld" data-nd2="'+n.id+'">✓ Opravljeno</button>':'')+((can&&(mine||isOwner()))||isOwner()?'<button class="btn sm d" data-nx="'+n.id+'">🗑</button>':'')+'</div></div>'};
-  let h='<h2>📢 Navodila</h2>'+(can?'<button class="btn p" id="nNew">+ Novo navodilo</button>':'');
+  const cc=canCil()&&!!me;let h='<h2>📢 Navodila in cilji</h2>'+((can||cc)?'<div class="btns">'+(can?'<button class="btn p" id="nNew">+ Navodilo</button>':'')+(cc?'<button class="btn p" id="nCil">+ 🎯 Cilj</button>':'')+'</div>':'');
+  {const CF=[...new Set((state.cil||[]).map(c=>curName(c.f||'')))].sort((a,b)=>a.localeCompare(b));const rows=CF.map(f=>{const C=cilOpen(f);const Z=cilClosed(f).filter(z=>Object.keys(z.L||{}).some(l=>firmAt(l,f)>0));if(!C&&!Z.length)return'';
+      return '<div class="cilrow" data-cilf="'+esc(f)+'"><b>'+esc(f)+'</b>'+(C?'<div class="cil'+cilCls(C)+'">'+cilTxt(C)+'</div>':'')+Z.map(z=>{const L=Object.keys(z.L||{}).filter(l=>firmAt(l,f)>0);return '<div class="cil lk">🔒 Dobava '+L.reduce((a,l)=>a+firmAt(l,f),0)+' palet čaka naklad · '+L.map(esc).join(', ')+'</div>'}).join('')+'</div>'}).join('');
+    if(rows)h+='<h3 class="cilh">🎯 Aktivni cilji</h3>'+rows}
   let any=false;grp.forEach(([k,l])=>{const L=N.filter(n=>navSt(n)===k).sort((a,b)=>k==='fut'?String(a.dat).localeCompare(String(b.dat)):b.kad-a.kad);if(!L.length)return;any=true;h+='<h3 class="cilh">'+l+'</h3>'+L.map(card).join('')});
-  if(!any)h+='<p class="mut">Ni aktivnih navodil.</p>';h+='<button class="btn" id="xB">'+t('close')+'</button>';
-  openSheet(h,'nav');$('#xB').onclick=goBack;if($('#nNew'))$('#nNew').onclick=openNavForm;
-  const sh=$('#sheet');
+  if(!any)h+='<h3 class="cilh">📢 Navodila</h3><p class="mut">Ni aktivnih navodil.</p>';h+='<button class="btn" id="xB">'+t('close')+'</button>';
+  openSheet(h,'nav');$('#xB').onclick=goBack;if($('#nNew'))$('#nNew').onclick=openNavForm;if($('#nCil'))$('#nCil').onclick=openCilNew;
+  const sh=$('#sheet');sh.querySelectorAll('.cilrow[data-cilf]').forEach(x=>x.onclick=()=>openCilj(x.dataset.cilf));
   sh.querySelectorAll('[data-nr]').forEach(b=>b.onclick=()=>{NAV_SEEN.add(b.dataset.nr);store.navSet(b.dataset.nr,{['brano.'+navRK()]:{kad:Date.now(),ime:me||''}});setTimeout(openNav,150)});
   sh.querySelectorAll('[data-nd2]').forEach(b=>b.onclick=()=>{store.navSet(b.dataset.nd2,{done:{ko:me||'',kad:Date.now()}});toast('✓ Opravljeno');setTimeout(openNav,150)});
   sh.querySelectorAll('[data-nx]').forEach(b=>b.onclick=()=>ask('Izbrišem navodilo?',()=>{store.navDel(b.dataset.nx);setTimeout(openNav,150)},()=>openNav()))}
+function openCilNew(){if(!canCil())return;
+  openSheet('<h2>🎯 Nov cilj</h2><label>'+t('firm')+'</label><input class="in" id="cF" list="cFL" autocomplete="off" placeholder="npr. Siemens"><datalist id="cFL">'+[...new Set(knownFirms())].sort((a,b)=>a.localeCompare(b)).map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist><p class="mut" id="cFi"></p>'+
+    '<label>Koliko palet je naročenih</label><div class="add" style="margin:0"><input class="in num" id="cN" type="number" inputmode="numeric" min="1" placeholder="24" style="width:90px;flex:none"><input class="in" id="cO" placeholder="Opomba (npr. za petek)" autocomplete="off"></div><button class="btn p" id="cS">🎯 Shrani cilj</button><button class="btn" id="cX">'+t('cancel')+'</button>','cilnew');
+  const fi=()=>{const v=$('#cF').value.trim();if(!v){$('#cFi').textContent='';return}const F=(knownFirms().find(f=>norm(f)===norm(v)))||v;const n=firmRows(F).reduce((a,r)=>a+r.s.palete,0);const C=cilOpen(F);$('#cFi').textContent=C?'⚠ '+F+' že ima cilj '+C.n+' – shranjeno ga bo spremenilo.':(n?F+': trenutno '+pal(n)+' na lokacijah.':'Ni še na lokacijah.')};
+  $('#cF').oninput=fi;$('#cX').onclick=()=>openNav();setTimeout(()=>{try{$('#cF').focus()}catch(e){}},200);
+  $('#cS').onclick=()=>{if(!writable())return;const v=$('#cF').value.trim();if(!v){toast('⚠ Vpiši firmo');$('#cF').focus();return}const F=curName((knownFirms().find(f=>norm(f)===norm(v)))||v);
+    const n=parseInt($('#cN').value)||0;if(n<1){toast('⚠ Vpiši število palet');$('#cN').focus();return}const op=$('#cO').value.trim().slice(0,80);const C=cilOpen(F);
+    if(C)store.cilSet(C.id,{n,op:op||null});else store.cilAdd({f:F,n,op,kad:Date.now(),ko:me,nk:0});toast('🎯 Cilj '+F+': '+n+' palet');openNav()}}
 function openNavForm(){if(!canNav())return;let tip='dan';const tm=ymdL(Date.now()+864e5);
   openSheet('<h2>📢 Novo navodilo</h2><textarea class="in navta" id="nT" placeholder="Kaj je treba narediti …"></textarea><label>Velja</label><div class="ocs" id="nTip"><button class="fc on" data-t="dan">Danes</button><button class="fc" data-t="do">Do izpolnitve</button><button class="fc" data-t="dat">Za datum</button></div><input class="in" id="nD" type="date" value="'+tm+'" min="'+ymdL(Date.now())+'" hidden style="margin-top:6px"><p class="mut" id="nH">Velja samo danes, opolnoči izgine.</p><button class="btn p" id="nS">📢 Pošlji vsem</button><button class="btn" id="nX">'+t('cancel')+'</button>','navform');
   const H={dan:'Velja samo danes, opolnoči izgine.',do:'Ostane, dokler nekdo ne označi »✓ Opravljeno«.',dat:'Na izbrani dan se pokaže vsem; po tem dnevu izgine.'};
