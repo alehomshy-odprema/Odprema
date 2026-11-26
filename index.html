@@ -377,9 +377,9 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .chip.navc{border-color:#7cc0ff;color:#7cc0ff;background:transparent;font-weight:800}.chip.navc.hot{background:#ff4d4d;border-color:#ff4d4d;color:#fff;animation:navp 1.6s ease-in-out infinite}
 @keyframes navp{50%{box-shadow:0 0 0 6px rgba(255,77,77,.25)}}@media (prefers-reduced-motion:reduce){.chip.navc.hot{animation:none}}
 .cil{display:block;margin:6px 0 2px;padding:6px 10px;border-radius:10px;border:2px solid #7cc0ff;background:rgba(124,192,255,.1);color:var(--ink);font-weight:700;font-size:14.5px;cursor:pointer;text-align:left}
-.cil.ok{border-color:#4ade80;background:rgba(74,222,128,.12)}.cil.ov{border-color:#ff7676;background:rgba(255,118,118,.12)}.cil.lk{border-color:#9aa6bd;background:rgba(154,166,189,.14);color:#cfd6e4}
+.cil.ok{border-color:#4ade80;background:rgba(74,222,128,.12)}.cil.cvr{border-color:#ff7676;background:rgba(255,118,118,.12)}.cil.lk{border-color:#9aa6bd;background:rgba(154,166,189,.14);color:#cfd6e4}
 .lc.cilb{border-color:#7cc0ff;color:#7cc0ff}
-.cilbig{display:flex;align-items:baseline;gap:8px;margin:4px 0}.cilbig b{font-size:48px;line-height:1;color:#7cc0ff}.cilbig span{font-size:22px;font-weight:700;color:#9aa6bd}.cilbig.ok b{color:#4ade80}.cilbig.ov b{color:#ff7676}
+.cilbig{display:flex;align-items:baseline;gap:8px;margin:4px 0}.cilbig b{font-size:48px;line-height:1;color:#7cc0ff}.cilbig span{font-size:22px;font-weight:700;color:#9aa6bd}.cilbig.ok b{color:#4ade80}.cilbig.cvr b{color:#ff7676}
 .cilbar{height:12px;border-radius:6px;background:rgba(154,166,189,.2);overflow:hidden}.cilbar i{display:block;height:100%;background:#7cc0ff}
 .cilz{border:2px solid #9aa6bd;border-radius:12px;padding:10px 12px;margin:8px 0;background:rgba(154,166,189,.1)}.cilz .btn{margin-top:8px}
 .cilh{margin:18px 0 6px;font-size:16px}.cilrow{border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:6px 0;cursor:pointer}.cilrow .cil{margin:4px 0 0}
@@ -964,7 +964,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='40',APP_DATE='26.11.2026';
+const APP_VER='41',APP_DATE='26.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true),cilj:d=>openCilj(d.f),nav:()=>openNav(),cilnew:()=>openCilNew()};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1862,7 +1862,7 @@ const firmAt=(lok,f)=>{const n=norm(curName(f||''));return locItems(lok).filter(
 const lockAt=(lok,f)=>(state.cil||[]).length?cilClosed(f).find(c=>c.L&&c.L[lok]!==undefined&&firmAt(lok,f)>0):null;
 const cilProg=C=>firmRows(C.f).filter(r=>!lockAt(r.lok,C.f)).reduce((a,r)=>a+r.s.palete,0)+(C.nk||0);
 function cilTxt(C){const p=cilProg(C);return '🎯 '+p+'/'+C.n+(p<C.n?' · še '+(C.n-p):p===C.n?' ✓ cilj dosežen':' · '+(p-C.n)+' preveč')+(C.nk?' · naloženo '+C.nk:'')+(C.op?' · '+esc(C.op):'')}
-function cilCls(C){const p=cilProg(C);return p>C.n?' ov':p===C.n?' ok':''}
+function cilCls(C){const p=cilProg(C);return p>C.n?' cvr':p===C.n?' ok':''}
 function cilChip(f,lok){if(!(state.cil||[]).length)return'';const F=curName(f);
   if(lok&&lockAt(lok,F))return '<div class="cil lk" data-cilf="'+esc(F)+'">🔒 Zaključena dobava · čaka naklad</div>';
   const C=cilOpen(F);return C?'<div class="cil'+cilCls(C)+'" data-cilf="'+esc(F)+'">'+cilTxt(C)+'</div>':''}
