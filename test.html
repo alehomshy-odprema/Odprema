@@ -544,6 +544,52 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.dsk .grp.rack .tile,html.dsk .grp.dense .tile{padding:10px 11px 18px;min-height:84px}
  html.dsk .tile.lv0 .meter{display:block}
  html.dsk .grab{display:none}
+ html.dsk .sr .nkall,html.dsk .sr .cilb{display:none!important}
+ html.dsk .ov.ovc{justify-content:center!important;align-items:center!important;padding:28px!important}
+ html.dsk .ov.ovc .sheet{width:min(1040px,94vw);height:auto;max-height:94vh!important;border-radius:16px!important;border:1px solid var(--line)!important;padding:0;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+ html.dsk .ov.ovc .sheet{position:relative}
+ html.dsk .ov.ovc .sheet .shd{position:absolute;right:18px;top:18px;z-index:2;margin:0}
+ .rpK4{display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border:1px solid var(--line);border-radius:12px}
+ .rpK4>div{padding:16px 12px;border-right:1px solid var(--line);text-align:center}.rpK4>div:last-child{border:0}
+ .rpK4 b{display:block;font-size:30px;font-weight:600;letter-spacing:-.3px;color:var(--ink);line-height:1.15}.rpK4>div>span{color:var(--mut);font-size:13.5px}
+ .rpK4.s b{font-size:22px}.rpK4.in{border:0;border-bottom:1px solid var(--line);border-radius:0}
+ .rpK4 b.kp{color:var(--l1)}.rpK4 b.kn{color:var(--l2)}.rpK4 b.kbl{color:var(--acc)}
+ @media (max-width:1700px){.rp2{grid-template-columns:1fr}}
+ .rpP h2 .lg{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mut)}.rpP h2 .lg i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-left:10px}
+ .lg .cp,.rpC .bp{background:var(--l1);fill:var(--l1)}.lg .cn,.rpC .bn{background:var(--l2);fill:var(--l2)}
+ .rpRk2{display:grid;grid-template-columns:1fr 1.4fr;gap:0}.rpRk2 table:first-child{border-right:1px solid var(--line)}
+ .rk.ok{color:var(--l1);background:color-mix(in srgb,var(--l1) 14%,transparent)}
+ /* naklad podrobnosti */
+ .dkH{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;padding-right:40px}.dkH h2{margin:0!important;font-size:22px!important;line-height:1.25}.dkI{width:44px;height:44px;border-radius:10px;background:color-mix(in srgb,var(--l2) 15%,transparent);display:grid;place-items:center;font-size:22px;flex:none}
+ .dkK{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}.dkK.two{grid-template-columns:1fr 1fr;margin:10px 0 0}
+ .dkK>div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;min-width:0}.dkK b{display:block;font-size:20px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dkK b.sm{font-size:15px;line-height:1.95}.dkK span{color:var(--mut);font-size:12.5px}
+ .dkT{font-size:12.5px!important;font-weight:600!important;color:var(--mut)!important;letter-spacing:.3px;margin:0 0 8px!important}.dkT span{font-weight:400;letter-spacing:0}
+ .dkL{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:14px}.dkLh{display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--sf2);border-bottom:1px solid var(--line)}.dkNo{margin-left:auto;color:var(--l2);font-size:13.5px}
+ .dkL .rpT th{position:static}.dkS{font-size:13px;letter-spacing:.3px}.dkE{padding:12px 14px;color:var(--mut);font-size:14px}
+ .dkRe{border:1px dashed var(--line);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+ .dkB{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 14px;font-weight:600;font-size:14px;cursor:pointer;margin-left:auto}.dkB:hover{border-color:var(--acc)}
+ .dkB.r{border-color:color-mix(in srgb,var(--l3) 55%,transparent);color:var(--l3)}
+ .dkR{border:1px solid color-mix(in srgb,var(--l3) 40%,transparent);background:color-mix(in srgb,var(--l3) 7%,transparent);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+ .dkR.ok{border-color:color-mix(in srgb,var(--l1) 40%,transparent);background:color-mix(in srgb,var(--l1) 6%,transparent)}
+ .dkRt{display:flex;align-items:center;gap:10px}.dkSt{font-size:13px;color:var(--mut)}.dkRt .dkB{padding:3px 10px;font-size:13px}.dkRx{margin:7px 0 3px;font-size:15px}.dkRm{font-size:13px}
+ /* reklamacija – okno */
+ .rkH{display:flex;gap:14px;align-items:center;padding:20px 26px;border-bottom:1px solid var(--line)}.rkH h2{margin:0!important;font-size:21px!important}.rkI{width:44px;height:44px;border-radius:10px;background:color-mix(in srgb,var(--l3) 15%,transparent);color:var(--l3);display:grid;place-items:center;font-size:20px;flex:none}
+ .rkB{display:grid;grid-template-columns:minmax(0,1fr) 300px}.rkL{padding:20px 26px;border-right:1px solid var(--line)}.rkR{padding:20px 22px;background:var(--bg)}
+ .rkL .dkT,.rkR .dkT{margin-top:4px!important}.rkL>*+.dkT,.rkR>*+.dkT{margin-top:20px!important}
+ .rkV{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .rkV button{display:flex;gap:12px;align-items:flex-start;text-align:left;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:12px 14px;cursor:pointer}
+ .rkV button i{font-style:normal;font-size:20px;line-height:1.2}.rkV b{display:block;font-weight:600;font-size:15px}.rkV small{color:var(--mut);font-size:13px}
+ .rkV button.on{border:2px solid var(--l3);background:color-mix(in srgb,var(--l3) 9%,transparent);padding:11px 13px}
+ .rkP{border:1px solid var(--line);border-radius:12px;max-height:190px;overflow:auto}
+ .rkP label{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line);font-size:14.5px;font-weight:400;margin:0;cursor:pointer}.rkP label:last-child{border:0}.rkP input{width:18px;height:18px;margin:0;accent-color:var(--l3)}
+ .rkSs{margin-left:auto;color:var(--mut);font-size:13px}
+ .rkG{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin-top:20px}.rkG label,.rkL>label{display:block;font-size:13px!important;color:var(--mut)!important;margin:0 0 5px}
+ .rkG .in,.rkR .in{margin:0;height:40px}.rkL textarea.in{min-height:86px;height:auto}.rkL>label{margin-top:16px}
+ .rkSeg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}.rkSeg button{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;margin:0;min-width:0;border:0;border-right:1px solid var(--line);background:var(--card);color:var(--mut);padding:9px 0;font-size:14px;cursor:pointer}.rkSeg button:last-child{border:0}.rkSeg button.on{background:var(--hl);color:var(--acc);font-weight:600}
+ .rkN{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--card)}.rkN>b{font-size:16px;font-weight:600}
+ .rkH2{font-size:13.5px;color:var(--mut)}.rkH2 div{padding:7px 0;border-bottom:1px solid var(--line)}.rkH2 div:last-child{border:0}.rkH2 b{color:var(--ink)}
+ .rkF{display:flex;gap:10px;align-items:center;padding:16px 26px;border-top:1px solid var(--line)}.rkF .dkB{margin-left:0}.rkF #rkX{margin-left:auto}
+ .rkS{background:var(--l3);border:0;color:#fff;border-radius:8px;padding:10px 20px;font-weight:600;font-size:15px;cursor:pointer}
  html.dsk .ks{text-align:center!important;display:flex;flex-direction:column;justify-content:center;align-items:center}
  html.dsk #sres{grid-template-columns:repeat(2,minmax(0,1fr))}
  html.dsk #sres>.sr:only-child,html.dsk #sres>.sr:last-child:nth-child(odd){grid-column:1/-1}
@@ -907,6 +953,7 @@ const LocalStore={
   async navDel(id){state.nav=this._arr('nav').filter(d=>d.id!==id);this.persist()},
   async rekAdd(o){const x={id:'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),...o};this._arr('rek').unshift(x);this.persist();return x},
   async rekDel(id){state.rek=this._arr('rek').filter(d=>d.id!==id);this.persist()},
+  async rekSet(id,o){const x=this._arr('rek').find(d=>d.id===id);if(x)this._set(x,o);this.persist()},
   async dodAdd(o){const x={id:'d'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),...o};(state.dod=state.dod||[]).unshift(x);this.persist();return x},
   async dodSet(id,o){const x=(state.dod||[]).find(d=>d.id===id);if(x){Object.keys(o).forEach(k=>{if(o[k]===null)delete x[k];else x[k]=o[k]})}this.persist()},
   write(changes,logs){
@@ -967,6 +1014,7 @@ const FireStore={
   async navSet(id,o){return this.root.collection('navodila').doc(id).update(this._u(o)).catch(e=>toast(t('error')+(e.message||e)))},
   async navDel(id){return this.root.collection('navodila').doc(id).delete().catch(()=>{})},
   async rekAdd(o){const r=this.root.collection('reklamacije').doc();r.set(o).catch(e=>toast(t('error')+(e.message||e)));return{id:r.id,...o}},
+  async rekSet(id,o){return this.root.collection('reklamacije').doc(id).update(this._u(o)).catch(e=>toast(t('error')+(e.message||e)))},
   async rekDel(id){return this.root.collection('reklamacije').doc(id).delete().catch(e=>toast(t('error')+(e.message||e)))},
   stop(){this.unsub.forEach(u=>u());this.unsub=[];if(this.presUn){this.presUn();this.presUn=null}state.pris={};(this.msgUn||[]).forEach(u=>u());this.msgUn=[];this.msgKey=''},
   msgSync(){if(!this.root)return;const own=state.vlasnik===myEmail;const on=own||mySadm||myMsg;const key=on&&myMid?((own||mySadm)?'A':'U')+myMid:'';if(key===this.msgKey)return;
@@ -1038,7 +1086,7 @@ setInterval(()=>{if(store.mode==='cloud')updPending()},20e3);
 function setSync(s,msg){$('#syncDot').className='dot '+(s==='on'?'on':s==='err'?'err':s==='wait'?'wait':'');syncState={s,msg}}
 const isOwner=()=>store.mode==='local'||(!!myEmail&&state.vlasnik===myEmail);
 const canEdit=()=>isOwner()||myRole==='radnik';
-const canNames=()=>store.mode==='local'||isOwner()||myRole==='radnik'||myIme;const canRek=()=>store.mode==='local'||isOwner()||myRek;const KO=x=>canNames()?((x&&x.ko)||'?'):'Odpremnik';
+const canNames=()=>true;const canRek=()=>store.mode==='local'||isOwner()||myRek;const KO=x=>canNames()?((x&&x.ko)||'?'):'Odpremnik';
 const canCil=()=>isOwner()||myCil;const canNav=()=>isOwner()||myNav;
 function noEdit(){if(canEdit())return false;toast(t('viewOnly'));return true}
 
@@ -1196,17 +1244,17 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='46',APP_DATE='27.11.2026';
+const APP_VER='47',APP_DATE='27.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true),rpdet:d=>{const g=(RP.Gall||[]).find(x=>x.id===d.id);if(g)rpDetail(g);else closeSheet()},cilj:d=>openCilj(d.f),nav:()=>openNav(),cilnew:()=>openCilNew()};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
 function openSheet(html,type,extra){const lk=!!(extra&&extra.locked);
   if($('#ov').hidden||!sheetState.type)navStack=[];else if(!navBack&&sheetState.type!==type){const i=navStack.findIndex(e=>e.type===type);if(i>=0)navStack=navStack.slice(0,i);else if(OPENERS[sheetState.type])navStack.push({type:sheetState.type,lok:sheetState.lok})}
   $('#sheet').innerHTML='<div class="shd"><span class="grab"></span>'+(lk?'':'<button class="sx" aria-label="Zapri">✕</button>')+'</div>'+html;
-  $('#ov').hidden=false;lockBody(true);$('#ov').classList.toggle('solid',!!(extra&&extra.solid));sheetState={type,...extra};$('#sheet').scrollTop=0;$('#sheet').style.transform='';
+  $('#ov').hidden=false;lockBody(true);$('#ov').classList.toggle('solid',!!(extra&&extra.solid));$('#ov').classList.toggle('ovc',!!(extra&&extra.center));sheetState={type,...extra};$('#sheet').scrollTop=0;$('#sheet').style.transform='';
   const sx=$('#sheet .sx');if(sx)sx.onclick=()=>goBack();
   if(!sheetHist){try{history.pushState({sheet:1},'')}catch(e){}sheetHist=true}}
-function closeSheet(force){if(sheetState.locked&&force!==true)return;navStack=[];$('#ov').hidden=true;lockBody(false);sheetState={};stopRec();
+function closeSheet(force){if(sheetState.locked&&force!==true)return;$('#ov').classList.remove('ovc');navStack=[];$('#ov').hidden=true;lockBody(false);sheetState={};stopRec();
   if(sheetHist){sheetHist=false;ignorePop=true;try{history.back()}catch(e){ignorePop=false}}}
 // Nazaj: zapre okno; na glavnem zaslonu dvakrat za izhod
 let lastBack=0;
@@ -1836,7 +1884,7 @@ function openWorkers(){
   $('#xB').onclick=()=>openSettings();
   $('#sS').onclick=async()=>{const np=clone(state.post);np.radnici=$('#sR').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!np.radnici.length){toast(t('needOne'));return}if(await runQ(store.savePost(np))){toast('✓');openSettings()}};
 }
-const FLAGS=[['sadm','pSadm'],['sporocila','pMsg'],['slike','pFoto'],['firme','fmPerm'],['firmeDel','pFirmDel'],['porocila','repPerm'],['lokacije','pLoc'],['vidiOnline','pOnl'],['cilji','pCil'],['navodila','pNav'],['imena','pIme'],['reklamacije','pRek']];
+const FLAGS=[['sadm','pSadm'],['sporocila','pMsg'],['slike','pFoto'],['firme','fmPerm'],['firmeDel','pFirmDel'],['porocila','repPerm'],['lokacije','pLoc'],['vidiOnline','pOnl'],['cilji','pCil'],['navodila','pNav'],['reklamacije','pRek']];
 const DEF_NAZ=['Odpremnik','Namestnik odpremnika','Delavec','Pisarna'];
 const naziviList=()=>{const s=[...(state.post.nazivi||DEF_NAZ)];state.clani.forEach(c=>{if(c.naziv&&!s.includes(c.naziv))s.push(c.naziv)});return s};
 const nazivOf=c=>c.naziv||(c.uloga==='pregled'?t('roleV'):t('nzDef'));
@@ -2503,72 +2551,108 @@ async function rpLoad(){const seq=++RP.seq;const[a,b]=rpRange(RP.k);RP.rows=null
   catch(e){if(seq!==RP.seq)return;RP.err=(e&&e.message)||String(e);renderRepBody()}}
 function renderRepPage(reload){const el=$('#dPage');if(!el)return;if(!canReports()){el.innerHTML='<div class="rpEm">Za poročila nimate dovoljenja.</div>';return}
   const[a,b]=rpRange(RP.k);
-  el.innerHTML='<div class="rpTop"><h1>Poročila</h1><span class="per">Natovorjeno · '+esc(rpLabel(RP.k,a,b))+'</span><div class="rpSeg">'+RP_P.map(([k,l])=>'<button data-rk="'+k+'"'+(RP.k===k?' class="on"':'')+'>'+l+'</button>').join('')+'</div>'+
-    '<button class="rpB p" id="rpX"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg>Izvozi v Excel</button></div>'+
+  el.innerHTML='<div class="rpTop"><h1>Poročila</h1><span class="per">'+esc(rpLabel(RP.k,a,b))+'</span><div class="rpSeg">'+RP_P.map(([k,l])=>'<button data-rk="'+k+'"'+(RP.k===k?' class="on"':'')+'>'+l+'</button>').join('')+'</div></div>'+
     '<div class="rpBody"><div class="rpRow2">'+(RP.k==='cust'?'<input class="in" type="date" id="rpA" value="'+(RP.a||ymd(Date.now()))+'"> – <input class="in" type="date" id="rpBb" value="'+(RP.b||ymd(Date.now()))+'"><button class="rpB" id="rpGo">Prikaži</button>':'')+
-    '<input class="in" id="rpF" list="rpFL" placeholder="Filter: firma …" value="'+esc(RP.firm)+'" autocomplete="off" style="width:260px"><datalist id="rpFL">'+knownFirms().sort((x,y)=>x.localeCompare(y)).map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist></div><div id="rpOut"></div></div>';
+    '<input class="in" id="rpF" list="rpFL" placeholder="Filter: firma …" value="'+esc(RP.firm)+'" autocomplete="off" style="width:260px"><button class="rpB p" id="rpX" style="margin-left:auto"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg>Izvozi v Excel</button><datalist id="rpFL">'+knownFirms().sort((x,y)=>x.localeCompare(y)).map(f=>'<option value="'+esc(f)+'">').join('')+'</datalist></div><div id="rpOut"></div></div>';
   el.querySelectorAll('[data-rk]').forEach(x=>x.onclick=()=>{RP.k=x.dataset.rk;renderRepPage(RP.k!=='cust')});
   if($('#rpGo'))$('#rpGo').onclick=()=>{RP.a=$('#rpA').value;RP.b=$('#rpBb').value;if(RP.b<RP.a){const t2=RP.a;RP.a=RP.b;RP.b=t2}renderRepPage(true)};
   $('#rpF').oninput=e=>{RP.firm=e.target.value.trim();clearTimeout(RP.ft);RP.ft=setTimeout(renderRepBody,200)};
   $('#rpX').onclick=rpExport;
   if(reload||!RP.rows)rpLoad();else renderRepBody()}
 function rpPct(a,b){if(!b)return '<span class="m">ni podatkov</span>';const p=Math.round((a-b)/b*100);return '<span class="'+(p>=0?'gUp':'gDn')+'">'+(p>=0?'+':'−')+Math.abs(p)+' %</span>'}
-function rpChart(G,a,b){const days=Math.round((b-a)/864e5);let mode=days<=62?'d':days<=190?'w':'m';const B=[];const now=Date.now();
-  if(mode==='d'){for(let t=a;t<b;t=+new Date(new Date(t).getFullYear(),new Date(t).getMonth(),new Date(t).getDate()+1)){const d=new Date(t);B.push({k:ymd(t),lb:d.getDate(),show:d.getDay()===1||t===a,we:d.getDay()===0||d.getDay()===6,v:0,fut:t>now})}}
-  else if(mode==='w'){let t=a;const d0=new Date(a);t=+new Date(d0.getFullYear(),d0.getMonth(),d0.getDate()-((d0.getDay()+6)%7));for(;t<b;t+=7*864e5){const d=new Date(t);B.push({k:t,lb:pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.',show:true,v:0,fut:t>now})}}
-  else{const d0=new Date(a);for(let i=0;;i++){const d=new Date(d0.getFullYear(),d0.getMonth()+i,1);if(+d>=b)break;B.push({k:d.getFullYear()*100+d.getMonth(),lb:SL_MES[d.getMonth()].slice(0,3),show:true,v:0,fut:+d>now})}}
-  const key=x=>{const d=new Date(x);if(mode==='d')return ymd(x);if(mode==='m')return d.getFullYear()*100+d.getMonth();const m=new Date(d.getFullYear(),d.getMonth(),d.getDate()-((d.getDay()+6)%7));return +m};
-  G.forEach(g=>{const k=key(g.kad);const x=B.find(y=>y.k===k);if(x)x.v+=g.n});
-  const mx=Math.max(1,...B.map(x=>x.v)),W=1200,H=220,X0=44,bw=(W-X0)/Math.max(1,B.length),gap=Math.min(10,bw*.25);
-  let s='';[.5,1].forEach(r=>{const y=20+(1-r)*160;s+='<line class="gl" x1="'+X0+'" x2="'+W+'" y1="'+y+'" y2="'+y+'"/><text class="vl" x="'+(X0-8)+'" y="'+(y+4)+'" style="text-anchor:end">'+Math.round(mx*r)+'</text>'});
-  B.forEach((x,i)=>{const h=x.v?Math.max(3,x.v/mx*160):0,X=X0+i*bw+gap/2,w=bw-gap;if(h)s+='<rect class="bv" x="'+X.toFixed(1)+'" y="'+(180-h).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="3"><title>'+x.lb+': '+x.v+' palet</title></rect>';
-    if(h&&B.length<=31)s+='<text class="vl" x="'+(X+w/2).toFixed(1)+'" y="'+(174-h).toFixed(1)+'">'+x.v+'</text>';
-    if(x.show)s+='<text class="ax" x="'+(X+w/2).toFixed(1)+'" y="204">'+x.lb+'</text>'});
-  const act=B.filter(x=>x.v>0);const avg=act.length?Math.round(act.reduce((p,x)=>p+x.v,0)/act.length):0;
-  return {svg:'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Palete po obdobjih">'+s+'</svg>',info:(act.length?'vrhunec '+mx+' · povprečje '+avg+(mode==='d'?' na delovni dan':mode==='w'?' na teden':' na mesec'):'ni nakladov'),title:mode==='d'?'Palete po dnevih':mode==='w'?'Palete po tednih':'Palete po mesecih'}}
-function rpCalc(){const fq=norm(RP.firm||'');let G=rpNak(RP.rows||[]);RP.Gall=G;if(fq)G=G.filter(g=>norm(g.f).includes(fq));
-  const LY=RP.ly?rpNak(RP.ly).filter(g=>!fq||norm(g.f).includes(fq)):null;const RK=state.rek||[];const rkOf=g=>RK.filter(r=>r.nk===g.id);
-  const F={};G.forEach(g=>{const x=F[g.f]=F[g.f]||{f:g.f,k:0,n:0,ly:0,r:0};x.k++;x.n+=g.n;x.r+=rkOf(g).length});
+function rpChart(C,a,b){const days=Math.round((b-a)/864e5);let mode=days<=62?'d':days<=190?'w':'m';const B=[];
+  if(mode==='d'){for(let t=a;t<b;t=+new Date(new Date(t).getFullYear(),new Date(t).getMonth(),new Date(t).getDate()+1)){const d=new Date(t);B.push({k:ymd(t),lb:d.getDate(),show:d.getDay()===1||t===a,v:0,p:0})}}
+  else if(mode==='w'){const d0=new Date(a);let t=+new Date(d0.getFullYear(),d0.getMonth(),d0.getDate()-((d0.getDay()+6)%7));for(;t<b;t+=7*864e5){const d=new Date(t);B.push({k:t,lb:pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.',show:true,v:0,p:0})}}
+  else{const d0=new Date(a);for(let i=0;;i++){const d=new Date(d0.getFullYear(),d0.getMonth()+i,1);if(+d>=b)break;B.push({k:d.getFullYear()*100+d.getMonth(),lb:SL_MES[d.getMonth()].slice(0,3),show:true,v:0,p:0})}}
+  const key=x=>{const d=new Date(x);if(mode==='d')return ymd(x);if(mode==='m')return d.getFullYear()*100+d.getMonth();return +new Date(d.getFullYear(),d.getMonth(),d.getDate()-((d.getDay()+6)%7))};
+  C.G.forEach(g=>{const x=B.find(y=>y.k===key(g.kad));if(x)x.v+=g.n});C.P.forEach(p=>{const x=B.find(y=>y.k===key(p.kad));if(x)x.p+=p.delta});
+  const mx=Math.max(1,...B.map(x=>Math.max(x.v,x.p))),W=1200,H=232,X0=44,bw=(W-X0)/Math.max(1,B.length),gap=Math.min(12,bw*.22),w2=(bw-gap)/2;
+  let s='';[.5,1].forEach(r=>{const y=24+(1-r)*160;s+='<line class="gl" x1="'+X0+'" x2="'+W+'" y1="'+y+'" y2="'+y+'"/><text class="vl" x="'+(X0-8)+'" y="'+(y+4)+'" style="text-anchor:end">'+Math.round(mx*r)+'</text>'});
+  B.forEach((x,i)=>{const X=X0+i*bw+gap/2;[[x.p,'bp',0],[x.v,'bn',1]].forEach(([v,c,j])=>{if(!v)return;const h=Math.max(3,v/mx*160);const XX=X+j*w2;
+      s+='<rect class="'+c+'" x="'+XX.toFixed(1)+'" y="'+(184-h).toFixed(1)+'" width="'+(w2-1).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2"><title>'+x.lb+': '+(c==='bp'?'pospravljeno ':'naloženo ')+v+'</title></rect>';
+      if(B.length<=31&&w2>=16)s+='<text class="vl" x="'+(XX+w2/2).toFixed(1)+'" y="'+(178-h).toFixed(1)+'">'+v+'</text>'});
+    if(x.show)s+='<text class="ax" x="'+(X+(bw-gap)/2).toFixed(1)+'" y="210">'+x.lb+'</text>'});
+  return {svg:'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Pospravljeno in naloženo">'+s+'</svg>',title:mode==='d'?'Promet po dnevih':mode==='w'?'Promet po tednih':'Promet po mesecih'}}
+function rpCalc(){const fq=norm(RP.firm||''),rows=RP.rows||[];const U=new Set(rows.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));const ok=x=>!x.tip&&!U.has(x.id)&&(!fq||norm(curName(x.firma||'')).includes(fq));
+  let G=rpNak(rows);RP.Gall=G;if(fq)G=G.filter(g=>norm(g.f).includes(fq));
+  const P=rows.filter(x=>ok(x)&&hKind(x)==='g'),M=rows.filter(x=>ok(x)&&hKind(x)==='b');
+  const LY=RP.ly?rpNak(RP.ly).filter(g=>!fq||norm(g.f).includes(fq)):null;
+  const gid=new Set(G.map(g=>g.id));const RK=(state.rek||[]).filter(r=>gid.has(r.nk));const rkOf=g=>RK.filter(r=>r.nk===g.id);
+  const F={};const fx=f=>F[f]=F[f]||{f,k:0,n:0,p:0,ly:0,r:0};G.forEach(g=>{const x=fx(g.f);x.k++;x.n+=g.n;x.r+=rkOf(g).length});P.forEach(p=>{fx(curName(p.firma||'?')).p+=p.delta});
   const FL={};if(LY)LY.forEach(g=>{FL[norm(g.f)]=(FL[norm(g.f)]||0)+g.n});Object.values(F).forEach(x=>x.ly=FL[norm(x.f)]||0);
-  return{G,LY,F:Object.values(F).sort((p,q)=>q.n-p.n),rkOf,tot:G.reduce((p,g)=>p+g.n,0),lyT:LY?LY.reduce((p,g)=>p+g.n,0):null}}
+  return{G,P,M,LY,RK,rkOf,F:Object.values(F).sort((p,q)=>(q.n+q.p)-(p.n+p.p)),tot:G.reduce((p,g)=>p+g.n,0),pos:P.reduce((a,x)=>a+x.delta,0),mov:M.reduce((a,x)=>a+x.delta,0),lyT:LY?LY.reduce((p,g)=>p+g.n,0):null}}
+const rpN=n=>Number(n||0).toLocaleString('sl-SI');
+const rpPc=(a,b,d)=>b?(a/b*100).toLocaleString('sl-SI',{maximumFractionDigits:d==null?1:d})+' %':'–';
 function renderRepBody(){const el=$('#rpOut');if(!el)return;if(RP.err){el.innerHTML='<div class="rpP"><div class="rpEm">⚠ Napaka pri nalaganju: '+esc(RP.err)+'</div></div>';return}
   if(!RP.rows){el.innerHTML='<div class="rpP"><div class="rpEm">Nalagam podatke …</div></div>';return}
-  const[a,b]=rpRange(RP.k);const C=rpCalc(),G=C.G;const gR=G.filter(g=>C.rkOf(g).length).length;const ch=rpChart(G,a,b);
-  const kpi='<div class="rpK"><div><b>'+C.tot.toLocaleString('sl-SI')+'</b><span>palet natovorjenih</span></div><div><b>'+G.length+'</b><span>nakladov</span></div><div><b>'+C.F.length+'</b><span>različnih firm</span></div>'+
-    '<div><b>'+(RP.ly?(C.lyT?rpPct(C.tot,C.lyT):'–'):'…')+'</b><span>'+(RP.ly?(C.lyT?'glede na lani ('+C.lyT+' palet)':'lani ni podatkov'):'primerjava z lani')+'</span></div>'+
-    '<div><b>'+gR+'</b><span>reklamacij'+(G.length?' · '+(gR/G.length*100).toLocaleString('sl-SI',{maximumFractionDigits:1})+' % nakladov':'')+'</span></div></div>';
-  const chart='<div class="rpP"><h2>'+ch.title+' <span>'+ch.info+'</span></h2><div class="rpC">'+ch.svg+'</div></div>';
-  const ft2='<div class="rpP"><h2>Po firmah <span>'+C.F.length+'</span></h2><div class="rpScr"><table class="rpT"><thead><tr><th>Firma</th><th class="n">Nakladov</th><th class="n">Palet</th><th class="n">Lani</th><th class="n">Razlika</th><th class="n">Reklamacije</th></tr></thead><tbody>'+
-    (C.F.length?C.F.map(x=>'<tr><td class="w">'+esc(x.f)+'</td><td class="n">'+x.k+'</td><td class="n b">'+x.n+'</td><td class="n m">'+(RP.ly?(x.ly||'–'):'…')+'</td><td class="n">'+(RP.ly?rpPct(x.n,x.ly):'')+'</td><td class="n">'+(x.r?'<span class="rk">'+x.r+'</span>':'<span class="m">0</span>')+'</td></tr>').join(''):'<tr><td colspan="6" class="rpEm">Ni nakladov v tem obdobju.</td></tr>')+'</tbody></table></div></div>';
+  const[a,b]=rpRange(RP.k);const C=rpCalc(),G=C.G;const gR=new Set(C.RK.map(r=>r.nk)).size;const ch=rpChart(C,a,b);
+  const K=(v,l,c)=>'<div><b'+(c?' class="'+c+'"':'')+'>'+v+'</b><span>'+l+'</span></div>';
+  const kpi='<div class="rpK4">'+K(rpN(C.pos),'palet pospravljenih','kp')+K(rpN(C.tot),'palet naloženih','kn')+K(rpN(C.pos+C.tot),'skupaj promet palet')+K(rpN(C.mov),'palet premaknjenih','kbl')+'</div>'+
+    '<div class="rpK4 s">'+K(rpN(G.length),'nakladov')+K(C.F.filter(x=>x.n).length,'različnih firm (naklad)')+K(RP.ly?(C.lyT?rpPct(C.tot,C.lyT):'–'):'…',RP.ly?(C.lyT?'naloženo glede na lani ('+rpN(C.lyT)+')':'lani ni podatkov'):'primerjava z lani')+K(rpPc(gR,G.length),gR+' reklamacij'+(gR===1?'a':'')+' na '+G.length+' nakladov')+'</div>';
+  const chart='<div class="rpP"><h2>'+ch.title+'<span class="lg"><i class="cp"></i>pospravljeno<i class="cn"></i>naloženo</span></h2><div class="rpC">'+ch.svg+'</div></div>';
+  const ft2='<div class="rpP"><h2>Po firmah <span>'+C.F.length+'</span></h2><div class="rpScr"><table class="rpT"><thead><tr><th>Firma</th><th class="n">Pospravljeno</th><th class="n">Nakladov</th><th class="n">Naloženo</th><th class="n">Lani</th><th class="n">Razlika</th><th class="n">Rekl.</th></tr></thead><tbody>'+
+    (C.F.length?C.F.map(x=>'<tr><td class="w">'+esc(x.f)+'</td><td class="n">'+(x.p||'<span class="m">0</span>')+'</td><td class="n">'+x.k+'</td><td class="n b">'+x.n+'</td><td class="n m">'+(RP.ly?(x.ly||'–'):'…')+'</td><td class="n">'+(RP.ly&&x.n?rpPct(x.n,x.ly):'')+'</td><td class="n">'+(x.r?'<span class="rk">'+x.r+'</span>':'<span class="m">0</span>')+'</td></tr>').join(''):'<tr><td colspan="7" class="rpEm">Ni prometa v tem obdobju.</td></tr>')+'</tbody></table></div></div>';
   const can=canRek()&&!!me;const GG=G.slice().reverse();
-  const nt='<div class="rpP"><h2>Nakladi <span>'+G.length+' · klik na vrstico odpre palete (kg, višina, SSCC)</span></h2><div class="rpScr"><table class="rpT"><thead><tr><th>Datum</th><th>Ura</th><th>Firma</th><th>Lokacije</th><th class="n">Palet</th><th>Kdo</th><th>Opomba</th><th>Reklamacija</th></tr></thead><tbody>'+
-    (GG.length?GG.slice(0,600).map(g=>{const R=C.rkOf(g),L=[...new Set(g.L.map(x=>x.lok))],O=[...new Set(g.L.map(x=>x.o).filter(Boolean))];
-      return '<tr class="ck" data-g="'+esc(g.id)+'"><td>'+dmy(g.kad)+'</td><td class="m">'+ft(g.kad)+'</td><td class="w">'+esc(g.f)+'</td><td class="m">'+esc(L.join(', '))+'</td><td class="n b">'+g.n+'</td><td class="m">'+esc(KO(g.L[0]))+'</td><td class="m w">'+esc(O.join(' · '))+'</td><td>'+
-        (R.length?R.map(r=>'<span class="rk">'+esc(RK_V[r.v]||r.v)+'</span>').join(' '):(can?'<button class="rlk" data-rg="'+esc(g.id)+'">+ Reklamacija</button>':''))+'</td></tr>'}).join(''):'<tr><td colspan="8" class="rpEm">Ni nakladov v tem obdobju.</td></tr>')+'</tbody></table></div></div>';
-  el.innerHTML='<div style="display:grid;gap:24px">'+kpi+chart+'<div class="rp2">'+ft2+nt+'</div></div>';
+  const nt='<div class="rpP"><h2>Nakladi <span>'+G.length+' · klik na vrstico odpre podrobnosti</span></h2><div class="rpScr"><table class="rpT"><thead><tr><th>Datum</th><th>Ura</th><th>Firma</th><th>Lokacije</th><th class="n">Palet</th><th>Kdo</th><th>Reklamacija</th></tr></thead><tbody>'+
+    (GG.length?GG.slice(0,600).map(g=>{const R=C.rkOf(g),L=[...new Set(g.L.map(x=>x.lok))];
+      return '<tr class="ck" data-g="'+esc(g.id)+'"><td>'+dmy(g.kad)+'</td><td class="m">'+ft(g.kad)+'</td><td class="w">'+esc(g.f)+'</td><td class="m">'+esc(L.join(', '))+'</td><td class="n b">'+g.n+'</td><td class="m">'+esc(KO(g.L[0]))+'</td><td>'+
+        (R.length?R.map(r=>'<span class="rk'+(r.st==='r'?' ok':'')+'">'+esc(RK_V[r.v]||r.v)+(r.st==='r'?' ✓':'')+'</span>').join(' '):(can?'<button class="rlk" data-rg="'+esc(g.id)+'">+ Reklamacija</button>':''))+'</td></tr>'}).join(''):'<tr><td colspan="7" class="rpEm">Ni nakladov v tem obdobju.</td></tr>')+'</tbody></table></div></div>';
+  /* reklamacije */
+  let rs='';if(G.length){const RK=C.RK,pc=RK.reduce((a,r)=>a+(+r.cnt||(r.pal||[]).length||1),0),op=RK.filter(r=>r.st!=='r').length;
+    const V={};RK.forEach(r=>V[r.v]=(V[r.v]||0)+1);const O={};G.forEach(g=>{const k=KO(g.L[0]);(O[k]=O[k]||{k,n:0,r:0}).n++});RK.forEach(r=>{const k=r.odg||KO((G.find(g=>g.id===r.nk)||{L:[{}]}).L[0]);(O[k]=O[k]||{k,n:0,r:0}).r++});
+    rs='<div class="rpP"><h2>Reklamacije <span>'+RK.length+' v tem obdobju</span></h2><div class="rpRk"><div class="rpK4 s in">'+K(rpPc(gR,G.length),'nakladov z reklamacijo')+K((C.tot?(pc/C.tot*1000).toLocaleString('sl-SI',{maximumFractionDigits:1}):'–'),'reklamiranih palet na 1000')+K(op,'odprtih','kn')+K(RK.length-op,'rešenih','kp')+'</div>'+
+      '<div class="rpRk2"><table class="rpT"><thead><tr><th>Vrsta</th><th class="n">Število</th></tr></thead><tbody>'+(Object.keys(RK_V).map(k=>'<tr><td>'+RK_V[k]+'</td><td class="n'+(V[k]?' b':' m')+'">'+(V[k]||0)+'</td></tr>').join(''))+'</tbody></table>'+
+      '<table class="rpT"><thead><tr><th>Oseba</th><th class="n">Nakladov</th><th class="n">Reklamacij</th><th class="n">Delež</th></tr></thead><tbody>'+Object.values(O).sort((p,q)=>q.n-p.n).map(o=>'<tr><td>'+esc(o.k)+'</td><td class="n">'+o.n+'</td><td class="n'+(o.r?' b':' m')+'">'+o.r+'</td><td class="n m">'+(o.n?rpPc(o.r,o.n):'–')+'</td></tr>').join('')+'</tbody></table></div></div></div>'}
+  el.innerHTML='<div style="display:grid;gap:20px">'+kpi+chart+'<div class="rp2">'+ft2+nt+'</div>'+rs+'</div>';
   el.querySelectorAll('tr[data-g]').forEach(tr=>tr.onclick=e=>{const g=RP.Gall.find(x=>x.id===tr.dataset.g);if(!g)return;if(e.target.closest('[data-rg]'))rekForm(g);else rpDetail(g)})}
-function rpDetail(g){const tr=palTr(g.f),R=(state.rek||[]).filter(r=>r.nk===g.id),can=canRek()&&!!me;
-  openSheet('<h2>🚚 '+esc(g.f)+'</h2><p class="mut">'+dmyF(g.kad)+' · '+ft(g.kad)+' · '+pal(g.n)+' · '+esc(KO(g.L[0]))+'</p>'+
-    g.L.map(x=>'<div class="dtl"><b>'+esc(x.lok)+'</b> · '+pal(-x.delta)+(x.o?'<div>📝 '+esc(x.o)+'</div>':'')+((x.pd||[]).length?(x.pd||[]).map((e,j)=>'<div class="mut">'+(j+1)+'. '+esc(e&&e.kad?palLine(e,tr):'ni podatkov')+'</div>').join(''):'<div class="mut">Brez podatkov o paletah.</div>')+'</div>').join('')+
-    '<h3>Reklamacije</h3>'+(R.length?R.map(r=>'<div class="rkl"><span class="rk">'+esc(RK_V[r.v]||r.v)+'</span>'+(r.opis?'<div style="margin-top:6px">'+esc(r.opis)+'</div>':'')+'<div class="mut">'+esc(r.ko||'')+' · '+fdt(r.kad)+'</div>'+(can?'<button class="btn d" data-rd="'+r.id+'" style="margin-top:8px">🗑 Izbriši</button>':'')+'</div>').join(''):'<p class="mut">Ni reklamacij.</p>')+
-    (can?'<button class="btn p" id="rkN">⚠ Dodaj reklamacijo</button>':'')+'<button class="btn" id="xB">'+t('close')+'</button>','rpdet',{id:g.id});
-  $('#xB').onclick=()=>closeSheet();if($('#rkN'))$('#rkN').onclick=()=>rekForm(g);
-  $('#sheet').querySelectorAll('[data-rd]').forEach(b=>b.onclick=()=>ask('Izbrišem reklamacijo?',()=>{store.rekDel(b.dataset.rd);setTimeout(()=>{renderRepBody();rpDetail(g)},300)},()=>rpDetail(g)))}
-function rekForm(g){if(!canRek())return;let v='';
-  openSheet('<h2>⚠ Reklamacija</h2><p class="mut">'+esc(g.f)+' · '+dmyF(g.kad)+' '+ft(g.kad)+' · '+pal(g.n)+' · '+esc([...new Set(g.L.map(x=>x.lok))].join(', '))+'</p><label>Kaj se je zgodilo</label><div class="rkv">'+Object.entries(RK_V).map(([k,l])=>'<button data-v="'+k+'">'+l+'</button>').join('')+'</div>'+
-    '<label>Opis (neobvezno)</label><textarea class="in" id="rkO" rows="3" maxlength="300" placeholder="npr. stranka ni prejela 1 palete, dobavnica …"></textarea><button class="btn p" id="rkS">Shrani reklamacijo</button><button class="btn" id="rkX">'+t('cancel')+'</button>','rekform');
-  $('#sheet').querySelectorAll('.rkv [data-v]').forEach(b=>b.onclick=()=>{v=b.dataset.v;$('#sheet').querySelectorAll('.rkv [data-v]').forEach(x=>x.classList.toggle('on',x===b))});
+var RK_P={st:'Stranka',pr:'Prevoznik',pi:'Pisarna'};
+function rpDetail(g){const tr=palTr(g.f),R=(state.rek||[]).filter(r=>r.nk===g.id),can=canRek()&&!!me;const L=[...new Set(g.L.map(x=>x.lok))];const d=new Date(g.kad);
+  const tb=x=>{const pd=(x.pd||[]);if(!pd.length)return '<div class="dkE">Brez podatkov o paletah.</div>';
+    return '<table class="rpT"><thead><tr><th>#</th><th class="n">Teža</th><th class="n">Višina</th><th>Vrsta</th><th>SSCC</th></tr></thead><tbody>'+pd.map((e,j)=>'<tr><td class="m">'+(j+1)+'</td><td class="n">'+(e&&e.kg>0?e.kg+' kg':'<span class="m">—</span>')+'</td><td class="n">'+(e&&e.h>0?e.h+' cm':'<span class="m">—</span>')+'</td><td>'+(e&&e.v?esc(pvN(e.v)):'<span class="m">—</span>')+(e&&e.kt?' <span class="m">· karton</span>':'')+'</td><td class="m dkS">'+(e&&e.ss?esc(e.ss):'—')+'</td></tr>').join('')+'</tbody></table>'};
+  openSheet('<div class="dkH"><span class="dkI">🚚</span><div><h2>'+esc(g.f)+'</h2><div class="mut">Naklad · '+SL_DAN[d.getDay()]+', '+d.getDate()+'. '+SL_MES[d.getMonth()]+' '+d.getFullYear()+'</div></div></div>'+
+    '<div class="dkK"><div><b>'+ft(g.kad)+'</b><span>ura</span></div><div><b>'+g.n+'</b><span>'+(g.n===1?'paleta':'palet')+'</span></div><div><b>'+(L.length===1?esc(L[0]):L.length)+'</b><span>'+(L.length===1?'lokacija':'lokacij')+'</span></div><div><b class="sm">'+esc(KO(g.L[0]))+'</b><span>odpremnik</span></div></div>'+
+    '<h3 class="dkT">PALETE</h3>'+g.L.map(x=>'<div class="dkL"><div class="dkLh"><span class="zLo">'+esc(x.lok)+'</span><span class="mut">'+pal(-x.delta)+'</span>'+(x.o?'<span class="dkNo">📝 '+esc(x.o)+'</span>':'')+'</div>'+tb(x)+'</div>').join('')+
+    '<h3 class="dkT">REKLAMACIJE</h3>'+(R.length?R.map(r=>'<div class="dkR'+(r.st==='r'?' ok':'')+'"><div class="dkRt"><span class="rk'+(r.st==='r'?' ok':'')+'">'+esc(RK_V[r.v]||r.v)+'</span><span class="dkSt">'+(r.st==='r'?'✓ rešena':'● odprta')+'</span>'+(can?'<button class="dkB" data-re="'+r.id+'">Uredi</button>':'')+'</div>'+
+      (r.opis?'<div class="dkRx">'+esc(r.opis)+'</div>':'')+'<div class="mut dkRm">'+[r.odg?'odgovoren: '+esc(r.odg):'',r.prij?'prijavil: '+esc(RK_P[r.prij]||r.prij):'',r.ref?'št.: '+esc(r.ref):'',r.cnt?'količina: '+esc(r.cnt):'',esc(r.ko||'')+' · '+fdt(r.kad)].filter(Boolean).join(' · ')+'</div></div>').join(''):'<div class="dkRe"><span class="mut">Ni reklamacij.</span>'+(can?'<button class="dkB r" id="rkN">⚠ Dodaj reklamacijo</button>':'')+'</div>')+
+    (R.length&&can?'<button class="dkB r" id="rkN" style="margin-top:10px">⚠ Dodaj še eno reklamacijo</button>':''),'rpdet',{id:g.id});
+  if($('#rkN'))$('#rkN').onclick=()=>rekForm(g);
+  $('#sheet').querySelectorAll('[data-re]').forEach(b=>b.onclick=()=>rekForm(g,(state.rek||[]).find(r=>r.id===b.dataset.re)))}
+function rekForm(g,E){if(!canRek())return;E=E||null;const tr=palTr(g.f);const F={v:E?E.v:'',pal:E&&E.pal?E.pal.slice():[],prij:E?E.prij||'st':'st',st:E?E.st||'o':'o'};
+  const members=[...new Set([...(state.post.dir||[]).map(d=>d.ime),...(state.post.radnici||[]),KO(g.L[0]),E&&E.odg].filter(Boolean))];const odg0=E?E.odg||'':KO(g.L[0]);
+  const prev=(state.rek||[]).filter(r=>norm(r.f||'')===norm(g.f)&&(!E||r.id!==E.id)&&r.nk!==g.id).sort((p,q)=>q.kad-p.kad).slice(0,5);
+  const PI=[];g.L.forEach(x=>(x.pd&&x.pd.length?x.pd:Array.from({length:-x.delta},()=>null)).forEach((e,j)=>PI.push({k:x.id+':'+j,lok:x.lok,j,e})));
+  const VI={np:['📦','stranka palete ni prejela'],ns:['🔀','paleta je šla drugam'],sk:['🗃️','pri prekladanju je zašla'],dr:['✎','opiši spodaj']};
+  openSheet('<div class="rkH"><span class="rkI">⚠</span><div><h2>'+(E?'Reklamacija':'Nova reklamacija')+'</h2><div class="mut">'+esc(g.f)+' · naklad '+dmyF(g.kad)+' ob '+ft(g.kad)+'</div></div></div>'+
+    '<div class="rkB"><div class="rkL"><h3 class="dkT">KAJ SE JE ZGODILO</h3><div class="rkV">'+Object.entries(RK_V).map(([k,l])=>'<button data-v="'+k+'"'+(F.v===k?' class="on"':'')+'><i>'+VI[k][0]+'</i><span><b>'+l+'</b><small>'+VI[k][1]+'</small></span></button>').join('')+'</div>'+
+    '<h3 class="dkT">KATERE PALETE <span>(neobvezno)</span></h3><div class="rkP">'+PI.map(p=>'<label><input type="checkbox" data-pk="'+esc(p.k)+'"'+(F.pal.includes(p.k)?' checked':'')+'><span class="zLo">'+esc(p.lok)+'</span><span>'+(p.j+1)+'.</span><span class="mut">'+(p.e&&p.e.kad?esc([p.e.kg>0?p.e.kg+' kg':'',p.e.h>0?p.e.h+' cm':'',p.e.v?pvN(p.e.v):''].filter(Boolean).join(' · ')):'brez podatkov')+'</span>'+(p.e&&p.e.ss?'<span class="rkSs">SSCC '+esc(p.e.ss)+'</span>':'')+'</label>').join('')+'</div>'+
+    '<div class="rkG"><div><label>Kdo je prijavil</label><div class="rkSeg" id="rkPr">'+Object.entries(RK_P).map(([k,l])=>'<button data-p="'+k+'"'+(F.prij===k?' class="on"':'')+'>'+l+'</button>').join('')+'</div></div><div><label>Datum prijave</label><input class="in" type="date" id="rkD" value="'+(E&&E.datP||ymd(Date.now()))+'"></div>'+
+    '<div><label>Št. reklamacije / dobavnice</label><input class="in" id="rkRef" placeholder="npr. RK-2026-114" value="'+esc(E&&E.ref||'')+'" autocomplete="off"></div><div><label>Število palet / škatel</label><input class="in" id="rkC" type="number" min="1" inputmode="numeric" value="'+esc(E&&E.cnt||'')+'" placeholder="1"></div></div>'+
+    '<label>Opis</label><textarea class="in" id="rkO" rows="3" maxlength="600" placeholder="Kaj se je zgodilo …">'+esc(E&&E.opis||'')+'</textarea></div>'+
+    '<div class="rkR"><h3 class="dkT">NAKLAD</h3><div class="rkN"><b>'+esc(g.f)+'</b><div class="mut">'+SL_DAN[new Date(g.kad).getDay()]+', '+dmyF(g.kad)+' · '+ft(g.kad)+'</div><div class="dkK two"><div><b>'+g.n+'</b><span>palet</span></div><div><b class="sm">'+esc([...new Set(g.L.map(x=>x.lok))].join(', '))+'</b><span>lokacija</span></div></div></div>'+
+    '<h3 class="dkT">ODGOVOREN</h3><select class="in" id="rkOd"><option value="">— ni določeno —</option>'+members.map(m=>'<option'+(m===odg0?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select>'+
+    '<h3 class="dkT">STATUS</h3><div class="rkSeg" id="rkSt"><button data-s="o"'+(F.st==='o'?' class="on"':'')+'>Odprta</button><button data-s="r"'+(F.st==='r'?' class="on"':'')+'>Rešena</button></div>'+
+    '<h3 class="dkT">PREJŠNJE REKLAMACIJE · '+esc(g.f.toUpperCase())+'</h3>'+(prev.length?'<div class="rkH2">'+prev.map(r=>'<div><b>'+dmy(r.kadN||r.kad).slice(0,6)+'</b> · '+esc(RK_V[r.v]||r.v)+' · <span class="'+(r.st==='r'?'gUp':'mut')+'">'+(r.st==='r'?'rešena':'odprta')+'</span></div>').join('')+'</div>':'<div class="mut">Ni prejšnjih.</div>')+'</div></div>'+
+    '<div class="rkF">'+(E?'<button class="dkB" id="rkDel">🗑 Izbriši</button>':'')+'<button class="dkB" id="rkX">Prekliči</button><button class="rkS" id="rkS">'+(E?'Shrani spremembe':'Shrani reklamacijo')+'</button></div>','rekform',{center:true});
+  const sh=$('#sheet');
+  sh.querySelectorAll('.rkV [data-v]').forEach(b=>b.onclick=()=>{F.v=b.dataset.v;sh.querySelectorAll('.rkV [data-v]').forEach(x=>x.classList.toggle('on',x===b))});
+  sh.querySelectorAll('#rkPr [data-p]').forEach(b=>b.onclick=()=>{F.prij=b.dataset.p;sh.querySelectorAll('#rkPr [data-p]').forEach(x=>x.classList.toggle('on',x===b))});
+  sh.querySelectorAll('#rkSt [data-s]').forEach(b=>b.onclick=()=>{F.st=b.dataset.s;sh.querySelectorAll('#rkSt [data-s]').forEach(x=>x.classList.toggle('on',x===b))});
   $('#rkX').onclick=()=>rpDetail(g);
-  $('#rkS').onclick=()=>{if(!writable())return;if(!v){toast('⚠ Izberi, kaj se je zgodilo');return}const opis=$('#rkO').value.trim();
-    store.rekAdd({nk:g.id,f:g.f,kadN:g.kad,n:g.n,loks:[...new Set(g.L.map(x=>x.lok))],v,opis,ko:me||'',kad:Date.now()});toast('⚠ Reklamacija shranjena');setTimeout(()=>{renderRepBody();rpDetail(g)},300)}}
+  if($('#rkDel'))$('#rkDel').onclick=()=>ask('Izbrišem reklamacijo?',()=>{store.rekDel(E.id);setTimeout(()=>{renderRepBody();rpDetail(g)},300)},()=>rekForm(g,E));
+  $('#rkS').onclick=()=>{if(!writable())return;if(!F.v){toast('⚠ Izberi, kaj se je zgodilo');return}
+    const o={v:F.v,pal:[...sh.querySelectorAll('[data-pk]:checked')].map(x=>x.dataset.pk),prij:F.prij,datP:$('#rkD').value||'',ref:$('#rkRef').value.trim().slice(0,60),cnt:parseInt($('#rkC').value)||0,opis:$('#rkO').value.trim().slice(0,600),st:F.st,odg:$('#rkOd').value};
+    if(E)store.rekSet(E.id,o);else store.rekAdd({...o,nk:g.id,f:g.f,kadN:g.kad,n:g.n,loks:[...new Set(g.L.map(x=>x.lok))],ko:me||'',kad:Date.now()});
+    toast(E?'Reklamacija posodobljena':'⚠ Reklamacija shranjena');setTimeout(()=>{renderRepBody();rpDetail(g)},300)}}
 function rpExport(){if(!RP.rows){toast('Počakaj, da se podatki naložijo');return}const[a,b]=rpRange(RP.k);const C=rpCalc();const q=v=>{v=String(v==null?'':v);return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
-  const L=[['Poročilo o nakladih',rpLabel(RP.k,a,b)+(RP.firm?' · '+RP.firm:'')],[],['PO FIRMAH'],['Firma','Nakladov','Palet','Lani (isto obdobje)','Reklamacije']];
-  C.F.forEach(x=>L.push([x.f,x.k,x.n,RP.ly?x.ly:'',x.r]));L.push(['Skupaj',C.G.length,C.tot,C.lyT==null?'':C.lyT,C.G.filter(g=>C.rkOf(g).length).length]);
-  L.push([],['NAKLADI'],['Datum','Ura','Firma','Lokacije','Palet','Kdo','Opomba','Reklamacija','Opis reklamacije','Palete (kg · višina · vrsta · SSCC)']);
-  C.G.forEach(g=>{const R=C.rkOf(g),tr=palTr(g.f);L.push([dmyF(g.kad),ft(g.kad),g.f,[...new Set(g.L.map(x=>x.lok))].join(', '),g.n,KO(g.L[0]),[...new Set(g.L.map(x=>x.o).filter(Boolean))].join(' · '),R.map(r=>RK_V[r.v]||r.v).join(', '),R.map(r=>r.opis||'').filter(Boolean).join(' | '),
+  const L=[['Poročilo',rpLabel(RP.k,a,b)+(RP.firm?' · '+RP.firm:'')],[],['Pospravljeno palet',C.pos],['Naloženo palet',C.tot],['Skupaj promet',C.pos+C.tot],['Premaknjeno palet',C.mov],['Nakladov',C.G.length],['Reklamacij',C.RK.length],[],['PO FIRMAH'],['Firma','Pospravljeno','Nakladov','Naloženo','Lani (isto obdobje)','Reklamacije']];
+  C.F.forEach(x=>L.push([x.f,x.p,x.k,x.n,RP.ly?x.ly:'',x.r]));
+  L.push([],['NAKLADI'],['Datum','Ura','Firma','Lokacije','Palet','Kdo','Opomba','Reklamacija','Palete (kg · višina · vrsta · SSCC)']);
+  C.G.forEach(g=>{const R=C.rkOf(g),tr=palTr(g.f);L.push([dmyF(g.kad),ft(g.kad),g.f,[...new Set(g.L.map(x=>x.lok))].join(', '),g.n,KO(g.L[0]),[...new Set(g.L.map(x=>x.o).filter(Boolean))].join(' · '),R.map(r=>RK_V[r.v]||r.v).join(', '),
     g.L.flatMap(x=>(x.pd||[]).filter(e=>e&&e.kad).map(e=>palLine(e,tr))).join(' | ')])});
+  if(C.RK.length){L.push([],['REKLAMACIJE'],['Datum naklada','Firma','Vrsta','Status','Odgovoren','Prijavil','Datum prijave','Št.','Količina','Opis','Vnesel']);
+    C.RK.forEach(r=>L.push([dmyF(r.kadN||r.kad),r.f,RK_V[r.v]||r.v,r.st==='r'?'rešena':'odprta',r.odg||'',RK_P[r.prij]||'',r.datP?r.datP.split('-').reverse().join('.'):'',r.ref||'',r.cnt||'',r.opis||'',r.ko||'']))}
   const csv='﻿'+L.map(r=>r.map(q).join(';')).join('\r\n');const bl=new Blob([csv],{type:'text/csv;charset=utf-8'});const u=URL.createObjectURL(bl);const x=document.createElement('a');
-  x.href=u;x.download='Odprema-nakladi-'+rpLabel(RP.k,a,b).replace(/[^\wčšžČŠŽ.-]+/g,'_')+'.csv';document.body.appendChild(x);x.click();setTimeout(()=>{URL.revokeObjectURL(u);x.remove()},1500);toast('📥 Datoteka za Excel prenesena')}
+  x.href=u;x.download='Odprema-porocilo-'+rpLabel(RP.k,a,b).replace(/[^\wčšžČŠŽ.-]+/g,'_')+'.csv';document.body.appendChild(x);x.click();setTimeout(()=>{URL.revokeObjectURL(u);x.remove()},1500);toast('📥 Datoteka za Excel prenesena')}
 
 /* ================= v46: navodila (računalnik) in zgodovina kot stran ================= */
 var NVD={t:'n',f:'due',c:'o'};
