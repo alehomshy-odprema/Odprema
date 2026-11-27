@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ETI Odprema">
 <meta name="theme-color" content="#0d1320">
-<script>try{var T=localStorage.getItem("lk_theme"),Z=localStorage.getItem("lk_zoom");if(T)document.documentElement.dataset.theme=JSON.parse(T);if(Z)document.documentElement.style.setProperty("--z",JSON.parse(Z));if(matchMedia("(min-width:1000px)").matches){var D=localStorage.getItem("lk_dtheme");document.documentElement.classList.add("dsk");document.documentElement.dataset.theme=D?JSON.parse(D):"light"}}catch(e){}</script>
+<script>try{var T=localStorage.getItem("lk_theme"),Z=localStorage.getItem("lk_zoom");if(T)document.documentElement.dataset.theme=JSON.parse(T);if(Z)document.documentElement.style.setProperty("--z",JSON.parse(Z));if(matchMedia("(min-width:1000px)").matches){var D=localStorage.getItem("lk_dtheme");document.documentElement.classList.add("dsk");document.documentElement.dataset.theme=D?JSON.parse(D):"dark"}}catch(e){}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
@@ -402,19 +402,21 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .fkt{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding:12px 2px;color:var(--gold)}
 .fkd{background:rgba(255,95,162,.12);border:2px solid #ff5fa2;border-radius:12px;padding:9px 11px;font-size:14px;margin:4px 0 8px}
 /* ================= RAČUNALNIK v44 – nov izgled (A svetla / B temna) ================= */
+@font-face{font-family:"OdpUI";src:local("Segoe UI"),local("SegoeUI");font-weight:100 550}
+@font-face{font-family:"OdpUI";src:local("Segoe UI Semibold"),local("SegoeUI-Semibold");font-weight:551 1000}
 #dNav,#dTitle,#dPage,#sdTop{display:none}
 @media (min-width:1000px){
  html.dsk,html.dsk[data-theme]{--l1:#2F9E5B;--l2:#B7791F;--l3:#C43B32;--l1b:#EAF6EF;--l2b:#FCF4E2;--l3b:#FBEAE8;--emp:#A9B1BD;--sf2:#F7F8FA;--pin:#C2367A;--pinb:#FBE9F2;--hit:#FFF6D6;--hitb:#E0A800;
    --bg:#F3F5F8;--card:#FFFFFF;--sheet:#FFFFFF;--ink:#141B26;--mut:#5E6878;--line:#E2E6EC;--acc:#1D5FD6;--blue:#1D5FD6;--acc2:#F7F8FA;--full:#FFFFFF;--fullb:#1D5FD6;--th:#F7F8FA;--hl:#E8F0FD;--track:#E2E6EC;--gold:#9A6B00;--red:#C43B32;--green:#2F9E5B;--orange:#B7791F;color-scheme:light;
-   --df:"Segoe UI Variable Text","Segoe UI",Inter,system-ui,-apple-system,sans-serif}
+   --df:"OdpUI",Inter,system-ui,-apple-system,sans-serif}
  html.dsk[data-theme="dark"]{--l1:#4CC27E;--l2:#E6B144;--l3:#F06A60;--l1b:#1B2A22;--l2b:#2C2618;--l3b:#2E1D1C;--emp:#5A616B;--sf2:#20242A;--pin:#F27BB5;--pinb:#2F1C27;--hit:#2E2914;--hitb:#E6B144;
    --bg:#131518;--card:#1B1E23;--sheet:#1B1E23;--ink:#F2F4F7;--mut:#A2AAB6;--line:#2D3238;--acc:#4C8DF6;--blue:#7DB0FF;--acc2:#20242A;--full:#1B1E23;--fullb:#7DB0FF;--th:#20242A;--hl:#1E2B40;--track:#2D3238;--gold:#E6B144;--red:#F06A60;--green:#4CC27E;--orange:#E6B144;color-scheme:dark}
  html.dsk,html.dsk body{font-family:var(--df);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1}
- html.dsk body{display:grid;grid-template-columns:232px minmax(0,1fr) 380px;grid-template-rows:auto minmax(0,1fr);background:var(--bg);color:var(--ink)}
+ html.dsk body{display:grid;grid-template-columns:clamp(184px,13vw,232px) minmax(0,1fr) clamp(280px,22vw,380px);grid-template-rows:auto minmax(0,1fr);background:var(--bg);color:var(--ink)}
  html.dsk button,html.dsk input,html.dsk select,html.dsk textarea{font-family:var(--df)}
  /* levi meni */
  html.dsk #dNav{display:flex;flex-direction:column;grid-column:1;grid-row:1/3;background:var(--card);border-right:1px solid var(--line);padding:20px 12px 14px;overflow:auto;min-height:0}
- .dbrand{display:flex;align-items:center;gap:10px;padding:0 10px 20px}.dbrand svg{flex:none}.dbrand b{font-size:17px;font-weight:650;display:block;line-height:1.2}.dbrand small{color:var(--mut);font-size:12.5px}
+ .dbrand{display:flex;align-items:center;gap:10px;padding:0 10px 20px}.dbrand svg{flex:none}.dbrand b{font-size:17px;font-weight:600;display:block;line-height:1.2}.dbrand small{color:var(--mut);font-size:12.5px}
  .dni{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:8px;border:0;background:none;color:var(--ink);font-size:15px;font-weight:500;text-align:left;cursor:pointer;margin:1px 0}
  .dni:hover{background:var(--sf2)}.dni svg{width:18px;height:18px;flex:none;stroke:var(--mut);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
  .dni.on{background:var(--hl);color:var(--acc);font-weight:600}.dni.on svg{stroke:var(--acc)}
@@ -427,17 +429,17 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  /* glava */
  html.dsk header{grid-column:2;grid-row:1;position:static;background:var(--card);border-bottom:1px solid var(--line);padding:16px 28px 16px}
  html.dsk header .hrow h1,html.dsk #meChip,html.dsk #bNav,html.dsk #bType{display:none!important}
- html.dsk #dTitle{display:flex;align-items:baseline;gap:14px;min-width:0}#dTitle b{font-size:21px;font-weight:650;letter-spacing:-.1px}#dTitle span{color:var(--mut);font-size:14px}
+ html.dsk #dTitle{display:flex;align-items:baseline;gap:14px;min-width:0}#dTitle b{font-size:21px;font-weight:600;letter-spacing:-.1px}#dTitle span{color:var(--mut);font-size:14px}
  html.dsk .chip.pinc{font-size:14px;padding:5px 12px;border-radius:8px;background:var(--pinb);color:var(--pin);border:1px solid color-mix(in srgb,var(--pin) 40%,transparent);font-weight:600}
  html.dsk .kst{display:flex;gap:40px;margin-top:14px}
  html.dsk .ks{background:none!important;border:0!important;padding:0!important;text-align:left;font-size:13.5px!important;color:var(--mut)!important;line-height:1.3}
- html.dsk .ks b{display:block;font-size:26px!important;font-weight:650!important;color:var(--ink)!important;letter-spacing:-.3px;line-height:1.15}html.dsk .ks.k4 b{color:var(--l1)!important}
+ html.dsk .ks b{display:block;font-size:26px!important;font-weight:600!important;color:var(--ink)!important;letter-spacing:-.3px;line-height:1.15}html.dsk .ks.k4 b{color:var(--l1)!important}
  html.dsk .srow{margin-top:14px;max-width:560px}
  html.dsk .search{height:40px;padding:0 14px 0 38px;border-radius:8px;border:1px solid var(--line);background:var(--sf2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238A93A1' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") no-repeat 13px center;font-size:15px;color:var(--ink)}
  html.dsk .search:focus{outline:2px solid var(--acc);outline-offset:-1px;background-color:var(--card)}
  html.dsk #sres{max-height:42vh;margin-top:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
  html.dsk .sr{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14.5px}
- html.dsk .sr .tt{color:var(--ink);font-size:16px;font-weight:650}html.dsk .sr .tn{color:var(--ink);font-size:16px;font-weight:650}
+ html.dsk .sr .tt{color:var(--ink);font-size:16px;font-weight:600}html.dsk .sr .tn{color:var(--ink);font-size:16px;font-weight:600}
  html.dsk .sr .lc{font-size:14px;border-radius:7px;border:1px solid var(--line);background:var(--sf2);color:var(--ink);font-weight:600}
  /* regali */
  html.dsk #grid{grid-column:2;grid-row:2;overflow:auto;padding:4px 28px 40px;min-height:0}
@@ -446,7 +448,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.dsk .grp{background:var(--card);border:1px solid var(--line);border-top:1px solid var(--line);border-radius:0 0 12px 12px;padding:16px 18px;gap:10px!important;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
  html.dsk .tile{font-family:var(--df);background:var(--card);border:1px solid var(--line);border-left-width:1px;border-radius:9px;padding:10px 11px 18px;min-height:84px;gap:2px;color:var(--ink);box-shadow:none;transform:none;transition:border-color .12s,background .12s;cursor:pointer}
  html.dsk .tile:hover{border-color:var(--acc);transform:none;box-shadow:none}
- html.dsk .tile .n{font-size:16px!important;font-weight:650;color:var(--ink)!important;letter-spacing:0}
+ html.dsk .tile .n{font-size:16px!important;font-weight:600;color:var(--ink)!important;letter-spacing:0}
  html.dsk .tile .n small{font-size:13.5px!important;font-weight:600;color:var(--mut)!important}
  html.dsk .tile .f{font-size:13.5px!important;font-weight:500;color:var(--ink)!important;white-space:nowrap;overflow:hidden;display:flex;gap:6px;align-items:baseline}
  html.dsk .tile .f .fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}html.dsk .tile .f b{margin-left:auto;font-weight:600;font-size:13.5px;color:var(--ink)}
@@ -482,7 +484,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.dsk #ovSide .otb td{background:transparent!important;border:0;border-bottom:1px solid var(--line);padding:9px 16px;vertical-align:top}
  html.dsk #ovSide .otb tbody tr:last-child td{border-bottom:0}html.dsk #ovSide .otb tbody tr:hover td{background:var(--sf2)!important}
  html.dsk #ovSide .of{font-size:14.5px;font-weight:600;color:var(--ink)}
- html.dsk #ovSide .on{font-size:15px;font-weight:650;color:var(--ink)}
+ html.dsk #ovSide .on{font-size:15px;font-weight:600;color:var(--ink)}
  html.dsk #ovSide .oc{font-size:12.5px;padding:2px 7px;border-radius:6px;border:1px solid var(--line);background:var(--sf2);color:var(--ink);font-weight:600;margin:2px 3px 0 0}html.dsk #ovSide .oc b{color:var(--mut);font-weight:600}
  /* spodnja vrstica stran */
  html.dsk #deskBar{display:none!important}
@@ -491,7 +493,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.dsk .ov{align-items:stretch!important;justify-content:flex-end!important;padding:0!important;background:rgba(15,22,34,.28)}
  html.dsk .sheet{width:min(640px,48vw);max-width:none!important;height:100%;max-height:none!important;border-radius:0!important;border:0!important;border-left:1px solid var(--line)!important;box-shadow:-16px 0 40px rgba(10,16,28,.18);background:var(--sheet);color:var(--ink);padding:24px 28px 40px}
  html.dsk[data-theme="dark"] .ov{background:rgba(0,0,0,.45)}
- html.dsk .sheet h2{font-size:20px;font-weight:650;color:var(--ink);margin:0 0 12px}html.dsk .sheet h3{font-size:15.5px;font-weight:600;color:var(--ink)}
+ html.dsk .sheet h2{font-size:20px;font-weight:600;color:var(--ink);margin:0 0 12px}html.dsk .sheet h3{font-size:15.5px;font-weight:600;color:var(--ink)}
  html.dsk label{color:var(--ink);font-weight:600;font-size:14px}
  html.dsk .btn{border-radius:8px;padding:11px 14px;font-size:15px;font-weight:600;background:var(--card);border:1px solid var(--line);color:var(--ink)}
  html.dsk .btn:hover{border-color:var(--acc)}
@@ -506,7 +508,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 }
 /* ---- poročila ---- */
 .rpTop{display:flex;align-items:center;gap:16px;padding:16px 28px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap;position:sticky;top:0;z-index:3}
-.rpTop h1{font-size:21px;font-weight:650;margin:0;color:var(--ink);letter-spacing:-.1px}.rpTop .per{color:var(--mut);font-size:14px}
+.rpTop h1{font-size:21px;font-weight:600;margin:0;color:var(--ink);letter-spacing:-.1px}.rpTop .per{color:var(--mut);font-size:14px}
 .rpSeg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card);margin-left:auto}
 .rpSeg button{border:0;border-right:1px solid var(--line);background:none;padding:8px 12px;font-size:14px;font-weight:500;color:var(--mut);cursor:pointer;white-space:nowrap}.rpSeg button:last-child{border:0}.rpSeg button:hover{color:var(--ink)}
 .rpSeg button.on{background:var(--hl);color:var(--acc);font-weight:600}
@@ -516,7 +518,7 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
 .rpRow2{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.rpRow2 .in{width:auto;height:38px;padding:0 12px;margin:0}
 .rpK{display:grid;grid-template-columns:repeat(5,1fr);background:var(--card);border:1px solid var(--line);border-radius:12px}
 .rpK div{padding:16px 20px;border-right:1px solid var(--line)}.rpK div:last-child{border:0}
-.rpK b{display:block;font-size:26px;font-weight:650;letter-spacing:-.3px;color:var(--ink)}.rpK div>span{color:var(--mut);font-size:13.5px}
+.rpK b{display:block;font-size:26px;font-weight:600;letter-spacing:-.3px;color:var(--ink)}.rpK div>span{color:var(--mut);font-size:13.5px}
 .rpP{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .rpP h2{display:flex;align-items:baseline;gap:12px;font-size:15.5px;font-weight:600;margin:0;padding:14px 18px;border-bottom:1px solid var(--line);color:var(--ink)}.rpP h2 span{color:var(--mut);font-size:13.5px;font-weight:400}
 .rpC{padding:10px 18px 8px}.rpC svg{width:100%;height:auto;display:block}
@@ -542,7 +544,33 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.dsk .grp.rack .tile,html.dsk .grp.dense .tile{padding:10px 11px 18px;min-height:84px}
  html.dsk .tile.lv0 .meter{display:block}
  html.dsk .grab{display:none}
- html.dsk #ovSide>*:not(table){margin-left:16px;margin-right:16px}
+ html.dsk *{font-synthesis:none}
+ html.dsk .kst{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}
+ html.dsk .ks{background:var(--bg)!important;border:1px solid var(--line)!important;border-radius:10px;padding:12px 16px!important;font-size:14px!important;color:var(--mut)!important;min-width:0}
+ @media (max-width:1500px){html.dsk .ks{padding:10px 12px!important;font-size:13px!important}html.dsk header{padding:14px 20px}html.dsk #grid{padding:4px 20px 40px}html.dsk #side{padding:16px 14px 40px}.dni{padding:9px 10px;gap:10px}}
+ html.dsk .ks b{font-size:28px!important;font-weight:600!important;margin-bottom:2px}
+ html.dsk .ks.k5 b{color:var(--acc)!important}
+ html.dsk .loconly{margin-top:2px}
+ html.dsk .srow{max-width:none;margin-top:14px}
+ html.dsk .search{height:44px;font-size:16px}
+ html.dsk #sres{max-height:46vh;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:12px}
+ html.dsk .sr{padding:14px 18px;border-radius:12px}
+ html.dsk .sr .tt{font-size:19px!important;font-weight:600!important;text-decoration:none!important;color:var(--ink)!important;letter-spacing:0}
+ html.dsk .sr .tt:hover{color:var(--acc)!important}
+ html.dsk .sr .tn{font-size:28px!important;font-weight:600!important;color:var(--ink)!important;line-height:1}
+ html.dsk .sr .lc{font-size:15px!important;padding:7px 12px!important;border-radius:8px!important;margin:8px 6px 0 0!important;font-weight:600!important}
+ html.dsk .sr .lc b{color:var(--acc);font-weight:600}
+ html.dsk .sdz{color:var(--acc);font-weight:600}
+ html.dsk #ovSide{padding:0}
+ .sfr{padding:11px 16px;border-bottom:1px solid var(--line)}.sfr:last-child{border-bottom:0}.sfr:hover{background:var(--sf2)}
+ .sft{display:flex;align-items:center;gap:8px}
+ .sfn{flex:1;min-width:0;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;line-height:1.3}.sfn:hover{color:var(--acc)}
+ .sfc{font-size:22px;font-weight:600;color:var(--ink);min-width:36px;text-align:right;line-height:1}
+ .sft .palb,.sft [data-pmf]{flex:none}
+ .sfd{flex:none;border:1px solid color-mix(in srgb,var(--pin) 40%,transparent);background:var(--pinb);color:var(--pin);border-radius:6px;font-size:12.5px;font-weight:600;padding:1px 7px;cursor:pointer}
+ .sfl{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+ .sfo{border:1px solid var(--line);background:var(--sf2);color:var(--ink);border-radius:6px;font-size:13px;font-weight:600;padding:3px 8px;cursor:pointer;white-space:nowrap}.sfo b{color:var(--acc);font-weight:600;margin-left:2px}.sfo:hover{border-color:var(--acc)}
+
 }
 </style>
 </head>
@@ -1079,6 +1107,8 @@ function render(){
     return '<button class="'+cls+(dd.length?' pin':'')+' lv'+lv+'" data-lok="'+esc(l)+'" style="--fill:'+Math.min(100,Math.round(fr*100))+'%">'+dodB+'<div class="n">'+esc(l)+pdg+(cap?'<small>'+pl+'/'+cap+(pl!==sum?' · '+sum+'p':'')+'</small>':(sum?'<small>'+sum+'</small>':''))+'</div>'+lines+'<i class="meter"></i></button>';
   }).join('')+'</div>').join('');
   {let o=0,f=0,p=0,fr=0;for(const l of primLocs()){const st=locItems(l),c=capOf(l);if(st.length)o++;else f++;p+=sumOf(st);if(c)fr+=Math.max(0,c-placesOf(st))}
+   if(isDesk()){const td=ymd(Date.now());const G=rpNak((state.hist||[]).filter(x=>ymd(x.kad)===td));
+     $('#sum').innerHTML='<div class="ks k1"><b>'+o+'</b>zasedenih lokacij</div><div class="ks k2"><b>'+f+'</b>prostih lokacij</div><div class="ks k3"><b>'+p+'</b>palet v skladišču</div><div class="ks k4"><b>'+fr+'</b>prostih paletnih mest</div><div class="ks k5"><b>'+G.length+'</b>nakladov danes · '+pal(G.reduce((a,g)=>a+g.n,0))+'</div>'+(store.mode==='local'?'<div class="loconly" style="grid-column:1/-1">'+t('localOnly')+'</div>':'')}else
    $('#sum').innerHTML='<div class="ks k1"><b>'+o+'</b>'+t('kOcc')+'</div><div class="ks k2"><b>'+f+'</b>'+t('kFree')+'</div><div class="ks k3"><b>'+p+'</b>'+t('kPal')+'</div><div class="ks k4"><b>'+fr+'</b>'+t('kPlaces')+'</div>'+(store.mode==='local'?'<div class="loconly" style="grid-column:1/-1">'+t('localOnly')+'</div>':'')}
   $('#meName').textContent=me||'—';
   renderSearch(S);saveCache();
@@ -1117,7 +1147,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='44',APP_DATE='27.11.2026';
+const APP_VER='45',APP_DATE='27.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true),rpdet:d=>{const g=(RP.Gall||[]).find(x=>x.id===d.id);if(g)rpDetail(g);else closeSheet()},cilj:d=>openCilj(d.f),nav:()=>openNav(),cilnew:()=>openCilNew()};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1740,12 +1770,12 @@ function openSettings(){
   const on=(id,f)=>{const e=$('#'+id);if(e)e.onclick=f};
   on('sProf',openProfile);on('sFoto',openFotoSet);on('sMsg',openMessages);on('sFirm',()=>openFirms());on('sLoc',openRegals);on('sCap',openCaps);on('sMem',openMembers);on('sWk',openWorkers);on('sCon',openConn);on('sOld',openOld);on('sRep',openDayRep);
 }
-function applyTheme(){const dk=isDesk();document.documentElement.classList.toggle('dsk',dk);const th=dk?LS.get('lk_dtheme','light'):LS.get('lk_theme','dark'),z=LS.get('lk_zoom',1);document.documentElement.dataset.theme=th;document.documentElement.style.setProperty('--z',z);const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==='light'?'#eef1f6':'#0d1320'}
+function applyTheme(){const dk=isDesk();document.documentElement.classList.toggle('dsk',dk);const th=dk?LS.get('lk_dtheme','dark'):LS.get('lk_theme','dark'),z=LS.get('lk_zoom',1);document.documentElement.dataset.theme=th;document.documentElement.style.setProperty('--z',z);const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==='light'?'#eef1f6':'#0d1320'}
 function openProfile(){
-  const TK=isDesk()?'lk_dtheme':'lk_theme',th=LS.get(TK,isDesk()?'light':'dark'),z=+LS.get('lk_zoom',1),cloud=store.mode==='cloud';
+  const TK=isDesk()?'lk_dtheme':'lk_theme',th=LS.get(TK,'dark'),z=+LS.get('lk_zoom',1),cloud=store.mode==='cloud';
   openSheet('<h2>👤 '+t('profT')+'</h2><div class="sgh"><b>'+esc(me||'—')+'</b>'+(cloud?'<span>'+esc(myEmail||'')+'</span>':'')+'</div>'+
     '<label>'+t('thT')+(isDesk()?' (ta računalnik)':'')+'</label><div class="seg" id="pTh"><button data-v="dark" class="'+(th!=='light'?'on':'')+'">🌙 '+t('thDark')+'</button><button data-v="light" class="'+(th==='light'?'on':'')+'">☀️ '+t('thLight')+'</button></div>'+
-    '<label>'+t('fsT')+'</label><div class="seg" id="pZ">'+[[.85,'Manjša'],[1,'fsN'],[1.12,'fsB'],[1.25,'fsX']].map(([v,l])=>'<button data-v="'+v+'" class="'+(Math.abs(z-v)<.01?'on':'')+'">'+(l.startsWith('fs')?t(l):l)+'</button>').join('')+'</div><p class="mut">'+t('profH')+'</p>'+
+    '<label>'+t('fsT')+'</label><div class="seg" id="pZ">'+[[.85,'Manjša'],[1,'fsN'],[1.12,'fsB'],[1.25,'fsX']].map(([v,l])=>'<button data-v="'+v+'" class="'+(Math.abs(z-v)<.01?'on':'')+'">'+(l.startsWith('fs')?t(l):l)+'</button>').join('')+'</div><p class="mut">'+(isDesk()?'Velja samo za ta računalnik.':t('profH'))+'</p>'+
     (!cloud&&me?'<button class="btn" id="pMe">'+t('changeMe',esc(me))+'</button>':'')+(cloud?'<button class="btn d" id="pOut">'+t('logout')+'</button>':'')+(cloud&&isDesk()?'<button class="btn" id="pKio">🖥 Ta računalnik je za pregled'+(kioGet()?' ✓':'')+'</button>':'')+'<button class="btn" id="xB">'+t('back')+'</button>','prof');if($('#pKio'))$('#pKio').onclick=openKioskSet;
   $('#xB').onclick=()=>openSettings();
   $('#pTh').querySelectorAll('button').forEach(b=>b.onclick=()=>{LS.set(TK,b.dataset.v);applyTheme();openProfile()});
@@ -2351,7 +2381,7 @@ keepAwake();try{screen.orientation&&screen.orientation.lock&&screen.orientation.
 
 /* računalnik: pregled stalno desno */
 function isDesk(){return window.matchMedia('(min-width:1000px)').matches}
-function renderSide(){const el=$('#ovSide');if(!el||!isDesk())return;try{renderSdTop()}catch(e){console.warn(e)}try{renderOver(el);el.querySelectorAll('tbody tr').forEach(tr=>{const L=[...tr.querySelectorAll('.oc[data-l]')].map(b=>b.dataset.l);tr.onmouseenter=()=>{document.querySelectorAll('#grid .tile').forEach(t=>t.classList.toggle('hov',L.includes(t.dataset.lok)))};tr.onmouseleave=()=>document.querySelectorAll('#grid .tile.hov').forEach(t=>t.classList.remove('hov'))});const d=new Date();$('#sdT').textContent='· '+pad(d.getHours())+':'+pad(d.getMinutes())}catch(e){console.warn(e)}}
+function renderSide(){const el=$('#ovSide');if(!el||!isDesk())return;try{renderSdTop()}catch(e){console.warn(e)}try{renderSideFirms(el);el.querySelectorAll('.sfr').forEach(tr=>{const L=[...tr.querySelectorAll('.sfo[data-l]')].map(b=>b.dataset.l);tr.onmouseenter=()=>{document.querySelectorAll('#grid .tile').forEach(t=>t.classList.toggle('hov',L.includes(t.dataset.lok)))};tr.onmouseleave=()=>document.querySelectorAll('#grid .tile.hov').forEach(t=>t.classList.remove('hov'))});const d=new Date();$('#sdT').textContent='· '+pad(d.getHours())+':'+pad(d.getMinutes())}catch(e){console.warn(e)}}
 let wasDesk=isDesk();
 window.addEventListener('resize',()=>{clearTimeout(window._rsT);window._rsT=setTimeout(()=>{const d=isDesk();if(d!==wasDesk){wasDesk=d;applyTheme();if(!d)goPage('grid');render()}else renderSide()},200)});
 
@@ -2379,9 +2409,18 @@ function renderDNav(){const el=$('#dNav');if(!el||!DN_IC)return;if(!isDesk()){el
   el.querySelectorAll('[data-dn]').forEach(b=>b.onclick=()=>A[b.dataset.dn]&&A[b.dataset.dn]());
   if($('#dnIn'))$('#dnIn').onclick=openKioskLogin;if($('#dnOut'))$('#dnOut').onclick=()=>{try{firebase.auth().signOut()}catch(e){}};
   const d=new Date(),tt=$('#dTitle');if(tt)tt.innerHTML='<b>Pregled skladišča</b><span>'+SL_DAN[d.getDay()].replace(/^./,c=>c.toUpperCase())+', '+d.getDate()+'. '+SL_MES[d.getMonth()]+' '+d.getFullYear()+'</span>'}
-function renderSdTop(){const el=$('#sdTop');if(!el)return;const N=(state.nav||[]).filter(n=>navSt(n)==='due').sort((a,b)=>b.kad-a.kad);
-  let h='<div class="sdp"><h4>Navodila <span>danes</span>'+(canNav()&&me?'<button data-sx="nn">+ Novo</button>':'')+'</h4>'+
-    (N.length?N.slice(0,4).map(n=>'<div class="sdn'+(navRead(n)?'':' un')+'" data-sx="nav"><div class="w"><b style="color:'+navCol(n)+'">'+esc(n.ko||'')+'</b> · '+ft(n.kad)+'</div>'+esc((n.txt||'').length>160?n.txt.slice(0,160)+'…':(n.txt||''))+'</div>').join('')+(N.length>4?'<div class="sdem">+ še '+(N.length-4)+'</div>':''):'<div class="sdem">Ni navodil za danes.</div>')+'</div>';
+function renderSideFirms(el){const byF={};allLocs().forEach(l=>locItems(l).forEach(x=>{const f=curName(x.firma);byF[f]=byF[f]||{n:0,l:[]};byF[f].n+=x.palete;byF[f].l.push([l,x.palete,x.k])}));
+  const dF={};openDods().forEach(d=>{const f=Object.keys(byF).find(x=>norm(x)===norm(d.firma))||curName(d.firma);(dF[f]=dF[f]||[]).push(d);if(!byF[f])byF[f]={n:0,l:[]}});
+  const fl=Object.entries(byF).sort((a,b)=>b[1].n-a[1].n);
+  el.innerHTML=fl.length?fl.map(([f,v])=>'<div class="sfr" data-sff="'+esc(f)+'"><div class="sft"><span class="sfn">'+esc(f)+'</span>'+palBadge(f,true)+(dF[f]?'<button class="sfd" data-dods="'+dF[f].map(d=>d.id).join(',')+'">📌 '+dodCnt(dF[f])+'</button>':'')+'<b class="sfc">'+v.n+'</b></div><div class="sfl">'+v.l.map(([l,n,k])=>'<button class="sfo" data-l="'+esc(l)+'">'+esc(l)+(k?tagH(k):'')+' <b>'+n+'</b></button>').join('')+'</div></div>').join(''):'<div class="sdem">Skladišče je prazno.</div>';
+  el.querySelectorAll('.sfn').forEach(r=>r.onclick=()=>{const f=r.closest('.sfr').dataset.sff;SX=f;$('#search').value=f;render()});
+  el.querySelectorAll('.sfo[data-l]').forEach(b=>b.onclick=()=>openLoc(b.dataset.l));
+  el.querySelectorAll('[data-dods]').forEach(b=>b.onclick=()=>openDodSome(b.dataset.dods.split(',')));
+  el.querySelectorAll('[data-pmf]').forEach(b=>b.onclick=e=>{e.stopPropagation();openPalMail(b.dataset.pmf,()=>closeSheet(true))})}
+function renderSdTop(){const el=$('#sdTop');if(!el)return;const N=(state.nav||[]).filter(n=>{const x=navSt(n);return x==='due'||x==='fut'}).sort((a,b)=>(navSt(a)==='fut')-(navSt(b)==='fut')||b.kad-a.kad);
+  const dd=x=>{const d=new Date(x);return d.getDate()+'.'+(d.getMonth()+1)+'.'};const za=n=>n.tip==='dat'&&n.dat?' · <span class="sdz">za '+SL_DAN[new Date(n.dat+'T12:00').getDay()]+' '+dd(n.dat+'T12:00')+'</span>':n.tip==='do'?' · <span class="sdz">do izpolnitve</span>':'';
+  let h='<div class="sdp"><h4>Navodila'+(canNav()&&me?'<button data-sx="nn">+ Novo</button>':'')+'</h4>'+
+    (N.length?N.slice(0,6).map(n=>'<div class="sdn'+(navRead(n)?'':' un')+'" data-sx="nav"><div class="w"><b style="color:'+navCol(n)+'">'+esc(n.ko||'')+'</b> · '+dd(n.kad)+' ob '+ft(n.kad)+za(n)+'</div>'+esc((n.txt||'').length>160?n.txt.slice(0,160)+'…':(n.txt||''))+'</div>').join('')+(N.length>6?'<div class="sdem">+ še '+(N.length-6)+'</div>':''):'<div class="sdem">Ni aktivnih navodil.</div>')+'</div>';
   const CF=[...new Set((state.cil||[]).map(c=>curName(c.f||'')))].sort((a,b)=>a.localeCompare(b));let rows='';
   CF.forEach(f=>{const C=cilOpen(f);if(C){const p=cilProg(C);rows+='<div class="sdg'+cilCls(C)+'" data-cf="'+esc(f)+'"><div class="gt"><b>'+esc(f)+'</b><span>'+p+' / '+C.n+(p<C.n?' · še '+(C.n-p):p===C.n?' · dosežen':' · '+(p-C.n)+' preveč')+'</span></div><div class="gb"><i style="width:'+Math.min(100,Math.round(p/C.n*100))+'%"></i></div></div>'}
     cilClosed(f).forEach(z=>{const L=Object.keys(z.L||{}).filter(l=>firmAt(l,f)>0);if(!L.length)return;rows+='<div class="sdg" data-cf="'+esc(f)+'"><div class="gt"><b>'+esc(f)+'</b><span>🔒 Dobava '+L.reduce((a,l)=>a+firmAt(l,f),0)+' · čaka naklad</span></div></div>'})});
