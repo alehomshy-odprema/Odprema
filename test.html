@@ -412,13 +412,13 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.dsk[data-theme="dark"]{--l1:#4CC27E;--l2:#E6B144;--l3:#F06A60;--l1b:#1B2A22;--l2b:#2C2618;--l3b:#2E1D1C;--emp:#5A616B;--sf2:#20242A;--pin:#F27BB5;--pinb:#2F1C27;--hit:#2E2914;--hitb:#E6B144;
    --bg:#131518;--card:#1B1E23;--sheet:#1B1E23;--ink:#F2F4F7;--mut:#A2AAB6;--line:#2D3238;--acc:#4C8DF6;--blue:#7DB0FF;--acc2:#20242A;--full:#1B1E23;--fullb:#7DB0FF;--th:#20242A;--hl:#1E2B40;--track:#2D3238;--gold:#E6B144;--red:#F06A60;--green:#4CC27E;--orange:#E6B144;color-scheme:dark}
  html.dsk,html.dsk body{font-family:var(--df);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1}
- html.dsk body{display:grid;grid-template-columns:clamp(184px,13vw,232px) minmax(0,1fr) clamp(280px,22vw,380px);grid-template-rows:auto minmax(0,1fr);background:var(--bg);color:var(--ink)}
+ html.dsk body{display:grid;grid-template-columns:clamp(212px,14vw,240px) minmax(0,1fr) clamp(280px,22vw,380px);grid-template-rows:auto minmax(0,1fr);background:var(--bg);color:var(--ink)}
  html.dsk button,html.dsk input,html.dsk select,html.dsk textarea{font-family:var(--df)}
  /* levi meni */
  html.dsk #dNav{display:flex;flex-direction:column;grid-column:1;grid-row:1/3;background:var(--card);border-right:1px solid var(--line);padding:20px 12px 14px;overflow:auto;min-height:0}
  .dbrand{display:flex;align-items:center;gap:10px;padding:0 10px 20px}.dbrand svg{flex:none}.dbrand b{font-size:17px;font-weight:600;display:block;line-height:1.2}.dbrand small{color:var(--mut);font-size:12.5px}
  .dni{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:8px;border:0;background:none;color:var(--ink);font-size:15px;font-weight:500;text-align:left;cursor:pointer;margin:1px 0}
- .dni:hover{background:var(--sf2)}.dni svg{width:18px;height:18px;flex:none;stroke:var(--mut);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+ .dni{white-space:nowrap}.dni:hover{background:var(--sf2)}.dni svg{width:18px;height:18px;flex:none;stroke:var(--mut);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
  .dni.on{background:var(--hl);color:var(--acc);font-weight:600}.dni.on svg{stroke:var(--acc)}
  .dni .bd{margin-left:auto;background:var(--l3);color:#fff;font-size:12px;font-weight:600;border-radius:10px;padding:1px 8px;line-height:1.5}.dni .bd.n{background:var(--line);color:var(--ink)}
  .dnsp{flex:1;min-height:12px}
@@ -544,10 +544,59 @@ body.lkb{position:fixed;left:0;right:0;overflow:hidden}.sheet{overscroll-behavio
  html.dsk .grp.rack .tile,html.dsk .grp.dense .tile{padding:10px 11px 18px;min-height:84px}
  html.dsk .tile.lv0 .meter{display:block}
  html.dsk .grab{display:none}
+ html.dsk .ks{text-align:center!important;display:flex;flex-direction:column;justify-content:center;align-items:center}
+ html.dsk #sres{grid-template-columns:repeat(2,minmax(0,1fr))}
+ html.dsk #sres>.sr:only-child,html.dsk #sres>.sr:last-child:nth-child(odd){grid-column:1/-1}
+ html.dsk .sr .tn{float:right;text-align:right;margin-left:16px}
+ /* navodila na računalniku */
+ .ndHd h2{margin:0 0 4px}
+ .ndTabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:12px 0 14px}
+ .ndTabs button{border:0;background:none;padding:9px 14px;font-size:15px;font-weight:500;color:var(--mut);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+ .ndTabs button.on{color:var(--ink);font-weight:600;border-color:var(--acc)}
+ .ndTabs i{font-style:normal;background:var(--sf2,var(--acc2));border-radius:9px;padding:0 7px;font-size:12.5px;margin-left:7px;color:var(--mut);font-weight:600}.ndTabs i.r{background:var(--l3,#e5484d);color:#fff}
+ .ndBar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+ .ndCh{padding:5px 12px;border-radius:16px;border:1px solid var(--line);background:none;font-size:13.5px;color:var(--mut);cursor:pointer}.ndCh.on{background:var(--hl);border-color:var(--hl);color:var(--acc);font-weight:600}
+ .ndNew{margin-left:auto;background:var(--acc);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:600;font-size:14px;cursor:pointer}
+ .ndC{position:relative;border:1px solid var(--line);border-radius:12px;padding:14px 16px 11px 20px;margin-bottom:10px;overflow:hidden;background:var(--card)}
+ .ndC::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+ .ndC.un{background:var(--hl);border-color:color-mix(in srgb,var(--acc) 35%,var(--line))}
+ .ndT{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.ndT b{font-weight:600;font-size:15px}
+ .ndAv{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#10131a;background:var(--c);flex:none}
+ .ndW{color:var(--mut);font-size:13.5px}.ndDot{width:8px;height:8px;border-radius:50%;background:var(--l3,#e5484d)}
+ .ndTp{margin-left:auto;font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--sf2,var(--acc2));color:var(--mut)}.ndTp.dat{color:var(--l2,#b7791f)}.ndTp.do{color:var(--l1,#2f9e5b)}
+ .ndX{font-size:16px;line-height:1.55;margin:9px 0 10px;white-space:pre-wrap;overflow-wrap:anywhere;font-weight:400;color:var(--ink)}
+ .ndDone{font-size:13.5px;color:var(--l1,#2f9e5b);margin:-4px 0 8px}
+ .ndF{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);border-top:1px solid var(--line);padding-top:9px;flex-wrap:wrap}
+ .ndRd{display:flex}.ndRd b{width:22px;height:22px;border-radius:50%;border:2px solid var(--card);margin-left:-6px;font-size:9.5px;font-weight:600;display:grid;place-items:center;color:#10131a}.ndRd b:first-child{margin-left:0}
+ .ndB{margin-left:auto;display:flex;gap:6px}.ndB button{border:1px solid var(--line);background:var(--card);border-radius:7px;padding:4px 10px;color:var(--ink);font-weight:600;font-size:13px;cursor:pointer}
+ .ndB button.g{border-color:color-mix(in srgb,var(--l1,#2f9e5b) 50%,transparent);color:var(--l1,#2f9e5b)}.ndB button.d{color:var(--l3,#e5484d)}
+ .ndEm{padding:26px 10px;text-align:center;color:var(--mut)}
+ .ndG{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;background:var(--card)}.ndG:hover{border-color:var(--acc)}
+ .ndGt{display:flex;align-items:baseline;gap:10px}.ndGt b{font-size:16px;font-weight:600}.ndGo{color:var(--mut);font-size:13.5px}
+ .ndGn{margin-left:auto;font-size:22px;font-weight:600}.ndGn span{font-size:14px;color:var(--mut);font-weight:400}.ndGn.sm{font-size:14.5px;color:var(--mut)}
+ .ndGb{height:8px;border-radius:4px;background:var(--track,var(--line));margin:10px 0 8px;overflow:hidden}.ndGb i{display:block;height:100%;background:var(--acc)}
+ .ndG.ok .ndGb i{background:var(--l1,#2f9e5b)}.ndG.ok .ndGn{color:var(--l1,#2f9e5b)}.ndG.cvr .ndGb i{background:var(--l3,#e5484d)}.ndG.cvr .ndGn{color:var(--l3,#e5484d)}
+ .ndGm{font-size:13.5px;color:var(--mut)}.ndG.lk{border-style:dashed}
+ .ndL{display:inline-block;border:1px solid var(--line);background:var(--sf2,var(--acc2));border-radius:6px;padding:1px 7px;font-size:12.5px;font-weight:600;margin:8px 4px 0 0}
+ /* zgodovina stran */
+ .zhF{display:flex;gap:6px;flex-wrap:wrap}.zhF button{padding:6px 12px;border-radius:16px;border:1px solid var(--line);background:none;font-size:13.5px;color:var(--mut);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+ .zhF button.on{background:var(--hl);border-color:var(--hl);color:var(--acc);font-weight:600}.zhF i{width:8px;height:8px;border-radius:50%;background:var(--mut)}
+ .zk-g i{background:var(--l1)}.zk-o i{background:var(--l2)}.zk-b i{background:var(--acc)}.zk-r i{background:#a78bfa}.zk-d i{background:var(--l3)}.zk-q i{background:var(--pin)}.zk-p i{background:var(--mut)}
+ .zhM{margin:0 0 0 auto;font-size:14px}
+ #zhOut{display:grid;gap:18px}
+ .zDay h2 em{margin-left:auto;font-style:normal;display:flex;gap:16px;font-size:13.5px;color:var(--mut);font-weight:400}.zDay h2 em b{font-weight:600;margin-right:4px}
+ .zP{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:6px;white-space:nowrap}
+ .zp-o{color:var(--l2);background:color-mix(in srgb,var(--l2) 14%,transparent)}.zp-g{color:var(--l1);background:color-mix(in srgb,var(--l1) 14%,transparent)}.zp-b{color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,transparent)}
+ .zp-r{color:#a78bfa;background:rgba(167,139,250,.14)}.zp-d{color:var(--l3);background:color-mix(in srgb,var(--l3) 14%,transparent)}.zp-q{color:var(--pin);background:var(--pinb)}.zp-p,.zp-u{color:var(--mut);background:var(--sf2)}
+ .zLo{display:inline-block;min-width:52px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-weight:600;background:var(--sf2);color:var(--ink);cursor:pointer;font-size:14px}.zLo:hover{border-color:var(--acc)}
+ .zAr{color:var(--mut);margin:0 6px}.zN{color:var(--mut);font-size:12.5px}
+ .zD{font-weight:600;font-size:16px}.zd-g{color:var(--l1)}.zd-o{color:var(--l2)}.zd-b{color:var(--acc)}.zd-r{color:#a78bfa}.zd-d{color:var(--l3)}
+ .zNo{font-size:13.5px}.zA{text-align:right}.zA button{border:1px solid var(--line);background:var(--card);border-radius:7px;padding:3px 9px;font-size:13px;color:var(--ink);cursor:pointer;margin-left:6px;font-weight:500}.zA button:hover{border-color:var(--acc)}
+ tr.zst td{opacity:.5}tr.zst .zD{text-decoration:line-through}
  html.dsk *{font-synthesis:none}
  html.dsk .kst{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}
  html.dsk .ks{background:var(--bg)!important;border:1px solid var(--line)!important;border-radius:10px;padding:12px 16px!important;font-size:14px!important;color:var(--mut)!important;min-width:0}
- @media (max-width:1500px){html.dsk .ks{padding:10px 12px!important;font-size:13px!important}html.dsk header{padding:14px 20px}html.dsk #grid{padding:4px 20px 40px}html.dsk #side{padding:16px 14px 40px}.dni{padding:9px 10px;gap:10px}}
+ @media (max-width:1500px){html.dsk .ks{padding:10px 12px!important;font-size:13px!important}html.dsk header{padding:14px 20px}html.dsk #grid{padding:4px 20px 40px}html.dsk #side{padding:16px 14px 40px}.dni{padding:9px 10px;gap:10px;font-size:14.5px}}
  html.dsk .ks b{font-size:28px!important;font-weight:600!important;margin-bottom:2px}
  html.dsk .ks.k5 b{color:var(--acc)!important}
  html.dsk .loconly{margin-top:2px}
@@ -1147,7 +1196,7 @@ let lockY=0;
 function lockBody(on){const b=document.body;if(on){if(b.classList.contains('lkb'))return;lockY=window.scrollY||0;b.style.top=(-lockY)+'px';b.classList.add('lkb')}
   else{if(!b.classList.contains('lkb'))return;b.classList.remove('lkb');b.style.top='';window.scrollTo(0,lockY)}}
 let sheetHist=false,ignorePop=false;
-const APP_VER='45',APP_DATE='27.11.2026';
+const APP_VER='46',APP_DATE='27.11.2026';
 const OPENERS={set:()=>openSettings(),firms:()=>openFirms(),members:()=>openMembers(),regals:()=>openRegals(),msgs:()=>openMessages(),hist:()=>openHist(),over:()=>openOver(),reports:()=>openReports(),dayrep:()=>openDayRep(),nakdet:()=>openNakDetail(),drmail:()=>openDayRep(),rep:()=>openReport(),prof:()=>openProfile(),loc:d=>openLoc(d.lok),foto:()=>openFoto(true),rpdet:d=>{const g=(RP.Gall||[]).find(x=>x.id===d.id);if(g)rpDetail(g);else closeSheet()},cilj:d=>openCilj(d.f),nav:()=>openNav(),cilnew:()=>openCilNew()};
 let navStack=[],navBack=false;
 function goBack(){if(sheetState.locked)return;const prev=navStack.pop();if(prev&&OPENERS[prev.type]){navBack=true;try{OPENERS[prev.type](prev)}catch(e){closeSheet()}navBack=false}else closeSheet()}
@@ -1301,7 +1350,7 @@ function hCard(g,U){const x=g.x,k=g.k,n=g.items.length;
   const FN=fName(x.firma)+tagH(x.k);
   const title=k==='b'?FN+(n>1?'<span class="hgrp">'+n+'× ▸</span>':''):FN+(n>1?'<span class="hgrp">'+n+'× ▸</span>':'');
   const when=n>1?ft(g.items[n-1].kad)+'–'+ft(x.kad):ft(x.kad);
-  const extra=k==='b'?'':k==='o'?t('loaded')+(x.o?' · 📝 '+esc(x.o):'')+(x.opis==='n'&&(x.pd||palTr(curName(x.firma)).on)?' <button class="ub" data-nm="'+esc(curName(x.firma))+'" data-nd="'+x.kad+'">✉ Pisarni</button>':''):k==='d'?t('deleted'):k==='r'?t('hRem'):'';
+  const extra=k==='b'?'':k==='o'?t('loaded')+(x.o?' · 📝 '+esc(x.o):'')+(canEdit()&&x.opis==='n'&&(x.pd||palTr(curName(x.firma)).on)?' <button class="ub" data-nm="'+esc(curName(x.firma))+'" data-nd="'+x.kad+'">✉ Pisarni</button>':''):k==='d'?t('deleted'):k==='r'?t('hRem'):'';
   const d=x.dup?' ('+t('dupN',Math.abs(x.dup))+')':'';
   const num=k==='b'?x.delta:sum>0?'+'+sum:'−'+Math.abs(sum);
   return '<div class="hc k-'+k+(un?' st':'')+(gi?' gp':'')+'"'+(gi?' data-gi="'+gi+'"':'')+'><div class="hic">'+HIC[k]+'</div>'+(k!=='b'?LK(x.lok):'')+
@@ -1317,9 +1366,9 @@ let hF='all',hP='all',hMine=false,hOld=[],hOldEnd=false;
 const HF=[['all','hAll'],['g','hG'],['o','hO'],['b','hB'],['r','hR'],['d','hD'],['q','hQ'],['p','hP']],HP=[['d','pD'],['y','pY'],['w','pW'],['all','pAll']];
 function openHist(){if(!ready())return;
   openSheet('<h2>🕘 '+t('hist')+'</h2><input class="in" id="hQ" placeholder="'+t('hSearch')+'" autocomplete="off"><div class="hch" id="hF">'+HF.map(([k,l])=>'<button data-k="'+k+'" class="'+(hF===k?'on':'')+'">'+t(l)+'</button>').join('')+'</div>'+
-    '<div class="seg" id="hP">'+HP.map(([k,l])=>'<button data-k="'+k+'" class="'+(hP===k?'on':'')+'">'+t(l)+'</button>').join('')+'</div><label class="chk"><input type="checkbox" id="hMine"'+(hMine?' checked':'')+'>'+t('hMine')+'</label>'+
+    '<div class="seg" id="hP">'+HP.map(([k,l])=>'<button data-k="'+k+'" class="'+(hP===k?'on':'')+'">'+t(l)+'</button>').join('')+'</div>'+(canEdit()?'<label class="chk"><input type="checkbox" id="hMine"'+(hMine?' checked':'')+'>'+t('hMine')+'</label>':'')+
     '<div id="hList"></div><button class="hmore" id="hMore">'+t('hMore')+'</button><button class="btn" id="xB">'+t('close')+'</button>','hist');
-  $('#xB').onclick=goBack;$('#hQ').oninput=renderHist;$('#hMine').onchange=e=>{hMine=e.target.checked;renderHist()};
+  $('#xB').onclick=goBack;$('#hQ').oninput=renderHist;if($('#hMine'))$('#hMine').onchange=e=>{hMine=e.target.checked;renderHist()};
   $('#hF').querySelectorAll('button').forEach(b=>b.onclick=()=>{hF=b.dataset.k;$('#hF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderHist()});
   $('#hP').querySelectorAll('button').forEach(b=>b.onclick=()=>{hP=b.dataset.k;$('#hP').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderHist()});
   $('#hMore').onclick=async()=>{if(!store.older){hOldEnd=true;renderHist();return}const all=[...state.hist,...hOld];const before=all.length?Math.min(...all.map(x=>x.kad)):Date.now();$('#hMore').disabled=true;
@@ -1330,8 +1379,8 @@ function renderHist(){const el=$('#hList');if(!el)return;const q=norm($('#hQ').v
   const U=new Set(all.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));
   const t0=new Date();t0.setHours(0,0,0,0);const T0=t0.getTime();
   const L=all.filter(x=>{if(hP==='d'&&x.kad<T0)return false;if(hP==='y'&&(x.kad<T0-864e5||x.kad>=T0))return false;if(hP==='w'&&x.kad<T0-6*864e5)return false;
-    const k=hKind(x);if(hF!=='all'&&k!==hF)return false;if(hMine&&!(x.u?x.u===myUid:x.ko===me))return false;
-    return !q||norm([x.ko,x.firma,curName(x.firma||''),x.k,x.lok,x.do,x.naslov].filter(Boolean).join(' ')).includes(q)}).slice(0,400);
+    const k=hKind(x);if(hF!=='all'&&k!==hF)return false;if(hMine&&canEdit()&&!(x.u?x.u===myUid:x.ko===me))return false;
+    return !q||norm([canNames()?x.ko:'',x.firma,curName(x.firma||''),x.k,x.lok,x.do,x.naslov].filter(Boolean).join(' ')).includes(q)}).slice(0,400);
   const days=[];let cur=null;for(const x of L){const d=ymd(x.kad);if(!cur||cur.d!==d){cur={d,kad:x.kad,items:[]};days.push(cur)}cur.items.push(x)}
   el.innerHTML=days.length?days.map(D=>{let pl=0,ld=0,mv=0;D.items.forEach(x=>{if(x.tip||U.has(x.id))return;const k=hKind(x);if(k==='g')pl+=x.delta;else if(k==='o')ld+=Math.abs(x.delta);else if(k==='b')mv+=x.delta});
       const dl=D.kad>=T0?t('today'):D.kad>=T0-864e5?t('yday')+' · '+fdt(D.kad).split(' ')[0]:fdt(D.kad).split(' ')[0]+new Date(D.kad).getFullYear();
@@ -2123,7 +2172,7 @@ function showNavOv(){const L=navUnread();if(!L.length){NAV_OV=false;const o=$('#
   let o=$('#navOv');if(!o){o=document.createElement('div');o.id='navOv';o.className='navov';document.body.appendChild(o);try{navigator.vibrate&&navigator.vibrate([120,80,120])}catch(e){}}
   const c=navCol(n);o.innerHTML='<div class="navin"><div class="navtop">'+(n._cil?'🎯 Nov cilj':'📢 Navodilo')+(tot>1?' <span>1/'+tot+'</span>':'')+'</div><div class="navau" style="color:'+c+'"><i style="background:'+c+'"></i>'+esc(n.ko||'')+'</div><div class="mut navwh">'+fdt(n.kad)+(n._cil?'':' · '+esc(navTip(n)))+'</div><div class="navtx">'+(n._cil?esc(curName(n.f))+' – '+n.n+' palet'+(n.op?'\n📝 '+esc(n.op):'')+'\n\nZdaj: '+cilProg(n)+'/'+n.n:esc(n.txt||''))+'</div></div><button class="btn p navok" id="navOk">✓ Prebrano</button>';
   $('#navOk').onclick=()=>{if(n._cil){cilMarkSeen(n.id)}else{NAV_SEEN.add(n.id);store.navSet(n.id,{['brano.'+navRK()]:{kad:Date.now(),ime:me||''}})}const r=navUnread();if(r.length)showNavOv();else{NAV_OV=false;o.remove();updNav()}}}
-function openNav(){const N=(state.nav||[]).slice();const can=canNav()&&!!me,ed=canEdit()||canNav();const dir=state.post.dir||[];
+function openNav(){if(isDesk())return openNavD();const N=(state.nav||[]).slice();const can=canNav()&&!!me,ed=canEdit()||canNav();const dir=state.post.dir||[];
   const grp=[['due','Danes'],['fut','Prihaja'],['done','Opravljeno danes']];
   const card=n=>{const st=navSt(n),c=navCol(n),rd=Object.values(n.brano||{}).map(x=>x.ime).filter(Boolean);const nr=dir.filter(d=>!(n.brano||{})[d.id]&&d.id!==n.od).map(d=>d.ime);const mine=n.od&&n.od===myMid||n.ko===me;
     return '<div class="navc2'+(st==='due'&&!navRead(n)?' un':'')+'"><div class="navau sm" style="color:'+c+'"><i style="background:'+c+'"></i>'+esc(n.ko||'')+'<span class="mut"> · '+fdt(n.kad)+'</span></div><span class="navtg '+n.tip+'">'+esc(navTip(n))+'</span><div class="navtx sm">'+esc(n.txt||'')+'</div>'+
@@ -2388,7 +2437,7 @@ window.addEventListener('resize',()=>{clearTimeout(window._rsT);window._rsT=setT
 /* ================= RAČUNALNIK v44: meni, desni stolpec, poročila, reklamacije ================= */
 var DPAGE='grid';
 var SL_DAN=['nedelja','ponedeljek','torek','sreda','četrtek','petek','sobota'],SL_MES=['januar','februar','marec','april','maj','junij','julij','avgust','september','oktober','november','december'];
-function goPage(p){if(p!=='grid'&&!isDesk())p='grid';DPAGE=p;document.documentElement.classList.toggle('pg',p!=='grid');renderDNav();if(p==='rep')renderRepPage(true)}
+function goPage(p){if(p!=='grid'&&!isDesk())p='grid';DPAGE=p;document.documentElement.classList.toggle('pg',p!=='grid');renderDNav();if(p==='rep')renderRepPage(true);if(p==='hist')renderHistPage()}
 var DN_IC={grid:'<rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
  rep:'<path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/>',hist:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',nav:'<path d="M3 11v3l12 5V6L3 11zM15 8.5a4 4 0 010 8"/>',
  msg:'<path d="M4 5h16v11H9l-5 4z"/>',foto:'<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>',
@@ -2396,16 +2445,16 @@ var DN_IC={grid:'<rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y
 function renderDNav(){const el=$('#dNav');if(!el||!DN_IC)return;if(!isDesk()){el.innerHTML='';return}
   const ku=isKioUser(),view=ku||!canEdit();const vis=id=>{const b=$('#'+id);return b&&!b.hidden};
   const nU=me?(state.nav||[]).filter(n=>navSt(n)==='due'&&!navRead(n)).length+cilUnread().length:0;const mN=(($('#msgN')||{}).textContent||'').trim();
-  const it=(k,l,bd)=>'<button class="dni'+((k==='grid'&&DPAGE==='grid')||(k==='rep'&&DPAGE==='rep')?' on':'')+'" data-dn="'+k+'"><svg viewBox="0 0 24 24">'+DN_IC[k]+'</svg>'+l+(bd?'<span class="bd">'+bd+'</span>':'')+'</button>';
+  const it=(k,l,bd)=>'<button class="dni'+(k===DPAGE?' on':'')+'" data-dn="'+k+'"><svg viewBox="0 0 24 24">'+DN_IC[k]+'</svg>'+l+(bd?'<span class="bd">'+bd+'</span>':'')+'</button>';
   let h='<div class="dbrand">'+(($('#logoBox')||{}).innerHTML||'')+'<div><b>Odprema</b><small>'+(ku?'Pregled · računalnik':view?'Samo pregled':'Urejanje')+'</small></div></div>';
-  h+=it('grid','Pregled');if(canReports())h+=it('rep','Poročila');if(vis('bHist'))h+=it('hist','Zgodovina');
+  h+=it('grid','Pregled');if(canReports())h+=it('rep','Poročila');if(vis('bHist'))h+=it('hist','Zgodovina');if(DPAGE==='hist')setTimeout(()=>{try{renderHistRows()}catch(e){}},0);
   if(me)h+=it('nav','Navodila in cilji',nU||'');if(vis('bMsg'))h+=it('msg','Sporočila',mN);
   if(!view&&vis('bFoto'))h+=it('foto','Slike');if(!view&&vis('bRep'))h+=it('pred','Predaja');
   h+='<div class="dnsp"></div>';if(!ku&&vis('bSet'))h+=it('set','Nastavitve');
   const nm=me||'—',ini=nm.split(/\s+/).map(x=>x[0]||'').join('').slice(0,2).toUpperCase();
   h+='<div class="dme"><i style="background:'+avCol(nm)+'">'+esc(ini)+'</i><div><b>'+esc(nm)+'</b><small>'+(view?'Samo pregled':'Urejanje')+'</small></div>'+(myEmail?(view&&kioGet()?'<button id="dnIn">🔑 Prijava</button>':'<button id="dnOut">Odjava</button>'):'')+'</div>';
   el.innerHTML=h;
-  const A={grid:()=>goPage('grid'),rep:()=>goPage('rep'),hist:()=>$('#bHist').click(),nav:()=>openNav(),msg:()=>$('#bMsg').click(),foto:()=>$('#bFoto').click(),pred:()=>$('#bRep').click(),set:()=>$('#bSet').click()};
+  const A={grid:()=>goPage('grid'),rep:()=>goPage('rep'),hist:()=>goPage('hist'),nav:()=>openNav(),msg:()=>$('#bMsg').click(),foto:()=>$('#bFoto').click(),pred:()=>$('#bRep').click(),set:()=>$('#bSet').click()};
   el.querySelectorAll('[data-dn]').forEach(b=>b.onclick=()=>A[b.dataset.dn]&&A[b.dataset.dn]());
   if($('#dnIn'))$('#dnIn').onclick=openKioskLogin;if($('#dnOut'))$('#dnOut').onclick=()=>{try{firebase.auth().signOut()}catch(e){}};
   const d=new Date(),tt=$('#dTitle');if(tt)tt.innerHTML='<b>Pregled skladišča</b><span>'+SL_DAN[d.getDay()].replace(/^./,c=>c.toUpperCase())+', '+d.getDate()+'. '+SL_MES[d.getMonth()]+' '+d.getFullYear()+'</span>'}
@@ -2520,6 +2569,82 @@ function rpExport(){if(!RP.rows){toast('Počakaj, da se podatki naložijo');retu
     g.L.flatMap(x=>(x.pd||[]).filter(e=>e&&e.kad).map(e=>palLine(e,tr))).join(' | ')])});
   const csv='﻿'+L.map(r=>r.map(q).join(';')).join('\r\n');const bl=new Blob([csv],{type:'text/csv;charset=utf-8'});const u=URL.createObjectURL(bl);const x=document.createElement('a');
   x.href=u;x.download='Odprema-nakladi-'+rpLabel(RP.k,a,b).replace(/[^\wčšžČŠŽ.-]+/g,'_')+'.csv';document.body.appendChild(x);x.click();setTimeout(()=>{URL.revokeObjectURL(u);x.remove()},1500);toast('📥 Datoteka za Excel prenesena')}
+
+/* ================= v46: navodila (računalnik) in zgodovina kot stran ================= */
+var NVD={t:'n',f:'due',c:'o'};
+function navIni(s){return String(s||'?').trim().split(/\s+/).map(x=>x[0]||'').join('').slice(0,2).toUpperCase()}
+function navWhen(x){const d=new Date(x),t0=new Date();t0.setHours(0,0,0,0);const dd=new Date(d);dd.setHours(0,0,0,0);const df=Math.round((t0-dd)/864e5);
+  return (df===0?'danes':df===1?'včeraj':d.getDate()+'.'+(d.getMonth()+1)+'.')+' ob '+ft(x)}
+function openNavD(){const N=(state.nav||[]).slice(),can=canNav()&&!!me,cc=canCil()&&!!me,ed=canEdit()||canNav(),dir=state.post.dir||[];
+  const cnt=k=>N.filter(n=>navSt(n)===k).length,un=N.filter(n=>navSt(n)==='due'&&!navRead(n)).length;
+  const CF=[...new Set((state.cil||[]).map(c=>curName(c.f||'')))].sort((a,b)=>a.localeCompare(b));
+  const OPEN=CF.map(f=>cilOpen(f)).filter(Boolean),ZZ=[];CF.forEach(f=>cilClosed(f).forEach(z=>{const L=Object.keys(z.L||{}).filter(l=>firmAt(l,f)>0);if(L.length)ZZ.push({f,z,L})}));
+  let h='<div class="ndHd"><h2>Navodila in cilji</h2></div><div class="ndTabs"><button data-nt="n"'+(NVD.t==='n'?' class="on"':'')+'>Navodila'+(un?'<i class="r">'+un+'</i>':'<i>'+(cnt('due')+cnt('fut'))+'</i>')+'</button><button data-nt="c"'+(NVD.t==='c'?' class="on"':'')+'>Cilji<i>'+(OPEN.length+ZZ.length)+'</i></button></div>';
+  if(NVD.t==='n'){
+    h+='<div class="ndBar"><button class="ndCh'+(NVD.f==='due'?' on':'')+'" data-nf="due">Danes · '+cnt('due')+'</button><button class="ndCh'+(NVD.f==='fut'?' on':'')+'" data-nf="fut">Prihaja · '+cnt('fut')+'</button><button class="ndCh'+(NVD.f==='done'?' on':'')+'" data-nf="done">Opravljeno</button>'+(can?'<button class="ndNew" id="nNew">+ Novo navodilo</button>':'')+'</div>';
+    const L=N.filter(n=>navSt(n)===NVD.f).sort((a,b)=>NVD.f==='fut'?String(a.dat).localeCompare(String(b.dat)):b.kad-a.kad);
+    h+=L.length?L.map(n=>{const c=navCol(n),R=Object.entries(n.brano||{}).filter(([k])=>k!==n.od),rd=R.map(([k,v])=>v&&v.ime).filter(Boolean);const tot=dir.filter(d=>d.id!==n.od).length;
+      const nr=dir.filter(d=>!(n.brano||{})[d.id]&&d.id!==n.od).map(d=>d.ime);const mine=(n.od&&n.od===myMid)||n.ko===me;const st=navSt(n),unr=st==='due'&&!navRead(n);
+      const tp=n.tip==='dat'?'<span class="ndTp dat">Za '+(n.dat===ymdL(Date.now()+864e5)?'jutri, ':SL_DAN[new Date(n.dat+'T12:00').getDay()]+' ')+navDate(n)+'</span>':n.tip==='do'?'<span class="ndTp do">Do izpolnitve</span>':'<span class="ndTp">Velja danes</span>';
+      return '<div class="ndC'+(unr?' un':'')+'" style="--c:'+c+'"><div class="ndT"><span class="ndAv">'+esc(navIni(n.ko))+'</span><b>'+esc(n.ko||'')+'</b><span class="ndW">'+navWhen(n.kad)+'</span>'+(unr?'<span class="ndDot"></span>':'')+tp+'</div>'+
+        '<div class="ndX">'+esc(n.txt||'')+'</div>'+(n.done?'<div class="ndDone">✓ Opravil '+esc(n.done.ko||'')+' · '+navWhen(n.done.kad)+'</div>':'')+
+        '<div class="ndF"><span class="ndRd">'+rd.slice(0,6).map(nm=>'<b style="background:'+avCol(nm)+'">'+esc(navIni(nm))+'</b>').join('')+'</span><span>'+(rd.length?'Prebral'+(rd.length===1?'':rd.length===2?'a':'i')+' '+rd.length+(tot?' od '+tot:''):'Še nihče ni prebral')+((can||mine||isOwner())&&nr.length&&nr.length<=4?' · še ni: '+esc(nr.join(', ')):'')+'</span>'+
+        '<span class="ndB">'+(unr?'<button data-nr="'+n.id+'">✓ Prebrano</button>':'')+(n.tip!=='dan'&&!n.done&&ed?'<button class="g" data-nd2="'+n.id+'">✓ Opravljeno</button>':'')+((can&&mine)||isOwner()?'<button class="d" data-nx="'+n.id+'" title="Izbriši">🗑</button>':'')+'</span></div></div>'}).join('')
+      :'<div class="ndEm">'+(NVD.f==='due'?'Za danes ni navodil.':NVD.f==='fut'?'Ni navodil za naslednje dni.':'Danes še nič ni opravljeno.')+'</div>';
+  }else{
+    h+='<div class="ndBar"><button class="ndCh'+(NVD.c==='o'?' on':'')+'" data-nc="o">Odprti · '+OPEN.length+'</button><button class="ndCh'+(NVD.c==='z'?' on':'')+'" data-nc="z">Čakajo naklad · '+ZZ.length+'</button>'+(cc?'<button class="ndNew" id="nCil">+ Nov cilj</button>':'')+'</div>';
+    if(NVD.c==='o')h+=OPEN.length?OPEN.map(C=>{const p=cilProg(C),f=curName(C.f);return '<div class="ndG'+cilCls(C)+'" data-cilf="'+esc(f)+'"><div class="ndGt"><b>'+esc(f)+'</b>'+(C.op?'<span class="ndGo">'+esc(C.op)+'</span>':'')+'<span class="ndGn">'+p+'<span> / '+C.n+'</span></span></div><div class="ndGb"><i style="width:'+Math.min(100,Math.round(p/C.n*100))+'%"></i></div><div class="ndGm">'+(p<C.n?'Še '+pal(C.n-p):p===C.n?'✓ Cilj dosežen – lahko zaključiš dobavo':'⚠ '+(p-C.n)+' preveč')+(C.nk?' · naloženo '+C.nk:'')+' · postavil '+esc(C.ko||'')+', '+navWhen(C.kad)+'</div></div>'}).join(''):'<div class="ndEm">Ni odprtih ciljev.</div>';
+    else h+=ZZ.length?ZZ.map(({f,z,L})=>'<div class="ndG lk" data-cilf="'+esc(f)+'"><div class="ndGt"><b>🔒 '+esc(f)+'</b><span class="ndGn sm">Dobava '+L.reduce((a,l)=>a+firmAt(l,f),0)+' · čaka naklad</span></div><div>'+L.map(l=>'<span class="ndL">'+esc(l)+' · '+firmAt(l,f)+'</span>').join('')+'</div><div class="ndGm">Zaključil '+esc(z.zko||'')+', '+navWhen(z.zk||z.kad)+' · na te lokacije '+esc(f)+' ne gre do naklada</div></div>').join(''):'<div class="ndEm">Ni zaključenih dobav.</div>';
+  }
+  h+='<button class="btn" id="xB" style="margin-top:14px">'+t('close')+'</button>';
+  openSheet(h,'nav');const sh=$('#sheet');$('#xB').onclick=()=>closeSheet();
+  sh.querySelectorAll('[data-nt]').forEach(b=>b.onclick=()=>{NVD.t=b.dataset.nt;openNavD()});
+  sh.querySelectorAll('[data-nf]').forEach(b=>b.onclick=()=>{NVD.f=b.dataset.nf;openNavD()});
+  sh.querySelectorAll('[data-nc]').forEach(b=>b.onclick=()=>{NVD.c=b.dataset.nc;openNavD()});
+  if($('#nNew'))$('#nNew').onclick=openNavForm;if($('#nCil'))$('#nCil').onclick=openCilNew;
+  sh.querySelectorAll('.ndG[data-cilf]').forEach(x=>x.onclick=()=>openCilj(x.dataset.cilf));
+  sh.querySelectorAll('[data-nr]').forEach(b=>b.onclick=()=>{NAV_SEEN.add(b.dataset.nr);store.navSet(b.dataset.nr,{['brano.'+navRK()]:{kad:Date.now(),ime:me||''}});setTimeout(openNavD,150)});
+  sh.querySelectorAll('[data-nd2]').forEach(b=>b.onclick=()=>{store.navSet(b.dataset.nd2,{done:{ko:me||'',kad:Date.now()}});toast('✓ Opravljeno');setTimeout(openNavD,150)});
+  sh.querySelectorAll('[data-nx]').forEach(b=>b.onclick=()=>ask('Izbrišem navodilo?',()=>{store.navDel(b.dataset.nx);setTimeout(openNavD,150)},()=>openNavD()))}
+/* ---- zgodovina kot stran ---- */
+var HPQ='';
+function renderHistPage(){const el=$('#dPage');if(!el)return;const d=new Date();
+  el.innerHTML='<div class="rpTop"><h1>Zgodovina</h1><span class="per">'+SL_DAN[d.getDay()].replace(/^./,c=>c.toUpperCase())+', '+d.getDate()+'. '+SL_MES[d.getMonth()]+' '+d.getFullYear()+'</span><div class="rpSeg">'+HP.map(([k,l])=>'<button data-hp="'+k+'"'+(hP===k?' class="on"':'')+'>'+(k==='w'?'Ta teden':t(l))+'</button>').join('')+'</div></div>'+
+    '<div class="rpBody"><div class="rpRow2"><input class="in" id="zhQ" placeholder="'+t('hSearch')+'" value="'+esc(HPQ)+'" autocomplete="off" style="width:360px"><div class="zhF">'+HF.map(([k,l])=>'<button data-hf="'+k+'" class="zk-'+k+(hF===k?' on':'')+'">'+(k==='all'?'':'<i></i>')+esc(t(l).replace(/^[^\wČŠŽčšž]+\s*/,''))+'</button>').join('')+'</div>'+
+    (canEdit()?'<label class="chk zhM"><input type="checkbox" id="zhMine"'+(hMine?' checked':'')+'>'+t('hMine')+'</label>':'')+'</div><div id="zhOut"></div><button class="rpB" id="zhMore" style="justify-self:center">'+t('hMore')+'</button></div>';
+  el.querySelectorAll('[data-hp]').forEach(b=>b.onclick=()=>{hP=b.dataset.hp;renderHistPage()});
+  el.querySelectorAll('[data-hf]').forEach(b=>b.onclick=()=>{hF=b.dataset.hf;renderHistPage()});
+  $('#zhQ').oninput=e=>{HPQ=e.target.value;clearTimeout(window._zhT);window._zhT=setTimeout(renderHistRows,150)};
+  if($('#zhMine'))$('#zhMine').onchange=e=>{hMine=e.target.checked;renderHistRows()};
+  $('#zhMore').onclick=async()=>{if(!store.older){hOldEnd=true;renderHistRows();return}const all=[...state.hist,...hOld];const before=all.length?Math.min(...all.map(x=>x.kad)):Date.now();$('#zhMore').disabled=true;
+    try{const r=await store.older(before);if(r.length<200)hOldEnd=true;const ids=new Set(all.map(x=>x.id));hOld.push(...r.filter(x=>!ids.has(x.id)));if(hP!=='all'){hP='all';renderHistPage();return}}catch(e){toast(t('error')+(e.message||e))}renderHistRows()};
+  renderHistRows()}
+function renderHistRows(){const el=$('#zhOut');if(!el)return;const q=norm(HPQ);const mine=hMine&&canEdit();
+  const ids=new Set(state.hist.map(x=>x.id));const all=[...state.hist,...hOld.filter(x=>!ids.has(x.id))].sort((a,b)=>b.kad-a.kad);
+  const U=new Set(all.filter(x=>x.tip==='undo'&&x.ref).map(x=>x.ref));const t0=new Date();t0.setHours(0,0,0,0);const T0=t0.getTime();
+  const L=all.filter(x=>{if(hP==='d'&&x.kad<T0)return false;if(hP==='y'&&(x.kad<T0-864e5||x.kad>=T0))return false;if(hP==='w'&&x.kad<T0-6*864e5)return false;
+    const k=hKind(x);if(hF!=='all'&&k!==hF)return false;if(mine&&!(x.u?x.u===myUid:x.ko===me))return false;
+    return !q||norm([canNames()?x.ko:'',x.firma,curName(x.firma||''),x.k,x.lok,x.do,x.naslov].filter(Boolean).join(' ')).includes(q)}).slice(0,600);
+  const days=[];let cur=null;for(const x of L){const d=ymd(x.kad);if(!cur||cur.d!==d){cur={d,kad:x.kad,items:[]};days.push(cur)}cur.items.push(x)}
+  const LK=l=>'<button class="zLo" data-hl="'+esc(l)+'">'+esc(l)+'</button>';
+  const PL={g:['zp-g','＋ Dodano'],r:['zp-r','− Odvzeto'],o:['zp-o','🚚 Naloženo'],b:['zp-b','⇄ Premik'],d:['zp-d','🗑 Izbrisano'],p:['zp-p','📷 Slike'],q:['zp-q','📌 Dodatek'],u:['zp-u','↩ Razveljavljeno']};
+  const row=(g)=>{const x=g.x,k=g.k,n=g.items.length,un=g.un,sum=g.items.reduce((a,y)=>a+(+y.delta||0),0);const P=PL[k]||['',''];
+    const when=n>1?ft(g.items[n-1].kad)+'–'+ft(x.kad):ft(x.kad);let loc='',firm='',num='',note='',act='';
+    if(k==='u'){note=t('undoFix')+': '+histText(x)}
+    else if(k==='q'){loc=x.lok?LK(x.lok):'';firm=esc(x.firma||'')+tagH(x.k);note=(x.akc==='ok'?'✓ '+t('dodDoneH'):x.akc==='del'?'🗑 '+t('dodDelH'):x.akc==='edit'?'✏️ Popravljeno':t('dodNewH'))+': '+esc((x.n?x.n+' ':'')+(x.opis||''))+(x.kje?' ('+esc(x.kje)+')':'')}
+    else if(k==='p'){firm=esc(t('fSent',fSl(x.n||0)));note=esc(x.naslov||'')+(x.za?' · ✉ '+x.za:'')}
+    else{loc=k==='b'?LK(x.lok)+'<span class="zAr">→</span>'+LK(x.do):LK(x.lok);firm=fName(x.firma)+tagH(x.k)+(n>1?' <span class="zN">'+n+'×</span>':'');
+      num='<span class="zD zd-'+k+'">'+(k==='b'?x.delta:sum>0?'+'+sum:'−'+Math.abs(sum))+'</span>';
+      note=[x.o?'📝 '+esc(x.o):'',x.dup?esc(t('dupN',Math.abs(x.dup))):'',un?'<span class="err">'+t('undone')+'</span>':''].filter(Boolean).join(' · ');
+      if(canEdit()&&k==='o'&&x.opis==='n'&&(x.pd||palTr(curName(x.firma)).on))act+='<button data-nm="'+esc(curName(x.firma))+'" data-nd="'+x.kad+'">✉ Pisarni</button>';
+      if(n===1&&canUndo(x,U))act+='<button data-undo="'+esc(x.id)+'">↩ Razveljavi</button>'}
+    return '<tr class="'+(un?'zst':'')+'"><td class="m">'+when+'</td><td><span class="zP '+P[0]+'">'+P[1]+'</span></td><td>'+loc+'</td><td class="w">'+firm+'</td><td class="n">'+num+'</td><td class="m">'+esc(KO(x))+'</td><td class="m w zNo">'+note+'</td><td class="zA">'+act+'</td></tr>'};
+  el.innerHTML=days.length?days.map(D=>{let pl=0,ld=0,mv=0;D.items.forEach(x=>{if(x.tip||U.has(x.id))return;const k=hKind(x);if(k==='g')pl+=x.delta;else if(k==='o')ld+=Math.abs(x.delta);else if(k==='b')mv+=x.delta});
+      const dd=new Date(D.kad);const dl=D.kad>=T0?'Danes':D.kad>=T0-864e5?'Včeraj':dd.getDate()+'. '+SL_MES[dd.getMonth()]+' '+dd.getFullYear();
+      return '<div class="rpP zDay"><h2>'+dl+' <span>'+SL_DAN[dd.getDay()]+(D.kad>=T0-864e5?', '+dd.getDate()+'. '+SL_MES[dd.getMonth()]:'')+'</span><em>'+(pl?'<b class="gUp">+'+pl+'</b> dodano':'')+(ld?'<b style="color:var(--l2)">'+ld+'</b> naloženo':'')+(mv?'<b style="color:var(--acc)">'+mv+'</b> premaknjeno':'')+'</em></h2>'+
+        '<table class="rpT"><thead><tr><th style="width:90px">Ura</th><th style="width:150px">Vrsta</th><th>Lokacija</th><th>Podjetje</th><th class="n">Palet</th><th>Kdo</th><th>Opomba</th><th></th></tr></thead><tbody>'+hGroup(D.items,U).map(row).join('')+'</tbody></table></div>'}).join('')
+    :'<div class="rpP"><div class="rpEm">'+t('noCh')+'</div></div>';
+  wireHist(el);const m=$('#zhMore');if(m){m.hidden=store.mode!=='cloud'||hOldEnd;m.disabled=false}}
 
 setTimeout(()=>{try{renderDNav();renderSide()}catch(e){}},0);
 /* ---- računalnik za pregled (kiosk) ---- */
